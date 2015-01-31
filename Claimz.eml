@@ -4,6 +4,7 @@
 	<exclude-output/>
 	<contentEntry url="file://$MODULE_DIR$"/>
 	<levels>
+		<level name="junit-4.11" value="project"/>
 		<level name="libs" value="project"/>
 	</levels>
 </component>

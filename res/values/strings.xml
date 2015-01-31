@@ -16,5 +16,71 @@
   -->
 
 <resources>
-    <string name="app_name">Claimz</string>
+    <string name="app_name">echui-notes</string>
+    <string name="add">Add</string>
+    <string name="discard">Discard</string>
+    <string name="done">Done</string>
+    <string name="title_hint">Enter a title</string>
+    <string name="time_hint">Pick a date</string>
+    <string name="start_time_hint">Pick a start date</string>
+    <string name="end_time_hint">Pick an end date</string>
+
+    <string name="in_progress">In progress</string>
+    <string name="submitted">Submitted</string>
+    <string name="returned">Returned</string>
+    <string name="approved">Approved</string>
+    <string name="new_expense">Add expense</string>
+    <string name="disabled_prompt_submitted">Editing is disabled for a submitted claim.</string>
+    <string name="disabled_prompt_approved">Editing is disabled for an approved claim.</string>
+    <string name="dollar_sign">$</string>
+    <string name="money_amount_hint">0.00</string>
+    <string name="money_amount_error">Please enter a number.</string>
+    <string name="delete_expense">Delete Expense</string>
+    <string name="delete_claim">Delete Claim</string>
+    <string name="email_claim">Email Claim</string>
+    <string name="no_email_app">No email app installed.</string>
+
+    <string name="claim_format_title">Claim: %1$s</string>
+
+    <string name="claim_format_template">
+        "Claim
+        ==================
+        Title: %1$s
+        From: %2$s
+        To: %3$s
+        Status: %4$s
+
+        "
+    </string>
+
+    <string name="expense_format_template">
+        "Expense
+        ------------------
+        Title: %1$s
+        Amount: %2$s
+        Date: %3$s
+        Category: %4$s
+
+        "
+    </string>
+
+    <string-array name="currencies">
+        <item>CAD</item>
+        <item>EUR</item>
+        <item>GBP</item>
+        <item>USD</item>
+    </string-array>
+
+    <string-array name="expense_categories">
+        <item>(UNCATEGORIZED)</item>
+        <item>Air Fare</item>
+        <item>Ground Transport</item>
+        <item>Vehicle Rental</item>
+        <item>Fuel</item>
+        <item>Parking</item>
+        <item>Registration</item>
+        <item>Accommodation</item>
+        <item>Meal</item>
+        <item>Others</item>
+    </string-array>
 </resources>

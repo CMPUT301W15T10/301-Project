@@ -16,16 +16,22 @@
 
 package com.edmondapps.cs301.ass1;
 
-import android.app.Activity;
-import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 
-public class MainActivity extends Activity {
-    /**
-     * Called when the activity is first created.
-     */
+public abstract class TextWaterAdapter implements TextWatcher {
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        // do nothing
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        // do nothing
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        // do nothing
     }
 }

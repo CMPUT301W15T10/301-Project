@@ -5,5 +5,5 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/libs"/>
-	<classpathentry kind="output" path="out/production/Claimz"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

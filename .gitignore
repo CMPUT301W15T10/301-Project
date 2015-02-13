@@ -1,5 +1,8 @@
 # https://github.com/github/gitignore/blob/master/Android.gitignore Jan 7, 2015
 
+# Built application files
+*.unaligned.apk
+
 # Files for the Dalvik VM
 *.dex
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.edmondapps.cs301.ass1.model;
+package com.cmput301.cs.project.model;
 
 public final class ClaimUtils {
     private ClaimUtils() {

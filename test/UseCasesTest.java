@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.edmondapps.cs301.ass1.model;
-
-import com.edmondapps.cs301.ass1.utils.ClaimSaves;
+import com.cmput301.cs.project.model.Claim;
+import com.cmput301.cs.project.model.Expense;
+import com.cmput301.cs.project.utils.ClaimSaves;
 import com.google.gson.Gson;
 import junit.framework.TestCase;
 import org.joda.money.CurrencyUnit;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.edmondapps.cs301.ass1.utils;
+package com.cmput301.cs.project.utils;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -23,8 +23,8 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.edmondapps.cs301.ass1.R;
-import com.edmondapps.cs301.ass1.model.Claim;
+import com.cmput301.cs.project.R;
+import com.cmput301.cs.project.model.Claim;
 
 public final class Utils {
     private Utils() {

@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.edmondapps.cs301.ass1.utils;
+package com.cmput301.cs.project.utils;
 
 import android.content.Context;
 import android.util.Log;
-import com.edmondapps.cs301.ass1.model.Claim;
-import com.edmondapps.cs301.ass1.model.Expense;
+import com.cmput301.cs.project.model.Claim;
+import com.cmput301.cs.project.model.Expense;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;

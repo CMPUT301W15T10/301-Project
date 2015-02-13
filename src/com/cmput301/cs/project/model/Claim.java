@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.edmondapps.cs301.ass1.model;
+package com.cmput301.cs.project.model;
 
 import com.google.gson.InstanceCreator;
 
@@ -22,9 +22,9 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 /**
- * Class that contains a set of {@link com.edmondapps.cs301.ass1.model.Expense Expenses}, and details of a trip. <br/>
+ * Class that contains a set of {@link com.cmput301.cs.project.model.Expense Expenses}, and details of a trip. <br/>
  * This is an immutable class. <br/>
- * Use {@link com.edmondapps.cs301.ass1.model.Claim.Builder Claim.Builder} to obtain an instance.
+ * Use {@link com.cmput301.cs.project.model.Claim.Builder Claim.Builder} to obtain an instance.
  */
 // Effective Java Item 15, 17
 public final class Claim {
@@ -52,7 +52,7 @@ public final class Claim {
     }
 
     /**
-     * Use this class to obtain instances of {@link com.edmondapps.cs301.ass1.model.Claim Claim}.
+     * Use this class to obtain instances of {@link com.cmput301.cs.project.model.Claim Claim}.
      */
     // Effective Java Item 2
     public static final class Builder {
@@ -98,8 +98,8 @@ public final class Claim {
         }
 
         /**
-         * Updates the {@link com.edmondapps.cs301.ass1.model.Expense Expense} if there is already an {@code Expense}
-         * with the same {@link com.edmondapps.cs301.ass1.model.Expense#getId() id}.
+         * Updates the {@link com.cmput301.cs.project.model.Expense Expense} if there is already an {@code Expense}
+         * with the same {@link com.cmput301.cs.project.model.Expense#getId() id}.
          * <br/>
          * Adds the {@code Expense} otherwise.
          *
@@ -122,7 +122,7 @@ public final class Claim {
         }
 
         /**
-         * Adds an {@link com.edmondapps.cs301.ass1.model.Expense Expense} to the underlying {@code Set}. Equality
+         * Adds an {@link com.cmput301.cs.project.model.Expense Expense} to the underlying {@code Set}. Equality
          * is determined by {@link Expense#compareTo(Expense)}.
          *
          * @param expense non-null instance of {@code Expense}
@@ -228,7 +228,7 @@ public final class Claim {
         }
 
         /**
-         * Peeks at the set of {@link com.edmondapps.cs301.ass1.model.Expense Expenses}.
+         * Peeks at the set of {@link com.cmput301.cs.project.model.Expense Expenses}.
          *
          * @return an unmodifiable set of {@code Expenses}
          */
@@ -271,7 +271,7 @@ public final class Claim {
         }
 
         /**
-         * @return the status specified by {@link #status(com.edmondapps.cs301.ass1.model.Claim.Status)};
+         * @return the status specified by {@link #status(com.cmput301.cs.project.model.Claim.Status)};
          * otherwise, {@link Status#IN_PROGRESS}; never null
          */
         public Status getStatus() {
@@ -349,7 +349,7 @@ public final class Claim {
     }
 
     /**
-     * Peeks at the set of {@link com.edmondapps.cs301.ass1.model.Expense Expenses}.
+     * Peeks at the set of {@link com.cmput301.cs.project.model.Expense Expenses}.
      *
      * @return an unmodifiable set of {@code Expenses}
      */

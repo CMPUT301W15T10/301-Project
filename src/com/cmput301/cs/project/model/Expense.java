@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.edmondapps.cs301.ass1.model;
+package com.cmput301.cs.project.model;
 
 import com.google.gson.InstanceCreator;
 import org.joda.money.CurrencyUnit;
@@ -28,7 +28,7 @@ import java.util.UUID;
 /**
  * Class that contains the details of an expense. <br/>
  * This is an immutable class. <br/>
- * Use {@link com.edmondapps.cs301.ass1.model.Expense.Builder Expense.Builder} to obtain an instance.
+ * Use {@link com.cmput301.cs.project.model.Expense.Builder Expense.Builder} to obtain an instance.
  */
 // Effective Java Item 15, 17
 public final class Expense implements Comparable<Expense> {
@@ -48,7 +48,7 @@ public final class Expense implements Comparable<Expense> {
     public static final Money DEFAULT_MONEY = Money.zero(CurrencyUnit.USD);
 
     /**
-     * Use this class to obtain instances of {@link com.edmondapps.cs301.ass1.model.Expense Expense}.
+     * Use this class to obtain instances of {@link com.cmput301.cs.project.model.Expense Expense}.
      */
     // Effective Java Item 2
     public static final class Builder {

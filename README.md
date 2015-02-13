@@ -7,7 +7,13 @@ Reference
 
 License
 -------
-Copyright 2015 Edmond Chui
+Copyright 2015 
+Jordan Benson <jbenson@ualberta.ca>,
+Edmond Chui <echui@ualberta.ca>,
+William Kwan <wkwan@ualberta.ca>,
+Blaine Lewis <blaine1@ualberta.ca>,
+Morgan Redshaw <mredshaw@ualberta.ca>,
+Charles Rozsa <rozsa@ualberta.ca>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

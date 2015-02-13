@@ -75,13 +75,13 @@ public class ExpenseTest {
 
     @Test
     public void defaultTitle() {
-        final Expense expense = new Expense.Builder().money(Money.ofMajor(CurrencyUnit.USD, 20)).build();
+        final Expense expense = new Expense.Builder().build();
         assertEquals(Expense.TITLE_UNSPECIFIED, expense.getTitle());
     }
 
     @Test
     public void defaultCategory() {
-        final Expense expense = new Expense.Builder().money(Money.ofMajor(CurrencyUnit.USD, 20)).build();
+        final Expense expense = new Expense.Builder().build();
         assertEquals(Expense.CATEGORY_UNCATEGORIZED, expense.getCategory());
     }
 
@@ -97,43 +97,40 @@ public class ExpenseTest {
 
     @Test
     public void builderTitleNull() {
-        final Expense.Builder builder = new Expense.Builder();
-        builder.money(Money.ofMajor(CurrencyUnit.USD, 20)).title(null);
-        assertEquals(Expense.TITLE_UNSPECIFIED, builder.getTitle());
+        final Expense expense = new Expense.Builder().title(null).build();
+        assertEquals(Expense.TITLE_UNSPECIFIED, expense.getTitle());
     }
 
     @Test
     public void builderTitleEmpty() {
-        final Expense.Builder builder = new Expense.Builder();
-        builder.money(Money.ofMajor(CurrencyUnit.USD, 20)).title(" ");
-        assertEquals(Expense.TITLE_UNSPECIFIED, builder.getTitle());
+        final Expense expense = new Expense.Builder().title(" ").build();
+        assertEquals(Expense.TITLE_UNSPECIFIED, expense.getTitle());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void builderNegativeTime() {
-        new Expense.Builder().money(Money.ofMajor(CurrencyUnit.USD, 20)).time(-1);
+        new Expense.Builder().time(-1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void builderIdNull() {
-        new Expense.Builder().money(Money.ofMajor(CurrencyUnit.USD, 20)).id(null);
+        new Expense.Builder().id(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void builderIdEmpty() {
-        new Expense.Builder().money(Money.ofMajor(CurrencyUnit.USD, 20)).id(" ");
+        new Expense.Builder().id(" ");
     }
 
     @Test
     public void builderCategoryNull() {
-        final Expense.Builder builder = new Expense.Builder();
-        builder.money(Money.ofMajor(CurrencyUnit.USD, 20)).category(null);
-        assertEquals(Expense.CATEGORY_UNCATEGORIZED, builder.getCategory());
+        final Expense expense = new Expense.Builder().category(null).build();
+        assertEquals(Expense.CATEGORY_UNCATEGORIZED, expense.getCategory());
     }
 
     @Test
     public void builderCategoryEmpty() {
-        final Expense.Builder builder = new Expense.Builder().category(" ");
-        assertEquals(Expense.CATEGORY_UNCATEGORIZED, builder.getCategory());
+        final Expense expense = new Expense.Builder().category(" ").build();
+        assertEquals(Expense.CATEGORY_UNCATEGORIZED, expense.getCategory());
     }
 }

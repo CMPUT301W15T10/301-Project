@@ -56,7 +56,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/startTime"
+            android:id="@+id/start_time"
             style="?android:buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
             android:hint="@string/start_time_hint"/>
 
         <Button
-            android:id="@+id/endTime"
+            android:id="@+id/end_time"
             style="?android:buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -99,28 +99,11 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-    <LinearLayout
-        style="?android:buttonBarStyle"
+    <Button
+        android:id="@+id/email"
+        style="?android:buttonBarButtonStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/delete"
-            style="?android:buttonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/delete_claim"
-            android:textColor="@android:color/holo_red_light"
-            android:textAllCaps="true"/>
-
-        <Button
-            android:id="@+id/email"
-            style="?android:buttonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/email_claim"
-            android:textAllCaps="true"/>
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:text="@string/email_claim"
+        android:textAllCaps="true"/>
 </LinearLayout>

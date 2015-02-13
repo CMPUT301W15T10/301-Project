@@ -63,6 +63,14 @@
 
         "
     </string>
+    <string name="title">Title</string>
+    <string name="date">Date</string>
+    <string name="category">Category</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="to">to</string>
+    <string name="trip_duration">Trip Duration</string>
+    <string name="expenses">Expenses</string>
 
     <string-array name="currencies">
         <item>CAD</item>

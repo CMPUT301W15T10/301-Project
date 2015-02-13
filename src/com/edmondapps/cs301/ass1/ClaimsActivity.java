@@ -65,7 +65,7 @@ public class ClaimsActivity extends ListActivity {
         super.onListItemClick(l, v, position, id);
 
         final Claim claim = mAdapter.getItem(position);
-        final Intent intent = ClaimBuilderActivity.createIntentWithClaim(this, claim);
+        final Intent intent = ClaimActivity.createIntentWithClaim(this, claim);
         startActivityForResult(intent, REQ_CODE_ADD_CLAIM);
     }
 
@@ -74,14 +74,15 @@ public class ClaimsActivity extends ListActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQ_CODE_ADD_CLAIM:
-                    final String claimKey = data.getStringExtra(ClaimBuilderActivity.KEY_CLAIM);
-                    final Claim claim = App.get(this).getObjectTransfer(claimKey);
                     final String action = data.getAction();
                     if (ClaimBuilderActivity.ACTION_PUT.equals(action)) {
+                        final String claimKey = data.getStringExtra(ClaimBuilderActivity.KEY_CLAIM);
+                        final Claim claim = App.get(this).getObjectTransfer(claimKey);
                         mAdapter.putClaim(claim);
                         mClaimSaves.saveAllClaims(mAdapter.peekAllClaims());
-                    } else if (ClaimBuilderActivity.ACTION_DELETE.equals(action)) {
-                        mAdapter.removeClaim(claim);
+                    } else if (ClaimActivity.ACTION_DELETE.equals(action)) {
+                        final String claimId = data.getStringExtra(ClaimActivity.KEY_CLAIM_ID);
+                        mAdapter.removeClaimById(claimId);
                         mClaimSaves.saveAllClaims(mAdapter.peekAllClaims());
                     }
                     return;

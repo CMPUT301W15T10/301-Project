@@ -38,7 +38,6 @@ public class ExpenseBuilderActivity extends Activity implements AdapterView.OnIt
     public static final String KEY_EXPENSE = "expense_key";
     public static final String KEY_START_TIME = "start_day_time";
     public static final String ACTION_PUT = "action_put";
-    public static final String ACTION_DELETE = "action_del";
 
     public static Intent createIntentWithExpense(Context context, Expense expense) {
         final String id = expense.getId();
@@ -89,7 +88,7 @@ public class ExpenseBuilderActivity extends Activity implements AdapterView.OnIt
             mBuilder = Expense.Builder.copyFrom(expense);
         }
 
-        mDateFormat = android.text.format.DateFormat.getDateFormat(this);
+        mDateFormat = android.text.format.DateFormat.getMediumDateFormat(this);
 
         final Resources resources = getResources();
         mCurrencies = Arrays.asList(resources.getStringArray(R.array.currencies));
@@ -133,14 +132,6 @@ public class ExpenseBuilderActivity extends Activity implements AdapterView.OnIt
             @Override
             public void onClick(View v) {
                 startActivityForResult(launchCalendarWithTime(), REQ_CODE_TIME);
-            }
-        });
-
-        findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteExpenseInResult();
-                finish();
             }
         });
     }
@@ -194,10 +185,6 @@ public class ExpenseBuilderActivity extends Activity implements AdapterView.OnIt
 
     private void putExpenseToResult() {
         setResult(RESULT_OK, intentWithExpense().setAction(ACTION_PUT));
-    }
-
-    private void deleteExpenseInResult() {
-        setResult(RESULT_OK, intentWithExpense().setAction(ACTION_DELETE));
     }
 
     private Expense tryFindingExpense() {

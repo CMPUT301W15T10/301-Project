@@ -15,7 +15,6 @@
   ~ limitations under the License.
   -->
 
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
@@ -28,66 +27,56 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:gravity="end">
 
         <TextView
+            android:id="@+id/money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dollar_sign"
-            android:textSize="@dimen/textSizeHero"/>
+            android:textSize="@dimen/textSizeHero"
+            android:hint="@string/money_amount_hint"/>
 
-        <EditText
-            android:id="@+id/money"
-            android:layout_width="0dp"
+        <Space
+            android:layout_width="@dimen/small_padding"
+            android:layout_height="0dp"/>
+
+        <TextView
+            android:id="@+id/currency"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="end"
-            android:hint="@string/money_amount_hint"
-            android:inputType="numberDecimal|numberSigned"
             android:textSize="@dimen/textSizeHero"/>
     </LinearLayout>
 
-    <Spinner
-        android:id="@+id/currency_spinner"
-        android:layout_width="wrap_content"
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginBottom="@dimen/small_padding"
-        android:minWidth="96dp"/>
+        android:layout_marginTop="@dimen/small_padding"
+        android:text="@string/title"/>
+
+    <include
+        android:id="@+id/title"
+        layout="@android:layout/simple_list_item_activated_1"/>
 
     <TextView
-        android:id="@+id/edit_disabled_prompt"
+        style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/small_padding"
-        android:gravity="center_vertical"
-        android:drawableStart="@android:drawable/ic_menu_info_details"
-        android:drawablePadding="@dimen/small_padding"
-        android:visibility="gone"/>
+        android:layout_marginTop="@dimen/small_padding"
+        android:text="@string/date"/>
 
-    <EditText
-        android:id="@+id/title"
+    <include
+        android:id="@+id/date"
+        layout="@android:layout/simple_list_item_activated_1"/>
+
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/small_padding"
-        android:hint="@string/title_hint"/>
+        android:layout_marginTop="@dimen/small_padding"
+        android:text="@string/category"/>
 
-    <Button
-        android:id="@+id/time"
-        style="?android:buttonBarButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/small_padding"
-        android:hint="@string/start_time_hint"/>
-
-    <Spinner
-        android:id="@+id/category_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/small_padding"/>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+    <include
+        android:id="@+id/category"
+        layout="@android:layout/simple_list_item_activated_1"/>
 </LinearLayout>

@@ -32,8 +32,8 @@ import java.text.DateFormat;
 
 public class ClaimBuilderActivity extends ListActivity implements AdapterView.OnItemSelectedListener {
     public static final String KEY_CLAIM = "claim_key";
+
     public static final String ACTION_PUT = "action_put";
-    public static final String ACTION_DELETE = "action_del";
 
     public static Intent createIntentWithClaim(Context context, Claim claim) {
         final String id = claim.getId();
@@ -85,7 +85,7 @@ public class ClaimBuilderActivity extends ListActivity implements AdapterView.On
             mBuilder = Claim.Builder.copyFrom(claim);
         }
 
-        mDateFormat = android.text.format.DateFormat.getDateFormat(this);
+        mDateFormat = android.text.format.DateFormat.getMediumDateFormat(this);
 
         mAdapter = new ExpensesAdapter(this, mBuilder.peekExpenses());
         setListAdapter(mAdapter);
@@ -103,7 +103,7 @@ public class ClaimBuilderActivity extends ListActivity implements AdapterView.On
             }
         });
 
-        mStartTime = (Button) findViewById(R.id.startTime);
+        mStartTime = (Button) findViewById(R.id.start_time);
         mStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,7 +111,7 @@ public class ClaimBuilderActivity extends ListActivity implements AdapterView.On
             }
         });
 
-        mEndTime = (Button) findViewById(R.id.endTime);
+        mEndTime = (Button) findViewById(R.id.end_time);
         mEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,14 +131,6 @@ public class ClaimBuilderActivity extends ListActivity implements AdapterView.On
             public void onClick(View v) {
                 startActivityForResult(new Intent(ClaimBuilderActivity.this, ExpenseBuilderActivity.class)
                         .putExtra(ExpenseBuilderActivity.KEY_START_TIME, mBuilder.getStartTime()), REQ_CODE_EXPENSE);
-            }
-        });
-
-        findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteClaimInResult();
-                finish();
             }
         });
 
@@ -228,10 +220,11 @@ public class ClaimBuilderActivity extends ListActivity implements AdapterView.On
                     if (ExpenseBuilderActivity.ACTION_PUT.equals(action)) {
                         mBuilder.putExpense(expense);
                         mAdapter.putExpense(expense);
-                    } else if (ExpenseBuilderActivity.ACTION_DELETE.equals(action)) {
-                        mBuilder.removeExpense(expense);
-                        mAdapter.removeExpense(expense);
                     }
+//                    else if (ExpenseBuilderActivity.ACTION_DELETE.equals(action)) {
+//                        mBuilder.removeExpense(expense);
+//                        mAdapter.removeExpense(expense);
+//                    }
                 default:
                     super.onActivityResult(requestCode, resultCode, data);
                     break;
@@ -268,10 +261,6 @@ public class ClaimBuilderActivity extends ListActivity implements AdapterView.On
         setResult(RESULT_OK, intentWithClaim().setAction(ACTION_PUT));
     }
 
-    private void deleteClaimInResult() {
-        setResult(RESULT_OK, intentWithClaim().setAction(ACTION_DELETE));
-    }
-
     private Claim tryFindingClaim() {
         final String claimKey = getIntent().getStringExtra(KEY_CLAIM);
         if (claimKey != null) {
@@ -295,7 +284,7 @@ public class ClaimBuilderActivity extends ListActivity implements AdapterView.On
         final Claim.Status status = mBuilder.getStatus();
         mStatusSpinner.setSelection(status.ordinal(), true);
 
-        final boolean allowEdits = status.doesAllowEdits();
+        final boolean allowEdits = status.getAllowEdits();
         animateEditPromptVisibility(allowEdits);
         for (View view : mDisableViews) {
             view.setEnabled(allowEdits);

@@ -56,9 +56,14 @@ public final class ClaimsAdapter extends BaseAdapter {
         return Collections.unmodifiableList(mClaims);
     }
 
-    public void removeClaim(Claim claim) {
-        mClaims.remove(claim);
-        notifyDataSetChanged();
+    public void removeClaimById(String id) {
+        for (Claim claim : mClaims) {
+            if (claim.getId().equals(id)) {
+                mClaims.remove(claim);
+                notifyDataSetChanged();
+                break;
+            }
+        }
     }
 
     public void putClaim(Claim claim) {

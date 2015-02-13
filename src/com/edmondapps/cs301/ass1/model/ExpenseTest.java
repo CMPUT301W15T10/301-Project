@@ -134,8 +134,7 @@ public class ExpenseTest {
 
     @Test
     public void builderCategoryEmpty() {
-        final Expense.Builder builder = new Expense.Builder();
-        builder.money(Money.ofMajor(CurrencyUnit.USD, 20)).category(" ");
+        final Expense.Builder builder = new Expense.Builder().category(" ");
         assertEquals(Expense.CATEGORY_UNCATEGORIZED, builder.getCategory());
     }
 }

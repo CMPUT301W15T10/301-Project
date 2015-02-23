@@ -74,9 +74,6 @@ public class UseCasesTest extends TestCase {
         mClaimSaves = ClaimSaves.ofTest();
     }
 
-    /* Not included:
-    */
-
     /**
      * Use Case 2 (US 01.01.01, US 01.02.01, US 01.06.01)
      * Use Case 12 (US 06.01.01, US 06.04.01)

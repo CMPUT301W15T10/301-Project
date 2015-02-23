@@ -25,15 +25,12 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClaimSaves {
+public abstract class ClaimSaves {
     private static final String LOG_TAG = "ClaimSaves";
     private static final String FILE_NAME = "claims.json";
     private static final Type COLLECTION_TYPE = new TypeToken<List<Claim>>() {
@@ -43,6 +40,14 @@ public class ClaimSaves {
             .registerTypeAdapter(Claim.class, Claim.getInstanceCreator())
             .create();
 
+    public static ClaimSaves ofAndroid(Context context) {
+        return new AndroidClaimSaves(context);
+    }
+
+    public static ClaimSaves ofTest() {
+        return new MockClaimSaves();
+    }
+
     /**
      * @return the {@code Gson} instance that {@code ClaimSaves} uses
      */
@@ -50,11 +55,23 @@ public class ClaimSaves {
         return GSON;
     }
 
-    private final Context mContext;
+    /**
+     * Obtain the {@code InputStream} for reading the JSON string.
+     * <em>Multiple calls should not return the same stream as it might have been closed externally.</em>
+     *
+     * @return the stream; must not be null
+     * @throws IOException fails to obtain the stream; could mean file does not exists ({@link java.io.FileNotFoundException FileNotFoundException}).
+     */
+    protected abstract InputStream getInputStreamForReading() throws IOException;
 
-    public ClaimSaves(Context context) {
-        mContext = context;
-    }
+    /**
+     * Obtain the {@code OutputStream} for writing the JSON string.
+     * <em>Multiple calls should not return the same stream as it might have been closed externally.</em>
+     *
+     * @return the stream; must not be null
+     * @throws IOException fails to obtain the stream; could mean file is in use
+     */
+    protected abstract OutputStream getOutputStreamForSaving() throws IOException;
 
     /**
      * Saves all the claims to the file {@link #FILE_NAME}. Overwrites the previous contents in the file.
@@ -63,47 +80,103 @@ public class ClaimSaves {
      * @return if the operation is successful
      */
     public boolean saveAllClaims(Iterable<Claim> claims) {
+        boolean success;
         OutputStreamWriter writer = null;
         try {
-            writer = new OutputStreamWriter(mContext.openFileOutput(FILE_NAME, Context.MODE_PRIVATE));
+            writer = new OutputStreamWriter(getOutputStreamForSaving());
             GSON.toJson(claims, COLLECTION_TYPE, writer);
-            return true;
-        } catch (FileNotFoundException e) {
+            success = true;
+        } catch (IOException e) {
             Log.e(LOG_TAG, "file might be in use", e);
-            return false;
+            success = false;
         } catch (JsonIOException e) {
             Log.e(LOG_TAG, "failed to write to file", e);
-            return false;
+            success = false;
         } finally {
             try {
                 if (writer != null) {
-                    writer.close();
+                    writer.close();  // also flushes
                 }
-            } catch (IOException ignored) {
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "failed to close writer, file might be corrupted", e);
+                success = false;
             }
         }
+        return success;
     }
 
     /**
-     * Reads all the {@link Claim Claims} in the file {@link #FILE_NAME}, in the same order in the file.
+     * Reads all the {@link Claim Claims} in the file {@link #FILE_NAME}, in the same order in the file. The returned list is safe to be modified.
      *
      * @return a list of {@code Claims} in the file; otherwise, an empty list if the file does not exist; never null
      */
     public List<Claim> readAllClaims() {
+        List<Claim> out = null;
         InputStreamReader reader = null;
         try {
-            reader = new InputStreamReader(mContext.openFileInput(FILE_NAME));
-            return GSON.fromJson(reader, COLLECTION_TYPE);
-        } catch (FileNotFoundException e) {
+            reader = new InputStreamReader(getInputStreamForReading());
+            out = GSON.fromJson(reader, COLLECTION_TYPE);
+        } catch (IOException e) {
             // fresh start
-            return new ArrayList<Claim>();
+            out = new ArrayList<Claim>();
         } finally {
             try {
                 if (reader != null) {
                     reader.close();
                 }
-            } catch (IOException ignored) {
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "failed to close reader", e);
+                if (out == null) {
+                    out = new ArrayList<Claim>();
+                }
             }
+        }
+        return out;
+    }
+
+    private static final class AndroidClaimSaves extends ClaimSaves {
+
+        private final Context mContext;
+
+        public AndroidClaimSaves(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        protected OutputStream getOutputStreamForSaving() throws IOException {
+            return mContext.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+        }
+
+        @Override
+        protected InputStream getInputStreamForReading() throws IOException {
+            return mContext.openFileInput(FILE_NAME);
+        }
+    }
+
+    private static final class MockClaimSaves extends ClaimSaves {
+        private String mJsonString;
+
+        @Override
+        protected InputStream getInputStreamForReading() throws IOException {
+            final String string = mJsonString == null ? "" : mJsonString;
+            return new ByteArrayInputStream(string.getBytes());
+        }
+
+        @Override
+        protected OutputStream getOutputStreamForSaving() throws IOException {
+            return new ByteArrayOutputStream() {
+                @Override
+                public void flush() throws IOException {
+                    super.flush();
+                    mJsonString = toString();
+                }
+
+                @Override
+                public void close() throws IOException {
+                    super.close();
+                    mJsonString = toString();
+                }
+            };
         }
     }
 }

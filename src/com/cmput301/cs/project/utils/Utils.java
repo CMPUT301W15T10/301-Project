@@ -44,9 +44,7 @@ public final class Utils {
                     ViewGroup.LayoutParams.MATCH_PARENT));
 
             customView.findViewById(R.id.discard).setOnClickListener(discardListener);
-            final View done = customView.findViewById(R.id.done);
-            done.setOnClickListener(doneListener);
-            done.setEnabled(false);
+            customView.findViewById(R.id.done).setOnClickListener(doneListener);
         }
     }
 

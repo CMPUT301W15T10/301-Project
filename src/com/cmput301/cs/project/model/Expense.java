@@ -82,11 +82,12 @@ public final class Expense implements Comparable<Expense> {
          * @param expense non-null instance of {@code Expense}
          */
         private Builder(Expense expense) {
-            mTitle = expense.mTitle;
-            mMoney = expense.mAmount;
-            mCategory = expense.mCategory;
-            mTime = expense.mTime;
-            mId = expense.mId;
+            mTitle = expense.getTitle();
+            mMoney = expense.getAmount();
+            mCategory = expense.getCategory();
+            mTime = expense.getTime();
+            mId = expense.getId();
+            mCompleted = expense.isCompleted();
         }
 
         /**
@@ -307,6 +308,7 @@ public final class Expense implements Comparable<Expense> {
     private final String mCategory;
     private final long mTime;
     private final String mId;
+    private final boolean mCompleted;
 
     // Effective Java Item 2
     private Expense(Builder b) {
@@ -315,6 +317,7 @@ public final class Expense implements Comparable<Expense> {
         mCategory = b.mCategory.trim();
         mTime = b.mTime;
         mId = b.mId.trim();
+        mCompleted = b.mCompleted;
     }
 
     /**
@@ -327,7 +330,7 @@ public final class Expense implements Comparable<Expense> {
      * <li>{@link #getId() id}</li>
      * </ol>
      * This method is consistent with {@link #equals(Object)}: if this method returns {@code 0},
-     * {@code equals(Object)} returns {@code true}, as defined in <em>Effective Java</em> Item 12.
+     * {@code equals(Object)} returns {@code true}, as defined in <i>Effective Java</i> Item 12.
      * <p/>
      * {@inheritDoc}
      */
@@ -410,5 +413,12 @@ public final class Expense implements Comparable<Expense> {
      */
     public String getId() {
         return mId;
+    }
+
+    /**
+     * @return if the {@code Expense} is marked as completed
+     */
+    public boolean isCompleted() {
+        return mCompleted;
     }
 }

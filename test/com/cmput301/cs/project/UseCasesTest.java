@@ -141,13 +141,10 @@ public class UseCasesTest extends TestCase {
         final long now = System.currentTimeMillis();
         final long fiveDaysLater = now + FIVE_DAYS;
 
-        final String dest = "Canada";
-        final String reason = "Go home";
-
         final Claim claim = new Claim.Builder()
                 .startTime(now)
                 .endTime(fiveDaysLater)
-                .putDestinationAndReason(dest, reason)
+                .putDestinationAndReason("Canada", "Go home")
                 .build();
 
         mClaimSaves.saveAllClaims(Collections.singleton(claim));  // step 1
@@ -167,23 +164,17 @@ public class UseCasesTest extends TestCase {
         final long now = System.currentTimeMillis();
         final long fiveDaysLater = now + FIVE_DAYS;
 
-        final String dest = "Canada";
-        final String reason = "Go home";
-
         // step 1
         final Claim perfect = new Claim.Builder()
                 .startTime(now)
                 .endTime(fiveDaysLater)
-                .putDestinationAndReason(dest, reason)
+                .putDestinationAndReason("Canada", "Go home")
                 .build();
-
-        final String dest2 = "USA";
-        final String reason2 = "???";
 
         final Claim claim = Claim.Builder.copyFrom(perfect)
                 .startTime(now + 1)
                 .endTime(fiveDaysLater + 1)
-                .putDestinationAndReason(dest2, reason2)
+                .putDestinationAndReason("USA", "???")
                 .build();  // step 2
 
         assertTrue(!claim.equals(perfect));
@@ -204,13 +195,10 @@ public class UseCasesTest extends TestCase {
         final long now = System.currentTimeMillis();
         final long fiveDaysLater = now + FIVE_DAYS;
 
-        final String dest = "Canada";
-        final String reason = "Go home";
-
         final Claim claim = new Claim.Builder()
                 .startTime(now)
                 .endTime(fiveDaysLater)
-                .putDestinationAndReason(dest, reason)
+                .putDestinationAndReason("Canada", "Go home")
                 .build();
         changing.add(claim);
 

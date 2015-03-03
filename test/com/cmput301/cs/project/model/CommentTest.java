@@ -31,7 +31,7 @@ public class CommentTest {
 
         Comment comment = new Comment("A valid comment", approver);
 
-        assertEquals(approver, approver);
+        assertEquals(approver, comment.getApprover());
     }
 
     @Test

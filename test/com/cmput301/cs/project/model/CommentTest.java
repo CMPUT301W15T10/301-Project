@@ -8,21 +8,21 @@ public class CommentTest {
 
     @Test
     public void testCreateComment(){
-        Comment comment = new Comment("My comment", new User("Name"));
+        new Comment("My comment", new User("Name"));
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testCreateNullComment() {
-        Comment comment = new Comment(null, new User("Name"));
+        new Comment(null, new User("Name"));
     }
     @Test (expected = IllegalArgumentException.class)
     public void testCreateEmptyComment() {
-        Comment comment = new Comment("", new User("Name"));
+        new Comment("", new User("Name"));
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testCreateNullUser() {
-        Comment comment = new Comment("a comment", null);
+        new Comment("a comment", null);
     }
 
     @Test

@@ -22,8 +22,23 @@ public class UserTest {
     }
 
     @Test
-    public void testGetUserName() throws Exception {
+         public void testGetUserName() throws Exception {
         User user = new User("name");
         assertEquals("name", user.getUserName());
     }
+
+    @Test
+    public void testGetUserId() throws Exception {
+        User user = new User("name");
+        assertNotNull(user.getUserId());
+    }
+
+    @Test
+    public void testGetUserIdUnique() throws Exception {
+        User user1 = new User("name");
+        User user2 = new User("name");
+        assertNotEquals(user1.getUserId(), user2.getUserId());
+    }
+
+
 }

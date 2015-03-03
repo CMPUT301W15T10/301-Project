@@ -71,12 +71,14 @@ public final class Claim implements Comparable<Claim> {
         // default values
         private List<Expense> mExpenses = new ArrayList<Expense>();
         private Map<String, String> mDestinations = new HashMap<String, String>();  // Destination -> Reason
-        private SortedSet<String> mTags = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+        private SortedSet<Tag> mTags = new TreeSet<Tag>();
         private String mTitle = TITLE_UNNAMED;
         private long mStartTime = -1;
         private long mEndTime = -1;
         private String mId = UUID.randomUUID().toString();
         private Status mStatus = Status.IN_PROGRESS;
+        private List<Comment> mComments = new ArrayList<Comment>();
+
 
         /**
          * Creates an instance of {@code Builder} with the default values.
@@ -98,6 +100,7 @@ public final class Claim implements Comparable<Claim> {
             mEndTime = claim.getEndTime();
             mId = claim.getId();
             mStatus = claim.getStatus();
+            mComments.addAll(claim.peekComments());
         }
 
         /**
@@ -168,35 +171,6 @@ public final class Claim implements Comparable<Claim> {
             ClaimUtils.nonNullnonEmptyOrThrow(destination, "destination");
             ClaimUtils.nonNullnonEmptyOrThrow(reason, "reason");
             mDestinations.put(destination, reason);
-            return this;
-        }
-
-        /**
-         * Adds onc or more {@code String} tags into the tags set after converting the {@code String} to lower case.
-         * The set is not modified if it already contains the tag.
-         *
-         * @param tag  the {@code String} tag; must not be null or empty
-         * @param tags the subsequent {@code String} tags
-         * @return this instance of {@code Builder}
-         */
-        // Effective Java Item 42
-        public Builder addTags(String tag, String... tags) {
-            ClaimUtils.nonNullnonEmptyOrThrow(tag, "tag");
-            mTags.add(tag.toLowerCase());
-            for (String t : tags) {
-                mTags.add(t.toLowerCase());
-            }
-            return this;
-        }
-
-        /**
-         * Removes the tag from the tags set.
-         *
-         * @param tag the {@code String} tag; can be null or empty
-         * @return this instance of {@code Builder}
-         */
-        public Builder removeTag(String tag) {
-            mTags.remove(tag.toLowerCase());
             return this;
         }
 
@@ -363,6 +337,14 @@ public final class Claim implements Comparable<Claim> {
         }
     }
 
+    public List<Comment> peekComments() {
+        return Collections.unmodifiableList(mComments);
+    }
+
+    public void addComment(Comment comment) {
+        mComments.add(comment);
+    }
+
     /**
      * You must use this to generate an instance of {@code Claim} for {@code Gson}.
      *
@@ -382,12 +364,13 @@ public final class Claim implements Comparable<Claim> {
 
     private final List<Expense> mExpenses;
     private final Map<String, String> mDestinations;  // destination -> reason
-    private final SortedSet<String> mTags;
+    private final SortedSet<Tag> mTags;
     private final String mTitle;
     private final long mStartTime;
     private final long mEndTime;
     private final String mId;
     private final Status mStatus;
+    private final List<Comment> mComments;
 
     // Effective Java Item 2
     private Claim(Builder b) {
@@ -399,6 +382,7 @@ public final class Claim implements Comparable<Claim> {
         mEndTime = b.mEndTime;
         mId = b.mId;
         mStatus = b.mStatus;
+        mComments = b.mComments;
     }
 
     /**
@@ -415,7 +399,7 @@ public final class Claim implements Comparable<Claim> {
      *
      * @return an unmodifiable sorted set of {@code String} tags
      */
-    public SortedSet<String> peekTags() {
+    public SortedSet<Tag> peekTags() {
         return Collections.unmodifiableSortedSet(mTags);
     }
 

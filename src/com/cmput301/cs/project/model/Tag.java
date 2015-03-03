@@ -12,7 +12,7 @@ import java.util.*;
  */
 
 
-public class Tag extends Observable {
+public class Tag extends Observable implements Comparable<Tag> {
 
 
     private static List<Tag> tags = new ArrayList<Tag>();
@@ -65,4 +65,8 @@ public class Tag extends Observable {
         return tag;
     }
 
+    @Override
+    public int compareTo(Tag another) {
+        return name.compareTo(another.getName());
+    }
 }

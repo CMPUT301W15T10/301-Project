@@ -14,16 +14,16 @@ package com.cmput301_project;/*
  * limitations under the License.
  */
 
-import junit.framework.TestCase;
 
-import model.*;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
+import com.cmput301_project.model.Expense;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
-import org.junit.Test;
 
 
-public class ExpenseTest extends TestCase {
+public class ExpenseTest {
 
     @Test
     public void independentId() {

@@ -30,6 +30,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public abstract class ClaimSaves {
     private static final String LOG_TAG = "ClaimSaves";
     private static final String FILE_NAME = "claims.json";

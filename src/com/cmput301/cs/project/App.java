@@ -16,12 +16,14 @@
 
 package com.cmput301.cs.project;
 
+
 import android.app.Application;
 import android.content.Context;
 import com.cmput301.cs.project.model.ClaimUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 public final class App extends Application {
     private final Map<String, Object> mObjectTransfer = new HashMap<String, Object>();

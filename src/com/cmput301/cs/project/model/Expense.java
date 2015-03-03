@@ -69,6 +69,7 @@ public final class Expense implements Comparable<Expense> {
         private long mTime = -1;
         private String mId = UUID.randomUUID().toString();
         private boolean mCompleted = false;
+        private Receipt mReceipt;
 
         /**
          * Creates an instance of {@code Builder} with the default values.
@@ -88,6 +89,7 @@ public final class Expense implements Comparable<Expense> {
             mTime = expense.getTime();
             mId = expense.getId();
             mCompleted = expense.isCompleted();
+            mReceipt = expense.getReceipt();
         }
 
         /**
@@ -196,6 +198,11 @@ public final class Expense implements Comparable<Expense> {
          */
         public Builder completed(boolean completed) {
             mCompleted = completed;
+            return this;
+        }
+
+        public Builder receipt(Receipt receipt) {
+            mReceipt = receipt;
             return this;
         }
 
@@ -309,6 +316,7 @@ public final class Expense implements Comparable<Expense> {
     private final long mTime;
     private final String mId;
     private final boolean mCompleted;
+    private final Receipt mReceipt;
 
     // Effective Java Item 2
     private Expense(Builder b) {
@@ -318,6 +326,7 @@ public final class Expense implements Comparable<Expense> {
         mTime = b.mTime;
         mId = b.mId.trim();
         mCompleted = b.mCompleted;
+        mReceipt = b.mReceipt;
     }
 
     /**
@@ -420,5 +429,9 @@ public final class Expense implements Comparable<Expense> {
      */
     public boolean isCompleted() {
         return mCompleted;
+    }
+
+    public Receipt getReceipt() {
+        return mReceipt;
     }
 }

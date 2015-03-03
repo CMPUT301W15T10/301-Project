@@ -15,6 +15,7 @@ package com.cmput301.cs.project;/*
  */
 
 import com.cmput301.cs.project.model.Expense;
+import com.cmput301.cs.project.model.Receipt;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.junit.Test;
@@ -133,4 +134,20 @@ public class ExpenseTest {
         final Expense expense = new Expense.Builder().category(" ").build();
         assertEquals(Expense.CATEGORY_UNCATEGORIZED, expense.getCategory());
     }
+
+    @Test
+    public void builderReceiptNull() {
+        final Expense expense = new Expense.Builder().receipt(null).build();
+        assertNull(expense.getReceipt());
+
+    }
+
+    @Test
+    public void builderReceipt() {
+        final Receipt receipt = new Receipt("/path/to/receipt");
+        final Expense expense = new Expense.Builder().receipt(receipt).build();
+        assertEquals(receipt, expense.getReceipt());
+
+    }
+
 }

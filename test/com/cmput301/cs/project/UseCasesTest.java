@@ -16,6 +16,7 @@ package com.cmput301.cs.project;/*
 
 import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.model.Expense;
+import com.cmput301.cs.project.model.Tag;
 import com.cmput301.cs.project.utils.ClaimSaves;
 import com.google.gson.Gson;
 import junit.framework.TestCase;
@@ -253,15 +254,15 @@ public class UseCasesTest extends TestCase {
      * Use Case 11 (US 03.02.01) (new tags are created implicitly)
      */
     public void testAddTag() {
-        final Claim claim = new Claim.Builder().addTags("hello", "ok").build();  // step 1, 2
+        final Tag tag = Tag.getTag("myTag");
+        final Claim claim = new Claim.Builder().addTag(tag).build();  // step 1, 2
         mClaimSaves.saveAllClaims(Collections.singleton(claim));  // step 3
 
         final List<Claim> claims = mClaimSaves.readAllClaims();
         assertEquals(1, claims.size());
         assertEquals(claim, claims.get(0));
-        assertEquals(2, claims.get(0).peekTags().size());
-        assertTrue(claims.get(0).peekTags().contains("ok"));
-        assertTrue(claims.get(0).peekTags().contains("hello"));
+        assertEquals(1, claims.get(0).peekTags().size());
+        assertTrue(claims.get(0).peekTags().contains(tag));
     }
 
     /**
@@ -399,15 +400,16 @@ public class UseCasesTest extends TestCase {
      * Use Case 29 (US 03.02.01)
      */
     public void testDeleteTag() {
-        final Claim claim = new Claim.Builder().addTags("hello", "ok").build();  // step 1, 2
+        final Tag tag = Tag.getTag("MyTag");
+        final Claim claim = new Claim.Builder().addTag(tag).build();  // step 1, 2
         mClaimSaves.saveAllClaims(Collections.singleton(claim));  // step 3
 
         final List<Claim> claims = mClaimSaves.readAllClaims();
-        final Claim claim1 = Claim.Builder.copyFrom(claims.get(0)).removeTag("ok").build();
+        final Claim claim1 = Claim.Builder.copyFrom(claims.get(0)).removeTag(tag).build();
         mClaimSaves.saveAllClaims(Collections.singleton(claim1));
 
         final List<Claim> claims1 = mClaimSaves.readAllClaims();
         assertEquals(claim1, claims1.get(0));
-        assertEquals(1, claims1.get(0).peekTags().size());
+        assertEquals(0, claims1.get(0).peekTags().size());
     }
 }

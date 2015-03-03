@@ -27,12 +27,24 @@ import java.util.*;
  * Use {@link com.cmput301.cs.project.model.Claim.Builder Claim.Builder} to obtain an instance.
  */
 // Effective Java Item 15, 17
-public final class Claim implements Comparable<Claim> {
+public final class Claim extends Observable implements Comparable<Claim>, Observer {
 
     /**
      * The unspecified title.
      */
     public static final String TITLE_UNNAMED = "(UNNAMED)";
+
+    @Override
+    public void update(Observable observable, Object data) {
+        if(observable instanceof Tag) {
+            Tag tag = (Tag) observable;
+            if(tag.isDeleted()) {
+                mTags.remove(tag);
+            }
+
+            notifyObservers();
+        }
+    }
 
     public enum Status {
         IN_PROGRESS(true), SUBMITTED(false), RETURNED(true), APPROVED(false);
@@ -157,6 +169,11 @@ public final class Claim implements Comparable<Claim> {
                     return this;
                 }
             }
+            return this;
+        }
+
+        public Builder addTag(Tag tag){
+            mTags.add(tag);
             return this;
         }
 
@@ -335,6 +352,11 @@ public final class Claim implements Comparable<Claim> {
         public Claim build() {
             return new Claim(this);
         }
+
+        public Builder removeTag(Tag tag) {
+            mTags.remove(tag);
+            return this;
+        }
     }
 
     public List<Comment> peekComments() {
@@ -446,6 +468,10 @@ public final class Claim implements Comparable<Claim> {
      */
     public Status getStatus() {
         return mStatus;
+    }
+
+    public void addTag(Tag tag) {
+        tag.addObserver(this);
     }
 
     /**

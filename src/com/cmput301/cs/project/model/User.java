@@ -8,6 +8,10 @@ public class User {
     private final UUID userId;
 
     public User(String userName) {
+        if(userName == null || userName.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+
         this.name = userName;
         this.userId = UUID.randomUUID();
     }

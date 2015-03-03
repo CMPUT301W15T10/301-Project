@@ -10,6 +10,14 @@ public class Comment {
 
 
     public Comment(String text, User approver) {
+        if(text == null || text.isEmpty()){
+            throw new IllegalArgumentException();
+        }
+
+        if(approver == null) {
+            throw new IllegalArgumentException();
+        }
+
         this.text = text;
         this.approver = approver;
     }

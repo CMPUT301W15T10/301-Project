@@ -1,4 +1,4 @@
-package com.cmput301_project;
+package com.cmput301_project.login;
 
 
 import android.app.Activity;

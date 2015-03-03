@@ -1,4 +1,4 @@
-package com.cmput301_project.test;/*
+package com.cmput301_project;/*
  * Copyright 2015 Edmond Chui
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

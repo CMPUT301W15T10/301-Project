@@ -14,6 +14,7 @@ import java.util.*;
 
 public class Tag extends Observable {
 
+
     private static List<Tag> tags = new ArrayList<Tag>();
 
     private String name = "";
@@ -54,8 +55,8 @@ public class Tag extends Observable {
      */
     public static Tag getTag(String name) {
 
-        for (Tag tag : Tag.tags){
-            if(tag.getName().equals(name)){
+        for (Tag tag : Tag.tags) {
+            if (tag.getName().equals(name)) {
                 return tag;
             }
         }

@@ -1,4 +1,4 @@
-package com.cmput301_project.test;
+package com.cmput301_project;
 
 /**
  * Created by Blaine on 02/03/2015.

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package utils;
+package com.cmput301_project.utils;
 
 import com.cmput301_project.R;
 import android.app.ActionBar;
@@ -24,7 +24,7 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import model.*;
+import com.cmput301_project.model.*;
 
 public final class Utils {
     private Utils() {

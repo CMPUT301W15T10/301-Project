@@ -14,8 +14,8 @@ package com.cmput301_project.test;/*
  * limitations under the License.
  */
 
-
 import junit.framework.TestCase;
+
 import model.*;
 
 import org.joda.money.CurrencyUnit;
@@ -36,7 +36,8 @@ public class ExpenseTest extends TestCase {
         final Expense carbonCopy = new Expense.Builder().money(amount)
                 .title("Pizza").category("Food").time(time).build();
 
-        //assertNotEquals(first.getId(), carbonCopy.getId());
+        assertTrue(!first.getId().equals(carbonCopy.getId()));
+
     }
 
     @Test

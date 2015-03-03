@@ -1,4 +1,4 @@
-package model;
+package com.cmput301_project.model;
 
 import java.util.*;
 

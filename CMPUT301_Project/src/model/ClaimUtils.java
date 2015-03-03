@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package model;
+package com.cmput301_project.model;
 
 public final class ClaimUtils {
     private ClaimUtils() {

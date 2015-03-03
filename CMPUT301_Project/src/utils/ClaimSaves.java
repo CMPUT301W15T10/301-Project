@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package utils;
+package com.cmput301_project.utils;
 
 import android.content.Context;
 import android.util.Log;
@@ -22,7 +22,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.reflect.TypeToken;
-import model.*;
+import com.cmput301_project.model.Claim;
+import com.cmput301_project.model.Expense;
 
 import java.io.*;
 import java.lang.reflect.Type;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package model;
+package com.cmput301_project.model;
 
 import com.google.gson.InstanceCreator;
 

@@ -20,6 +20,7 @@ import android.content.Context;
 import android.util.Log;
 import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.model.Expense;
+import com.cmput301.cs.project.model.Tag;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -32,20 +33,25 @@ import java.util.List;
 
 public abstract class ClaimSaves {
     private static final String LOG_TAG = "ClaimSaves";
-    private static final String FILE_NAME = "claims.json";
-    private static final Type COLLECTION_TYPE = new TypeToken<List<Claim>>() {
+    private static final String CLAIMS_FILE_NAME = "claims.json";
+    private static final Type CLAIMS_COLLECTION_TYPE = new TypeToken<List<Claim>>() {
     }.getType();
+    private static final String TAGS_FILE_NAME = "tags.json";
+    private static final Type TAGS_COLLECTION_TYPE = new TypeToken<List<Tag>>() {
+    }.getType();
+
     private static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(Expense.class, Expense.getInstanceCreator())
             .registerTypeAdapter(Claim.class, Claim.getInstanceCreator())
             .create();
 
-    public static ClaimSaves ofAndroid(Context context) {
-        return new AndroidClaimSaves(context);
-    }
+    private static ClaimSaves sInstance;
 
-    public static ClaimSaves ofTest() {
-        return new MockClaimSaves();
+    public static ClaimSaves ofAndroid(Context context) {
+        if (sInstance == null) {
+            sInstance = new AndroidClaimSaves(context);
+        }
+        return sInstance;
     }
 
     /**
@@ -59,32 +65,79 @@ public abstract class ClaimSaves {
      * Obtain the {@code InputStream} for reading the JSON string.
      * <em>Multiple calls should not return the same stream as it might have been closed externally.</em>
      *
+     * @param fileName the file to read
      * @return the stream; must not be null
      * @throws IOException fails to obtain the stream; could mean file does not exists ({@link java.io.FileNotFoundException FileNotFoundException}).
      */
-    protected abstract InputStream getInputStreamForReading() throws IOException;
+    protected abstract InputStream getInputStreamForReading(String fileName) throws IOException;
 
     /**
      * Obtain the {@code OutputStream} for writing the JSON string.
      * <em>Multiple calls should not return the same stream as it might have been closed externally.</em>
      *
+     * @param fileName the file to save
      * @return the stream; must not be null
      * @throws IOException fails to obtain the stream; could mean file is in use
      */
-    protected abstract OutputStream getOutputStreamForSaving() throws IOException;
+    protected abstract OutputStream getOutputStreamForSaving(String fileName) throws IOException;
 
     /**
-     * Saves all the claims to the file {@link #FILE_NAME}. Overwrites the previous contents in the file.
+     * Saves all the claims to the file {@link #CLAIMS_FILE_NAME}. Overwrites the previous contents in the file.
      *
      * @param claims non-null instance of an {@link java.lang.Iterable Iterable}
      * @return if the operation is successful
      */
     public boolean saveAllClaims(Iterable<Claim> claims) {
+        return saveAll(claims, CLAIMS_FILE_NAME, CLAIMS_COLLECTION_TYPE);
+    }
+
+    /**
+     * Reads all the {@link Claim Claims} in the file {@link #CLAIMS_FILE_NAME}, in the same order in the file. The returned list is safe to be modified.
+     *
+     * @return a list of {@code Claims} in the file; otherwise, an empty list if the file does not exist; never null
+     */
+    public List<Claim> readAllClaims() {
+        return readToList(CLAIMS_FILE_NAME, CLAIMS_COLLECTION_TYPE);
+    }
+
+    public boolean saveAllTags(Iterable<Tag> tags) {
+        return saveAll(tags, TAGS_FILE_NAME, TAGS_COLLECTION_TYPE);
+    }
+
+    public List<Tag> readAllTags() {
+        return readToList(TAGS_FILE_NAME, TAGS_COLLECTION_TYPE);
+    }
+
+    private <T> List<T> readToList(String fileName, Type type) {
+        List<T> out = null;
+        InputStreamReader reader = null;
+        try {
+            reader = new InputStreamReader(getInputStreamForReading(fileName));
+            out = GSON.fromJson(reader, type);
+        } catch (IOException e) {
+            // fresh start
+            out = new ArrayList<T>();
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "failed to close reader", e);
+                if (out == null) {
+                    out = new ArrayList<T>();
+                }
+            }
+        }
+        return out;
+    }
+
+    private <T> boolean saveAll(Iterable<T> iterable, String fileName, Type type) {
         boolean success;
         OutputStreamWriter writer = null;
         try {
-            writer = new OutputStreamWriter(getOutputStreamForSaving());
-            GSON.toJson(claims, COLLECTION_TYPE, writer);
+            writer = new OutputStreamWriter(getOutputStreamForSaving(fileName));
+            GSON.toJson(iterable, type, writer);
             success = true;
         } catch (IOException e) {
             Log.e(LOG_TAG, "file might be in use", e);
@@ -105,78 +158,22 @@ public abstract class ClaimSaves {
         return success;
     }
 
-    /**
-     * Reads all the {@link Claim Claims} in the file {@link #FILE_NAME}, in the same order in the file. The returned list is safe to be modified.
-     *
-     * @return a list of {@code Claims} in the file; otherwise, an empty list if the file does not exist; never null
-     */
-    public List<Claim> readAllClaims() {
-        List<Claim> out = null;
-        InputStreamReader reader = null;
-        try {
-            reader = new InputStreamReader(getInputStreamForReading());
-            out = GSON.fromJson(reader, COLLECTION_TYPE);
-        } catch (IOException e) {
-            // fresh start
-            out = new ArrayList<Claim>();
-        } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (IOException e) {
-                Log.e(LOG_TAG, "failed to close reader", e);
-                if (out == null) {
-                    out = new ArrayList<Claim>();
-                }
-            }
-        }
-        return out;
-    }
-
     private static final class AndroidClaimSaves extends ClaimSaves {
 
         private final Context mContext;
 
         public AndroidClaimSaves(Context context) {
-            mContext = context;
+            mContext = context.getApplicationContext();
         }
 
         @Override
-        protected OutputStream getOutputStreamForSaving() throws IOException {
-            return mContext.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+        protected OutputStream getOutputStreamForSaving(String fileName) throws IOException {
+            return mContext.openFileOutput(fileName, Context.MODE_PRIVATE);
         }
 
         @Override
-        protected InputStream getInputStreamForReading() throws IOException {
-            return mContext.openFileInput(FILE_NAME);
-        }
-    }
-
-    private static final class MockClaimSaves extends ClaimSaves {
-        private String mJsonString;
-
-        @Override
-        protected InputStream getInputStreamForReading() throws IOException {
-            final String string = mJsonString == null ? "" : mJsonString;
-            return new ByteArrayInputStream(string.getBytes());
-        }
-
-        @Override
-        protected OutputStream getOutputStreamForSaving() throws IOException {
-            return new ByteArrayOutputStream() {
-                @Override
-                public void flush() throws IOException {
-                    super.flush();
-                    mJsonString = toString();
-                }
-
-                @Override
-                public void close() throws IOException {
-                    super.close();
-                    mJsonString = toString();
-                }
-            };
+        protected InputStream getInputStreamForReading(String fileName) throws IOException {
+            return mContext.openFileInput(fileName);
         }
     }
 }

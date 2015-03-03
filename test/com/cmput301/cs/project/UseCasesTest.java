@@ -14,6 +14,7 @@ package com.cmput301.cs.project;/*
  * limitations under the License.
  */
 
+import com.cmput301.cs.project.controllers.TagManager;
 import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.model.Expense;
 import com.cmput301.cs.project.model.Tag;
@@ -72,7 +73,7 @@ public class UseCasesTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mClaimSaves = ClaimSaves.ofTest();
+        mClaimSaves = new MockClaimSaves();
     }
 
     /**
@@ -254,7 +255,7 @@ public class UseCasesTest extends TestCase {
      * Use Case 11 (US 03.02.01) (new tags are created implicitly)
      */
     public void testAddTag() {
-        final Tag tag = Tag.getTag("myTag");
+        final Tag tag = TagManager.ofClaimSaves(mClaimSaves).getTagByName("myTag");
         final Claim claim = new Claim.Builder().addTag(tag).build();  // step 1, 2
         mClaimSaves.saveAllClaims(Collections.singleton(claim));  // step 3
 
@@ -400,7 +401,7 @@ public class UseCasesTest extends TestCase {
      * Use Case 29 (US 03.02.01)
      */
     public void testDeleteTag() {
-        final Tag tag = Tag.getTag("MyTag");
+        final Tag tag = TagManager.ofClaimSaves(mClaimSaves).getTagByName("MyTag");
         final Claim claim = new Claim.Builder().addTag(tag).build();  // step 1, 2
         mClaimSaves.saveAllClaims(Collections.singleton(claim));  // step 3
 

@@ -18,6 +18,7 @@ package com.cmput301_project.model;
 
 import com.google.gson.InstanceCreator;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.*;
 
@@ -27,12 +28,25 @@ import java.util.*;
  * Use {@link com.cmput301.cs.project.model.Claim.Builder Claim.Builder} to obtain an instance.
  */
 // Effective Java Item 15, 17
-public final class Claim implements Comparable<Claim> {
+public final class Claim extends Observable implements Comparable<Claim>, Observer {
 
     /**
      * The unspecified title.
      */
     public static final String TITLE_UNNAMED = "(UNNAMED)";
+
+    @Override
+    public void update(Observable observable, Object data) {
+        if(observable instanceof Tag){
+            Tag tag = (Tag) observable;
+            if(tag.isDeleted()){
+                removeTag(tag);
+            }
+
+            notifyObservers();
+
+        }
+    }
 
     public enum Status {
         IN_PROGRESS(true), SUBMITTED(false), RETURNED(true), APPROVED(false);
@@ -93,7 +107,6 @@ public final class Claim implements Comparable<Claim> {
             mExpenses.addAll(claim.peekExpenses());
             mDestinations.putAll(claim.peekDestinations());
             mTitle = claim.getTitle();
-            mTags.addAll(claim.peekTags());
             mStartTime = claim.getStartTime();
             mEndTime = claim.getEndTime();
             mId = claim.getId();
@@ -124,7 +137,7 @@ public final class Claim implements Comparable<Claim> {
             return this;
         }
 
-        /**
+        /*
          * Adds an {@link com.cmput301.cs.project.model.Expense Expense} to the underlying {@code Set}. Equality
          * is determined by {@link Expense#compareTo(Expense)}.
          *
@@ -278,7 +291,7 @@ public final class Claim implements Comparable<Claim> {
             return this;
         }
 
-        /**
+        /*
          * Peeks at the list of {@link com.cmput301.cs.project.model.Expense Expenses}.
          *
          * @return an unmodifiable list of {@code Expenses}
@@ -321,7 +334,7 @@ public final class Claim implements Comparable<Claim> {
             return mEndTime;
         }
 
-        /**
+        /*
          * @return the status specified by {@link #status(com.cmput301.cs.project.model.Claim.Status)};
          * otherwise, {@link Status#IN_PROGRESS}; never null
          */
@@ -382,7 +395,7 @@ public final class Claim implements Comparable<Claim> {
 
     private final List<Expense> mExpenses;
     private final Map<String, String> mDestinations;  // destination -> reason
-    private final SortedSet<String> mTags;
+    private final ArrayList<Tag> mTags = new ArrayList<Tag>();
     private final String mTitle;
     private final long mStartTime;
     private final long mEndTime;
@@ -393,7 +406,6 @@ public final class Claim implements Comparable<Claim> {
     private Claim(Builder b) {
         mExpenses = b.mExpenses;
         mDestinations = b.mDestinations;
-        mTags = b.mTags;
         mTitle = b.mTitle;
         mStartTime = b.mStartTime;
         mEndTime = b.mEndTime;
@@ -401,7 +413,19 @@ public final class Claim implements Comparable<Claim> {
         mStatus = b.mStatus;
     }
 
-    /**
+    public void addTag(Tag tag) {
+        mTags.add(tag);
+
+        notifyObservers();
+    }
+
+    public void removeTag(Tag tag){
+        mTags.remove(tag);
+        notifyObservers();
+    }
+
+
+    /*
      * Peeks at the list of {@link com.cmput301.cs.project.model.Expense Expenses}.
      *
      * @return an unmodifiable list of {@code Expenses}
@@ -415,8 +439,8 @@ public final class Claim implements Comparable<Claim> {
      *
      * @return an unmodifiable sorted set of {@code String} tags
      */
-    public SortedSet<String> peekTags() {
-        return Collections.unmodifiableSortedSet(mTags);
+    public List<Tag> peekTags() {
+        return Collections.unmodifiableList(mTags);
     }
 
     /**

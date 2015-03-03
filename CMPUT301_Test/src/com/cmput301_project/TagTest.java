@@ -9,6 +9,7 @@ import com.cmput301_project.model.Tag;
 import static org.junit.Assert.*;
 
 public class TagTest {
+
     @Test
     public void testGetTag() {
         Tag tag = Tag.getTag("tag");

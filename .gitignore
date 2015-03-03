@@ -32,7 +32,6 @@ proguard/
 *.log
 
 .idea/
-*.iml
 
 *-javadoc.jar
 *-sources.jar

@@ -1,72 +1,66 @@
 package com.cmput301.cs.project.model;
 
-import java.util.*;
+import com.cmput301.cs.project.controllers.TagManager;
+
+import java.util.UUID;
 
 /**
  * Created by Blaine on 02/03/2015.
  */
 
-/*
-    Tags ARE mutable.
+public class Tag implements Comparable<Tag> {
 
- */
+    private final TagManager mManager;
+    private final String mId;
+    private final String mName;
 
-
-public class Tag extends Observable implements Comparable<Tag> {
-
-
-    private static List<Tag> tags = new ArrayList<Tag>();
-
-    private String name = "";
-    private boolean deleted = false;
-
-    private Tag(String name) {
-        this.name = name;
-        Tag.tags.add(this);
+    private Tag() {
+        mManager = null;
+        mId = "Gson only";
+        mName = "Gson only";
     }
 
-    public void rename(String name) {
-        this.name = name;
-        notifyObservers();
+    public Tag(String name, TagManager manager) {
+        this(name, manager, UUID.randomUUID().toString());
     }
 
-    public boolean isDeleted() {
-        return deleted;
+    public Tag(String name, TagManager manager, String id) {
+        ClaimUtils.nonNullOrThrow(manager, "manager");
+        this.mName = name;
+        mManager = manager;
+        mId = id;
     }
 
-    /*
-     * Sets this tag as deleted, invalidating it. Notifies observers so they can delete it
-     */
-    public void delete() {
-        this.deleted = true;
-        Tag.tags.remove(this);
-        notifyObservers();
+    public String getId() {
+        return mId;
     }
 
     public String getName() {
-        return this.name;
-    }
-
-
-    /*
-        Returns a tag with the given name
-
-        Uses a static builder so we have no copies of tags
-     */
-    public static Tag getTag(String name) {
-
-        for (Tag tag : Tag.tags) {
-            if (tag.getName().equals(name)) {
-                return tag;
-            }
-        }
-
-        Tag tag = new Tag(name);
-        return tag;
+        return this.mName;
     }
 
     @Override
-    public int compareTo(Tag another) {
-        return name.compareTo(another.getName());
+    public int compareTo(Tag o) {
+        return mName.compareTo(o.getName());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Tag)) return false;
+
+        final Tag tag = (Tag) o;
+
+        if (!mId.equals(tag.mId)) return false;
+        if (!mName.equals(tag.mName)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mId.hashCode();
+        result = 31 * result + mName.hashCode();
+        return result;
     }
 }

@@ -91,7 +91,6 @@ public final class Claim extends Observable implements Comparable<Claim>, Observ
         private long mEndTime = -1;
         private String mId = UUID.randomUUID().toString();
         private Status mStatus = Status.IN_PROGRESS;
-        private Receipt mReceipt;
 
         /**
          * Creates an instance of {@code Builder} with the default values.
@@ -112,7 +111,6 @@ public final class Claim extends Observable implements Comparable<Claim>, Observ
             mEndTime = claim.getEndTime();
             mId = claim.getId();
             mStatus = claim.getStatus();
-            mReceipt = claim.getReceipt();
         }
 
         /*
@@ -403,7 +401,6 @@ public final class Claim extends Observable implements Comparable<Claim>, Observ
     private final long mEndTime;
     private final String mId;
     private final Status mStatus;
-    private final Receipt mReceipt;
 
     // Effective Java Item 2
     private Claim(Builder b) {
@@ -414,7 +411,6 @@ public final class Claim extends Observable implements Comparable<Claim>, Observ
         mEndTime = b.mEndTime;
         mId = b.mId;
         mStatus = b.mStatus;
-        mReceipt = b.mReceipt;
     }
 
     public void addTag(Tag tag) {
@@ -492,9 +488,7 @@ public final class Claim extends Observable implements Comparable<Claim>, Observ
         return mStatus;
     }
 
-    public Receipt getReceipt() {
-        return mReceipt;
-    }
+
 
     /**
      * Compares this and another instance of {@code Expense} in the following order:

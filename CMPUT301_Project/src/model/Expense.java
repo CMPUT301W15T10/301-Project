@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.UUID;
 
-/**
+/*
  * Class that contains the details of an expense. <br/>
  * This is an immutable class. <br/>
  * Use {@link com.cmput301.cs.project.model.Expense.Builder Expense.Builder} to obtain an instance.
@@ -46,8 +46,9 @@ public final class Expense implements Comparable<Expense> {
      * The default {@link Money}, with the amount of zero in USD.
      */
     public static final Money DEFAULT_MONEY = Money.zero(CurrencyUnit.USD);
+    private Receipt mReceipt;
 
-    /**
+    /*
      * Use this class to obtain instances of {@link com.cmput301.cs.project.model.Expense Expense}.
      */
     // Effective Java Item 2
@@ -69,6 +70,8 @@ public final class Expense implements Comparable<Expense> {
         private long mTime = -1;
         private String mId = UUID.randomUUID().toString();
         private boolean mCompleted = false;
+        private Receipt mReceipt;
+
 
         /**
          * Creates an instance of {@code Builder} with the default values.
@@ -88,6 +91,7 @@ public final class Expense implements Comparable<Expense> {
             mTime = expense.getTime();
             mId = expense.getId();
             mCompleted = expense.isCompleted();
+            mReceipt = expense.getReceipt();
         }
 
         /**
@@ -196,6 +200,11 @@ public final class Expense implements Comparable<Expense> {
          */
         public Builder completed(boolean completed) {
             mCompleted = completed;
+            return this;
+        }
+
+        public Builder receipt(Receipt receipt) {
+            mReceipt = receipt;
             return this;
         }
 
@@ -318,6 +327,7 @@ public final class Expense implements Comparable<Expense> {
         mTime = b.mTime;
         mId = b.mId.trim();
         mCompleted = b.mCompleted;
+        mReceipt = b.mReceipt;
     }
 
     /**
@@ -414,6 +424,11 @@ public final class Expense implements Comparable<Expense> {
     public String getId() {
         return mId;
     }
+
+    public Receipt getReceipt() {
+        return mReceipt;
+    }
+
 
     /**
      * @return if the {@code Expense} is marked as completed

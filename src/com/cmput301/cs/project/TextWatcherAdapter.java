@@ -19,7 +19,7 @@ package com.cmput301.cs.project;
 import android.text.Editable;
 import android.text.TextWatcher;
 
-public abstract class TextWaterAdapter implements TextWatcher {
+public abstract class TextWatcherAdapter implements TextWatcher {
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         // do nothing

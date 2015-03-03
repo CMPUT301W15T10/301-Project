@@ -1,3 +1,6 @@
+package com.cmput301.cs.project;
+
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

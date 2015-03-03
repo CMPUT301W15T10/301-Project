@@ -1,5 +1,9 @@
 # https://github.com/github/gitignore/blob/master/Android.gitignore Jan 7, 2015
 
+.DS_Store
+*.apk
+Thumbs.db
+
 # Built application files
 *.unaligned.apk
 

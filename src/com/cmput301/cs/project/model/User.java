@@ -1,28 +1,23 @@
-package com.cmput301.cs.project.model;
+package com.cmput301_project.model;
+
+import java.util.UUID;
 
 public class User {
-	
-	private String user_name = "";
-	private String user_id = "";
-	
-	public String getUserName() {
-		return user_name;
-	}
 
-	public void setUserName(String login_name) {
-		this.user_name = login_name;
-	}
-	
-	public String getUserId() {
-		return user_id;
-	}
+    private final String name;
+    private final UUID userId;
 
-	public void setUserId(String login_id) {
-		this.user_id = login_id;
-	}
-	
-	public User() {
-		setUserName(user_name);
-		setUserId(user_id);
-	}
+    public String getUserName() {
+        return name;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+
+    public User(String userName) {
+        this.name = userName;
+        this.userId = UUID.randomUUID();
+    }
 }

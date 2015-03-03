@@ -19,13 +19,18 @@ package com.cmput301.cs.project;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import com.cmput301.cs.project.model.ClaimUtils;
+import com.cmput301.cs.project.model.User;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
 public final class App extends Application {
+    private static final String USER_PREFERENCES = "USER_PREFERENCES";
+    private static final String USER_ID = "USER_ID";
+    private static final String USER_NAME = "USER_NAME";
     private final Map<String, Object> mObjectTransfer = new HashMap<String, Object>();
 
     public static App get(Context context) {
@@ -46,5 +51,30 @@ public final class App extends Application {
         final T object = (T) mObjectTransfer.get(key);
         mObjectTransfer.remove(key);
         return object;
+    }
+
+    public User getUser() {
+        SharedPreferences sharedPreferences = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE);
+        String userName = sharedPreferences.getString(USER_NAME, null);
+        String userId = sharedPreferences.getString(USER_ID, null);
+
+        if(userId == null || userName == null) {
+            return null;
+        }
+
+        User user = new User(userName, userId);
+
+        return user;
+    }
+
+    public void createUser(User user) {
+        SharedPreferences sharedPreferences = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(USER_ID, user.getUserId().toString());
+        editor.putString(USER_NAME, user.getUserName());
+
+        editor.apply();
+
     }
 }

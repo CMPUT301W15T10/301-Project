@@ -71,6 +71,8 @@
     <string name="to">to</string>
     <string name="trip_duration">Trip Duration</string>
     <string name="expenses">Expenses</string>
+    <string name="name">Name</string>
+    <string name="login">Login</string>
 
     <string-array name="currencies">
         <item>CAD</item>

@@ -37,6 +37,11 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener {
      * The unspecified title.
      */
     public static final String TITLE_UNNAMED = "(UNNAMED)";
+    private final User mClaimant;
+
+    public User getClaimant() {
+        return mClaimant;
+    }
 
     public enum Status {
         IN_PROGRESS(true), SUBMITTED(false), RETURNED(true), APPROVED(false);
@@ -82,7 +87,8 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener {
         private String mId = UUID.randomUUID().toString();
         private Status mStatus = Status.IN_PROGRESS;
         private List<Comment> mComments = new ArrayList<Comment>();
-
+        private User mClaimant;
+        
         /**
          * Creates an instance of {@code Builder} with the default values.
          */
@@ -104,6 +110,7 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener {
             mId = claim.getId();
             mStatus = claim.getStatus();
             mComments.addAll(claim.peekComments());
+            mClaimant = claim.getClaimant();
         }
 
         /**
@@ -138,7 +145,7 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener {
          * @return this instance of {@code Builder}
          * @see #putExpense(Expense)
          */
-        public Builder addExpense(Expense expense) {
+        private Builder addExpense(Expense expense) {
             ClaimUtils.nonNullOrThrow(expense, "expense");
             mExpenses.add(expense);
             return this;
@@ -168,10 +175,6 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener {
             return this;
         }
 
-        public void addComment(Comment comment) {
-            mComments.add(comment);
-        }
-
         /**
          * Puts the destination and the associated reason to the underlying {@code Map}.
          *
@@ -197,6 +200,12 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener {
          */
         public Builder title(String title) {
             mTitle = title == null || title.trim().isEmpty() ? TITLE_UNNAMED : title;
+            return this;
+        }
+
+        public Builder claimaint(User claimaint) {
+            ClaimUtils.nonNullOrThrow(claimaint, "claimant");
+            mClaimant = claimaint;
             return this;
         }
 
@@ -251,19 +260,6 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener {
             return this;
         }
 
-        /**
-         * Specifies the status of the {@code Claim}.
-         *
-         * @param status non-null instance of {@code Status}
-         * @return this instance of {@code Builder}
-         * @see #getStatus()
-         */
-        public Builder status(Status status) {
-            ClaimUtils.nonNullOrThrow(status, "status");
-            mStatus = status;
-            return this;
-        }
-
         public Builder removeTag(Tag tag) {
             mTags.remove(tag);
             return this;
@@ -313,7 +309,7 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener {
         }
 
         /**
-         * @return the status specified by {@link #status(com.cmput301.cs.project.model.Claim.Status)};
+         * @return the status specified by {@link (com.cmput301.cs.project.model.Claim.Status)};
          * otherwise, {@link Status#IN_PROGRESS}; never null
          */
         public Status getStatus() {
@@ -350,9 +346,16 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener {
          * @return an instance of {@code Claim}; never null
          */
         public Claim build() {
+            if(mClaimant == null){
+                throw new IllegalArgumentException("Claimaint cannot be null");
+            }
+
             return new Claim(this);
         }
 
+        public User getClaimant() {
+            return mClaimant;
+        }
     }
 
     /**
@@ -379,7 +382,7 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener {
     private final long mStartTime;
     private final long mEndTime;
     private final String mId;
-    private final Status mStatus;
+    private Status mStatus;
     private final List<Comment> mComments;
 
     // Effective Java Item 2
@@ -393,6 +396,8 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener {
         mId = b.mId;
         mStatus = b.mStatus;
         mComments = b.mComments;
+        mClaimant = b.mClaimant;
+
     }
 
     /**
@@ -540,6 +545,8 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener {
         if (mStatus != claim.mStatus) return false;
         if (!mTags.equals(claim.mTags)) return false;
         if (!mTitle.equals(claim.mTitle)) return false;
+        if(!mClaimant.equals(claim.mClaimant)) return false;
+        if(!mComments.equals(claim.mComments)) return false;
 
         return true;
     }
@@ -554,6 +561,46 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener {
         result = 31 * result + (int) (mEndTime ^ (mEndTime >>> 32));
         result = 31 * result + mId.hashCode();
         result = 31 * result + mStatus.hashCode();
+        result = 31 * result + mComments.hashCode();
         return result;
     }
+
+    public void submitClaim(){
+        mStatus = Status.SUBMITTED;
+    }
+
+    public void returnClaim(User approver, Comment comment){
+        changeStatus(Status.RETURNED, approver, comment);
+    }
+
+    public void approveClaim(User approver, Comment comment) {
+        changeStatus(Status.APPROVED, approver, comment);
+    }
+    private void changeStatus(Status status, User approver, Comment comment) {
+        if (approver == mClaimant) {
+            throw new IllegalArgumentException("Approver cannot be claimaint");
+        }
+
+        changeStatus(status);
+    }
+
+    private void changeStatus(Status status){
+        if((mStatus == Status.IN_PROGRESS || mStatus == Status.RETURNED) && status != Status.SUBMITTED){
+            throw new IllegalStateException("Statuses cannot be changed in such a way");
+        }
+        if(mStatus == Status.SUBMITTED && status != Status.SUBMITTED || status != status.APPROVED) {
+            throw new IllegalStateException("Statuses cannot be changed in such a way");
+        }
+        if(mStatus == Status.APPROVED ){
+            throw new IllegalStateException("Statuses cannot be changed in such a way");
+        }
+
+        mStatus = status;
+    }
+
+
+    private void addComment(Comment comment) {
+        this.mComments.add(comment);
+    }
+
 }

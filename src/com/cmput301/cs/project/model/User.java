@@ -28,4 +28,14 @@ public class User {
     public UUID getUserId() {
         return userId;
     }
+
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+
+        final User user = (User) o;
+
+        return user.userId == userId;
+
+    }
 }

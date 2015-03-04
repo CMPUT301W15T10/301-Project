@@ -227,7 +227,7 @@ public final class Expense implements Comparable<Expense> {
         /**
          * @return if the time set by {@link #time(long)}
          * @see #getTime()
-         */ 
+         */
         public boolean isTimeSet() {
             return mTime != -1;
         }
@@ -392,6 +392,8 @@ public final class Expense implements Comparable<Expense> {
         result = 31 * result + (mCategory != null ? mCategory.hashCode() : 0);
         result = 31 * result + (int) (mTime ^ (mTime >>> 32));
         result = 31 * result + (mId != null ? mId.hashCode() : 0);
+        result = 31 * result + (mReceipt != null ? mReceipt.hashCode() : 0);
+
         return result;
     }
 

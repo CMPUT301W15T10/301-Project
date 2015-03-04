@@ -3,9 +3,9 @@ package com.cmput301.cs.project;
 import com.cmput301.cs.project.model.Receipt;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
+
+import static org.junit.Assert.assertEquals;
 
 public class ReceiptTest {
 

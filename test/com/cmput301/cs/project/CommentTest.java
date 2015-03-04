@@ -4,7 +4,7 @@ import com.cmput301.cs.project.model.Comment;
 import com.cmput301.cs.project.model.User;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class CommentTest {
 

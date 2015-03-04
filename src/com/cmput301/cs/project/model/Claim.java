@@ -16,6 +16,8 @@
 
 package com.cmput301.cs.project.model;
 
+import com.cmput301.cs.project.controllers.TagsChangedListener;
+import com.cmput301.cs.project.controllers.TagsManager;
 import com.google.gson.InstanceCreator;
 
 import java.lang.reflect.Type;
@@ -25,26 +27,16 @@ import java.util.*;
  * Class that contains a set of {@link com.cmput301.cs.project.model.Expense Expenses}, and details of a trip. <br/>
  * This is an immutable class. <br/>
  * Use {@link com.cmput301.cs.project.model.Claim.Builder Claim.Builder} to obtain an instance.
+ * <p/>
+ * If you want this to update itself as tags changes, add this with {@link TagsManager#addTagChangedListener(TagsChangedListener)}
  */
 // Effective Java Item 15, 17
-public final class Claim extends Observable implements Comparable<Claim>, Observer {
+public final class Claim implements Comparable<Claim>, TagsChangedListener {
 
     /**
      * The unspecified title.
      */
     public static final String TITLE_UNNAMED = "(UNNAMED)";
-
-    @Override
-    public void update(Observable observable, Object data) {
-        if(observable instanceof Tag) {
-            Tag tag = (Tag) observable;
-            if(tag.isDeleted()) {
-                mTags.remove(tag);
-            }
-
-            notifyObservers();
-        }
-    }
 
     public enum Status {
         IN_PROGRESS(true), SUBMITTED(false), RETURNED(true), APPROVED(false);
@@ -90,7 +82,6 @@ public final class Claim extends Observable implements Comparable<Claim>, Observ
         private String mId = UUID.randomUUID().toString();
         private Status mStatus = Status.IN_PROGRESS;
         private List<Comment> mComments = new ArrayList<Comment>();
-
 
         /**
          * Creates an instance of {@code Builder} with the default values.
@@ -172,9 +163,13 @@ public final class Claim extends Observable implements Comparable<Claim>, Observ
             return this;
         }
 
-        public Builder addTag(Tag tag){
+        public Builder addTag(Tag tag) {
             mTags.add(tag);
             return this;
+        }
+
+        public void addComment(Comment comment) {
+            mComments.add(comment);
         }
 
         /**
@@ -269,6 +264,11 @@ public final class Claim extends Observable implements Comparable<Claim>, Observ
             return this;
         }
 
+        public Builder removeTag(Tag tag) {
+            mTags.remove(tag);
+            return this;
+        }
+
         /**
          * Peeks at the list of {@link com.cmput301.cs.project.model.Expense Expenses}.
          *
@@ -353,18 +353,6 @@ public final class Claim extends Observable implements Comparable<Claim>, Observ
             return new Claim(this);
         }
 
-        public Builder removeTag(Tag tag) {
-            mTags.remove(tag);
-            return this;
-        }
-    }
-
-    public List<Comment> peekComments() {
-        return Collections.unmodifiableList(mComments);
-    }
-
-    public void addComment(Comment comment) {
-        mComments.add(comment);
     }
 
     /**
@@ -425,6 +413,10 @@ public final class Claim extends Observable implements Comparable<Claim>, Observ
         return Collections.unmodifiableSortedSet(mTags);
     }
 
+    public List<Comment> peekComments() {
+        return Collections.unmodifiableList(mComments);
+    }
+
     /**
      * Peeks at the map of {@code destination -> reason}.
      *
@@ -470,8 +462,27 @@ public final class Claim extends Observable implements Comparable<Claim>, Observ
         return mStatus;
     }
 
-    public void addTag(Tag tag) {
-        tag.addObserver(this);
+    @Override
+    public void onTagRenamed(Tag tag, String oldName) {
+        final String id = tag.getId();
+        for (Iterator<Tag> iterator = mTags.iterator(); iterator.hasNext(); ) {
+            final Tag t = iterator.next();
+            if (t.getId().equals(id)) {
+                iterator.remove();
+                mTags.add(tag);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onTagDeleted(Tag tag) {
+        mTags.remove(tag);
+    }
+
+    @Override
+    public void onTagCreated(Tag tag) {
+        // do nothing
     }
 
     /**

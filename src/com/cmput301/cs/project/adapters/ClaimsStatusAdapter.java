@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cmput301.cs.project;
+package com.cmput301.cs.project.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

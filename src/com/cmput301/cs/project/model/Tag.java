@@ -1,6 +1,6 @@
 package com.cmput301.cs.project.model;
 
-import com.cmput301.cs.project.controllers.TagManager;
+import com.cmput301.cs.project.controllers.TagsManager;
 
 import java.util.UUID;
 
@@ -10,24 +10,21 @@ import java.util.UUID;
 
 public class Tag implements Comparable<Tag> {
 
-    private final TagManager mManager;
     private final String mId;
     private final String mName;
 
     private Tag() {
-        mManager = null;
         mId = "Gson only";
         mName = "Gson only";
     }
 
-    public Tag(String name, TagManager manager) {
+    public Tag(String name, TagsManager manager) {
         this(name, manager, UUID.randomUUID().toString());
     }
 
-    public Tag(String name, TagManager manager, String id) {
+    public Tag(String name, TagsManager manager, String id) {
         ClaimUtils.nonNullOrThrow(manager, "manager");
-        this.mName = name;
-        mManager = manager;
+        mName = name.trim();
         mId = id;
     }
 

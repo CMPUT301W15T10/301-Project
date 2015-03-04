@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cmput301.cs.project;
+package com.cmput301.cs.project.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -40,10 +40,8 @@ public final class ExpensesAdapter extends BaseAdapter {
 
     private final LayoutInflater mInflater;
     private final List<Expense> mExpenses;
-    private final Context mContext;
 
     public ExpensesAdapter(Context context, Collection<? extends Expense> expenses) {
-        mContext = context;
         mInflater = LayoutInflater.from(context);
         mExpenses = new ArrayList<Expense>(expenses);
     }

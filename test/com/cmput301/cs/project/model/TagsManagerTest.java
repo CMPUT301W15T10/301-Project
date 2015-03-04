@@ -1,19 +1,19 @@
 package com.cmput301.cs.project.model;
 
 import com.cmput301.cs.project.MockClaimSaves;
-import com.cmput301.cs.project.controllers.TagManager;
+import com.cmput301.cs.project.controllers.TagsManager;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class TagManagerTest {
+public class TagsManagerTest {
 
-    private TagManager mManager;
+    private TagsManager mManager;
 
     @Before
     public void setup() {
-        mManager = TagManager.ofClaimSaves(new MockClaimSaves());
+        mManager = TagsManager.ofClaimSaves(new MockClaimSaves());
     }
 
     @Test

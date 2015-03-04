@@ -39,6 +39,7 @@
     <string name="delete_claim">Delete Claim</string>
     <string name="email_claim">Email Claim</string>
     <string name="no_email_app">No email app installed.</string>
+    <string name="delete_tag">Delete Tag</string>
 
     <string name="claim_format_title">Claim: %1$s</string>
 
@@ -73,6 +74,7 @@
     <string name="expenses">Expenses</string>
     <string name="name">Name</string>
     <string name="login">Login</string>
+    <string name="tag_hint">Name your tag here</string>
 
     <string-array name="currencies">
         <item>CAD</item>

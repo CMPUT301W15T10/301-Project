@@ -1,5 +1,7 @@
-package com.cmput301.cs.project.model;
+package com.cmput301.cs.project;
 
+import com.cmput301.cs.project.model.Comment;
+import com.cmput301.cs.project.model.User;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

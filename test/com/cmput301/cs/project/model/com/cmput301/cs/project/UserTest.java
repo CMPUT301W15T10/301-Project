@@ -1,6 +1,9 @@
-package com.cmput301.cs.project.model;
+package com.cmput301.cs.project;
 
+import com.cmput301.cs.project.model.User;
 import org.junit.Test;
+
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -40,5 +43,16 @@ public class UserTest {
         assertNotEquals(user1.getUserId(), user2.getUserId());
     }
 
+
+    @Test
+    public void testConstructUserWithId() throws Exception {
+        final UUID uuid = UUID.randomUUID();
+        final String name = "name";
+        final User user = new User(name, uuid.toString());
+
+        assertEquals(uuid, user.getUserId());
+        assertEquals(name, user.getUserName());
+
+    }
 
 }

@@ -17,6 +17,11 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+            android:id="@+id/tagManager"
+            android:icon="@drawable/ic_action_labels"
+            android:showAsAction="ifRoom"
+            android:title="Manage Tags"/>
+    <item
         android:id="@+id/add"
         android:icon="@android:drawable/ic_menu_add"
         android:showAsAction="always"

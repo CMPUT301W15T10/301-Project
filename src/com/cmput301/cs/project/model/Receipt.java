@@ -1,6 +1,5 @@
 package com.cmput301.cs.project.model;
 
-import android.graphics.drawable.Drawable;
 
 import java.io.File;
 
@@ -11,7 +10,7 @@ import java.io.File;
 public class Receipt {
     public static final int MAX_FILE_SIZE = 65536;
 
-    private final String mPath;
+    private final File mFile;
 
     public Receipt(String path) {
         this(new File(path));
@@ -23,10 +22,10 @@ public class Receipt {
 
             //TODO: limit file size by compressing etc.
         }
-        mPath = file.getPath();
+        mFile = file;
     }
 
-    public Drawable getImage() {
-        return Drawable.createFromPath(mPath);
+    public File getFile() {
+        return mFile;
     }
 }

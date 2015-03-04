@@ -52,6 +52,8 @@ public final class Expense implements Comparable<Expense> {
      */
     // Effective Java Item 2
     public static final class Builder {
+        private Receipt receipt;
+
         /**
          * Creates a {@code Builder} instance with the given {@code Expense}.
          *
@@ -225,7 +227,7 @@ public final class Expense implements Comparable<Expense> {
         /**
          * @return if the time set by {@link #time(long)}
          * @see #getTime()
-         */
+         */ 
         public boolean isTimeSet() {
             return mTime != -1;
         }
@@ -290,6 +292,10 @@ public final class Expense implements Comparable<Expense> {
                 time(System.currentTimeMillis());
             }
             return new Expense(this);
+        }
+
+        public Receipt getReceipt() {
+            return mReceipt;
         }
     }
 

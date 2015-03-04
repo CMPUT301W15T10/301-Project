@@ -1,14 +1,25 @@
-package com.cmput301.cs.project.model;
+package com.cmput301.cs.project;
 
+import com.cmput301.cs.project.model.Receipt;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 import java.io.File;
 
 public class ReceiptTest {
+
     @Test(expected = UnsupportedOperationException.class)
     public void fileSize() {
         final File bigFile = new MockFile("", Receipt.MAX_FILE_SIZE + 1);
         new Receipt(bigFile);
+    }
+
+    @Test
+    public void testGetImage() throws Exception {
+        String path = "path";
+        final Receipt receipt = new Receipt(path);
+        assertEquals(new File(path), receipt.getFile());
     }
 
     private static class MockFile extends File {

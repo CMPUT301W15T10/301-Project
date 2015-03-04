@@ -13,11 +13,11 @@
         android:icon="@drawable/ic_launcher"
         android:theme="@style/AppTheme"
         android:allowBackup="false">
-        <activity android:name=".LoginActivity"/>
+        <activity android:name=".activities.LoginActivity"/>
         <activity android:name=".activities.TagsManagerActivity"/>
         <activity android:name=".activities.TagEditActivity"/>
 
-        <activity android:name=".ClaimsActivity">
+        <activity android:name=".activities.ClaimsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

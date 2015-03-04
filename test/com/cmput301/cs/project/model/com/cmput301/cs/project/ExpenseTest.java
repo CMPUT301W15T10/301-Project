@@ -20,6 +20,9 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+import java.util.UUID;
+
 import static org.junit.Assert.*;
 
 public class ExpenseTest {
@@ -39,7 +42,7 @@ public class ExpenseTest {
     }
 
     @Test
-    public void equality() {
+         public void equality() {
         final long time = System.currentTimeMillis();
         final Money amount = Money.ofMajor(CurrencyUnit.USD, 20);
 
@@ -50,6 +53,22 @@ public class ExpenseTest {
                 .title("Pizza").category("Food").time(time).build();
 
         assertEquals(first, carbonCopy);
+        assertEquals(first.hashCode(), carbonCopy.hashCode());
+    }
+
+    @Test
+    public void inequality() {
+        final long time = System.currentTimeMillis();
+        final Money amount = Money.ofMajor(CurrencyUnit.USD, 20);
+
+        final Expense first = new Expense.Builder().money(amount).id("rofl")
+                .title("Hot Dog").category("Food").time(time).build();
+
+        final Expense carbonCopy = new Expense.Builder().money(amount).id("rofl")
+                .title("Pizza").category("Food").time(time).build();
+
+        assertNotEquals(first, carbonCopy);
+        assertNotEquals(first.hashCode(), carbonCopy.hashCode());
     }
 
     @Test
@@ -147,6 +166,48 @@ public class ExpenseTest {
         final Receipt receipt = new Receipt("/path/to/receipt");
         final Expense expense = new Expense.Builder().receipt(receipt).build();
         assertEquals(receipt, expense.getReceipt());
+
+    }
+
+    @Test
+    public void testBuilderSanity(){
+        final long time = System.currentTimeMillis();
+        final String category = "Food";
+        final Receipt receipt = new Receipt("/path");
+        final String title = "My title";
+        final UUID id = UUID.randomUUID();
+        final Expense.Builder builder = new Expense.Builder()
+                .receipt(receipt)
+                .amountInBigDecimal(BigDecimal.TEN)
+                .category(category)
+                .completed(true)
+                .currencyUnit(CurrencyUnit.CAD)
+                .time(time)
+                .title(title)
+                .id(id.toString());
+        assertTrue(builder.isCategorySet());
+        assertTrue(builder.isTimeSet());
+        assertTrue(builder.isTitleSet());
+
+        assertEquals(receipt, builder.getReceipt());
+        assertEquals(0, BigDecimal.TEN.compareTo(builder.getMoney().getAmount()));
+        assertEquals(category, builder.getCategory());
+        assertTrue(builder.isCompleted());
+        assertEquals(CurrencyUnit.CAD, builder.getMoney().getCurrencyUnit());
+        assertEquals(time, builder.getTime());
+        assertEquals(title, builder.getTitle());
+        assertEquals(id.toString(), builder.getId());
+
+        Expense expense = builder.build();
+
+        assertEquals(receipt, expense.getReceipt());
+        assertEquals(0, BigDecimal.TEN.compareTo(expense.getAmount().getAmount()));
+        assertEquals(category, expense.getCategory());
+        assertTrue(expense.isCompleted());
+        assertEquals(CurrencyUnit.CAD, expense.getAmount().getCurrencyUnit());
+        assertEquals(time, expense.getTime());
+        assertEquals(title, expense.getTitle());
+        assertEquals(id.toString(), expense.getId());
 
     }
 

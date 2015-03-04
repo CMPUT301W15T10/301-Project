@@ -1,7 +1,8 @@
-package com.cmput301.cs.project.model;
+package com.cmput301.cs.project;
 
 import com.cmput301.cs.project.MockClaimSaves;
 import com.cmput301.cs.project.controllers.TagsManager;
+import com.cmput301.cs.project.model.Tag;
 import org.junit.Before;
 import org.junit.Test;
 

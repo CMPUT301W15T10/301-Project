@@ -64,7 +64,7 @@ import java.util.*;
  * <li>Use Case 28 (US 03.02.01)</li>
  * </ul>
  */
-public class UseCasesTest extends TestCase {
+public class ClaimTest extends TestCase {
 
     public static final long FIVE_DAYS = 432000000L;
 

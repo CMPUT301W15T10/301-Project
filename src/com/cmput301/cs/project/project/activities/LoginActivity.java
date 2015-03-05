@@ -26,7 +26,7 @@ public class LoginActivity extends Activity {
             User user = new User(name);
             App.get(this).createUser(user);
 
-            startActivity(new Intent(this, ClaimsActivity.class));
+            startActivity(new Intent(this, ClaimListActivity.class));
 
             finish();
         }

@@ -11,7 +11,7 @@ import com.cmput301.cs.project.project.App;
 import com.cmput301.cs.project.R;
 
 
-public class ClaimsActivity extends Activity {
+public class ClaimListActivity extends Activity {
 
     public final int LOGIN_REQUEST = 0;
 
@@ -40,7 +40,7 @@ public class ClaimsActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.tagManager:
-                startActivity(new Intent(this, TagsManagerActivity.class));
+                startActivity(new Intent(this, TagManagerActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

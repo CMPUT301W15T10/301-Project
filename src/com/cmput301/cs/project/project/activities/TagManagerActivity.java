@@ -10,7 +10,7 @@ import android.widget.ListView;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.project.adapters.TagsAdapter;
 
-public class TagsManagerActivity extends ListActivity {
+public class TagManagerActivity extends ListActivity {
 
     private TagsAdapter mTagsAdapter;
 
@@ -23,7 +23,7 @@ public class TagsManagerActivity extends ListActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.tags_manager_activity, menu);
+        getMenuInflater().inflate(R.menu.tag_manager_activity, menu);
         return true;
     }
 

@@ -1,4 +1,4 @@
-package com.cmput301.cs.project.project;
+package com.cmput301.cs.project;
 
 import com.cmput301.cs.project.project.controllers.TagsChangedListener;
 import com.cmput301.cs.project.project.controllers.TagsManager;

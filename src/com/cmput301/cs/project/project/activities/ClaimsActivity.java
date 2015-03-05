@@ -18,7 +18,7 @@ public class ClaimsActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.claims_activity);
+        setContentView(R.layout.claim_list_activity);
 
         App app = App.get(this);
 
@@ -32,7 +32,7 @@ public class ClaimsActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.claims_activity, menu);
+        inflater.inflate(R.menu.claim_list_activity, menu);
         return true;
     }
 

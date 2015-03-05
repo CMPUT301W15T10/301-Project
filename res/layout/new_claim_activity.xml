@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/Space1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/newDestination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/new_destination" />
+
+    <ListView
+        android:id="@+id/listView1"
+        android:layout_width="350dp"
+        android:layout_height="175dp"
+        android:layout_above="@+id/newDestination"
+        android:layout_alignParentLeft="true" >
+    </ListView>
+
+</RelativeLayout>

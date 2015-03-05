@@ -1,4 +1,4 @@
-package models;/*
+package com.cmput301.cs.project.models;/*
  * Copyright 2015 Edmond Chui
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

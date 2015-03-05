@@ -1,4 +1,6 @@
-package com.cmput301.cs.project.project.activities;
+package com.cmput301.cs.project.activities;
+
+import com.cmput301.cs.project.project.activities.LoginActivity;
 
 import android.test.ActivityInstrumentationTestCase2;
 

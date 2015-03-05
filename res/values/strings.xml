@@ -75,6 +75,7 @@
     <string name="name">Name</string>
     <string name="login">Login</string>
     <string name="tag_hint">Name your tag here</string>
+    <string name="new_destination">New Destination</string>
 
     <string-array name="currencies">
         <item>CAD</item>

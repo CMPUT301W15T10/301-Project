@@ -1,7 +1,10 @@
-package com.cmput301.cs.project.project.activities;
+package com.cmput301.cs.project.activities;
 
 import android.test.ActivityInstrumentationTestCase2;
+
 import org.junit.Test;
+
+import com.cmput301.cs.project.project.activities.ClaimsActivity;
 
 public class ClaimsActivityTest extends ActivityInstrumentationTestCase2<ClaimsActivity> {
 

@@ -1,4 +1,4 @@
-package com.cmput301.cs.project.activities;
+package com.cmput301.cs.project.project.activities;
 
 import android.test.ActivityInstrumentationTestCase2;
 

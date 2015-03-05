@@ -17,7 +17,7 @@ Installation
     8) Select the Android API you want to build for, then hit next.  
     9) Finally, ensure that the import project says "Android", which has a child "AndroidManifest.xml" (both should be checked), then hit finish.  
     10) Once IntelliJ opens up the project, select view ->Tool windows -> project to view all the code and resources in the project.  
-    11) Then, make sure you have junit in the class path: Open the directory test/com.cmput301.cs.project/ExpenseTest.java (in IntelliJ). Select one of the erroring @Test, click alt-enter, and then select "add junit to classpath". If the option to add junit doesn't show up, try opening another test class, and do the same thing.  
+    11) Then, make sure you have junit in the class path: Open the directory test/com.cmput301.cs.project.project/models.ExpenseTest.java (in IntelliJ). Select one of the erroring @Test, click alt-enter, and then select "add junit to classpath". If the option to add junit doesn't show up, try opening another test class, and do the same thing.
 
 To set up running the app for the first time:  
 1) Click run -> edit configurations -> click the +  

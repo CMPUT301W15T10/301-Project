@@ -114,7 +114,7 @@ public final class ExpensesAdapter extends BaseAdapter {
         }
 
         final Expense expense = getItem(position);
-        holder.title.setText(expense.getTitle());
+        holder.title.setText(expense.getDescription());
         holder.subTitle.setText(expense.getAmount().toString());
 
         return convertView;

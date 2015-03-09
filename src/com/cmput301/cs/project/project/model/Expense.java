@@ -38,9 +38,9 @@ public final class Expense implements Comparable<Expense> {
     public static final String CATEGORY_UNCATEGORIZED = "(UNCATEGORIZED)";
 
     /**
-     * The unspecified title
+     * The unspecified description
      */
-    public static final String TITLE_UNSPECIFIED = "(UNSPECIFIED)";
+    public static final String DESCRIPTION_UNSPECIFIED = "(UNSPECIFIED)";
 
     /**
      * The default {@link Money}, with the amount of zero in USD.
@@ -65,7 +65,7 @@ public final class Expense implements Comparable<Expense> {
         }
 
         // default values
-        private String mTitle = TITLE_UNSPECIFIED;
+        private String mDescription = DESCRIPTION_UNSPECIFIED;
         private Money mMoney = DEFAULT_MONEY;
         private String mCategory = CATEGORY_UNCATEGORIZED;
         private long mTime = -1;
@@ -85,7 +85,7 @@ public final class Expense implements Comparable<Expense> {
          * @param expense non-null instance of {@code Expense}
          */
         private Builder(Expense expense) {
-            mTitle = expense.getTitle();
+            mDescription = expense.getDescription();
             mMoney = expense.getAmount();
             mCategory = expense.getCategory();
             mTime = expense.getTime();
@@ -136,17 +136,17 @@ public final class Expense implements Comparable<Expense> {
         }
 
         /**
-         * Specifies the title of the {@code Claim}.
+         * Specifies the description of the {@code Claim}.
          * <br/>
-         * Defaults to {@link Expense#TITLE_UNSPECIFIED} if the title is null or (trimmed) empty
+         * Defaults to {@link Expense#DESCRIPTION_UNSPECIFIED} if the description is null or (trimmed) empty
          *
-         * @param title nullable {@code String} title
+         * @param description nullable {@code String} description
          * @return this instance of {@code Builder}
-         * @see #getTitle()
-         * @see #isTitleSet()
+         * @see #getDescription()
+         * @see #isDescriptionSet()
          */
-        public Builder title(String title) {
-            mTitle = title == null || title.trim().isEmpty() ? TITLE_UNSPECIFIED : title;
+        public Builder description(String description) {
+            mDescription = description == null || description.trim().isEmpty() ? DESCRIPTION_UNSPECIFIED : description;
             return this;
         }
 
@@ -209,11 +209,11 @@ public final class Expense implements Comparable<Expense> {
         }
 
         /**
-         * @return if the title is {@link Expense#TITLE_UNSPECIFIED}
-         * @see #getTitle()
+         * @return if the description is {@link Expense#DESCRIPTION_UNSPECIFIED}
+         * @see #getDescription()
          */
-        public boolean isTitleSet() {
-            return !TITLE_UNSPECIFIED.equals(mTitle);
+        public boolean isDescriptionSet() {
+            return !DESCRIPTION_UNSPECIFIED.equals(mDescription);
         }
 
         /**
@@ -233,12 +233,12 @@ public final class Expense implements Comparable<Expense> {
         }
 
         /**
-         * @return the title specified by {@link #title(String)} if {@link #isTitleSet()};
-         * otherwise, {@link Expense#TITLE_UNSPECIFIED}; never null
-         * @see #isTitleSet()
+         * @return the description specified by {@link #description(String)} if {@link #isDescriptionSet()};
+         * otherwise, {@link Expense#DESCRIPTION_UNSPECIFIED}; never null
+         * @see #isDescriptionSet()
          */
-        public String getTitle() {
-            return mTitle;
+        public String getDescription() {
+            return mDescription;
         }
 
         /**
@@ -316,7 +316,7 @@ public final class Expense implements Comparable<Expense> {
         }
     };
 
-    private final String mTitle;
+    private final String mDescription;
     private final Money mAmount;
     private final String mCategory;
     private final long mTime;
@@ -326,7 +326,7 @@ public final class Expense implements Comparable<Expense> {
 
     // Effective Java Item 2
     private Expense(Builder b) {
-        mTitle = b.mTitle.trim();
+        mDescription = b.mDescription.trim();
         mAmount = b.mMoney;
         mCategory = b.mCategory.trim();
         mTime = b.mTime;
@@ -339,7 +339,7 @@ public final class Expense implements Comparable<Expense> {
      * Compares this and another instance of {@code Expense} in the following order:
      * <ol>
      * <li>{@link #getTime() time}</li>
-     * <li>{@link #getTitle() title}</li>
+     * <li>{@link #getDescription() description}</li>
      * <li>{@link #getAmount() money}</li>
      * <li>{@link #getCategory() category}</li>
      * <li>{@link #getId() id}</li>
@@ -354,8 +354,8 @@ public final class Expense implements Comparable<Expense> {
         if (mTime < o.mTime) return -1;
         if (mTime > o.mTime) return 1;
 
-        final int titleDiff = mTitle.compareToIgnoreCase(o.mTitle);
-        if (titleDiff != 0) return titleDiff;
+        final int descriptionDiff = mDescription.compareToIgnoreCase(o.mDescription);
+        if (descriptionDiff != 0) return descriptionDiff;
 
         final int amountDiff = mAmount.compareTo(o.mAmount);
         if (amountDiff != 0) return amountDiff;
@@ -380,14 +380,14 @@ public final class Expense implements Comparable<Expense> {
         if (mAmount != null ? !mAmount.equals(expense.mAmount) : expense.mAmount != null) return false;
         if (mCategory != null ? !mCategory.equals(expense.mCategory) : expense.mCategory != null) return false;
         if (mId != null ? !mId.equals(expense.mId) : expense.mId != null) return false;
-        if (mTitle != null ? !mTitle.equals(expense.mTitle) : expense.mTitle != null) return false;
+        if (mDescription != null ? !mDescription.equals(expense.mDescription) : expense.mDescription != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = mTitle != null ? mTitle.hashCode() : 0;
+        int result = mDescription != null ? mDescription.hashCode() : 0;
         result = 31 * result + (mAmount != null ? mAmount.hashCode() : 0);
         result = 31 * result + (mCategory != null ? mCategory.hashCode() : 0);
         result = 31 * result + (int) (mTime ^ (mTime >>> 32));
@@ -405,10 +405,10 @@ public final class Expense implements Comparable<Expense> {
     }
 
     /**
-     * @return the title; never null
+     * @return the description; never null
      */
-    public String getTitle() {
-        return mTitle;
+    public String getDescription() {
+        return mDescription;
     }
 
     /**

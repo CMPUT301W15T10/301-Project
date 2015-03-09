@@ -221,7 +221,7 @@ public class ClaimTest extends TestCase {
                 .category("Meal")
                 .amountInBigDecimal(BigDecimal.TEN)
                 .currencyUnit(CurrencyUnit.CAD)
-                .title("Taxi food")
+                .description("Taxi food")
                 .build();
 
         final Gson gson = ClaimSaves.getGson();
@@ -229,11 +229,11 @@ public class ClaimTest extends TestCase {
         final String serialized = gson.toJson(expense);
         final Expense read = gson.fromJson(serialized, Expense.class);  // step 1, 2
 
-        final Expense expense1 = Expense.Builder.copyFrom(read).title("no more food").build();  // step 3, 4
+        final Expense expense1 = Expense.Builder.copyFrom(read).description("no more food").build();  // step 3, 4
         final String serialized1 = gson.toJson(expense1);  // step 5
         final Expense read1 = gson.fromJson(serialized1, Expense.class);
 
-        assertEquals("no more food", read1.getTitle());
+        assertEquals("no more food", read1.getDescription());
         assertTrue(!read1.equals(read));
     }
 

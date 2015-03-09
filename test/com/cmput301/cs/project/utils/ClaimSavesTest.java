@@ -213,7 +213,7 @@ public class ClaimSavesTest extends TestCase {
                 .category("Meal")
                 .amountInBigDecimal(BigDecimal.TEN)
                 .currencyUnit(CurrencyUnit.CAD)
-                .title("Taxi food")
+                .description("Taxi food")
                 .build();
 
         final Claim claim = new Claim.Builder()
@@ -250,7 +250,7 @@ public class ClaimSavesTest extends TestCase {
                 .category("Meal")
                 .amountInBigDecimal(BigDecimal.TEN)
                 .currencyUnit(CurrencyUnit.CAD)
-                .title("Taxi food")
+                .description("Taxi food")
                 .build();
 
         final Expense second = new Expense.Builder()
@@ -258,7 +258,7 @@ public class ClaimSavesTest extends TestCase {
                 .category("Meal Round 2")
                 .amountInBigDecimal(BigDecimal.TEN)
                 .currencyUnit(CurrencyUnit.CAD)
-                .title("Taxi food")
+                .description("Taxi food")
                 .build();
 
         final Expense third = new Expense.Builder()
@@ -267,7 +267,7 @@ public class ClaimSavesTest extends TestCase {
                 .category("Meal Round 3")
                 .amountInBigDecimal(BigDecimal.TEN)
                 .currencyUnit(CurrencyUnit.CAD)
-                .title("Taxi food")
+                .description("Taxi food")
                 .build();
 
         final Claim claim = new Claim.Builder()

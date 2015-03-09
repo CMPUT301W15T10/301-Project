@@ -17,6 +17,9 @@ Thumbs.db
 gen/
 out/
 
+# Eclipse Generated Files
+bin/
+
 # Gradle files
 .gradle/
 build/

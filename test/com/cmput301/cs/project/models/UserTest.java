@@ -79,14 +79,14 @@ public class UserTest {
         final User almostCopy2 = new User(name, uuid2.toString());
         final User almostCopy3 = new User(name2, uuid2.toString());
 
-        assertTrue(user.equals(almostCopy1));
-        assertTrue(user.hashCode() == almostCopy1.hashCode());
+        assertTrue(!user.equals(almostCopy1));
+        assertTrue(!(user.hashCode() == almostCopy1.hashCode()));
 
-        assertTrue(user.equals( almostCopy2));
-        assertTrue(user.hashCode() == almostCopy2.hashCode());
+        assertTrue(!user.equals( almostCopy2));
+        assertTrue(!(user.hashCode() == almostCopy2.hashCode()));
 
-        assertTrue(user.equals(almostCopy3));
-        assertTrue(user.hashCode() == almostCopy3.hashCode());
+        assertTrue(!user.equals(almostCopy3));
+        assertTrue(!(user.hashCode() == almostCopy3.hashCode()));
 
     }
 

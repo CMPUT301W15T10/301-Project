@@ -42,6 +42,9 @@ public class ClaimListActivity extends Activity {
             case R.id.tagManager:
                 startActivity(new Intent(this, TagManagerActivity.class));
                 return true;
+            case R.id.add:
+            	startActivity(new Intent(this, NewClaimActivity.class));
+            	return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

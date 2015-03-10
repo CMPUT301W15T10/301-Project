@@ -11,6 +11,8 @@ import android.widget.Button;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.project.model.Claim;
 
+import java.text.DateFormat;
+
 public class EditClaimActivity extends Activity {
     public static final String KEY_CLAIM = "key_claim";
 
@@ -25,11 +27,14 @@ public class EditClaimActivity extends Activity {
     private Button mEndDateButt;
 
     private Claim.Builder mBuilder;
+    private DateFormat mDateFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_claim_activity);
+
+        mDateFormat = android.text.format.DateFormat.getMediumDateFormat(this);
 
         initBuilder();
 
@@ -67,7 +72,12 @@ public class EditClaimActivity extends Activity {
 
     private void initBuilder() {
         final Claim claim = getIntent().getParcelableExtra(KEY_CLAIM);
-        mBuilder = claim == null ? new Claim.Builder() : Claim.Builder.copyFrom(claim);
+        if (claim == null) {
+            mBuilder = new Claim.Builder();
+        } else {
+            mBuilder = Claim.Builder.copyFrom(claim);
+            updateUI();
+        }
     }
 
     @Override
@@ -77,16 +87,24 @@ public class EditClaimActivity extends Activity {
             case REQ_CODE_PICK_START_DATE:
                 if (resultCode == RESULT_OK && date != -1) {
                     mBuilder.startTime(date);
+                    updateUI();
                 }
                 break;
             case REQ_CODE_PICK_END_DATE:
                 if (resultCode == RESULT_OK && date != -1) {
                     mBuilder.endTime(date);
+                    updateUI();
                 }
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+    private void updateUI() {
+        mStartDateButt.setText(mDateFormat.format(mBuilder.getStartTime()));
+        mEndDateButt.setText(mDateFormat.format(mBuilder.getEndTime()));
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

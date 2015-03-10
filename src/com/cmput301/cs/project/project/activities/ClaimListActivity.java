@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import com.cmput301.cs.project.project.App;
 import com.cmput301.cs.project.R;
+import com.cmput301.cs.project.project.App;
 
 
 public class ClaimListActivity extends Activity {
@@ -43,8 +43,8 @@ public class ClaimListActivity extends Activity {
                 startActivity(new Intent(this, TagManagerActivity.class));
                 return true;
             case R.id.add:
-            	startActivity(new Intent(this, NewClaimActivity.class));
-            	return true;
+                startActivity(new Intent(this, EditClaimActivity.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

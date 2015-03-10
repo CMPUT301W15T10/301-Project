@@ -16,6 +16,8 @@
 
 package com.cmput301.cs.project.project.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.google.gson.InstanceCreator;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
@@ -28,10 +30,10 @@ import java.util.UUID;
 /**
  * Class that contains the details of an expense. <br/>
  * This is an immutable class. <br/>
- * Use {@link com.cmput301.cs.project.project.model.Expense.Builder Expense.Builder} to obtain an instance.
+ * Use implements Parcelable {@link com.cmput301.cs.project.project.model.Expense.Builder Expense.Builder} to obtain an instance.
  */
 // Effective Java Item 15, 17
-public final class Expense implements Comparable<Expense> {
+public final class Expense implements Comparable<Expense>, Parcelable {
     /**
      * The unspecified category
      */
@@ -442,4 +444,43 @@ public final class Expense implements Comparable<Expense> {
     public Receipt getReceipt() {
         return mReceipt;
     }
+
+    protected Expense(Parcel in) {
+        mDescription = in.readString();
+        mAmount = (Money) in.readValue(Money.class.getClassLoader());
+        mCategory = in.readString();
+        mTime = in.readLong();
+        mId = in.readString();
+        mCompleted = in.readByte() != 0x00;
+        mReceipt = (Receipt) in.readValue(Receipt.class.getClassLoader());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mDescription);
+        dest.writeValue(mAmount);
+        dest.writeString(mCategory);
+        dest.writeLong(mTime);
+        dest.writeString(mId);
+        dest.writeByte((byte) (mCompleted ? 0x01 : 0x00));
+        dest.writeValue(mReceipt);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Expense> CREATOR = new Parcelable.Creator<Expense>() {
+        @Override
+        public Expense createFromParcel(Parcel in) {
+            return new Expense(in);
+        }
+
+        @Override
+        public Expense[] newArray(int size) {
+            return new Expense[size];
+        }
+    };
 }

@@ -16,6 +16,8 @@
 
 package com.cmput301.cs.project.project.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.cmput301.cs.project.project.controllers.TagsChangedListener;
 import com.cmput301.cs.project.project.controllers.TagsManager;
 import com.google.gson.InstanceCreator;
@@ -24,14 +26,14 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 /**
- * Class that contains a set of {@link com.cmput301.cs.project.project.model.Expense Expenses}, and details of a trip. <br/>
+ * Class that contains a set of implements Parcelable {@link com.cmput301.cs.project.project.model.Expense Expenses}, and details of a trip. <br/>
  * This is an immutable class. <br/>
  * Use {@link com.cmput301.cs.project.project.model.Claim.Builder Claim.Builder} to obtain an instance.
  * <p/>
  * If you want this to update itself as tags changes, add this with {@link TagsManager#addTagChangedListener(TagsChangedListener)}
  */
 // Effective Java Item 15, 17
-public final class Claim implements Comparable<Claim>, TagsChangedListener {
+public final class Claim implements Comparable<Claim>, TagsChangedListener, Parcelable {
 
     /**
      * The unspecified title.
@@ -406,7 +408,34 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener {
         mStatus = b.mStatus;
         mComments = b.mComments;
         mClaimant = b.mClaimant;
+    }
 
+
+    protected Claim(Parcel in) {
+        mClaimant = (User) in.readValue(User.class.getClassLoader());
+        if (in.readByte() == 0x01) {
+            mExpenses = new ArrayList<Expense>();
+            in.readList(mExpenses, Expense.class.getClassLoader());
+        } else {
+            mExpenses = null;
+        }
+        mTags = (SortedSet) in.readValue(SortedSet.class.getClassLoader());
+        mTitle = in.readString();
+        mStartTime = in.readLong();
+        mEndTime = in.readLong();
+        mId = in.readString();
+        mStatus = (Status) in.readValue(Status.class.getClassLoader());
+        if (in.readByte() == 0x01) {
+            mComments = new ArrayList<Comment>();
+            in.readList(mComments, Comment.class.getClassLoader());
+        } else {
+            mComments = null;
+        }
+        final int size = in.readInt();
+        mDestinations = new HashMap<String, String>(size);
+        for (int i = 0; i < size; i++) {
+            mDestinations.put(in.readString(), in.readString());
+        }
     }
 
     /**
@@ -614,4 +643,50 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener {
         this.mComments.add(comment);
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(mClaimant);
+        if (mExpenses == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(mExpenses);
+        }
+        dest.writeValue(mTags);
+        dest.writeString(mTitle);
+        dest.writeLong(mStartTime);
+        dest.writeLong(mEndTime);
+        dest.writeString(mId);
+        dest.writeValue(mStatus);
+        if (mComments == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(mComments);
+        }
+        dest.writeInt(mDestinations.size());
+        for (Map.Entry<String, String> entry : mDestinations.entrySet()) {
+            dest.writeString(entry.getKey());
+            dest.writeString(entry.getValue());
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Claim> CREATOR = new Parcelable.Creator<Claim>() {
+        @Override
+        public Claim createFromParcel(Parcel in) {
+            return new Claim(in);
+        }
+
+        @Override
+        public Claim[] newArray(int size) {
+            return new Claim[size];
+        }
+    };
 }

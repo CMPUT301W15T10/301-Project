@@ -25,6 +25,9 @@ import android.widget.CalendarView;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.project.utils.Utils;
 
+/**
+ * Activity for picking a date with your girlfriend.
+ */
 public class CalendarActivity extends Activity {
     public static final String KEY_DATE = "date";
     public static final String KEY_MIN_DATE = "min_date";

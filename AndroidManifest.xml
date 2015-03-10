@@ -27,8 +27,8 @@
         <activity android:name=".project.activities.CalendarActivity">
         </activity>
         <activity
-            android:name=".project.activities.NewClaimActivity"
-            android:label="@string/title_activity_new_claim">
+            android:name=".project.activities.EditClaimActivity"
+            android:label="@string/title_activity_edit_claim">
         </activity>
         <activity
             android:name=".project.activities.ExpenseViewActivity"

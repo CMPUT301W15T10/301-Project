@@ -95,14 +95,19 @@ public class EditClaimActivity extends Activity {
                     mBuilder.endTime(date);
                     updateUI();
                 }
+                break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
     private void updateUI() {
-        mStartDateButt.setText(mDateFormat.format(mBuilder.getStartTime()));
-        mEndDateButt.setText(mDateFormat.format(mBuilder.getEndTime()));
+        if (mBuilder.isStartTimeSet()) {
+            mStartDateButt.setText(mDateFormat.format(mBuilder.getStartTime()));
+        }
+        if (mBuilder.isEndTimeSet()) {
+            mEndDateButt.setText(mDateFormat.format(mBuilder.getEndTime()));
+        }
     }
 
 

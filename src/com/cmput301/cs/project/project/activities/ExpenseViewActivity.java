@@ -12,9 +12,12 @@ import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.project.model.Expense;
 import org.joda.money.Money;
 
+import java.io.File;
 import java.text.DateFormat;
 
 public class ExpenseViewActivity extends Activity {
+    public static final String KEY_EXPENSE = "key_expense";
+
     private Expense mExpense;
     private DateFormat mDateFormat;
 
@@ -31,8 +34,6 @@ public class ExpenseViewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.expense_view_activity);
 
-        mExpense = new Expense.Builder().build();
-
         mDescription = (TextView) findViewById(R.id.description);
         mMoney = (TextView) findViewById(R.id.money);
         mCurrency = (TextView) findViewById(R.id.currency);
@@ -43,7 +44,16 @@ public class ExpenseViewActivity extends Activity {
 
         mDateFormat = android.text.format.DateFormat.getMediumDateFormat(this);
 
+        initExpense();
+        
         updateUi();
+    }
+
+    private void initExpense() {
+        mExpense = getIntent().getParcelableExtra(KEY_EXPENSE);
+        if (mExpense == null) {
+            throw new RuntimeException("Expected an Expense");
+        }
     }
 
     private void updateUi() {
@@ -54,8 +64,10 @@ public class ExpenseViewActivity extends Activity {
         mDate.setText(mDateFormat.format(mExpense.getTime()));
         mCategory.setText(mExpense.getCategory());
 
-        final Drawable drawable = new BitmapDrawable(getResources(), mExpense.getReceipt().getFile().getPath());
-        mReceipt.setImageDrawable(drawable);
+        if (mExpense.hasReceipt()) {
+            final File receiptFile = mExpense.getReceipt().getFile();
+            mReceipt.setImageDrawable(new BitmapDrawable(getResources(), receiptFile.getPath()));
+        }
     }
 
     @Override

@@ -441,6 +441,16 @@ public final class Expense implements Comparable<Expense>, Parcelable {
         return mCompleted;
     }
 
+    /**
+     * @return if it contains a valid {@code Receipt}
+     */
+    public boolean hasReceipt() {
+        return mReceipt != null;
+    }
+
+    /**
+     * @return the {@code Receipt}; may be null
+     */
     public Receipt getReceipt() {
         return mReceipt;
     }

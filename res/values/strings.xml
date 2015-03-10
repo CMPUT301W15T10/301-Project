@@ -95,5 +95,6 @@
     <string name="title_activity_expense_view">ExpenseViewActivity</string>
     <string name="title_activity_expense_list">ExpenseListActivity</string>
     <string name="title_activity_claim_view">ClaimViewActivity</string>
+    <string name="manage_tags">Manage Tags</string>
 
 </resources>

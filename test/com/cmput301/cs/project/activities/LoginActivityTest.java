@@ -1,8 +1,7 @@
 package com.cmput301.cs.project.activities;
 
-import com.cmput301.cs.project.project.activities.LoginActivity;
-
 import android.test.ActivityInstrumentationTestCase2;
+import com.cmput301.cs.project.project.activities.LoginActivity;
 
 public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginActivity> {
 
@@ -11,11 +10,11 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
     }
 
     public void testValidNameLaunchesClaims() {
-
+        fail();
     }
 
     public void testInvalidName() {
-
+        fail();
     }
 
 }

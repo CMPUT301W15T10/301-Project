@@ -102,8 +102,12 @@ public class EditClaimActivity extends Activity {
     }
 
     private void updateUI() {
-        mStartDateButt.setText(mDateFormat.format(mBuilder.getStartTime()));
-        mEndDateButt.setText(mDateFormat.format(mBuilder.getEndTime()));
+        if (mBuilder.isStartTimeSet()) {
+            mStartDateButt.setText(mDateFormat.format(mBuilder.getStartTime()));
+        }
+        if (mBuilder.isEndTimeSet()) {
+            mEndDateButt.setText(mDateFormat.format(mBuilder.getEndTime()));
+        }
     }
 
 

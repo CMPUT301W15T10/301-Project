@@ -1,17 +1,18 @@
 package com.cmput301.cs.project.project.activities;
 
-import java.text.DateFormat;
-
-import android.widget.ImageView;
-import android.widget.TextView;
-import com.cmput301.cs.project.R;
-import org.joda.money.Money;
-
 import android.app.Activity;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.project.model.Expense;
+import org.joda.money.Money;
+
+import java.text.DateFormat;
 
 public class ExpenseViewActivity extends Activity {
     private Expense mExpense;
@@ -53,7 +54,8 @@ public class ExpenseViewActivity extends Activity {
         mDate.setText(mDateFormat.format(mExpense.getTime()));
         mCategory.setText(mExpense.getCategory());
 
-        // Still need to set the receipt image
+        final Drawable drawable = new BitmapDrawable(getResources(), mExpense.getReceipt().getFile().getPath());
+        mReceipt.setImageDrawable(drawable);
     }
 
     @Override

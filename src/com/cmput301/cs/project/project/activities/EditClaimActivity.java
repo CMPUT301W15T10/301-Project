@@ -4,12 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.project.model.Claim;
+import com.cmput301.cs.project.project.utils.Utils;
 
 import java.text.DateFormat;
 
@@ -32,6 +31,21 @@ public class EditClaimActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setResult(RESULT_CANCELED);
+
+        Utils.setupDiscardDoneBar(this, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        }, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_OK, new Intent().putExtra(KEY_CLAIM, mBuilder.build()));
+                finish();
+            }
+        });
+
         setContentView(R.layout.edit_claim_activity);
 
         mDateFormat = android.text.format.DateFormat.getMediumDateFormat(this);
@@ -108,25 +122,5 @@ public class EditClaimActivity extends Activity {
         if (mBuilder.isEndTimeSet()) {
             mEndDateButt.setText(mDateFormat.format(mBuilder.getEndTime()));
         }
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.new_claim, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

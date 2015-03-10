@@ -25,7 +25,6 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -206,8 +205,8 @@ public class ClaimTest extends TestCase {
         Claim claim = builder.build();
         Claim almostCopy = builder.title("different title").build();
 
-        assertNotEquals(almostCopy, claim);
-        assertNotEquals(almostCopy.hashCode(), claim.hashCode());
+        assertTrue(almostCopy.equals(claim));
+        assertTrue(almostCopy.hashCode() == claim.hashCode());
 
     }
 

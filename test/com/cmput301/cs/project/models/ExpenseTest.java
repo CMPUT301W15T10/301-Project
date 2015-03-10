@@ -53,8 +53,8 @@ public class ExpenseTest {
         final Expense carbonCopy = new Expense.Builder().money(amount).id("rofl")
                 .description("Pizza").category("Food").time(time).build();
 
-        assertNotEquals(first, carbonCopy);
-        assertNotEquals(first.hashCode(), carbonCopy.hashCode());
+        assertTrue(first.equals(carbonCopy));
+        assertTrue(first.hashCode() == carbonCopy.hashCode());
     }
 
     @Test

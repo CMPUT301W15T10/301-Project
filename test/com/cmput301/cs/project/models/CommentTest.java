@@ -5,8 +5,7 @@ import com.cmput301.cs.project.project.model.User;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertTrue;
 
 public class CommentTest {
 
@@ -67,14 +66,14 @@ public class CommentTest {
         final Comment almostCopy2 = new Comment(text2, user1);
         final Comment almostCopy3 = new Comment(text2, user2);
 
-        assertNotEquals(almostCopy1, comment);
-        assertNotEquals(almostCopy1.hashCode(), comment.hashCode());
+        assertTrue(almostCopy1.equals(comment));
+        assertTrue(almostCopy1.hashCode() == comment.hashCode());
 
-        assertNotEquals(almostCopy2, comment);
-        assertNotEquals(almostCopy2.hashCode(), comment.hashCode());
+        assertTrue(almostCopy2.equals(comment));
+        assertTrue(almostCopy2.hashCode() == comment.hashCode());
 
-        assertNotEquals(almostCopy3, comment);
-        assertNotEquals(almostCopy3.hashCode(), comment.hashCode());
+        assertTrue(almostCopy3.equals(comment));
+        assertTrue(almostCopy3.hashCode() == comment.hashCode());
 
 
     }

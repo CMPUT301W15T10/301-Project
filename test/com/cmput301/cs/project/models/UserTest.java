@@ -40,7 +40,7 @@ public class UserTest {
     public void testGetUserIdUnique() throws Exception {
         User user1 = new User("name");
         User user2 = new User("name");
-        assertNotEquals(user1.getUserId(), user2.getUserId());
+        assertTrue(user1.getUserId().equals(user2.getUserId()));
     }
 
 
@@ -79,14 +79,14 @@ public class UserTest {
         final User almostCopy2 = new User(name, uuid2.toString());
         final User almostCopy3 = new User(name2, uuid2.toString());
 
-        assertNotEquals(user, almostCopy1);
-        assertNotEquals(user.hashCode(), almostCopy1.hashCode());
+        assertTrue(user.equals(almostCopy1));
+        assertTrue(user.hashCode() == almostCopy1.hashCode());
 
-        assertNotEquals(user, almostCopy2);
-        assertNotEquals(user.hashCode(), almostCopy2.hashCode());
+        assertTrue(user.equals( almostCopy2));
+        assertTrue(user.hashCode() == almostCopy2.hashCode());
 
-        assertNotEquals(user, almostCopy3);
-        assertNotEquals(user.hashCode(), almostCopy3.hashCode());
+        assertTrue(user.equals(almostCopy3));
+        assertTrue(user.hashCode() == almostCopy3.hashCode());
 
     }
 

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.project.model.Claim;
+import com.cmput301.cs.project.project.utils.Utils;
 
 import java.text.DateFormat;
 
@@ -32,6 +33,21 @@ public class EditClaimActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setResult(RESULT_CANCELED);
+
+        Utils.setupDiscardDoneBar(this, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        }, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_OK, new Intent().putExtra(KEY_CLAIM, mBuilder.build()));
+                finish();
+            }
+        });
+
         setContentView(R.layout.edit_claim_activity);
 
         mDateFormat = android.text.format.DateFormat.getMediumDateFormat(this);

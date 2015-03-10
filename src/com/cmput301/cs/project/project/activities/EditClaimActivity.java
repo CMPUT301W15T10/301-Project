@@ -95,6 +95,7 @@ public class EditClaimActivity extends Activity {
                     mBuilder.endTime(date);
                     updateUI();
                 }
+                break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }

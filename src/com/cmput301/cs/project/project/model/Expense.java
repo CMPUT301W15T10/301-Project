@@ -285,7 +285,7 @@ public final class Expense implements Comparable<Expense> {
          * <br/>
          * If {@link #isTimeSet()} is false, time will be set to {@link System#currentTimeMillis()}.
          *
-         * @return an instance of {@coded Expense}; never null
+         * @return an instance of {@code Expense}; never null
          */
         public Expense build() {
             if (!isTimeSet()) {

@@ -31,7 +31,7 @@ public class CalendarActivity extends Activity {
     public static final String KEY_MAX_DATE = "max_date";
 
     public static final class Builder {
-        private Intent mIntent;
+        private final Intent mIntent;
 
         public Builder(Context context) {
             mIntent = new Intent(context, CalendarActivity.class);

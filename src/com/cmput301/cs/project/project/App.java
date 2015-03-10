@@ -62,9 +62,7 @@ public final class App extends Application {
             return null;
         }
 
-        User user = new User(userName, userId);
-
-        return user;
+        return new User(userName, userId);
     }
 
     public void createUser(User user) {

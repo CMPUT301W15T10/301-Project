@@ -78,15 +78,15 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener {
         }
 
         // default values
-        private List<Expense> mExpenses = new ArrayList<Expense>();
-        private Map<String, String> mDestinations = new HashMap<String, String>();  // Destination -> Reason
-        private SortedSet<Tag> mTags = new TreeSet<Tag>();
+        private final List<Expense> mExpenses = new ArrayList<Expense>();
+        private final Map<String, String> mDestinations = new HashMap<String, String>();  // Destination -> Reason
+        private final SortedSet<Tag> mTags = new TreeSet<Tag>();
         private String mTitle = TITLE_UNNAMED;
         private long mStartTime = -1;
         private long mEndTime = -1;
         private String mId = UUID.randomUUID().toString();
         private Status mStatus = Status.IN_PROGRESS;
-        private List<Comment> mComments = new ArrayList<Comment>();
+        private final List<Comment> mComments = new ArrayList<Comment>();
         private User mClaimant;
         private boolean gsonToFill = false;
 
@@ -599,7 +599,7 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener {
         if((mStatus == Status.IN_PROGRESS || mStatus == Status.RETURNED) && status != Status.SUBMITTED){
             throw new IllegalStateException("Statuses cannot be changed in such a way");
         }
-        if(mStatus == Status.SUBMITTED && status != Status.SUBMITTED || status != status.APPROVED) {
+        if (mStatus == Status.SUBMITTED && status != Status.SUBMITTED || status != Status.APPROVED) {
             throw new IllegalStateException("Statuses cannot be changed in such a way");
         }
         if(mStatus == Status.APPROVED ){

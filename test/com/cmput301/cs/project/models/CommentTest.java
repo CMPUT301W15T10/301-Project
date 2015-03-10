@@ -66,14 +66,14 @@ public class CommentTest {
         final Comment almostCopy2 = new Comment(text2, user1);
         final Comment almostCopy3 = new Comment(text2, user2);
 
-        assertTrue(almostCopy1.equals(comment));
-        assertTrue(almostCopy1.hashCode() == comment.hashCode());
+        assertTrue(!almostCopy1.equals(comment));
+        assertTrue(!(almostCopy1.hashCode() == comment.hashCode()));
 
-        assertTrue(almostCopy2.equals(comment));
-        assertTrue(almostCopy2.hashCode() == comment.hashCode());
+        assertTrue(!almostCopy2.equals(comment));
+        assertTrue(!(almostCopy2.hashCode() == comment.hashCode()));
 
-        assertTrue(almostCopy3.equals(comment));
-        assertTrue(almostCopy3.hashCode() == comment.hashCode());
+        assertTrue(!almostCopy3.equals(comment));
+        assertTrue(!(almostCopy3.hashCode() == comment.hashCode()));
 
 
     }

@@ -205,8 +205,8 @@ public class ClaimTest extends TestCase {
         Claim claim = builder.build();
         Claim almostCopy = builder.title("different title").build();
 
-        assertTrue(almostCopy.equals(claim));
-        assertTrue(almostCopy.hashCode() == claim.hashCode());
+        assertTrue(!almostCopy.equals(claim));
+        assertTrue(!(almostCopy.hashCode() == claim.hashCode()));
 
     }
 

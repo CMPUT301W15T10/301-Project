@@ -40,7 +40,7 @@ public class UserTest {
     public void testGetUserIdUnique() throws Exception {
         User user1 = new User("name");
         User user2 = new User("name");
-        assertTrue(user1.getUserId().equals(user2.getUserId()));
+        assertTrue(!user1.getUserId().equals(user2.getUserId()));
     }
 
 

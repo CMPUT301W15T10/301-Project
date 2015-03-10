@@ -2,8 +2,10 @@ package com.cmput301.cs.project.project.model;
 
 import java.util.UUID;
 
-/* This class allows for the creation of and association of a username and user id to a user that will allow
-// the user to log into the application and use it. */
+/* 
+* This class allows for the creation of and association of a username and user id to a user that will allow
+*  the user to log into the application and use it. 
+*/
 
 public class User {
 

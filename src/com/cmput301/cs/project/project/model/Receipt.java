@@ -6,8 +6,8 @@ import android.os.Parcelable;
 
 import java.io.File;
 
-/**
- * Created by Blaine on 03/03/2015.
+/*
+ * This class creates an instance that will hold the receipt image file for a particular expense.
  */
 
 public class Receipt implements Parcelable {

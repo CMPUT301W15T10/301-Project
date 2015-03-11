@@ -15,7 +15,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/startDateButt"
+            android:id="@+id/startDate"
             style="?android:buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
             android:hint="@string/pick_start_date"/>
 
         <Button
-            android:id="@+id/endDateButt"
+            android:id="@+id/endDate"
             style="?android:buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

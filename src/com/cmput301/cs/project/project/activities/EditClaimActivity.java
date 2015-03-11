@@ -22,8 +22,8 @@ public class EditClaimActivity extends Activity {
     private static final int REQ_CODE_PICK_START_DATE = 1;
     private static final int REQ_CODE_PICK_END_DATE = 2;
 
-    private Button mStartDateButt;
-    private Button mEndDateButt;
+    private Button mStartDate;
+    private Button mEndDate;
 
     private Claim.Builder mBuilder;
     private DateFormat mDateFormat;
@@ -52,10 +52,10 @@ public class EditClaimActivity extends Activity {
 
         initBuilder();
 
-        mStartDateButt = (Button) findViewById(R.id.startDateButt);
-        mEndDateButt = (Button) findViewById(R.id.endDateButt);
+        mStartDate = (Button) findViewById(R.id.startDate);
+        mEndDate = (Button) findViewById(R.id.endDate);
 
-        mStartDateButt.setOnClickListener(new View.OnClickListener() {
+        mStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final CalendarActivity.Builder builder = new CalendarActivity.Builder(EditClaimActivity.this);
@@ -69,7 +69,7 @@ public class EditClaimActivity extends Activity {
             }
         });
 
-        mEndDateButt.setOnClickListener(new View.OnClickListener() {
+        mEndDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final CalendarActivity.Builder builder = new CalendarActivity.Builder(EditClaimActivity.this);
@@ -96,18 +96,23 @@ public class EditClaimActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        final long date = data.getLongExtra(CalendarActivity.KEY_DATE, -1);
         switch (requestCode) {
             case REQ_CODE_PICK_START_DATE:
-                if (resultCode == RESULT_OK && date != -1) {
-                    mBuilder.startTime(date);
-                    updateUI();
+                if (resultCode == RESULT_OK) {
+                    final long date = data.getLongExtra(CalendarActivity.KEY_DATE, -1);
+                    if (date != -1) {
+                        mBuilder.startTime(date);
+                        updateUI();
+                    }
                 }
                 break;
             case REQ_CODE_PICK_END_DATE:
-                if (resultCode == RESULT_OK && date != -1) {
-                    mBuilder.endTime(date);
-                    updateUI();
+                if (resultCode == RESULT_OK) {
+                    final long date = data.getLongExtra(CalendarActivity.KEY_DATE, -1);
+                    if (date != -1) {
+                        mBuilder.endTime(date);
+                        updateUI();
+                    }
                 }
                 break;
             default:
@@ -117,10 +122,10 @@ public class EditClaimActivity extends Activity {
 
     private void updateUI() {
         if (mBuilder.isStartTimeSet()) {
-            mStartDateButt.setText(mDateFormat.format(mBuilder.getStartTime()));
+            mStartDate.setText(mDateFormat.format(mBuilder.getStartTime()));
         }
         if (mBuilder.isEndTimeSet()) {
-            mEndDateButt.setText(mDateFormat.format(mBuilder.getEndTime()));
+            mEndDate.setText(mDateFormat.format(mBuilder.getEndTime()));
         }
     }
 }

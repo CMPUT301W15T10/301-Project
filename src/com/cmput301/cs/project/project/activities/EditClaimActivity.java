@@ -50,8 +50,6 @@ public class EditClaimActivity extends Activity {
 
         mDateFormat = android.text.format.DateFormat.getMediumDateFormat(this);
 
-        initBuilder();
-
         mStartDate = (Button) findViewById(R.id.startDate);
         mEndDate = (Button) findViewById(R.id.endDate);
 
@@ -82,6 +80,8 @@ public class EditClaimActivity extends Activity {
                 startActivityForResult(builder.build(), REQ_CODE_PICK_END_DATE);
             }
         });
+
+        initBuilder();
     }
 
     private void initBuilder() {

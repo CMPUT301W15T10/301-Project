@@ -1,7 +1,9 @@
 package com.cmput301.cs.project.project.activities;
 
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,7 +15,8 @@ import com.cmput301.cs.project.project.App;
 
 public class ClaimListActivity extends Activity {
 
-    public final int LOGIN_REQUEST = 0;
+    private static final int POSITION_CLAIMANT = 0;
+    private static final int POSITION_APPROVER = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,10 +25,48 @@ public class ClaimListActivity extends Activity {
 
         App app = App.get(this);
 
-        if(app.getUser() == null) {
+        if (app.getUser() == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
+        }
+
+        final ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            final ActionBar.TabListener listener = new ActionBar.TabListener() {
+                @Override
+                public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+                    final int position = tab.getPosition();
+                    switch (position) {
+                        case POSITION_CLAIMANT:
+                            // TODO impl claimant filter
+                            break;
+                        case POSITION_APPROVER:
+                            // TODO impl approver filter
+                            break;
+                        default:
+                            throw new AssertionError("unexpected position: " + position);
+                    }
+                }
+
+                @Override
+                public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+                    // do nothing
+                }
+
+                @Override
+                public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+                    // do nothing
+                }
+            };
+
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+            actionBar.addTab(actionBar.newTab()
+                    .setText(R.string.claimant)
+                    .setTabListener(listener));
+            actionBar.addTab(actionBar.newTab()
+                    .setText(R.string.approver)
+                    .setTabListener(listener));
         }
     }
 

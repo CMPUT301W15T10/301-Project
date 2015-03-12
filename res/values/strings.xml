@@ -19,7 +19,7 @@
 
     <string name="app_name">Beast Mode Engaged</string>
     <string name="add">Add</string>
-    <string name="discard">Discard</string>
+    <string name="discard">Discard Changes</string>
     <string name="done">Done</string>
     <string name="title_hint">Enter a title</string>
     <string name="time_hint">Pick a date</string>

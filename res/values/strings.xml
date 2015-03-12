@@ -107,6 +107,10 @@
     <string name="no_receipt">There is no receipt available.</string>
     <string name="claimant">Claimant</string>
     <string name="approver">Approver</string>
+    <string name="destination_name_text">Destination:</string>
+    <string name="reason_text">Reason:</string>
+    <string name="reason_hint">Reason</string>
+    <string name="delete_destination">Delete Destination</string>
 
 
 </resources>

@@ -86,14 +86,8 @@ public class EditClaimActivity extends Activity {
         mNewDestination.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final CalendarActivity.Builder builder = new CalendarActivity.Builder(EditClaimActivity.this);
-                if (mBuilder.isStartTimeSet()) {
-                    builder.selectedDate(mBuilder.getStartTime());
-                }
-                if (mBuilder.isEndTimeSet()) {
-                    builder.maxDate(mBuilder.getEndTime());
-                }
-                startActivityForResult(builder.build(), REQ_CODE_PICK_START_DATE);
+                Intent intent = new Intent(EditClaimActivity.this, EditDestinationActivity.class);
+                startActivity(intent);
             }
         });
 

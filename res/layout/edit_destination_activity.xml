@@ -1,13 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".EditDestinationActivity" >
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:layout_marginStart="@dimen/small_padding"
+              android:layout_marginEnd="@dimen/small_padding"
+              android:layout_marginTop="@dimen/small_padding"
+              android:layout_marginBottom="@dimen/small_padding">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+        android:id="@+id/destinationNameText"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:text="@string/destination_name_text" />
     
+    	<EditText
+        android:id="@+id/newDestinationInput"
+        android:layout_weight="2"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:hint="@string/new_destination" />
+        
+    </LinearLayout>
+    
+    <LinearLayout
+         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    	
+        <TextView 
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="@string/reason_text"/>
+        
+        <EditText
+            android:id="@+id/newReason"
+            android:layout_width="0dp" 
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:hint="@string/reason_hint" />
+        
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/deleteTag"
+        style="?android:buttonBarButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_destination"
+        android:textColor="@android:color/holo_red_light" />
 
 </LinearLayout>

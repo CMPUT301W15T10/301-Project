@@ -3,6 +3,7 @@ package com.cmput301.cs.project.project.activities;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.R.layout;
 import com.cmput301.cs.project.R.menu;
+import com.cmput301.cs.project.project.controllers.TagsManager;
 import com.cmput301.cs.project.project.utils.Utils;
 
 import android.os.Bundle;
@@ -22,7 +23,7 @@ public class EditDestinationActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.new_destination, menu);
+		
 		
 		Utils.setupDiscardDoneBar(this, new View.OnClickListener() {
             @Override
@@ -30,6 +31,13 @@ public class EditDestinationActivity extends Activity {
                 finish();
             }
         }, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+		
+		findViewById(R.id.deleteTag).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

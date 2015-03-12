@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Claimant"/>
+            android:text="@string/claimant"/>
 
         <Button
             android:id="@+id/endDate"
@@ -28,7 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Approver"/>
+            android:text="@string/approver"/>
     </LinearLayout>
 
     <ListView

@@ -73,10 +73,26 @@
             android:textAppearance="?android:attr/textAppearanceMedium"/>
 
         <TextView
+            android:text="@string/completed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?android:listSeparatorTextViewStyle"/>
+
+        <TextView
+            android:id="@+id/completed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small_padding"
+            android:layout_marginEnd="@dimen/small_padding"
+            android:layout_marginBottom="@dimen/small_padding"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+        <TextView
             style="?android:listSeparatorTextViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/receipt"/>
+
 
         <ImageView
             android:id="@+id/receiptImage"
@@ -84,5 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/small_padding"
             android:layout_marginEnd="@dimen/small_padding"/>
+
+
     </LinearLayout>
 </ScrollView>

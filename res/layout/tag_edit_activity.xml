@@ -16,7 +16,7 @@
         android:layout_marginBottom="@dimen/small_padding"/>
 
     <Button android:id="@+id/delete"
-        style="?android:buttonBarButtonStyle"
+        
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/delete_tag"

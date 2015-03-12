@@ -98,11 +98,25 @@
     <string name="manage_tags">Manage Tags</string>
     <string name="pick_start_date">Pick Start Date</string>
     <string name="pick_end_date">Pick End Date</string>
+
+
+    <string name="title_activity_new_destination">NewDestinationActivity</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="completed">Completed</string>
     <string name="no_receipt">There is no receipt available.</string>
     <string name="claimant">Claimant</string>
     <string name="approver">Approver</string>
+
+    <string name="destination_name_text">Destination:</string>
+    <string name="reason_text">Reason:</string>
+    <string name="reason_hint">Reason</string>
+    <string name="delete_destination">Delete Destination</string>
+
+    <string name="description">Description</string>
+    <string name="money">Money</string>
+    <string name="receipt">Receipt</string>
+
+
 
 </resources>

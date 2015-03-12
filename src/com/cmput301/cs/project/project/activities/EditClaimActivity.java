@@ -24,6 +24,7 @@ public class EditClaimActivity extends Activity {
 
     private Button mStartDate;
     private Button mEndDate;
+    private Button mNewDestination;
 
     private Claim.Builder mBuilder;
     private DateFormat mDateFormat;
@@ -52,6 +53,7 @@ public class EditClaimActivity extends Activity {
 
         mStartDate = (Button) findViewById(R.id.startDate);
         mEndDate = (Button) findViewById(R.id.endDate);
+        mNewDestination = (Button) findViewById(R.id.newDestination);
 
         mStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +80,14 @@ public class EditClaimActivity extends Activity {
                     builder.minDate(mBuilder.getStartTime());
                 }
                 startActivityForResult(builder.build(), REQ_CODE_PICK_END_DATE);
+            }
+        });
+        
+        mNewDestination.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EditClaimActivity.this, EditDestinationActivity.class);
+                startActivity(intent);
             }
         });
 

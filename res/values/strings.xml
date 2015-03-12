@@ -100,5 +100,8 @@
     <string name="pick_end_date">Pick End Date</string>
     <string name="claimant">Claimant</string>
     <string name="approver">Approver</string>
+    <string name="description">Description</string>
+    <string name="money">Money</string>
+    <string name="receipt">Receipt</string>
 
 </resources>

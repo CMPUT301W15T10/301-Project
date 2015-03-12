@@ -31,26 +31,9 @@ public final class App extends Application {
     private static final String USER_PREFERENCES = "USER_PREFERENCES";
     private static final String USER_ID = "USER_ID";
     private static final String USER_NAME = "USER_NAME";
-    private final Map<String, Object> mObjectTransfer = new HashMap<String, Object>();
 
     public static App get(Context context) {
         return (App) context.getApplicationContext();
-    }
-
-    public void putObjectTransfer(String key, Object value) {
-        ClaimUtils.nonNullnonEmptyOrThrow(key, "key");
-        ClaimUtils.nonNullOrThrow(value, "value");
-        mObjectTransfer.put(key, value);
-    }
-
-    public <T> T getObjectTransfer(String key) {
-        if (!mObjectTransfer.containsKey(key)) {
-            throw new IllegalStateException("key already used or never existed");
-        }
-        @SuppressWarnings("unchecked")
-        final T object = (T) mObjectTransfer.get(key);
-        mObjectTransfer.remove(key);
-        return object;
     }
 
     public User getUser() {

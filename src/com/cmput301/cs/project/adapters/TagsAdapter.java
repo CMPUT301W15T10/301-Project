@@ -35,7 +35,6 @@ public class TagsAdapter extends BaseAdapter implements TagsChangedListener {
     public TagsAdapter(Context context, Collection<? extends Tag> tags) {
         mInflater = LayoutInflater.from(context);
         mTags.addAll(tags);
-        TagsManager.get(context).addTagChangedListener(this);
     }
 
     @Override

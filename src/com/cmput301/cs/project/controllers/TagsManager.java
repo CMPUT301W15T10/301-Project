@@ -1,14 +1,13 @@
 package com.cmput301.cs.project.controllers;
 
 import android.content.Context;
+import com.cmput301.cs.project.model.ClaimUtils;
 import com.cmput301.cs.project.model.Tag;
 import com.cmput301.cs.project.utils.ClaimSaves;
 
-import java.lang.ref.WeakReference;
 import java.util.*;
 
 public class TagsManager implements TagsChangedListener {
-    public static final String FILE_NAME = "tags.json";
 
     private static TagsManager sInstance;
 
@@ -25,7 +24,7 @@ public class TagsManager implements TagsChangedListener {
 
     private final ClaimSaves mClaimSaves;
     private final SortedSet<Tag> mTags = new TreeSet<Tag>();
-    private final List<WeakReference<TagsChangedListener>> mListeners = new ArrayList<WeakReference<TagsChangedListener>>();
+    private final List<TagsChangedListener> mListeners = new ArrayList<TagsChangedListener>();
 
     private TagsManager(Context context) {
         this(ClaimSaves.ofAndroid(context));
@@ -34,18 +33,20 @@ public class TagsManager implements TagsChangedListener {
     private TagsManager(ClaimSaves claimSaves) {
         mClaimSaves = claimSaves;
         mTags.addAll(claimSaves.readAllTags());
-        mListeners.add(new WeakReference<TagsChangedListener>(this));
+        mListeners.add(this);
     }
 
     public void addTagChangedListener(TagsChangedListener listener) {
-        mListeners.add(new WeakReference<TagsChangedListener>(listener));
+        ClaimUtils.nonNullOrThrow(listener, "listener");
+        mListeners.add(listener);
     }
 
-    public void removeTagChangedListener(TagsChangedListener listener) {
-        for (Iterator<WeakReference<TagsChangedListener>> iterator = mListeners.iterator(); iterator.hasNext(); ) {
-            final TagsChangedListener l = iterator.next().get();
-            if (l == listener || l == null) {
+    public void removeTagChangedListener(TagsChangedListener removing) {
+        for (Iterator<TagsChangedListener> iterator = mListeners.iterator(); iterator.hasNext(); ) {
+            final TagsChangedListener listener = iterator.next();
+            if (listener == removing) {
                 iterator.remove();
+                break;
             }
         }
     }
@@ -107,35 +108,20 @@ public class TagsManager implements TagsChangedListener {
     }
 
     private void notifyListenersCreated(Tag tag) {
-        for (Iterator<WeakReference<TagsChangedListener>> iterator = mListeners.iterator(); iterator.hasNext(); ) {
-            final TagsChangedListener listener = iterator.next().get();
-            if (listener != null) {
-                listener.onTagCreated(tag);
-            } else {
-                iterator.remove();
-            }
+        for (TagsChangedListener listener : mListeners) {
+            listener.onTagCreated(tag);
         }
     }
 
     private void notifyListenersRenamed(Tag tag, String oldName) {
-        for (Iterator<WeakReference<TagsChangedListener>> iterator = mListeners.iterator(); iterator.hasNext(); ) {
-            final TagsChangedListener listener = iterator.next().get();
-            if (listener != null) {
-                listener.onTagRenamed(tag, oldName);
-            } else {
-                iterator.remove();
-            }
+        for (TagsChangedListener listener : mListeners) {
+            listener.onTagRenamed(tag, oldName);
         }
     }
 
     private void notifyListenersDeleted(Tag tag) {
-        for (Iterator<WeakReference<TagsChangedListener>> iterator = mListeners.iterator(); iterator.hasNext(); ) {
-            final TagsChangedListener listener = iterator.next().get();
-            if (listener != null) {
-                listener.onTagDeleted(tag);
-            } else {
-                iterator.remove();
-            }
+        for (TagsChangedListener listener : mListeners) {
+            listener.onTagDeleted(tag);
         }
     }
 

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ListView;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.TagsAdapter;
+import com.cmput301.cs.project.controllers.TagsManager;
 
 public class TagManagerActivity extends ListActivity {
 
@@ -18,7 +19,14 @@ public class TagManagerActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mTagsAdapter = new TagsAdapter(this);
+        TagsManager.get(this).addTagChangedListener(mTagsAdapter);
         setListAdapter(mTagsAdapter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TagsManager.get(this).removeTagChangedListener(mTagsAdapter);
     }
 
     @Override

@@ -202,15 +202,13 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
 
         /**
          * Specifies the title of the {@code Claim}.
-         * <br/>
-         * Defaults to {@link Claim#TITLE_UNNAMED} if the title is null or (trimmed) empty
          *
-         * @param title nullable {@code String} title
+         * @param title {@code String} title; must no be null
          * @return this instance of {@code Builder}
          * @see #getTitle()
          */
         public Builder title(String title) {
-            mTitle = title == null || title.trim().isEmpty() ? TITLE_UNNAMED : title;
+            ClaimUtils.nonNullnonEmptyOrThrow(title, "title");
             return this;
         }
 
@@ -223,18 +221,14 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
         /**
          * Specifies the start time of the {@code Claim}.
          * <br/>
-         * If {@link #isEndTimeSet()}, then the start time must be larger or equals to the end time.
+         * If {@link #isEndTimeSet()}, then the start time must be larger or equals to the end time. No-op if violated.
          *
-         * @param startTime non-negative time; and >= end time if {@link #isEndTimeSet()}
+         * @param startTime non-negative time; and >= end time if {@link #isEndTimeSet()}; no-op if violated
          * @return this instance of {@code Builder}
          * @see #getStartTime()
          */
         public Builder startTime(long startTime) {
-            ClaimUtils.nonNegativeOrThrow(startTime, "startName");
-            if (isEndTimeSet() && mEndTime < startTime) {
-                throw new IllegalArgumentException(
-                        "end time cannot be earlier than start time; start: " + startTime + " end: " + mEndTime);
-            }
+            if (startTime < 0 || (isEndTimeSet() && mEndTime < startTime)) return this;
             mStartTime = startTime;
             return this;
         }
@@ -242,18 +236,14 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
         /**
          * Specifies the end time of the {@code Claim}.
          * <br/>
-         * If {@link #isStartTimeSet()}, then the end time must be smaller or equals to the end time.
+         * If {@link #isStartTimeSet()}, then the end time must be smaller or equals to the end time. No-op if violated.
          *
-         * @param endTime non-negative time; and <= start time if {@link #isStartTimeSet()}
+         * @param endTime non-negative time; and <= start time if {@link #isStartTimeSet()}; no-op if violated
          * @return this instance of {@code Builder}
          * @see #getEndTime()
          */
         public Builder endTime(long endTime) {
-            ClaimUtils.nonNegativeOrThrow(endTime, "endName");
-            if (isStartTimeSet() && mStartTime > endTime) {
-                throw new IllegalArgumentException(
-                        "start time cannot be later than end time; start: " + mStartTime + " end: " + endTime);
-            }
+            if (endTime < 0 || (isStartTimeSet() && mStartTime > endTime)) return this;
             mEndTime = endTime;
             return this;
         }
@@ -357,7 +347,7 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
          * @return an instance of {@code Claim}; never null
          */
         public Claim build() {
-            if(!gsonToFill && mClaimant == null){
+            if (!gsonToFill && mClaimant == null) {
                 throw new IllegalArgumentException("Claimaint cannot be null");
             }
 
@@ -583,8 +573,8 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
         if (mStatus != claim.mStatus) return false;
         if (!mTags.equals(claim.mTags)) return false;
         if (!mTitle.equals(claim.mTitle)) return false;
-        if(!mClaimant.equals(claim.mClaimant)) return false;
-        if(!mComments.equals(claim.mComments)) return false;
+        if (!mClaimant.equals(claim.mClaimant)) return false;
+        if (!mComments.equals(claim.mComments)) return false;
 
         return true;
     }
@@ -605,17 +595,18 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
         return result;
     }
 
-    public void submitClaim(){
+    public void submitClaim() {
         mStatus = Status.SUBMITTED;
     }
 
-    public void returnClaim(User approver, Comment comment){
+    public void returnClaim(User approver, Comment comment) {
         changeStatus(Status.RETURNED, approver, comment);
     }
 
     public void approveClaim(User approver, Comment comment) {
         changeStatus(Status.APPROVED, approver, comment);
     }
+
     private void changeStatus(Status status, User approver, Comment comment) {
         if (approver == mClaimant) {
             throw new IllegalArgumentException("Approver cannot be claimaint");
@@ -624,14 +615,14 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
         changeStatus(status);
     }
 
-    private void changeStatus(Status status){
-        if((mStatus == Status.IN_PROGRESS || mStatus == Status.RETURNED) && status != Status.SUBMITTED){
+    private void changeStatus(Status status) {
+        if ((mStatus == Status.IN_PROGRESS || mStatus == Status.RETURNED) && status != Status.SUBMITTED) {
             throw new IllegalStateException("Statuses cannot be changed in such a way");
         }
         if (mStatus == Status.SUBMITTED && status != Status.SUBMITTED || status != Status.APPROVED) {
             throw new IllegalStateException("Statuses cannot be changed in such a way");
         }
-        if(mStatus == Status.APPROVED ){
+        if (mStatus == Status.APPROVED) {
             throw new IllegalStateException("Statuses cannot be changed in such a way");
         }
 

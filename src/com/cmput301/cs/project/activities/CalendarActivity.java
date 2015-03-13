@@ -41,16 +41,19 @@ public class CalendarActivity extends Activity {
         }
 
         public Builder selectedDate(long date) {
+            if (date < 0) return this;
             mIntent.putExtra(KEY_DATE, date);
             return this;
         }
 
         public Builder minDate(long minDate) {
+            if (minDate < 0) return this;
             mIntent.putExtra(KEY_MIN_DATE, minDate);
             return this;
         }
 
         public Builder maxDate(long maxDate) {
+            if (maxDate < 0) return this;
             mIntent.putExtra(KEY_MAX_DATE, maxDate);
             return this;
         }

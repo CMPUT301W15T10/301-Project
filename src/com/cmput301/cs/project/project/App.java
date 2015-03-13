@@ -20,11 +20,7 @@ package com.cmput301.cs.project.project;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import com.cmput301.cs.project.project.model.ClaimUtils;
 import com.cmput301.cs.project.project.model.User;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 public final class App extends Application {

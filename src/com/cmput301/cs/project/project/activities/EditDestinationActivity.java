@@ -1,14 +1,10 @@
 package com.cmput301.cs.project.project.activities;
 
 import com.cmput301.cs.project.R;
-import com.cmput301.cs.project.R.layout;
-import com.cmput301.cs.project.R.menu;
-import com.cmput301.cs.project.project.controllers.TagsManager;
 import com.cmput301.cs.project.project.utils.Utils;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 

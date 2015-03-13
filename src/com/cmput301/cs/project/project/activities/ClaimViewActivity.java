@@ -1,9 +1,6 @@
 package com.cmput301.cs.project.project.activities;
 
 import com.cmput301.cs.project.R;
-import com.cmput301.cs.project.R.id;
-import com.cmput301.cs.project.R.layout;
-import com.cmput301.cs.project.R.menu;
 
 import android.app.Activity;
 import android.os.Bundle;

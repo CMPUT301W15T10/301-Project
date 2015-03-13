@@ -9,7 +9,6 @@ import com.cmput301.cs.project.project.utils.ClaimSaves;
 import junit.framework.TestCase;
 import org.joda.money.CurrencyUnit;
 import org.junit.Test;
-import com.cmput301.cs.project.utils.MockClaimSaves;
 
 
 import java.math.BigDecimal;

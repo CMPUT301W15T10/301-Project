@@ -1,7 +1,5 @@
 package com.cmput301.cs.project.utils;
 
-import com.cmput301.cs.project.project.utils.ClaimSaves;
-
 import java.io.*;
 
 public final class MockClaimSaves extends ClaimSaves {

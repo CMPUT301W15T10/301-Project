@@ -1,7 +1,7 @@
 package com.cmput301.cs.project.models;
 
-import com.cmput301.cs.project.project.model.Expense;
-import com.cmput301.cs.project.project.model.Receipt;
+import com.cmput301.cs.project.model.Expense;
+import com.cmput301.cs.project.model.Receipt;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.junit.Test;

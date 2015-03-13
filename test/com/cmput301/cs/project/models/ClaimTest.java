@@ -14,8 +14,8 @@ package com.cmput301.cs.project.models;/*
  * limitations under the License.
  */
 
-import com.cmput301.cs.project.project.model.*;
-import com.cmput301.cs.project.project.utils.ClaimSaves;
+import com.cmput301.cs.project.model.*;
+import com.cmput301.cs.project.utils.ClaimSaves;
 import com.google.gson.Gson;
 import junit.framework.TestCase;
 import org.joda.money.CurrencyUnit;

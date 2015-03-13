@@ -1,6 +1,6 @@
 package com.cmput301.cs.project.models;
 
-import com.cmput301.cs.project.project.model.User;
+import com.cmput301.cs.project.model.User;
 import org.junit.Test;
 
 import java.util.UUID;

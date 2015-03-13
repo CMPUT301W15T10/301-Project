@@ -1,11 +1,10 @@
 package com.cmput301.cs.project.utils;
 
-import com.cmput301.cs.project.project.controllers.TagsManager;
-import com.cmput301.cs.project.project.model.Claim;
-import com.cmput301.cs.project.project.model.Expense;
-import com.cmput301.cs.project.project.model.Tag;
-import com.cmput301.cs.project.project.model.User;
-import com.cmput301.cs.project.project.utils.ClaimSaves;
+import com.cmput301.cs.project.controllers.TagsManager;
+import com.cmput301.cs.project.model.Claim;
+import com.cmput301.cs.project.model.Expense;
+import com.cmput301.cs.project.model.Tag;
+import com.cmput301.cs.project.model.User;
 import junit.framework.TestCase;
 import org.joda.money.CurrencyUnit;
 import org.junit.Test;

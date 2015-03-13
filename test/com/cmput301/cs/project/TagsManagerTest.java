@@ -1,8 +1,8 @@
 package com.cmput301.cs.project;
 
-import com.cmput301.cs.project.project.controllers.TagsChangedListener;
-import com.cmput301.cs.project.project.controllers.TagsManager;
-import com.cmput301.cs.project.project.model.Tag;
+import com.cmput301.cs.project.controllers.TagsChangedListener;
+import com.cmput301.cs.project.controllers.TagsManager;
+import com.cmput301.cs.project.model.Tag;
 import org.junit.Before;
 import org.junit.Test;
 import com.cmput301.cs.project.utils.MockClaimSaves;

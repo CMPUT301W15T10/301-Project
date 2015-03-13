@@ -14,6 +14,9 @@ import org.joda.money.Money;
 import java.io.File;
 import java.text.DateFormat;
 
+// This activities formatting and general flow was influenced by
+// https://github.com/chuihinwai/echui-notes/blob/master/src/com/edmondapps/cs301/ass1/ExpenseActivity.java
+// on March 12, 2015
 public class ExpenseViewActivity extends Activity {
     public static final String KEY_EXPENSE = "key_expense";
 

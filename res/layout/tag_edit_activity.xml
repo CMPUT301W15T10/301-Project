@@ -15,8 +15,13 @@
         android:hint="@string/tag_hint"
         android:layout_marginBottom="@dimen/small_padding"/>
 
-    <Button android:id="@+id/delete"
-        
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <Button
+        android:id="@+id/delete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/delete_tag"

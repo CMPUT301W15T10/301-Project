@@ -14,47 +14,52 @@
         android:orientation="horizontal">
 
         <TextView
-        android:id="@+id/destinationNameText"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:text="@string/destination_name_text" />
-    
-    	<EditText
-        android:id="@+id/newDestinationInput"
-        android:layout_weight="2"
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:hint="@string/new_destination" />
-        
+            android:id="@+id/destinationNameText"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="@string/destination_name_text"/>
+
+        <EditText
+            android:id="@+id/newDestinationInput"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:hint="@string/new_destination"/>
+
     </LinearLayout>
-    
+
     <LinearLayout
-         android:layout_width="match_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-    	
-        <TextView 
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:text="@string/reason_text"/>
-        
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/reason_text"/>
+
         <EditText
             android:id="@+id/newReason"
-            android:layout_width="0dp" 
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:hint="@string/reason_hint" />
-        
+            android:hint="@string/reason_hint"/>
+
     </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
     <Button
         android:id="@+id/deleteTag"
-        
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/delete_destination"
-        android:textColor="@android:color/holo_red_light" />
+        android:textColor="@android:color/holo_red_light"/>
 
 </LinearLayout>

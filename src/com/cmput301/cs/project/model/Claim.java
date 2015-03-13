@@ -83,20 +83,30 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
         private final List<Expense> mExpenses = new ArrayList<Expense>();
         private final Map<String, String> mDestinations = new HashMap<String, String>();  // Destination -> Reason
         private final SortedSet<Tag> mTags = new TreeSet<Tag>();
+        private final boolean mGsonToFill;
+        private final List<Comment> mComments = new ArrayList<Comment>();
+
         private String mTitle = TITLE_UNNAMED;
         private long mStartTime = -1;
         private long mEndTime = -1;
         private String mId = UUID.randomUUID().toString();
         private Status mStatus = Status.IN_PROGRESS;
-        private final List<Comment> mComments = new ArrayList<Comment>();
         private User mClaimant;
-        private boolean gsonToFill = false;
 
+        /**
+         * For Gson only. Use {@link #Builder(com.cmput301.cs.project.model.User)} instead.
+         */
+        private Builder() {
+            mGsonToFill = true;
+        }
 
         /**
          * Creates an instance of {@code Builder} with the default values.
          */
-        public Builder() {
+        public Builder(User claimaint) {
+            ClaimUtils.nonNullOrThrow(claimaint, "claimaint");
+            mClaimant = claimaint;
+            mGsonToFill = false;
         }
 
         /**
@@ -115,13 +125,7 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
             mStatus = claim.getStatus();
             mComments.addAll(claim.peekComments());
             mClaimant = claim.getClaimant();
-        }
-
-        private static Builder GsonFiller() {
-            Builder builder = new Builder();
-            builder.gsonToFill = true;
-
-            return builder;
+            mGsonToFill = false;
         }
 
         /**
@@ -347,7 +351,7 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
          * @return an instance of {@code Claim}; never null
          */
         public Claim build() {
-            if (!gsonToFill && mClaimant == null) {
+            if (!mGsonToFill && mClaimant == null) {
                 throw new IllegalArgumentException("Claimaint cannot be null");
             }
 
@@ -372,7 +376,7 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
     private static final InstanceCreator<Claim> INSTANCE_CREATOR = new InstanceCreator<Claim>() {
         @Override
         public Claim createInstance(Type type) {
-            return Builder.GsonFiller().build();
+            return new Builder().build();
         }
     };
 

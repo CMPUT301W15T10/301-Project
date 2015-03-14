@@ -1,17 +1,16 @@
 package com.cmput301.cs.project.activities;
 
 import android.app.Activity;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.cmput301.cs.project.R;
+import com.cmput301.cs.project.controllers.ExpenseController;
 import com.cmput301.cs.project.model.Expense;
 import org.joda.money.Money;
 
-import java.io.File;
 import java.text.DateFormat;
 
 // This activities formatting and general flow was influenced by
@@ -20,7 +19,7 @@ import java.text.DateFormat;
 public class ExpenseViewActivity extends Activity {
     public static final String KEY_EXPENSE = "key_expense";
 
-    private Expense mExpense;
+    private ExpenseController mExpenseController;
     private DateFormat mDateFormat;
 
     private TextView mDescription;
@@ -47,32 +46,34 @@ public class ExpenseViewActivity extends Activity {
 
         mDateFormat = android.text.format.DateFormat.getMediumDateFormat(this);
 
-        initExpense();
+        initExpenseController();
 
         updateUi();
     }
 
-    private void initExpense() {
-        mExpense = getIntent().getParcelableExtra(KEY_EXPENSE);
-        if (mExpense == null) {
+    private void initExpenseController() {
+        Expense expense = getIntent().getParcelableExtra(KEY_EXPENSE);
+        if (expense == null) {
             throw new IllegalStateException("Expected an Expense");
         }
+
+        mExpenseController = new ExpenseController(expense);
     }
 
     private void updateUi() {
-        final Money amount = mExpense.getAmount();
+        Expense expense = mExpenseController.getExpense();
 
-        mDescription.setText(mExpense.getDescription());
+        final Money amount = expense.getAmount();
+
+        mDescription.setText(expense.getDescription());
         mMoney.setText(amount.toString());
-        mDate.setText(mDateFormat.format(mExpense.getTime()));
-        mCategory.setText(mExpense.getCategory());
+        mDate.setText(mDateFormat.format(expense.getTime()));
+        mCategory.setText(expense.getCategory());
 
-        mCompleted.setText(mExpense.isCompleted() ? "Yes" : "No");
+        mCompleted.setText(expense.isCompleted() ? "Yes" : "No");
 
-        if (mExpense.hasReceipt()) {
-            final File receiptFile = mExpense.getReceipt().getFile();
-            mReceipt.setImageDrawable(new BitmapDrawable(getResources(), receiptFile.getPath()));
-
+        if (expense.hasReceipt()) {
+            mReceipt.setImageDrawable(mExpenseController.createDrawableReceipt(getResources()));
         } else {
             mReceipt.setImageDrawable(null);
         }

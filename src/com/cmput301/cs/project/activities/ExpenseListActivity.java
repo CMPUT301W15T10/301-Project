@@ -27,15 +27,9 @@ public class ExpenseListActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.expense_list_activity);
 
-        Log.w("Hi there", "hey");
-
         mClaim = getIntent().getParcelableExtra(KEY_CLAIM);
         if (mClaim == null) {
-            Expense expense = new Expense.Builder().build();
-            Expense expense1 = new Expense.Builder().description("Hi bob").build();
-            mClaim = new Claim.Builder().putExpense(expense).claimaint(App.get(this).getUser()).putExpense(expense1).build();
-
-            //throw new IllegalStateException("Must have claim passed in using KEY_CLAIM");
+            throw new IllegalStateException("Must have claim passed in using KEY_CLAIM");
         }
 
         mAdapter = new ExpensesAdapter(this, mClaim.peekExpenses());

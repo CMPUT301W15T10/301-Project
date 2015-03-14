@@ -213,6 +213,7 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
          */
         public Builder title(String title) {
             ClaimUtils.nonNullnonEmptyOrThrow(title, "title");
+            mTitle = title;
             return this;
         }
 

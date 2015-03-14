@@ -9,7 +9,6 @@ import junit.framework.TestCase;
 import org.joda.money.CurrencyUnit;
 import org.junit.Test;
 
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,11 +35,10 @@ public class ClaimSavesTest extends TestCase {
         final long now = System.currentTimeMillis();
         final long fiveDaysLater = now + FIVE_DAYS;
 
-        final Claim claim = new Claim.Builder()
+        final Claim claim = new Claim.Builder(new User("name"))
                 .startTime(now)
                 .endTime(fiveDaysLater)
                 .putDestinationAndReason("Canada", "Go home")
-                .claimaint(new User("name"))
                 .build();
         changing.add(claim);
 
@@ -73,23 +71,16 @@ public class ClaimSavesTest extends TestCase {
         final String reason = "Go home";
 
         // step 1
-        final Claim.Builder builder = new Claim.Builder()
+        final Claim.Builder builder = new Claim.Builder(new User("name"))
                 .startTime(now)
                 .endTime(fiveDaysLater)
-                .claimaint(new User("name"))
                 .putDestinationAndReason(dest, reason);  // step 2
 
-        try {
-            builder.startTime(builder.getEndTime() + 1);  // step 2.b
-            fail("expected IllegalArgumentException");
-        } catch (IllegalArgumentException ignored) {  // success
-        }
+        builder.startTime(builder.getEndTime() + 1); // step 2.b
+        assertEquals(now, builder.getStartTime());
 
-        try {
-            builder.endTime(builder.getStartTime() - 1);  // step 2.b
-            fail("expected IllegalArgumentException");
-        } catch (IllegalArgumentException ignored) {  // success
-        }
+        builder.endTime(builder.getStartTime() - 1); // step 2.b
+        assertEquals(fiveDaysLater, builder.getEndTime());
 
         try {
             builder.putDestinationAndReason(" ", " ");  // step 2.b
@@ -130,10 +121,9 @@ public class ClaimSavesTest extends TestCase {
         final long now = System.currentTimeMillis();
         final long fiveDaysLater = now + FIVE_DAYS;
 
-        final Claim claim = new Claim.Builder()
+        final Claim claim = new Claim.Builder(new User("name"))
                 .startTime(now)
                 .endTime(fiveDaysLater)
-                .claimaint(new User("name"))
                 .putDestinationAndReason("Canada", "Go home")
                 .build();
 
@@ -144,7 +134,6 @@ public class ClaimSavesTest extends TestCase {
         final List<Claim> claims2 = mClaimSaves.readAllClaims();
         assertEquals(claims, claims2);
     }
-
 
 
     /**
@@ -158,11 +147,10 @@ public class ClaimSavesTest extends TestCase {
         final long fiveDaysLater = now + FIVE_DAYS;
 
         // step 1
-        final Claim perfect = new Claim.Builder()
+        final Claim perfect = new Claim.Builder(new User("name"))
                 .startTime(now)
                 .endTime(fiveDaysLater)
                 .putDestinationAndReason("Canada", "Go home")
-                .claimaint(new User("name"))
                 .build();
 
         final Claim claim = Claim.Builder.copyFrom(perfect)
@@ -181,7 +169,6 @@ public class ClaimSavesTest extends TestCase {
     }
 
 
-
     /**
      * Use Case 8 (US 03.01.01)
      * Use Case 11 (US 03.02.01) (new tags are created implicitly)
@@ -189,7 +176,7 @@ public class ClaimSavesTest extends TestCase {
     @Test
     public void testAddTag() {
         final Tag tag = TagsManager.ofClaimSaves(mClaimSaves).getTagByName("myTag");
-        final Claim claim = new Claim.Builder().claimaint(new User("name")).addTag(tag).build();  // step 1, 2
+        final Claim claim = new Claim.Builder(new User("name")).addTag(tag).build();  // step 1, 2
         mClaimSaves.saveAllClaims(Collections.singleton(claim));  // step 3
 
         final List<Claim> claims = mClaimSaves.readAllClaims();
@@ -214,11 +201,10 @@ public class ClaimSavesTest extends TestCase {
                 .description("Taxi food")
                 .build();
 
-        final Claim claim = new Claim.Builder()
+        final Claim claim = new Claim.Builder(new User("name"))
                 .startTime(System.currentTimeMillis())
                 .endTime(System.currentTimeMillis() + FIVE_DAYS)
                 .putDestinationAndReason("Canada", "Go home")
-                .claimaint(new User("name"))
                 .putExpense(expense)
                 .build();
 
@@ -268,11 +254,10 @@ public class ClaimSavesTest extends TestCase {
                 .description("Taxi food")
                 .build();
 
-        final Claim claim = new Claim.Builder()
+        final Claim claim = new Claim.Builder(new User("name"))
                 .startTime(System.currentTimeMillis())
                 .endTime(System.currentTimeMillis() + FIVE_DAYS)
                 .putDestinationAndReason("Canada", "Go home")
-                .claimaint(new User("name"))
                 .putExpense(first)
                 .putExpense(second)
                 .putExpense(third)
@@ -296,7 +281,7 @@ public class ClaimSavesTest extends TestCase {
     @Test
     public void testDeleteTag() {
         final Tag tag = TagsManager.ofClaimSaves(mClaimSaves).getTagByName("MyTag");
-        final Claim claim = new Claim.Builder().claimaint(new User("name")).addTag(tag).build();  // step 1, 2
+        final Claim claim = new Claim.Builder(new User("name")).addTag(tag).build();  // step 1, 2
         mClaimSaves.saveAllClaims(Collections.singleton(claim));  // step 3
 
         final List<Claim> claims = mClaimSaves.readAllClaims();

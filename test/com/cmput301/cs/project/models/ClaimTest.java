@@ -70,16 +70,12 @@ public class ClaimTest extends TestCase {
     public static final long FIVE_DAYS = 432000000L;
 
 
-
-
-
-
     /**
      * Use Case 6 (US 02.01.01, US 02.02.01)
      */
     public void testSortClaims() {
         final Set<Claim> claims = new TreeSet<Claim>();
-        final Claim.Builder builder = new Claim.Builder().claimaint(new User("name"));
+        final Claim.Builder builder = new Claim.Builder(new User("name"));
 
         claims.add(builder.startTime(10).build());
         claims.add(builder.startTime(2).build());
@@ -122,10 +118,9 @@ public class ClaimTest extends TestCase {
         final UUID id = UUID.randomUUID();
 
         //Remember ids are important
-        Claim.Builder builder = new Claim.Builder()
-                .endTime(endTime)
+        Claim.Builder builder = new Claim.Builder(user)
                 .startTime(startTime)
-                .claimaint(user)
+                .endTime(endTime)
                 .putDestinationAndReason(dest, reason)
                 .putExpense(expense)
                 .id(id.toString())
@@ -166,10 +161,9 @@ public class ClaimTest extends TestCase {
         final UUID id = UUID.randomUUID();
 
         //Remember ids are important
-        Claim.Builder builder = new Claim.Builder()
+        Claim.Builder builder = new Claim.Builder(user)
                 .endTime(time + 10)
                 .startTime(time)
-                .claimaint(user)
                 .putDestinationAndReason(dest, reason)
                 .putExpense(expense)
                 .id(id.toString())
@@ -194,10 +188,9 @@ public class ClaimTest extends TestCase {
         final UUID id = UUID.randomUUID();
 
         //Remember ids are important
-        Claim.Builder builder = new Claim.Builder()
+        Claim.Builder builder = new Claim.Builder(user)
                 .endTime(time + 10)
                 .startTime(time)
-                .claimaint(user)
                 .putDestinationAndReason(dest, reason)
                 .putExpense(expense)
                 .id(id.toString())

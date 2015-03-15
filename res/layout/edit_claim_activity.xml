@@ -3,6 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
+              android:weightSum="1"
               android:layout_marginStart="@dimen/small_padding"
               android:layout_marginEnd="@dimen/small_padding"
               android:layout_marginTop="@dimen/small_padding"
@@ -11,7 +12,8 @@
     <LinearLayout
         style="?android:buttonBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
         android:orientation="horizontal">
 
         <Button
@@ -30,24 +32,49 @@
             android:layout_weight="1"
             android:hint="@string/pick_end_date"/>
     </LinearLayout>
-
-    <ListView
-        android:id="@android:id/list"
+    
+    <TextView 
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="0.05"
+        android:textStyle="bold"
+        android:text="@string/list_of_expenses_text"/> 
+
+    <ListView
+        android:id="@+id/expenseList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3" >
+
     </ListView>
 
     <Button
         android:id="@+id/newExpense"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
         android:text="@string/new_expense"/> 
+        
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.05"
+        android:textStyle="bold"
+        android:text="@string/list_of_destinations_text"/> 
+        
+     <ListView
+         android:id="@+id/destinationList"
+         android:layout_width="match_parent"
+         android:layout_height="0dp"
+         android:layout_weight="0.3" >
+
+    </ListView>
     
     <Button
         android:id="@+id/newDestination"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
         android:text="@string/new_destination"/>
 
 </LinearLayout>

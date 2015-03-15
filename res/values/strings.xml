@@ -120,5 +120,7 @@
 
     <string name="title_activity_edit_expense">EditExpenseActivity</string>
     <string name="expense_date_hint">Pick a Date</string>
+    <string name="list_of_destinations_text">List of Destinations:</string>
+    <string name="list_of_expenses_text">List of Expenses:</string>
 
 </resources>

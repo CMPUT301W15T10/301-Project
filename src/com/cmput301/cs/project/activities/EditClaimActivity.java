@@ -1,5 +1,6 @@
 package com.cmput301.cs.project.activities;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +14,7 @@ import com.cmput301.cs.project.utils.Utils;
 
 import java.text.DateFormat;
 
-public class EditClaimActivity extends ListActivity {
+public class EditClaimActivity extends Activity{
     public static final String KEY_CLAIM = "key_claim";
 
     public static Intent intentWithClaim(Context context, Claim claim) {

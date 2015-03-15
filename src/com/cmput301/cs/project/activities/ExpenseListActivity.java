@@ -61,7 +61,8 @@ public class ExpenseListActivity extends ListActivity {
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.add_expense) {
-            // Need to handle creating a new Expense
+            Intent intent = new Intent(ExpenseListActivity.this, EditExpenseActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

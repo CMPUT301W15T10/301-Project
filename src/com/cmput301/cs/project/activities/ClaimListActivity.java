@@ -9,18 +9,18 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ListView;
 
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.ClaimsAdapter;
-import com.cmput301.cs.project.utils.ClaimSaves;
+import com.cmput301.cs.project.model.Claim;
 
 
 public class ClaimListActivity extends ListActivity {
 
     private static final int POSITION_CLAIMANT = 0;
     private static final int POSITION_APPROVER = 1;
+    private static final int NEW_CLAIM = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,10 +43,9 @@ public class ClaimListActivity extends ListActivity {
 
 	private void setupListView()
 	{
-		ClaimSaves claimSaves = ClaimSaves.ofAndroid(this);
-		claimSaves.readAllClaims();
-		ClaimsAdapter adapter = new ClaimsAdapter(this, claimSaves.readAllClaims());
-		
+		App app = App.get(this);
+		ClaimsAdapter adapter = new ClaimsAdapter(this, app.getClaims());
+
 		setListAdapter(adapter);
 	}
 
@@ -106,10 +105,21 @@ public class ClaimListActivity extends ListActivity {
                 startActivity(new Intent(this, TagManagerActivity.class));
                 return true;
             case R.id.add:
-                startActivity(new Intent(this, EditClaimActivity.class));
+                startActivityForResult(new Intent(this, EditClaimActivity.class),NEW_CLAIM);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+    	if (requestCode == NEW_CLAIM) {
+    		if (resultCode == RESULT_OK) {
+    			Claim claim = data.getExtras().getParcelable(EditClaimActivity.KEY_CLAIM);
+    			App app = App.get(this);
+    			app.addClaim(claim);
+    			
+    			setListAdapter(new ClaimsAdapter(this, App.get(this).getClaims()));
+    		}
+    	}
     }
 }

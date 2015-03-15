@@ -1,18 +1,18 @@
 package com.cmput301.cs.project.activities;
 
+import java.text.DateFormat;
+
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.utils.Utils;
-
-import java.text.DateFormat;
 
 public class EditClaimActivity extends Activity{
     public static final String KEY_CLAIM = "key_claim";

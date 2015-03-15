@@ -17,10 +17,16 @@
 package com.cmput301.cs.project;
 
 
+import java.util.Collection;
+import java.util.List;
+
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.model.User;
+import com.cmput301.cs.project.utils.ClaimSaves;
 
 
 public final class App extends Application {
@@ -54,4 +60,16 @@ public final class App extends Application {
         editor.apply();
 
     }
+
+	public void addClaim(Claim claim) {
+		ClaimSaves claimSaves = ClaimSaves.ofAndroid(getApplicationContext());
+		List<Claim> claims = claimSaves.readAllClaims();
+		claims.add(claim);
+		claimSaves.saveAllClaims(claims);
+	}
+
+	public Collection<? extends Claim> getClaims() {
+		ClaimSaves claimSaves = ClaimSaves.ofAndroid(getApplicationContext());
+		return claimSaves.readAllClaims();
+	}
 }

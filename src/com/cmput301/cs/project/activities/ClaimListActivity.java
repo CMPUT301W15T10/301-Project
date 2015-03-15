@@ -9,8 +9,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import com.cmput301.cs.project.R;
+import android.widget.ListView;
+
 import com.cmput301.cs.project.App;
+import com.cmput301.cs.project.R;
+import com.cmput301.cs.project.adapters.ClaimsAdapter;
+import com.cmput301.cs.project.utils.ClaimSaves;
 
 
 public class ClaimListActivity extends Activity {
@@ -30,8 +34,27 @@ public class ClaimListActivity extends Activity {
             startActivity(intent);
             finish();
         }
+        
+        
+        
+        setupListView();
+        setupActionBar();
+    }
 
-        final ActionBar actionBar = getActionBar();
+	private void setupListView()
+	{
+		ListView claimsList = (ListView) findViewById(R.id.claims_list);
+		ClaimSaves claimSaves = ClaimSaves.ofAndroid(this);
+		claimSaves.readAllClaims();
+		ClaimsAdapter adapter = new ClaimsAdapter(this, claimSaves.readAllClaims());
+		
+		claimsList.setAdapter(adapter);
+	}
+
+	private void setupActionBar()
+	{
+
+		final ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             final ActionBar.TabListener listener = new ActionBar.TabListener() {
                 @Override
@@ -68,7 +91,7 @@ public class ClaimListActivity extends Activity {
                     .setText(R.string.approver)
                     .setTabListener(listener));
         }
-    }
+	}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

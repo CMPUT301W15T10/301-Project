@@ -3,6 +3,7 @@ package com.cmput301.cs.project.activities;
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.model.Claim;
+import com.cmput301.cs.project.utils.Utils;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,6 +23,7 @@ public class ClaimViewActivity extends Activity {
 	Button mSubmitButton;
 	TextView mStartDate;
 	TextView mEndDate;
+	TextView mStatus;
 	DateFormat mDateFormat;
 
 	@Override
@@ -34,10 +36,13 @@ public class ClaimViewActivity extends Activity {
 		mSubmitButton = (Button) findViewById(R.id.submitButton);
 		mStartDate = (TextView) findViewById(R.id.startDate);
 		mEndDate = (TextView) findViewById(R.id.endDate);
+		mStatus = (TextView) findViewById(R.id.statusText);
+		
 		mDateFormat = android.text.format.DateFormat.getMediumDateFormat(this);
 		mStartDate.setText(mDateFormat.format(claim.getStartTime()));
 		mEndDate.setText(mDateFormat.format(claim.getEndTime()));
 		
+		mStatus.setText(Utils.stringIdForClaimStatus(claim.getStatus()));		
 	
 		
 		initButtons();

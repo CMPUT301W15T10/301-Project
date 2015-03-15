@@ -38,7 +38,7 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
     /**
      * The unspecified title.
      */
-    public static final String TITLE_UNNAMED = "(UNNAMED)";
+    public static final String TITLE_UNNAMED = "";
     private final User mClaimant;
 
     public User getClaimant() {

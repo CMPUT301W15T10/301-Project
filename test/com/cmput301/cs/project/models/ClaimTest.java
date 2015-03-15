@@ -229,4 +229,31 @@ public class ClaimTest extends TestCase {
         assertTrue(!read1.equals(read));
     }
 
+
+    /**
+     * Use Case 19 (US 05.01.01, 08.04.01)
+     * Ensuring that the expenses will be in the correct order, even when one is updated
+     */
+    public void testUpdateExpense() {
+        final User user = new User("name");
+        final Expense unchangedExpense = new Expense.Builder().build();
+        Expense changedExpense = new Expense.Builder().build();
+
+        int expectedPositionForChangedExpense = 0, expectedPositionForUnchangedExpense = 1;
+
+        // The order should be changedExpense, unchangedExpense because that is the order they were added in
+        Claim.Builder builder = new Claim.Builder(user)
+                .putExpense(changedExpense)
+                .putExpense(unchangedExpense);
+
+        changedExpense = Expense.Builder.copyFrom(changedExpense).build();
+
+        // It should now updated changedExpense in place
+        builder.putExpense(changedExpense);
+
+        final Claim claim = builder.build();
+
+        assertEquals(expectedPositionForChangedExpense, claim.peekExpenses().indexOf(changedExpense));
+        assertEquals(expectedPositionForUnchangedExpense, claim.peekExpenses().indexOf(unchangedExpense));
+    }
 }

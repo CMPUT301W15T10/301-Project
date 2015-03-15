@@ -77,7 +77,6 @@
         <item>USD</item>
     </string-array>
     <string-array name="expense_categories">
-        <item>(UNCATEGORIZED)</item>
         <item>Air Fare</item>
         <item>Ground Transport</item>
         <item>Vehicle Rental</item>

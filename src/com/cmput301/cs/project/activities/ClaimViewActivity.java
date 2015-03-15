@@ -5,14 +5,19 @@ import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.model.Claim;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class ClaimViewActivity extends Activity {
 	
 	
 	Claim claim;
+	Button mExpenseButton;
+	Button mSubmitButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +25,31 @@ public class ClaimViewActivity extends Activity {
 		setContentView(R.layout.claim_view_activity);
 		
 		claim = getIntent().getExtras().getParcelable(App.KEY_CLAIM);
+		mExpenseButton = (Button) findViewById(R.id.expenseButton);
+		mSubmitButton = (Button) findViewById(R.id.submitButton);
+		
+		initButtons();
 				
+	}
+	
+	private void initButtons() {
+		mExpenseButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(ClaimViewActivity.this, ExpenseListActivity.class);
+				intent.putExtra(App.KEY_CLAIM, claim);
+				startActivity(intent);
+				
+			}
+		});
+		
+		mSubmitButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+				
+			}
+		});
 	}
 
 	@Override

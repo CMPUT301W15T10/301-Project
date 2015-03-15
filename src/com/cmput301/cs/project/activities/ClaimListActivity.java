@@ -2,8 +2,8 @@ package com.cmput301.cs.project.activities;
 
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,7 +17,7 @@ import com.cmput301.cs.project.adapters.ClaimsAdapter;
 import com.cmput301.cs.project.utils.ClaimSaves;
 
 
-public class ClaimListActivity extends Activity {
+public class ClaimListActivity extends ListActivity {
 
     private static final int POSITION_CLAIMANT = 0;
     private static final int POSITION_APPROVER = 1;
@@ -43,12 +43,11 @@ public class ClaimListActivity extends Activity {
 
 	private void setupListView()
 	{
-		ListView claimsList = (ListView) findViewById(R.id.claims_list);
 		ClaimSaves claimSaves = ClaimSaves.ofAndroid(this);
 		claimSaves.readAllClaims();
 		ClaimsAdapter adapter = new ClaimsAdapter(this, claimSaves.readAllClaims());
 		
-		claimsList.setAdapter(adapter);
+		setListAdapter(adapter);
 	}
 
 	private void setupActionBar()

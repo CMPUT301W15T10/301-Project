@@ -45,6 +45,18 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
         return mClaimant;
     }
 
+    public boolean canApprove(User user) {
+        if(mClaimant.equals(user)) {
+            return false;
+        }
+
+        if(mComments.size() == 0){
+            return true;
+        }
+
+        return mComments.get(0).getApprover().equals(user);
+    }
+
     public enum Status {
         IN_PROGRESS(true), SUBMITTED(false), RETURNED(true), APPROVED(false);
 

@@ -1,0 +1,60 @@
+package com.cmput301.cs.project.model;
+
+import android.content.Context;
+import com.cmput301.cs.project.utils.ClaimSaves;
+
+import java.util.Collections;
+import java.util.List;
+
+public class ClaimsList {
+
+    private final Context mContext;
+    private final List<Claim> mClaims;
+
+    private static ClaimsList instance;
+    private final ClaimSaves mClaimSaves;
+
+    public static ClaimsList getInstance(Context context) {
+        if(instance == null){
+            instance = new ClaimsList(context);
+        }
+
+        return instance;
+    }
+
+    private ClaimsList(Context context) {
+        mContext = context;
+        mClaimSaves = ClaimSaves.ofAndroid(context);
+
+        mClaims = mClaimSaves.readAllClaims();
+
+    }
+
+    public void addClaim(Claim claim) {
+        mClaims.add(claim);
+
+        serialize();
+    }
+
+    private void serialize() {
+        mClaimSaves.saveAllClaims(mClaims);
+    }
+
+    public void editClaim(Claim editted, Claim newClaim){
+        mClaims.remove(editted);
+        mClaims.add(newClaim);
+        serialize();
+    }
+
+    public void deleteClaim(Claim claim) {
+        mClaims.remove(claim);
+
+        serialize();
+    }
+
+    public List<Claim> peekClaims() {
+        return Collections.unmodifiableList(mClaims);
+    }
+
+}
+

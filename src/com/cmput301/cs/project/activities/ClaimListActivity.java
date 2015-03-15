@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
 
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
@@ -47,8 +49,21 @@ public class ClaimListActivity extends ListActivity {
 		ClaimsAdapter adapter = new ClaimsAdapter(this, app.getClaims());
 
 		setListAdapter(adapter);
+		
+	
 	}
 
+	@Override
+	public void onListItemClick(ListView lv, View v, int position, long id){
+		ClaimsAdapter adapter = (ClaimsAdapter) getListAdapter();
+		Intent i = new Intent(this, ClaimViewActivity.class);
+		
+		i.putExtra(App.KEY_CLAIM, adapter.getItem(position));
+		
+		startActivity(i);
+		
+	}
+	
 	private void setupActionBar()
 	{
 
@@ -105,7 +120,7 @@ public class ClaimListActivity extends ListActivity {
                 startActivity(new Intent(this, TagManagerActivity.class));
                 return true;
             case R.id.add:
-                startActivityForResult(new Intent(this, EditClaimActivity.class),NEW_CLAIM);
+                startActivityForResult(new Intent(this, EditClaimActivity.class), NEW_CLAIM);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -114,7 +129,7 @@ public class ClaimListActivity extends ListActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data){
     	if (requestCode == NEW_CLAIM) {
     		if (resultCode == RESULT_OK) {
-    			Claim claim = data.getExtras().getParcelable(EditClaimActivity.KEY_CLAIM);
+    			Claim claim = data.getExtras().getParcelable(App.KEY_CLAIM);
     			App app = App.get(this);
     			app.addClaim(claim);
     			

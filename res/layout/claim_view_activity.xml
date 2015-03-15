@@ -18,22 +18,23 @@
 	        android:orientation="horizontal"
 	        style="?android:buttonBarStyle">
 	        
-	        
-	        <TextView 
+	        <TextView
+	            android:id="@+id/startDate"
+	            style="?android:buttonBarButtonStyle"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1"
 	            android:text="Start Date"
-	            android:textAlignment="center"
-	            style="?android:buttonBarButtonStyle"/>
+	            android:textAlignment="center" />
 	        
-	        <TextView 
+	        <TextView
+	            android:id="@+id/endDate"
+	            style="?android:buttonBarButtonStyle"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1"
 	            android:text="End Date"
-	            android:textAlignment="center"
-	            style="?android:buttonBarButtonStyle"/>
+	            android:textAlignment="center" />
 	        
 	    </LinearLayout>
 	    

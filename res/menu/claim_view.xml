@@ -1,11 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.cmput301.cs.project.ClaimViewActivity" >
-
-    <item
-        android:id="@+id/action_settings"
-
-        android:icon="@drawable/ic_action_labels"
-        android:title="@string/action_settings"/>
+    
+     <item android:id="@+id/deleteClaim" 
+        android:title="@string/delete_claim" 
+        android:icon="@android:drawable/ic_menu_delete"
+        android:showAsAction="always"/>
+    
+    <item android:id="@+id/editClaim" 
+        android:title="@string/edit_claim" 
+        android:icon="@android:drawable/ic_menu_edit"
+        android:showAsAction="always"/>
+    
 
 </menu>

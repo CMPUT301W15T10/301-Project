@@ -55,7 +55,12 @@ public class EditClaimActivity extends Activity{
     }
 
     
+    /*
+     * Method that sets up all the click listners in this activity. Includes the discard bar as well.
+     * 
+     */
     private void initEditing() {
+    	
     	mStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,6 +107,7 @@ public class EditClaimActivity extends Activity{
             }
         });
     }
+    
     
     private void initBuilder() {
         final Claim claim = getIntent().getParcelableExtra(KEY_CLAIM);

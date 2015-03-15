@@ -1,6 +1,8 @@
 package com.cmput301.cs.project.activities;
 
+import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
+import com.cmput301.cs.project.model.Claim;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,11 +10,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class ClaimViewActivity extends Activity {
+	
+	
+	Claim claim;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.claim_view_activity);
+		
+		claim = getIntent().getExtras().getParcelable(App.KEY_CLAIM);
+				
 	}
 
 	@Override

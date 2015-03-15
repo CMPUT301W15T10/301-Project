@@ -1,18 +1,18 @@
 package com.cmput301.cs.project.activities;
 
+import java.text.DateFormat;
+
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.utils.Utils;
-
-import java.text.DateFormat;
 
 public class EditClaimActivity extends Activity{
     public static final String KEY_CLAIM = "key_claim";
@@ -37,18 +37,7 @@ public class EditClaimActivity extends Activity{
         super.onCreate(savedInstanceState);
         setResult(RESULT_CANCELED);
 
-        Utils.setupDiscardDoneBar(this, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        }, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setResult(RESULT_OK, new Intent().putExtra(KEY_CLAIM, mBuilder.build()));
-                finish();
-            }
-        });
+        
 
         setContentView(R.layout.edit_claim_activity);
 
@@ -59,7 +48,20 @@ public class EditClaimActivity extends Activity{
         mNewDestination = (Button) findViewById(R.id.newDestination);
         mNewExpense = (Button) findViewById(R.id.newExpense);
 
-        mStartDate.setOnClickListener(new View.OnClickListener() {
+        
+
+        initBuilder();
+        initEditing();
+    }
+
+    
+    /*
+     * Method that sets up all the click listners in this activity. Includes the discard bar as well.
+     * 
+     */
+    private void initEditing() {
+    	
+    	mStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new CalendarActivity.Builder(EditClaimActivity.this)
@@ -92,10 +94,21 @@ public class EditClaimActivity extends Activity{
                 startActivity(intent);
             }
         });
-
-        initBuilder();
+        Utils.setupDiscardDoneBar(this, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        }, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_OK, new Intent().putExtra(KEY_CLAIM, mBuilder.build()));
+                finish();
+            }
+        });
     }
-
+    
+    
     private void initBuilder() {
         final Claim claim = getIntent().getParcelableExtra(KEY_CLAIM);
         if (claim == null) {

@@ -37,18 +37,7 @@ public class EditClaimActivity extends Activity{
         super.onCreate(savedInstanceState);
         setResult(RESULT_CANCELED);
 
-        Utils.setupDiscardDoneBar(this, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        }, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setResult(RESULT_OK, new Intent().putExtra(KEY_CLAIM, mBuilder.build()));
-                finish();
-            }
-        });
+        
 
         setContentView(R.layout.edit_claim_activity);
 
@@ -59,7 +48,15 @@ public class EditClaimActivity extends Activity{
         mNewDestination = (Button) findViewById(R.id.newDestination);
         mNewExpense = (Button) findViewById(R.id.newExpense);
 
-        mStartDate.setOnClickListener(new View.OnClickListener() {
+        
+
+        initBuilder();
+        initEditing();
+    }
+
+    
+    private void initEditing() {
+    	mStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new CalendarActivity.Builder(EditClaimActivity.this)
@@ -92,10 +89,20 @@ public class EditClaimActivity extends Activity{
                 startActivity(intent);
             }
         });
-
-        initBuilder();
+        Utils.setupDiscardDoneBar(this, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        }, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_OK, new Intent().putExtra(KEY_CLAIM, mBuilder.build()));
+                finish();
+            }
+        });
     }
-
+    
     private void initBuilder() {
         final Claim claim = getIntent().getParcelableExtra(KEY_CLAIM);
         if (claim == null) {

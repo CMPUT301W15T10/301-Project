@@ -26,6 +26,7 @@ public class EditClaimActivity extends ListActivity {
     private Button mStartDate;
     private Button mEndDate;
     private Button mNewDestination;
+    private Button mNewExpense;
 
     private Claim.Builder mBuilder;
     private DateFormat mDateFormat;
@@ -55,6 +56,7 @@ public class EditClaimActivity extends ListActivity {
         mStartDate = (Button) findViewById(R.id.startDate);
         mEndDate = (Button) findViewById(R.id.endDate);
         mNewDestination = (Button) findViewById(R.id.newDestination);
+        mNewExpense = (Button) findViewById(R.id.newExpense);
 
         mStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +80,14 @@ public class EditClaimActivity extends ListActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EditClaimActivity.this, EditDestinationActivity.class);
+                startActivity(intent);
+            }
+        });
+        
+        mNewExpense.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EditClaimActivity.this, EditExpenseActivity.class);
                 startActivity(intent);
             }
         });

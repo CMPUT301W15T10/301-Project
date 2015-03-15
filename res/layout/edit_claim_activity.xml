@@ -39,6 +39,12 @@
     </ListView>
 
     <Button
+        android:id="@+id/newExpense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/new_expense"/> 
+    
+    <Button
         android:id="@+id/newDestination"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

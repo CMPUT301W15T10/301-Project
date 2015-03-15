@@ -1,6 +1,7 @@
 package com.cmput301.cs.project.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.widget.*;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.TextWatcherAdapter;
 import com.cmput301.cs.project.model.Expense;
+import com.cmput301.cs.project.utils.Utils;
+
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
@@ -23,12 +26,26 @@ public class EditExpenseActivity extends Activity {
 
     private Spinner mCategory;
     private Spinner mCurrency;
+    private Button mDate;
 
     private Switch mCompleted;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.expense_edit_activity);
+        
+        Utils.setupDiscardDoneBar(this, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        }, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              
+                finish();
+            }
+        });
 
         createBuilder();
 
@@ -82,6 +99,7 @@ public class EditExpenseActivity extends Activity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+        
 
         mCurrency = (Spinner) findViewById(R.id.currency);
         mCurrency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -112,8 +130,8 @@ public class EditExpenseActivity extends Activity {
         final Money money = mBuilder.getMoney();
         mAmount.setText(money.getAmount().toString());
 
-        int currentCategoryPosition = mCategory.getAdapter().
-        mCategory.setSelection();
+        //int currentCategoryPosition = mCategory.getAdapter().
+        	//mCategory.setSelection();
     }
 
 }

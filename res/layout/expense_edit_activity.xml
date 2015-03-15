@@ -10,7 +10,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true">
 
         <TextView
             style="?android:listSeparatorTextViewStyle"
@@ -74,6 +76,7 @@
                 android:layout_marginEnd="@dimen/small_padding"
                 android:layout_marginBottom="@dimen/small_padding"
                 android:textAppearance="?android:attr/textAppearanceMedium"
+                android:inputType="numberDecimal"
                 android:layout_weight="1"/>
 
             <Spinner

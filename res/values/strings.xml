@@ -118,5 +118,7 @@
     <string name="receipt">Receipt</string>
 
 
+    <string name="title_activity_edit_expense">EditExpenseActivity</string>
+    <string name="expense_date_hint">Pick a Date</string>
 
 </resources>

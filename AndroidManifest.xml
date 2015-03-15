@@ -46,6 +46,10 @@
             android:name=".activities.EditDestinationActivity"
             android:label="@string/title_activity_new_destination" >
         </activity>
+        <activity
+            android:name=".activities.EditExpenseActivity"
+            android:label="@string/title_activity_new_destination" >
+        </activity>
     </application>
 
 </manifest>

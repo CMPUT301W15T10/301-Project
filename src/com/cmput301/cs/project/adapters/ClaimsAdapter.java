@@ -46,10 +46,10 @@ public final class ClaimsAdapter extends BaseAdapter {
     private final List<Claim> mClaims;
     private final Context mContext;
 
-    public ClaimsAdapter(Context context, Collection<? extends Claim> claims) {
+    public ClaimsAdapter(Context context, List<Claim> claims) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
-        mClaims = new ArrayList<Claim>(claims);
+        mClaims = claims;
     }
 
     public List<Claim> peekAllClaims() {

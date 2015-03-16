@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,7 +16,10 @@ import android.widget.ListView;
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.ClaimsAdapter;
+import com.cmput301.cs.project.controllers.ClaimListController;
 import com.cmput301.cs.project.model.Claim;
+import com.cmput301.cs.project.model.ClaimsList;
+import com.cmput301.cs.project.model.User;
 
 
 public class ClaimListActivity extends ListActivity {
@@ -24,6 +28,12 @@ public class ClaimListActivity extends ListActivity {
     private static final int POSITION_APPROVER = 1;
     private static final int NEW_CLAIM = 0;
 
+    User mUser;
+    ClaimListController mClaimListController;
+    ClaimsAdapter mApproverAdapter;
+    ClaimsAdapter mClaimantAdapter;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,30 +41,43 @@ public class ClaimListActivity extends ListActivity {
 
         App app = App.get(this);
 
-        if (app.getUser() == null) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        }
-        
-        
-        
+        Log.d("my tag", "HELLO WORLD!!!");
+
+
+        mUser = app.getUser();
+
+        mClaimListController = new ClaimListController(mUser, ClaimsList.getInstance(this));
+
         setupListView();
         setupActionBar();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        mClaimantAdapter.notifyDataSetChanged();
+        mApproverAdapter.notifyDataSetChanged();
+
+
+        Log.d("my tag", "" + mClaimantAdapter.getCount());
+
+        ((ClaimsAdapter)getListAdapter()).notifyDataSetChanged();
+
+    }
+
 	private void setupListView()
 	{
-		App app = App.get(this);
-		ClaimsAdapter adapter = new ClaimsAdapter(this, app.getClaims());
-
-		setListAdapter(adapter);
-		
+		mApproverAdapter = new ClaimsAdapter(this, mClaimListController.getApprovableClaims());
+        mClaimantAdapter = new ClaimsAdapter(this, mClaimListController.getClaimantClaims());
+		setListAdapter(mClaimantAdapter);
 	
 	}
 
 	@Override
 	public void onListItemClick(ListView lv, View v, int position, long id){
+
+
 		ClaimsAdapter adapter = (ClaimsAdapter) getListAdapter();
 		Intent i = new Intent(this, ClaimViewActivity.class);
 		
@@ -76,9 +99,11 @@ public class ClaimListActivity extends ListActivity {
                     switch (position) {
                         case POSITION_CLAIMANT:
                             // TODO impl claimant filter
+                            setListAdapter(mClaimantAdapter);
                             break;
                         case POSITION_APPROVER:
                             // TODO impl approver filter
+                            setListAdapter(mApproverAdapter);
                             break;
                         default:
                             throw new AssertionError("unexpected position: " + position);
@@ -130,10 +155,8 @@ public class ClaimListActivity extends ListActivity {
     	if (requestCode == NEW_CLAIM) {
     		if (resultCode == RESULT_OK) {
     			Claim claim = data.getExtras().getParcelable(App.KEY_CLAIM);
-    			App app = App.get(this);
-    			app.addClaim(claim);
-    			
-    			setListAdapter(new ClaimsAdapter(this, App.get(this).getClaims()));
+                Log.d("my tag", "" + mClaimantAdapter.getCount());
+                mClaimListController.addClaim(claim);
     		}
     	}
     }

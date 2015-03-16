@@ -3,6 +3,8 @@ package com.cmput301.cs.project.activities;
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.model.Claim;
+import com.cmput301.cs.project.model.ClaimsList;
+import com.cmput301.cs.project.utils.Utils;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,30 +20,39 @@ import android.widget.TextView;
 
 public class ClaimViewActivity extends Activity {
 
-
-    Claim claim;
+    Claim mClaim;
     Button mExpenseButton;
     Button mSubmitButton;
     TextView mStartDate;
     TextView mEndDate;
+    TextView mStatus;
     DateFormat mDateFormat;
+
+    ClaimsList mClaimList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.claim_view_activity);
 
-        claim = getIntent().getExtras().getParcelable(App.KEY_CLAIM);
+        mClaimList = ClaimsList.getInstance(this);
+
+        mClaim = getIntent().getExtras().getParcelable(App.KEY_CLAIM);
         mExpenseButton = (Button) findViewById(R.id.expenseButton);
         mSubmitButton = (Button) findViewById(R.id.submitButton);
         mStartDate = (TextView) findViewById(R.id.startDate);
         mEndDate = (TextView) findViewById(R.id.endDate);
+        mStatus = (TextView) findViewById(R.id.statusText);
+
         mDateFormat = android.text.format.DateFormat.getMediumDateFormat(this);
-        mStartDate.setText(mDateFormat.format(claim.getStartTime()));
-        mEndDate.setText(mDateFormat.format(claim.getEndTime()));
+        mStartDate.setText(mDateFormat.format(mClaim.getStartTime()));
+        mEndDate.setText(mDateFormat.format(mClaim.getEndTime()));
+
+        mStatus.setText(Utils.stringIdForClaimStatus(mClaim.getStatus()));
 
 
         initButtons();
+
     }
 
     private void initButtons() {
@@ -49,7 +60,7 @@ public class ClaimViewActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ClaimViewActivity.this, ExpenseListActivity.class);
-                intent.putExtra(App.KEY_CLAIM, claim);
+                intent.putExtra(App.KEY_CLAIM, mClaim);
                 startActivity(intent);
 
             }
@@ -79,15 +90,16 @@ public class ClaimViewActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.deleteClaim:
 
+                mClaimList.deleteClaim(mClaim);
+                finish();
+                break;
             case R.id.editClaim:
                 Intent intent = new Intent(ClaimViewActivity.this, EditClaimActivity.class);
-                intent.putExtra(App.KEY_CLAIM, claim);
+                intent.putExtra(App.KEY_CLAIM, mClaim);
                 startActivity(intent);
-
+                break;
             default:
-                return super.onOptionsItemSelected(item);
         }
-
-
+        return super.onOptionsItemSelected(item);
     }
 }

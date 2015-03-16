@@ -8,7 +8,7 @@ import java.io.File;
 
 /**
  * This class creates an instance that will hold the receipt image file for a particular expense.
- * If the image file exceeds the size limit of 65536 bytes, an excpetion error occurs.
+ * If the image file exceeds the size limit of 65536 bytes, an exception error occurs.
  */
 
 public class Receipt implements Parcelable {

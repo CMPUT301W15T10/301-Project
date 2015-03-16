@@ -54,6 +54,11 @@ public class ClaimListActivity extends ListActivity {
 
         mUser = app.getUser();
 
+        if(mUser == null){
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
+
         mClaimListController = new ClaimListController(mUser, ClaimsList.getInstance(this));
 
         setupListView();

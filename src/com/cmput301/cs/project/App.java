@@ -49,13 +49,8 @@ public final class App extends Application {
         String userName = sharedPreferences.getString(USER_NAME, null);
         String userId = sharedPreferences.getString(USER_ID, null);
 
-        if(userId == null || userName == null) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-
-            userName = sharedPreferences.getString(USER_NAME, null);
-            userId = sharedPreferences.getString(USER_ID, null);
+        if(userId == null || userName == null || userId.isEmpty() || userName.isEmpty()) {
+            return null;
         }
 
         return new User(userName, userId);

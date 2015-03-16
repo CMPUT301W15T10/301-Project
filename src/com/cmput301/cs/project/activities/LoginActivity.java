@@ -34,8 +34,6 @@ public class LoginActivity extends Activity {
             User user = new User(name);
             App.get(this).createUser(user);
 
-
-            //TODO: this line is suspect, maybe duplicate
             startActivity(new Intent(this, ClaimListActivity.class));
 
             finish();

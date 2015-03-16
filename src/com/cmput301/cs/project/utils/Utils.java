@@ -26,11 +26,25 @@ import android.view.ViewGroup;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.model.Claim;
 
+/**
+ * Utility class that has various methods that are used in the app. </br>
+
+ * @author rozsa
+ *
+ */
+
 public final class Utils {
     private Utils() {
         throw new UnsupportedOperationException("utils class");
     }
 
+    /**
+     * Creates a Discard/Done bar in an activity and allows OnClickListeners to be attached.</br>
+     * @param activity
+     * @param discardListener
+     * @param doneListener
+     */
+    
     public static void setupDiscardDoneBar(Activity activity, View.OnClickListener discardListener, View.OnClickListener doneListener) {
         final ActionBar actionBar = activity.getActionBar();
         if (actionBar != null) {
@@ -48,6 +62,13 @@ public final class Utils {
         }
     }
 
+    /**
+     * Returns value for Status that can be used to display the status. </br>
+     * 
+     * @param status
+     * @return
+     */
+    
     public static int stringIdForClaimStatus(Claim.Status status) {
         switch (status) {
             case IN_PROGRESS:
@@ -63,6 +84,14 @@ public final class Utils {
         }
     }
 
+    /**
+     * Creates an intent to send to email. No longer relevant for the project.
+     * 
+     * @param subject
+     * @param text
+     * @return
+     */
+    
     public static Intent intentWithEmailString(String subject, String text) {
         // ref: http://stackoverflow.com/questions/8701634/send-email-intent
         return new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "", null))

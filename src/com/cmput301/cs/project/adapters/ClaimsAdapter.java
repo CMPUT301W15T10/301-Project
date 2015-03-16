@@ -25,9 +25,6 @@ import android.widget.TextView;
 import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.utils.Utils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**

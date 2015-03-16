@@ -14,22 +14,23 @@
  * limitations under the License.
  */
 
+/**
+ * App is a controller of sorts that contains a series of methods for logging in
+ * and miscellanious tasks.
+ *
+ *
+ */
+
+
 package com.cmput301.cs.project;
 
 
-import java.util.Collection;
-import java.util.List;
-
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-
 import com.cmput301.cs.project.activities.LoginActivity;
-import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.model.User;
-import com.cmput301.cs.project.utils.ClaimSaves;
 
 
 public final class App extends Application {

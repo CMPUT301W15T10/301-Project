@@ -1,7 +1,5 @@
 package com.cmput301.cs.project.controllers;
 
-import android.util.Log;
-import com.cmput301.cs.project.adapters.ClaimsAdapter;
 import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.model.ClaimsList;
 import com.cmput301.cs.project.model.User;

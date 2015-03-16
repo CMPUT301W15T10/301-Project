@@ -16,6 +16,14 @@
 
 package com.cmput301.cs.project.utils;
 
+/**
+ * This class is used to save claims via saveAllClaims()
+ *
+ * It can be used by calling ClaimSaves.ofAndroid() *
+ *
+ */
+
+
 import android.content.Context;
 import android.util.Log;
 import com.cmput301.cs.project.model.Claim;

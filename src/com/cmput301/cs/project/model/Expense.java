@@ -34,15 +34,6 @@ import java.util.UUID;
  */
 // Effective Java Item 15, 17
 public final class Expense implements Comparable<Expense>, Parcelable {
-    /**
-     * The unspecified category
-     */
-    public static final String CATEGORY_UNCATEGORIZED = "(UNCATEGORIZED)";
-
-    /**
-     * The unspecified description
-     */
-    public static final String DESCRIPTION_UNSPECIFIED = "(UNSPECIFIED)";
 
     /**
      * The default {@link Money}, with the amount of zero in USD.
@@ -67,9 +58,9 @@ public final class Expense implements Comparable<Expense>, Parcelable {
         }
 
         // default values
-        private String mDescription = DESCRIPTION_UNSPECIFIED;
+        private String mDescription = null;
         private Money mMoney = DEFAULT_MONEY;
-        private String mCategory = CATEGORY_UNCATEGORIZED;
+        private String mCategory = null;
         private long mTime = -1;
         private String mId = UUID.randomUUID().toString();
         private boolean mCompleted = false;
@@ -140,7 +131,6 @@ public final class Expense implements Comparable<Expense>, Parcelable {
         /**
          * Specifies the description of the {@code Claim}.
          * <br/>
-         * Defaults to {@link Expense#DESCRIPTION_UNSPECIFIED} if the description is null or (trimmed) empty
          *
          * @param description nullable {@code String} description
          * @return this instance of {@code Builder}
@@ -148,7 +138,7 @@ public final class Expense implements Comparable<Expense>, Parcelable {
          * @see #isDescriptionSet()
          */
         public Builder description(String description) {
-            mDescription = description == null || description.trim().isEmpty() ? DESCRIPTION_UNSPECIFIED : description;
+            mDescription = description;
             return this;
         }
 
@@ -169,7 +159,6 @@ public final class Expense implements Comparable<Expense>, Parcelable {
         /**
          * Specifies the category of the {@code Expense}.
          * <br/>
-         * Defaults to {@link Expense#CATEGORY_UNCATEGORIZED} if the category is null or (trimmed) empty
          *
          * @param category nullable {@code String} category
          * @return this instance of {@code Builder}
@@ -177,7 +166,7 @@ public final class Expense implements Comparable<Expense>, Parcelable {
          * @see #isCategorySet()
          */
         public Builder category(String category) {
-            mCategory = category == null || category.trim().isEmpty() ? CATEGORY_UNCATEGORIZED : category;
+            mCategory = category;
             return this;
         }
 
@@ -211,19 +200,19 @@ public final class Expense implements Comparable<Expense>, Parcelable {
         }
 
         /**
-         * @return if the description is {@link Expense#DESCRIPTION_UNSPECIFIED}
+         * @return if the description is not null
          * @see #getDescription()
          */
         public boolean isDescriptionSet() {
-            return !DESCRIPTION_UNSPECIFIED.equals(mDescription);
+            return mDescription != null;
         }
 
         /**
-         * @return if the category is {@link Expense#CATEGORY_UNCATEGORIZED}
+         * @return if the category is not null
          * @see #getCategory()
          */
         public boolean isCategorySet() {
-            return !CATEGORY_UNCATEGORIZED.equals(mCategory);
+            return mCategory != null;
         }
 
         /**
@@ -235,8 +224,7 @@ public final class Expense implements Comparable<Expense>, Parcelable {
         }
 
         /**
-         * @return the description specified by {@link #description(String)} if {@link #isDescriptionSet()};
-         * otherwise, {@link Expense#DESCRIPTION_UNSPECIFIED}; never null
+         * @return the description specified by {@link #description(String)}
          * @see #isDescriptionSet()
          */
         public String getDescription() {
@@ -252,8 +240,7 @@ public final class Expense implements Comparable<Expense>, Parcelable {
         }
 
         /**
-         * @return the category specified by {@link #category(String)} if {@link #isCategorySet()};
-         * otherwise, {@link Expense#CATEGORY_UNCATEGORIZED}; never null
+         * @return the category specified by {@link #category(String)}
          * @see #isCategorySet()
          */
         public String getCategory() {
@@ -299,6 +286,13 @@ public final class Expense implements Comparable<Expense>, Parcelable {
         public Receipt getReceipt() {
             return mReceipt;
         }
+
+        /**
+         * @return if the {@code Receipt} exists
+         */
+        public boolean hasReceipt() {
+            return mReceipt != null;
+        }
     }
 
     /**
@@ -328,9 +322,9 @@ public final class Expense implements Comparable<Expense>, Parcelable {
 
     // Effective Java Item 2
     private Expense(Builder b) {
-        mDescription = b.mDescription.trim();
+        mDescription = b.mDescription;
         mAmount = b.mMoney;
-        mCategory = b.mCategory.trim();
+        mCategory = b.mCategory;
         mTime = b.mTime;
         mId = b.mId.trim();
         mCompleted = b.mCompleted;

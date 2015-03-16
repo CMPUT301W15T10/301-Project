@@ -82,13 +82,13 @@ public class ExpenseTest {
     @Test
     public void defaultTitle() {
         final Expense expense = new Expense.Builder().build();
-        assertEquals(Expense.DESCRIPTION_UNSPECIFIED, expense.getDescription());
+        assertEquals(null, expense.getDescription());
     }
 
     @Test
     public void defaultCategory() {
         final Expense expense = new Expense.Builder().build();
-        assertEquals(Expense.CATEGORY_UNCATEGORIZED, expense.getCategory());
+        assertEquals(null, expense.getCategory());
     }
 
     @Test
@@ -104,13 +104,13 @@ public class ExpenseTest {
     @Test
     public void builderTitleNull() {
         final Expense expense = new Expense.Builder().description(null).build();
-        assertEquals(Expense.DESCRIPTION_UNSPECIFIED, expense.getDescription());
+        assertEquals(null, expense.getDescription());
     }
 
     @Test
     public void builderTitleEmpty() {
         final Expense expense = new Expense.Builder().description(" ").build();
-        assertEquals(Expense.DESCRIPTION_UNSPECIFIED, expense.getDescription());
+        assertEquals(null, expense.getDescription());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -131,13 +131,13 @@ public class ExpenseTest {
     @Test
     public void builderCategoryNull() {
         final Expense expense = new Expense.Builder().category(null).build();
-        assertEquals(Expense.CATEGORY_UNCATEGORIZED, expense.getCategory());
+        assertEquals(null, expense.getCategory());
     }
 
     @Test
     public void builderCategoryEmpty() {
         final Expense expense = new Expense.Builder().category(" ").build();
-        assertEquals(Expense.CATEGORY_UNCATEGORIZED, expense.getCategory());
+        assertEquals(null, expense.getCategory());
     }
 
     @Test

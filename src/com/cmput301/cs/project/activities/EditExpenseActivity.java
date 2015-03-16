@@ -175,7 +175,6 @@ public class EditExpenseActivity extends Activity {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
                 final Uri receiptFileUri = getReceiptUri();
-                Log.w("URI:", receiptFileUri.toString());
 
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, receiptFileUri);
                 startActivityForResult(intent, REQ_CODE_RECEIPT);
@@ -191,8 +190,8 @@ public class EditExpenseActivity extends Activity {
     // This is from http://developer.android.com/training/basics/data-storage/files.html
     // March 15, 2015
     private File getStorageFolder() {
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "receipt");
+        File file = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
 
         if (!file.mkdirs()) {
             Log.e("Hi there", file.toString());
@@ -254,8 +253,7 @@ public class EditExpenseActivity extends Activity {
     }
 
     private Drawable getReceiptAsDrawable() {
-        final File receiptFile = mBuilder.getReceipt().getFile();
-        return new BitmapDrawable(getResources(), receiptFile.getPath());
+        return new BitmapDrawable(getResources(), getReceiptUri().getPath());
     }
 
     //private method of your class

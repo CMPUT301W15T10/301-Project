@@ -37,6 +37,7 @@ public final class App extends Application {
     private static final String USER_ID = "USER_ID";
     private static final String USER_NAME = "USER_NAME";
     public static final String KEY_CLAIM = "key_claim";
+    public static final String KEY_EXPENSE = "key_expense";
 
     public static App get(Context context) {
         return (App) context.getApplicationContext();

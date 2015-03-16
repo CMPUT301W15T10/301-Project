@@ -2,6 +2,7 @@ package com.cmput301.cs.project.activities;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
@@ -13,10 +14,11 @@ import android.view.MenuItem;
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.adapters.ExpensesAdapter;
 import com.cmput301.cs.project.model.Claim;
+import com.cmput301.cs.project.model.ClaimsList;
 import com.cmput301.cs.project.model.Expense;
 
 public class ExpenseListActivity extends ListActivity {
-    public static final String KEY_CLAIM = "key_claim";
+    private static final int EDIT_EXPENSE = 0;
 
     private Claim mClaim;
 
@@ -27,7 +29,7 @@ public class ExpenseListActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.expense_list_activity);
 
-        mClaim = getIntent().getParcelableExtra(KEY_CLAIM);
+        mClaim = getIntent().getParcelableExtra(App.KEY_CLAIM);
         if (mClaim == null) {
             throw new IllegalStateException("Must have claim passed in using KEY_CLAIM");
         }
@@ -63,8 +65,21 @@ public class ExpenseListActivity extends ListActivity {
         } else if (id == R.id.add_expense) {
             Intent intent = new Intent(ExpenseListActivity.this, EditExpenseActivity.class);
             startActivity(intent);
+
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == EDIT_EXPENSE && resultCode == RESULT_OK){
+            final ClaimsList claimsList = ClaimsList.getInstance(this);
+            final Expense newExpense = data.getParcelableExtra(App.KEY_EXPENSE);
+            final Claim newClaim = Claim.Builder.copyFrom(mClaim).putExpense(newExpense).build();
+            claimsList.editClaim(mClaim, newClaim);
+        }
+
+    }
+
 }

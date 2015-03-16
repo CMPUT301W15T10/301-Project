@@ -36,6 +36,7 @@ public abstract class ClaimSaves {
     private static final String CLAIMS_FILE_NAME = "claims.json";
     private static final Type CLAIMS_COLLECTION_TYPE = new TypeToken<List<Claim>>() {
     }.getType();
+
     private static final String TAGS_FILE_NAME = "tags.json";
     private static final Type TAGS_COLLECTION_TYPE = new TypeToken<List<Tag>>() {
     }.getType();

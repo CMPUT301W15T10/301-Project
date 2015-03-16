@@ -29,7 +29,7 @@ import java.text.DateFormat;
  * An activity that is called when a new expense is created or when a expense is being edited from 
  * within {@link com.cmput301.cs.project.activities.ExpenseListActivity ExpenseListActivity}.</br>
  * Allows the user to add a Description, Category, Date, Money (with type), Receipt and select completeness which is stored
- * within that particular {@link com.cmput301.cs.project.models.Expense Expense}.
+ * within that particular {@link com.cmput301.cs.project.model.Expense Expense}.
  * @author rozsa
  *
  */

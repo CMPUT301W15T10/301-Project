@@ -23,7 +23,7 @@ import com.cmput301.cs.project.model.User;
 
 /**
  * Is the activity that launches at start of app. </br>
- * An activity that shows a list of {@link com.cmput301.cs.project.models.Claim Claims}. </br>
+ * An activity that shows a list of {@link com.cmput301.cs.project.model.Claim Claims}. </br>
  * Redirects to {@link com.cmput301.cs.project.activites.LoginActivity LoginActivity} if no user is found.
  * Has menu buttons that allow the creation of new claims via {@link com.cmput301.cs.project.activites.EditClaimActivity EditClaimActivity} 
  * and for the {@link com.cmput301.cs.project.activites.TagManagerActivity TagManagerActivity}. </br>

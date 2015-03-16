@@ -16,6 +16,13 @@
 
 package com.cmput301.cs.project.model;
 
+/**
+ * A class that can be called to throw exceptions that can be raised by improper input.
+ * 
+ * @author rozsa
+ *
+ */
+
 public final class ClaimUtils {
     private ClaimUtils() {
     }

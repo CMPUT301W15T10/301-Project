@@ -67,7 +67,7 @@ public class EditExpenseActivity extends Activity {
         }, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(RESULT_OK, new Intent().putExtra(KEY_EXPENSE, mBuilder.build()));
+                setResult(RESULT_OK, new Intent().putExtra(App.KEY_EXPENSE, mBuilder.build()));
                 finish();
             }
         });

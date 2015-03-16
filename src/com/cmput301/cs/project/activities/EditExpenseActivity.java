@@ -191,13 +191,12 @@ public class EditExpenseActivity extends Activity {
     // This is from http://developer.android.com/training/basics/data-storage/files.html
     // March 15, 2015
     private File getStorageFolder() {
-        File file = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
+        File file = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "receipt");
 
         if (!file.mkdirs()) {
             Log.e("Hi there", file.toString());
             Log.e("hi there ", "" + file.exists());
-            Log.e("Hi there", "Directory not created");
         }
 
         return file;

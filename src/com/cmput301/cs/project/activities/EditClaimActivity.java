@@ -14,6 +14,7 @@ import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.DestinationAdapter;
 import com.cmput301.cs.project.adapters.ExpensesAdapter;
 import com.cmput301.cs.project.model.Claim;
+import com.cmput301.cs.project.model.Expense;
 import com.cmput301.cs.project.utils.Utils;
 
 import java.text.DateFormat;
@@ -34,6 +35,7 @@ import java.text.DateFormat;
 public class EditClaimActivity extends Activity {
 
     private static final int REQ_CODE_CREATE_DESTINATION = 3;
+    private static final int REQ_NEW_EXPENSE = 4;
     private ListView mDestinations;
     private ListView mExpenses;
 
@@ -130,7 +132,7 @@ public class EditClaimActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EditClaimActivity.this, EditExpenseActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQ_NEW_EXPENSE);
             }
         });
         Utils.setupDiscardDoneBar(this, new View.OnClickListener() {
@@ -181,6 +183,15 @@ public class EditClaimActivity extends Activity {
                     mBuilder.putDestinationAndReason(destination, reason);
                     update();
                 }
+                break;
+            case REQ_NEW_EXPENSE:
+                if (resultCode == RESULT_OK) {
+                    //TODO: bugged when editting
+                    Expense expense = data.getParcelableExtra(App.KEY_EXPENSE);
+                    mBuilder.putExpense(expense);
+                    update();
+                }
+                break;
 
             default:
                 super.onActivityResult(requestCode, resultCode, data);
@@ -197,7 +208,7 @@ public class EditClaimActivity extends Activity {
 
 
         mDestinations.setAdapter(new DestinationAdapter(this, mBuilder.getDestinations()));
-        ((ExpensesAdapter)mExpenses.getAdapter()).notifyDataSetChanged();
+        mExpenses.setAdapter(new ExpensesAdapter(this, mBuilder.getExpenses()));
 
     }
 }

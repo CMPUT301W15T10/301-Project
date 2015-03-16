@@ -37,7 +37,6 @@ import java.text.DateFormat;
  *
  * @author rozsa
  *
->>>>>>> origin/master
  */
 
 public class EditExpenseActivity extends Activity {

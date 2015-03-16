@@ -422,6 +422,15 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         mClaimant = b.mClaimant;
     }
 
+    public boolean isCompleted() {
+        for (Expense expense : mExpenses) {
+            if (!expense.isCompleted()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public Map<String, String> getDestinations() {
         return Collections.unmodifiableMap(mDestinations);
     }

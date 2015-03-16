@@ -11,6 +11,13 @@ import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.TagsAdapter;
 import com.cmput301.cs.project.controllers.TagsManager;
 
+
+/**
+ * This activity allows a user to add, rename and delete tags by selecting a list
+ * item which launches the TagEditActivity
+ * It's launched from ClaimListActivity by clicking the tags button in the action bar
+ */
+
 public class TagManagerActivity extends ListActivity {
 
     private TagsAdapter mTagsAdapter;

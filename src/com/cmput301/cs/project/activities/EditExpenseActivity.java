@@ -25,6 +25,14 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 
+
+/**
+ * This activity allows a user to edit or create a new expense. The expense is passed via an intent
+ * If we don't pass any expense it is assumed that a new expense is being created
+ *
+ * The editted expense is passed back as a result extra in an intent upon finishing
+ */
+
 public class EditExpenseActivity extends Activity {
     private static final int REQ_CODE_PICK_DATE = 1;
     private static final int REQ_CODE_RECEIPT = 2;
@@ -177,10 +185,12 @@ public class EditExpenseActivity extends Activity {
     // This is from http://developer.android.com/training/basics/data-storage/files.html
     // March 15, 2015
     private File getStorageFolder() {
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "Receipt");
+        File file = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
 
         if (!file.mkdirs()) {
+            Log.e("Hi there", file.toString());
+            Log.e("hi there ", "" + file.exists());
             Log.e("Hi there", "Directory not created");
         }
 

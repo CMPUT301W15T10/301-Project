@@ -9,6 +9,11 @@ import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.model.User;
 
+/**
+ * This activity is launched by App if a user is not logged in
+ * It simply takes a string and has App save the user and return to ClaimListActivity
+ */
+
 public class LoginActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,8 @@ public class LoginActivity extends Activity {
             User user = new User(name);
             App.get(this).createUser(user);
 
+
+            //TODO: this line is suspect, maybe duplicate
             startActivity(new Intent(this, ClaimListActivity.class));
 
             finish();

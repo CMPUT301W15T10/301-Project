@@ -8,6 +8,10 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
 
+/**
+ * Allows a user to enter a reason and destination to a destination and reason
+ */
+
 public class EditDestinationActivity extends Activity {
 
 	@Override

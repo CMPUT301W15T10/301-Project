@@ -11,6 +11,11 @@ import com.cmput301.cs.project.controllers.TagsManager;
 import com.cmput301.cs.project.model.Tag;
 import com.cmput301.cs.project.utils.Utils;
 
+/**
+ * This activity allows a user to actually apply edits to a tag. In addition
+ * it is used as a form to create new tags
+ */
+
 public class TagEditActivity extends Activity {
     public static final String KEY_TAG = "key_tag";
     public static final String KEY_TAG_ID = "key_tag_id";

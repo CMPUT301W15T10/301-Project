@@ -18,6 +18,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * All of the fields in a claim are shown in this activity as a summary
+ *
+ * From this activity the claim can be editted or submitted.
+ *
+ * A claim must be passed via an intent for this activity to work
+ */
+
 public class ClaimViewActivity extends Activity {
 
     Claim mClaim;

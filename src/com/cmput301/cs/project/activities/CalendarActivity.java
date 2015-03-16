@@ -26,7 +26,7 @@ import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.utils.Utils;
 
 /**
- * Activity for picking a date with your girlfriend.
+ * Activity for picking a date via startActivityForResult
  */
 public class CalendarActivity extends Activity {
     public static final String KEY_DATE = "date";

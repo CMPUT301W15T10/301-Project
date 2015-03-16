@@ -17,6 +17,10 @@ import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.model.ClaimsList;
 import com.cmput301.cs.project.model.Expense;
 
+/**
+ * This activity lists all expenses for a claim when passed a claim via an intent
+ */
+
 public class ExpenseListActivity extends ListActivity {
     private static final int EDIT_EXPENSE = 0;
 

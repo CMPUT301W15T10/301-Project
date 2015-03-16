@@ -22,6 +22,15 @@ import com.cmput301.cs.project.model.ClaimsList;
 import com.cmput301.cs.project.model.User;
 
 
+/**
+ * This activity lists the available claims depending on which tab is selected.
+ *
+ * The two tabs (claimant, approver) are populated using separate adapters
+ *
+ * This activity can also lead to either the TagManagerActivity, EditClaimActivity or ViewClaimActivity
+ */
+
+
 public class ClaimListActivity extends ListActivity {
 
     private static final int POSITION_CLAIMANT = 0;

@@ -14,11 +14,19 @@ import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.utils.Utils;
 
+/**
+ * This activity allows a user to edit or create a new claim
+ *
+ * It receives the claim via an intent when the activity is created and returns
+ * it as a result
+ *
+ * If no claim is passed then it is assumed we are creating a new claim
+ */
+
 public class EditClaimActivity extends Activity{
-    public static final String KEY_CLAIM = "key_claim";
 
     public static Intent intentWithClaim(Context context, Claim claim) {
-        return new Intent(context, EditClaimActivity.class).putExtra(KEY_CLAIM, claim);
+        return new Intent(context, EditClaimActivity.class).putExtra(App.KEY_CLAIM, claim);
     }
 
     private static final int REQ_CODE_PICK_START_DATE = 1;
@@ -102,7 +110,7 @@ public class EditClaimActivity extends Activity{
         }, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(RESULT_OK, new Intent().putExtra(KEY_CLAIM, mBuilder.build()));
+                setResult(RESULT_OK, new Intent().putExtra(App.KEY_CLAIM, mBuilder.build()));
                 finish();
             }
         });
@@ -110,7 +118,7 @@ public class EditClaimActivity extends Activity{
     
     
     private void initBuilder() {
-        final Claim claim = getIntent().getParcelableExtra(KEY_CLAIM);
+        final Claim claim = getIntent().getParcelableExtra(App.KEY_CLAIM);
         if (claim == null) {
             mBuilder = new Claim.Builder(App.get(this).getUser());
         } else {

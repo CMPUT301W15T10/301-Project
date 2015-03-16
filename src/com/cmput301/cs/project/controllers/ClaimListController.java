@@ -9,6 +9,13 @@ import com.cmput301.cs.project.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller for {@link com.cmput301.cs.project.model.ClaimsList ClaimsList}.
+ * 
+ * @author rozsa
+ *
+ */
+
 public class ClaimListController {
 
     private final User mUser;

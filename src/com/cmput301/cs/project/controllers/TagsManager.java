@@ -7,6 +7,14 @@ import com.cmput301.cs.project.utils.ClaimSaves;
 
 import java.util.*;
 
+/**
+ * Controls the tags that are shown in {@link com.cmput301.cs.project.activities.TagManagerActivity TagManagerActivity}. </br>
+ * Implements {@link com.cmput301.cs.project.controllers.TagsChangedListener TagsChangedListener}.
+ * 
+ * @author rozsa
+ *
+ */
+
 public class TagsManager implements TagsChangedListener {
 
     private static TagsManager sInstance;

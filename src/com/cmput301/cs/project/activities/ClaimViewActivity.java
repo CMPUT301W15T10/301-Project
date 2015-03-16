@@ -1,22 +1,23 @@
 package com.cmput301.cs.project.activities;
 
-import com.cmput301.cs.project.App;
-import com.cmput301.cs.project.R;
-import com.cmput301.cs.project.model.Claim;
-import com.cmput301.cs.project.model.ClaimsList;
-import com.cmput301.cs.project.utils.Utils;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
-import java.text.DateFormat;
-
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+import com.cmput301.cs.project.App;
+import com.cmput301.cs.project.R;
+import com.cmput301.cs.project.adapters.DestinationAdapter;
+import com.cmput301.cs.project.model.Claim;
+import com.cmput301.cs.project.model.ClaimsList;
+import com.cmput301.cs.project.utils.Utils;
+
+import java.text.DateFormat;
 
 /**
  * The activity that is called when a item is clicked within {@link com.cmput301.cs.project.activites.ClaimListActivity ClaimListActivity}
@@ -34,6 +35,7 @@ import android.widget.TextView;
 
 public class ClaimViewActivity extends Activity {
 
+    private static final int EDIT_CLAIM = 0;
     Claim mClaim;
     Button mExpenseButton;
     Button mSubmitButton;
@@ -43,6 +45,7 @@ public class ClaimViewActivity extends Activity {
     DateFormat mDateFormat;
 
     ClaimsList mClaimList;
+    private ListView mDestinations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,21 +55,40 @@ public class ClaimViewActivity extends Activity {
         mClaimList = ClaimsList.getInstance(this);
 
         mClaim = getIntent().getExtras().getParcelable(App.KEY_CLAIM);
+
+        findViewsByIds();
+
+        initButtons();
+
+    }
+
+    private void findViewsByIds() {
         mExpenseButton = (Button) findViewById(R.id.expenseButton);
         mSubmitButton = (Button) findViewById(R.id.submitButton);
         mStartDate = (TextView) findViewById(R.id.startDate);
         mEndDate = (TextView) findViewById(R.id.endDate);
         mStatus = (TextView) findViewById(R.id.statusText);
+        mDestinations = (ListView) findViewById(R.id.destinations);
 
         mDateFormat = android.text.format.DateFormat.getMediumDateFormat(this);
+
+    }
+
+    private void update() {
         mStartDate.setText(mDateFormat.format(mClaim.getStartTime()));
         mEndDate.setText(mDateFormat.format(mClaim.getEndTime()));
 
         mStatus.setText(Utils.stringIdForClaimStatus(mClaim.getStatus()));
 
+        mDestinations.setAdapter(new DestinationAdapter(this, mClaim.getDestinations()));
 
-        initButtons();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        update();
     }
 
     private void initButtons() {
@@ -110,10 +132,27 @@ public class ClaimViewActivity extends Activity {
             case R.id.editClaim:
                 Intent intent = new Intent(ClaimViewActivity.this, EditClaimActivity.class);
                 intent.putExtra(App.KEY_CLAIM, mClaim);
-                startActivity(intent);
+                startActivityForResult(intent, EDIT_CLAIM);
+
                 break;
             default:
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK && requestCode == EDIT_CLAIM){
+            Claim claim = data.getParcelableExtra(App.KEY_CLAIM);
+
+
+            ClaimsList.getInstance(this).editClaim(mClaim, claim);
+
+            mClaim = claim;
+
+            update();
+        }
+
+    }
+
 }

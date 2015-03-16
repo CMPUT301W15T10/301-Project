@@ -1,17 +1,16 @@
 package com.cmput301.cs.project.activities;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.utils.Utils;
 
-import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
-import android.view.View;
-
 /**
-<<<<<<< HEAD
- * Allows a user to enter a reason and destination to a destination and reason
-=======
  * An activity that allows a destination to be created with an associated reason. </br>
  * Is called when a new destination is created or when a destination is being edited within 
  * {@link com.cmput301.cs.project.activities.EditClaimActivity EditClaimActivity}. </br>
@@ -19,16 +18,27 @@ import android.view.View;
  *   
  * @author rozsa
  *
->>>>>>> origin/master
  */
 
 public class EditDestinationActivity extends Activity {
 
-	@Override
+    public static final String DESTINATION = "DESTINATION";
+    public static final String REASON = "REASON";
+    private TextView mDestination;
+    private TextView mReason;
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit_destination_activity);
-	}
+
+        mDestination = (TextView) findViewById(R.id.newDestinationInput);
+        mReason = (TextView) findViewById(R.id.newReason);
+
+        mDestination.setText(getIntent().getStringExtra(DESTINATION));
+        mReason.setText(getIntent().getStringExtra(REASON));
+
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -38,11 +48,25 @@ public class EditDestinationActivity extends Activity {
 		Utils.setupDiscardDoneBar(this, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(RESULT_CANCELED);
                 finish();
             }
         }, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Intent intent = new Intent();
+
+                if(mDestination.getText().length() == 0){
+
+                    Toast.makeText(EditDestinationActivity.this, "Destination cannot be empty!", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                intent.putExtra(DESTINATION, mDestination.getText().toString());
+                intent.putExtra(REASON, mReason.getText().toString());
+
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });

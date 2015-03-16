@@ -2,16 +2,13 @@ package com.cmput301.cs.project.activities;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.os.Parcelable;
-import android.util.Log;
-import android.view.View;
-import android.widget.ListView;
-import com.cmput301.cs.project.R;
-
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
 import com.cmput301.cs.project.App;
+import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.ExpensesAdapter;
 import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.model.ClaimsList;

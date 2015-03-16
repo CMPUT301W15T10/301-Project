@@ -11,6 +11,15 @@ import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.TagsAdapter;
 import com.cmput301.cs.project.controllers.TagsManager;
 
+/**
+ * An activity that shows a list of {@link com.cmput301.cs.project.models.Tag Tags} that can be clicked to be edited.
+ * Also has a menu button for the addition of new tags. Both of these call 
+ * {@link com.cmput301.cs.project.activities.TagEditActivity TagEditActivity}. 
+ * 
+ * @author rozsa
+ *
+ */
+
 public class TagManagerActivity extends ListActivity {
 
     private TagsAdapter mTagsAdapter;

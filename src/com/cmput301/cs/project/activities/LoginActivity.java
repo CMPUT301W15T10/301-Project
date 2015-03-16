@@ -9,6 +9,14 @@ import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.model.User;
 
+/**
+ * An activity that is called when the app starts with no user currently 'logged in'. Allows the user to login using there name
+ * and the app generates a {@link com.cmput301.cs.project.models.User User} for use in the app.
+ * 
+ * @author rozsa
+ *
+ */
+
 public class LoginActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {

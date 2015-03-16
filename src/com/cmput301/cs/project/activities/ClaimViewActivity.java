@@ -18,6 +18,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * The activity that is called when a item is clicked within {@link com.cmput301.cs.project.activites.ClaimListActivity ClaimListActivity}
+ * that shows the specific details of that claim. </br>
+ * Menu items allow {@link com.cmput301.cs.project.activites.EditClaimActivity EditClaimActivity} to be called on the claim
+ * and for a claim to be deleted.</br>
+ * The activity lists the StartDate, EndDate, Currencies, Status, Destinations and calls {@link com.cmput301.cs.project.activities.ExpenseListActivity ExpenseListActivity}
+ * when the associated button is clicked.</br>
+ * Returns to the {@link com.cmput301.cs.project.activites.ClaimListActivity ClaimListActivity} when Submit button is clicked.
+ * 
+ * @author rozsa
+ *
+ */
+
 public class ClaimViewActivity extends Activity {
 
     Claim mClaim;

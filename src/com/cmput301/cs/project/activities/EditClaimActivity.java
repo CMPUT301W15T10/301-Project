@@ -14,6 +14,15 @@ import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.utils.Utils;
 
+/**
+ * The activity that is called when a New Claim is created or when an existing claim is going to be edited. </br>
+ * Able to add {@link com.cmput301.cs.project.model.Expense Expenses} and {@link com.cmput301.cs.project.model.Claim Destinations}
+ *  from this screen as well as {@literal StartDate} and {@literal EndDate}.
+ * 
+ * @author rozsa
+ *
+ */
+
 public class EditClaimActivity extends Activity{
     public static final String KEY_CLAIM = "key_claim";
 
@@ -55,9 +64,10 @@ public class EditClaimActivity extends Activity{
     }
 
     
-    /*
-     * Method that sets up all the click listners in this activity. Includes the discard bar as well.
+    /**
      * 
+     * Method that sets up all the click listeners in this activity. Includes the discard bar as well.
+     * @author rozsa
      */
     private void initButtons() {
     	

@@ -26,7 +26,11 @@ import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.utils.Utils;
 
 /**
- * Activity for picking a date with your girlfriend.
+ * Activity for picking a date. This activity is used whenvever a date needs to be picked in the app.</br>
+ * If an activity relies on both a start date and an end date the calendar will restrict choices to the user so
+ *  that an end date can't come before a start date and vice versa.
+ *  
+ *  @author rozsa
  */
 public class CalendarActivity extends Activity {
     public static final String KEY_DATE = "date";

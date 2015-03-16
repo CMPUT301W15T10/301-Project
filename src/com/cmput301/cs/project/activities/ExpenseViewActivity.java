@@ -18,6 +18,16 @@ import java.text.DateFormat;
 // This activities formatting and general flow was influenced by
 // https://github.com/chuihinwai/echui-notes/blob/master/src/com/edmondapps/cs301/ass1/ExpenseActivity.java
 // on March 12, 2015
+
+/**
+ * An activity that shows the details of an {@link com.cmput301.cs.project.models.Expense Expense}. </br>
+ * Has a menu button that calls {@link com.cmput301.cs.project.activites.EditExpenseActivity EditExpenseActivity} for editing
+ * on that expense.
+ * 
+ * @author rozsa
+ *
+ */
+
 public class ExpenseViewActivity extends Activity {
     public static final String KEY_EXPENSE = "key_expense";
 

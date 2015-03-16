@@ -25,6 +25,15 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 
+/**
+ * An activity that is called when a new expense is created or when a expense is being edited from 
+ * within {@link com.cmput301.cs.project.activities.ExpenseListActivity ExpenseListActivity}.</br>
+ * Allows the user to add a Description, Category, Date, Money (with type), Receipt and select completeness which is stored
+ * within that particular {@link com.cmput301.cs.project.models.Expense Expense}.
+ * @author rozsa
+ *
+ */
+
 public class EditExpenseActivity extends Activity {
     private static final int REQ_CODE_PICK_DATE = 1;
     private static final int REQ_CODE_RECEIPT = 2;

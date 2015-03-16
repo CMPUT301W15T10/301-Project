@@ -53,6 +53,10 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         return mComments.get(0).getApprover().equals(user);
     }
 
+    public boolean isEditable() {
+        return false;
+    }
+
     public enum Status {
         IN_PROGRESS(true), SUBMITTED(false), RETURNED(true), APPROVED(false);
 

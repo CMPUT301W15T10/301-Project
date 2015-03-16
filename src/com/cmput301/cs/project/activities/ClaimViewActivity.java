@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.DestinationAdapter;
@@ -148,13 +149,22 @@ public class ClaimViewActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.deleteClaim:
 
-                mClaimList.deleteClaim(mClaim);
-                finish();
+                if(mClaim.getStatus().getAllowEdits()) {
+                    mClaimList.deleteClaim(mClaim);
+                    finish();
+                } else {
+                    Toast.makeText(this, "Claim can no longer be deleted!", Toast.LENGTH_LONG).show();
+                }
                 break;
             case R.id.editClaim:
-                Intent intent = new Intent(ClaimViewActivity.this, EditClaimActivity.class);
-                intent.putExtra(App.KEY_CLAIM, mClaim);
-                startActivityForResult(intent, EDIT_CLAIM);
+
+                if(mClaim.getStatus().getAllowEdits()) {
+                    Intent intent = new Intent(ClaimViewActivity.this, EditClaimActivity.class);
+                    intent.putExtra(App.KEY_CLAIM, mClaim);
+                    startActivityForResult(intent, EDIT_CLAIM);
+                } else {
+                    Toast.makeText(this, "Claim can't be edited!", Toast.LENGTH_LONG).show();
+                }
 
                 break;
             default:

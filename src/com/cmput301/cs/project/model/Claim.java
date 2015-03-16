@@ -140,6 +140,14 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
             mGsonToFill = false;
         }
 
+        public Map<String, String> getDestinations(){
+            return Collections.unmodifiableMap(mDestinations);
+        }
+
+        public List<Expense> getExpenses(){
+            return Collections.unmodifiableList(mExpenses);
+        }
+
         /**
          * Updates the {@link com.cmput301.cs.project.model.Expense Expense} if there is already an {@code Expense}
          * with the same {@link com.cmput301.cs.project.model.Expense#getId() id}.
@@ -211,7 +219,6 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
          */
         public Builder putDestinationAndReason(String destination, String reason) {
             ClaimUtils.nonNullnonEmptyOrThrow(destination, "destination");
-            ClaimUtils.nonNullnonEmptyOrThrow(reason, "reason");
             mDestinations.put(destination, reason);
             return this;
         }

@@ -6,7 +6,6 @@ import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -53,9 +52,6 @@ public class ClaimListActivity extends ListActivity {
 
         App app = App.get(this);
 
-        Log.d("my tag", "HELLO WORLD!!!");
-
-
         mUser = app.getUser();
 
         mClaimListController = new ClaimListController(mUser, ClaimsList.getInstance(this));
@@ -71,8 +67,6 @@ public class ClaimListActivity extends ListActivity {
         mClaimantAdapter.notifyDataSetChanged();
         mApproverAdapter.notifyDataSetChanged();
 
-
-        Log.d("my tag", "" + mClaimantAdapter.getCount());
 
         ((ClaimsAdapter)getListAdapter()).notifyDataSetChanged();
 
@@ -167,7 +161,6 @@ public class ClaimListActivity extends ListActivity {
     	if (requestCode == NEW_CLAIM) {
     		if (resultCode == RESULT_OK) {
     			Claim claim = data.getExtras().getParcelable(App.KEY_CLAIM);
-                Log.d("my tag", "" + mClaimantAdapter.getCount());
                 mClaimListController.addClaim(claim);
     		}
     	}

@@ -32,8 +32,6 @@ public class DestinationAdapter extends ArrayAdapter<Pair<String, String>> {
     public DestinationAdapter(Context context, Map<String, String> destinations) {
         super(context, android.R.layout.simple_list_item_activated_2);
 
-
-
         mContext = context;
         mInflater = LayoutInflater.from(context);
 

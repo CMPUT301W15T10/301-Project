@@ -10,8 +10,11 @@ import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.model.User;
 
 /**
- * This activity is launched by App if a user is not logged in
- * It simply takes a string and has App save the user and return to ClaimListActivity
+ * An activity that is called when the app starts with no user currently 'logged in'. Allows the user to login using there name
+ * and the app generates a {@link com.cmput301.cs.project.model.User User} for use in the app.
+ * 
+ * @author rozsa
+ *
  */
 
 public class LoginActivity extends Activity {

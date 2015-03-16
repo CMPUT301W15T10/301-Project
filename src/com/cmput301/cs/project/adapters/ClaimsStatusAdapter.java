@@ -25,6 +25,13 @@ import android.widget.TextView;
 import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.utils.Utils;
 
+/**
+ * Basic adapter that adapts a {@link com.cmput301.cs.project.model.Claim Claim's Status} to be viewable in a ListView.
+ * 
+ * @author rozsa
+ *
+ */
+
 public final class ClaimsStatusAdapter extends BaseAdapter {
 
     private static final class ViewHolder {

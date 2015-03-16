@@ -27,10 +27,17 @@ import java.text.DateFormat;
 
 
 /**
- * This activity allows a user to edit or create a new expense. The expense is passed via an intent
- * If we don't pass any expense it is assumed that a new expense is being created
+ * An activity that is called when a new expense is created or when a expense is being edited from 
+ * within {@link com.cmput301.cs.project.activities.ExpenseListActivity ExpenseListActivity}.</br>
+ * Allows the user to add a Description, Category, Date, Money (with type), Receipt and select completeness which is stored
+ * within that particular {@link com.cmput301.cs.project.model.Expense Expense}.
  *
- * The editted expense is passed back as a result extra in an intent upon finishing
+ * The editted expense is passed back using setResult
+ *
+ *
+ * @author rozsa
+ *
+>>>>>>> origin/master
  */
 
 public class EditExpenseActivity extends Activity {

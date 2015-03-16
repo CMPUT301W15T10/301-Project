@@ -15,12 +15,16 @@ import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.utils.Utils;
 
 /**
- * This activity allows a user to edit or create a new claim
+ * The activity that is called when a New Claim is created or when an existing claim is going to be edited. </br>
+ * Able to add {@link com.cmput301.cs.project.model.Expense Expenses} and {@link com.cmput301.cs.project.model.Claim Destinations}
+ *  from this screen as well as {@literal StartDate} and {@literal EndDate}.
  *
- * It receives the claim via an intent when the activity is created and returns
- * it as a result
+ * A claim must be passed via an intent as App.KEY_CLAIM.
  *
- * If no claim is passed then it is assumed we are creating a new claim
+ * If there is no claim passed it is assumed that the activity is creating a new claim
+ *
+ * @author rozsa
+ *
  */
 
 public class EditClaimActivity extends Activity{
@@ -63,9 +67,10 @@ public class EditClaimActivity extends Activity{
     }
 
     
-    /*
-     * Method that sets up all the click listners in this activity. Includes the discard bar as well.
+    /**
      * 
+     * Method that sets up all the click listeners in this activity. Includes the discard bar as well.
+     * @author rozsa
      */
     private void initButtons() {
     	

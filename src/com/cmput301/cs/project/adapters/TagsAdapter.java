@@ -15,6 +15,14 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+
+/**
+ * Basic adapter that adapts a {@link com.cmput301.cs.project.model.Tag Tag} to be viewable in a ListView.
+ * 
+ * @author rozsa
+ *
+ */
+
 public class TagsAdapter extends BaseAdapter implements TagsChangedListener {
 
     private static class ViewHolder {

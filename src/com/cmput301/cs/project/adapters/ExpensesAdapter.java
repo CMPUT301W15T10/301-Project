@@ -26,6 +26,13 @@ import com.cmput301.cs.project.model.Expense;
 
 import java.util.*;
 
+/**
+ * Basic adapter that adapts an {@link com.cmput301.cs.project.model.Expense Expense} to be viewable in a ListView.
+ * 
+ * @author rozsa
+ *
+ */
+
 public final class ExpensesAdapter extends BaseAdapter {
 
     private static final class ViewHolder {

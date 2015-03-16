@@ -21,13 +21,17 @@ import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.model.ClaimsList;
 import com.cmput301.cs.project.model.User;
 
-
 /**
- * This activity lists the available claims depending on which tab is selected.
+ * Is the activity that launches at start of app. </br>
+ * An activity that shows a list of {@link com.cmput301.cs.project.model.Claim Claims}. </br>
+ * Redirects to {@link com.cmput301.cs.project.activites.LoginActivity LoginActivity} if no user is found.
+ * Has menu buttons that allow the creation of new claims via {@link com.cmput301.cs.project.activites.EditClaimActivity EditClaimActivity} 
+ * and for the {@link com.cmput301.cs.project.activites.TagManagerActivity TagManagerActivity}. </br>
+ * If a claim item is clicked {@link com.cmput301.cs.project.activites.ClaimViewActivity ClaimViewActivity} is called for that claim. </br>
+ * Finally there are tabs at the top of the activity that allow the user to switch between approver and claimant (not yet implemented).
+ * 
+ * @author rozsa
  *
- * The two tabs (claimant, approver) are populated using separate adapters
- *
- * This activity can also lead to either the TagManagerActivity, EditClaimActivity or ViewClaimActivity
  */
 
 

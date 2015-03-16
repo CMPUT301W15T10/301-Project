@@ -30,6 +30,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Basic adapter that adapts a {@link com.cmput301.cs.project.model.Claim Claim} to be viewable in a ListView. Not entirely correct yet.
+ * 
+ * @author rozsa
+ *
+ */
+
 public final class ClaimsAdapter extends BaseAdapter {
 
     private static final class ViewHolder {

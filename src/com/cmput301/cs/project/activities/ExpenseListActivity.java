@@ -18,7 +18,15 @@ import com.cmput301.cs.project.model.ClaimsList;
 import com.cmput301.cs.project.model.Expense;
 
 /**
- * This activity lists all expenses for a claim when passed a claim via an intent
+ * An activity that shows a list of all {@link com.cmput301.cs.project.model.Expense Expenses} associated with a {@link com.cmput301.cs.project.model.Claim Claim}. </br>
+ * When an {@link com.cmput301.cs.project.model.Expense Expense} is clicked, {@link com.cmput301.cs.project.activites.ExpenseViewActivity ExpenseViewActivity} is called. </br>
+ * When the menu item is clicked, {@link com.cmput301.cs.project.EditExpenseActivity EditExpenseActivity} is called to
+ * generate a new expense.
+ *
+ * The claim which the expenses belong MUST be passed as an intent as App.KEY_CLAIM
+ * 
+ * @author rozsa
+ *
  */
 
 public class ExpenseListActivity extends ListActivity {

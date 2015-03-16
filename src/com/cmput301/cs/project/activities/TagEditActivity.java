@@ -12,9 +12,14 @@ import com.cmput301.cs.project.model.Tag;
 import com.cmput301.cs.project.utils.Utils;
 
 /**
- * This activity allows a user to actually apply edits to a tag. In addition
- * it is used as a form to create new tags
- */
+ * An activity that is called when a new tag is created or a tag is clicked on 
+ * {@link com.cmput301.cs.project.activites.TagManagerActivity TagManagerActivity}.</br>
+ * Allows the tag to be deleted from the app. </br>
+ * Contains a String and generates a unique ID which is stored in a {@link com.cmput301.cs.project.model.Tag Tag}.
+ * 
+ * @author rozsa
+ *
+  */
 
 public class TagEditActivity extends Activity {
     public static final String KEY_TAG = "key_tag";

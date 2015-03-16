@@ -19,11 +19,17 @@ import android.widget.Button;
 import android.widget.TextView;
 
 /**
- * All of the fields in a claim are shown in this activity as a summary
- *
- * From this activity the claim can be editted or submitted.
+ * The activity that is called when a item is clicked within {@link com.cmput301.cs.project.activites.ClaimListActivity ClaimListActivity}
+ * that shows the specific details of that claim. </br>
+ * Menu items allow {@link com.cmput301.cs.project.activites.EditClaimActivity EditClaimActivity} to be called on the claim
+ * and for a claim to be deleted.</br>
+ * The activity lists the StartDate, EndDate, Currencies, Status, Destinations and calls {@link com.cmput301.cs.project.activities.ExpenseListActivity ExpenseListActivity}
+ * when the associated button is clicked.</br>
+ * Returns to the {@link com.cmput301.cs.project.activites.ClaimListActivity ClaimListActivity} when Submit button is clicked.
  *
  * A claim must be passed via an intent for this activity to work
+ *
+ * @author rozsa
  */
 
 public class ClaimViewActivity extends Activity {

@@ -4,6 +4,15 @@ package com.cmput301.cs.project.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * A class that contains text and an {@link com.cmput301.cs.project.model.User Approver Name}. 
+ * This is linked to a {@link com.cmput301.cs.project.model.Claim Claim} when an approver returns a claim to
+ * a {@link com.cmput301.cs.project.model.User Claimant}.
+ * 
+ * @author rozsa
+ *
+ */
+
 public class Comment implements Parcelable {
     private final String text;
     private final User approver;

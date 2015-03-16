@@ -15,14 +15,20 @@ import org.joda.money.Money;
 import java.io.File;
 import java.text.DateFormat;
 
-/**
- * ExpenseViewActivity displays ALL the fields of an expense when passed an expense via an intent
- * This is simple because expenses are parcelable
- */
 
 // This activities formatting and general flow was influenced by
 // https://github.com/chuihinwai/echui-notes/blob/master/src/com/edmondapps/cs301/ass1/ExpenseActivity.java
 // on March 12, 2015
+
+/**
+ * An activity that shows the details of an {@link com.cmput301.cs.project.model.Expense Expense}. </br>
+ * Has a menu button that calls {@link com.cmput301.cs.project.activities.EditExpenseActivity EditExpenseActivity} for editing
+ * on that expense.
+ * 
+ * @author rozsa
+ *
+ */
+
 public class ExpenseViewActivity extends Activity {
     public static final String KEY_EXPENSE = "key_expense";
 

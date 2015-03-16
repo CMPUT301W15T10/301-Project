@@ -6,6 +6,14 @@ import com.cmput301.cs.project.controllers.TagsManager;
 
 import java.util.UUID;
 
+/**
+ * Class that contains a name and a unique ID that a user can associate with a {@link com.cmput301.cs.project.models.Claim Claim}. </br>
+ * Specific tags are bound to a user (device).
+ * 
+ * @author rozsa
+ *
+ */
+
 public class Tag implements Comparable<Tag>, Parcelable {
 
     private final String mId;

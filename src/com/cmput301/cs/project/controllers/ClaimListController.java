@@ -24,7 +24,6 @@ public class ClaimListController {
         if(!claim.getClaimant().equals(mUser)){
             throw new IllegalArgumentException("Claim must have a user same as logged in user");
         }
-        Log.d("claimlist", claim.toString());
 
         mClaimsList.addClaim(claim);
     }

@@ -52,39 +52,6 @@ public final class ClaimsAdapter extends BaseAdapter {
         mClaims = claims;
     }
 
-    public List<Claim> peekAllClaims() {
-        return Collections.unmodifiableList(mClaims);
-    }
-
-    public void removeClaimById(String id) {
-        for (Claim claim : mClaims) {
-            if (claim.getId().equals(id)) {
-                mClaims.remove(claim);
-                notifyDataSetChanged();
-                break;
-            }
-        }
-    }
-
-    public void putClaim(Claim claim) {
-        for (int i = 0, mClaimsSize = mClaims.size(); i < mClaimsSize; ++i) {
-            final Claim o = mClaims.get(i);
-
-            if (claim.getId().equals(o.getId())) {
-                mClaims.remove(i);
-                mClaims.add(i, claim);
-                notifyDataSetChanged();
-                return;
-            }
-        }
-        addClaim(claim);
-    }
-
-    public void addClaim(Claim claim) {
-        mClaims.add(claim);
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getCount() {
         return mClaims.size();

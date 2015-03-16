@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.widget.*;
+import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.TextWatcherAdapter;
 import com.cmput301.cs.project.model.Expense;
@@ -17,7 +18,6 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 
 public class EditExpenseActivity extends Activity {
-    public static final String KEY_EXPENSE = "key_expense";
     private static final int REQ_CODE_PICK_DATE = 1;
 
     private Expense.Builder mBuilder;
@@ -63,7 +63,7 @@ public class EditExpenseActivity extends Activity {
     }
 
     private void createBuilder() {
-        Expense expense = getIntent().getParcelableExtra(KEY_EXPENSE);
+        Expense expense = getIntent().getParcelableExtra(App.KEY_EXPENSE);
         if (expense == null)
             mBuilder = new Expense.Builder();
         else

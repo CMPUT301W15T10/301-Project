@@ -36,6 +36,9 @@ public class EditClaimActivity extends Activity {
 
     private static final int REQ_CODE_CREATE_DESTINATION = 3;
     private static final int REQ_NEW_EXPENSE = 4;
+    private static final int REQ_EDIT_EXPENSE = 5;
+    private static final int REQ_CODE_EDIT_DESTINATION = 6;
+
     private ListView mDestinations;
     private ListView mExpenses;
 
@@ -53,6 +56,9 @@ public class EditClaimActivity extends Activity {
 
     private Claim.Builder mBuilder;
     private DateFormat mDateFormat;
+
+    private Expense mEdittingExpense;
+    private Pair<String, String> mEdittingDestination;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +95,23 @@ public class EditClaimActivity extends Activity {
                 intent.putExtra(EditDestinationActivity.DESTINATION, item.first);
                 intent.putExtra(EditDestinationActivity.REASON, item.second);
 
-                startActivityForResult(intent, REQ_CODE_CREATE_DESTINATION);
+                mEdittingDestination = item;
+
+                startActivityForResult(intent, REQ_CODE_EDIT_DESTINATION);
+            }
+        });
+
+        mExpenses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(EditClaimActivity.this, EditExpenseActivity.class);
+                ExpensesAdapter adapter = ((ExpensesAdapter) mExpenses.getAdapter());
+                Expense expense = adapter.getItem(position);
+                intent.putExtra(App.KEY_EXPENSE, expense);
+
+                mEdittingExpense = expense;
+
+                startActivityForResult(intent, REQ_EDIT_EXPENSE);
             }
         });
     }
@@ -184,6 +206,16 @@ public class EditClaimActivity extends Activity {
                     update();
                 }
                 break;
+            case REQ_CODE_EDIT_DESTINATION:
+                if (resultCode == RESULT_OK) {
+                    //TODO: bugged when editting a reason
+                    String reason = data.getStringExtra(EditDestinationActivity.REASON);
+                    String destination = data.getStringExtra(EditDestinationActivity.DESTINATION);
+                    mBuilder.removeDestination(mEdittingDestination.first);
+                    mBuilder.putDestinationAndReason(destination, reason);
+                    update();
+                }
+                break;
             case REQ_NEW_EXPENSE:
                 if (resultCode == RESULT_OK) {
                     //TODO: bugged when editting
@@ -193,6 +225,15 @@ public class EditClaimActivity extends Activity {
                 }
                 break;
 
+            case REQ_EDIT_EXPENSE:
+                if (resultCode == RESULT_OK) {
+                    //TODO: bugged when editting
+                    Expense expense = data.getParcelableExtra(App.KEY_EXPENSE);
+                    mBuilder.removeExpenseById(mEdittingExpense);
+                    mBuilder.putExpense(expense);
+                    update();
+                }
+                break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
@@ -205,7 +246,6 @@ public class EditClaimActivity extends Activity {
         if (mBuilder.isEndTimeSet()) {
             mEndDate.setText(mDateFormat.format(mBuilder.getEndTime()));
         }
-
 
         mDestinations.setAdapter(new DestinationAdapter(this, mBuilder.getDestinations()));
         mExpenses.setAdapter(new ExpensesAdapter(this, mBuilder.getExpenses()));

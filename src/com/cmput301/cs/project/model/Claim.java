@@ -384,6 +384,10 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
         public User getClaimant() {
             return mClaimant;
         }
+
+        public void removeDestination(String destination) {
+            mDestinations.remove(destination);
+        }
     }
 
     /**

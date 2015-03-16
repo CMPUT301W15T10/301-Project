@@ -1,5 +1,6 @@
 package com.cmput301.cs.project.controllers;
 
+import android.util.Log;
 import com.cmput301.cs.project.adapters.ClaimsAdapter;
 import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.model.ClaimsList;
@@ -23,9 +24,9 @@ public class ClaimListController {
         if(!claim.getClaimant().equals(mUser)){
             throw new IllegalArgumentException("Claim must have a user same as logged in user");
         }
+        Log.d("claimlist", claim.toString());
 
         mClaimsList.addClaim(claim);
-
     }
 
     public List<Claim> getApprovableClaims(){
@@ -43,7 +44,7 @@ public class ClaimListController {
 
     }
 
-    public List<Claim> getUsersClaims() {
+    public List<Claim> getClaimantClaims() {
         return mClaimsList.peekClaims();
     }
 

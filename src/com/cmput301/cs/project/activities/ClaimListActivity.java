@@ -41,6 +41,9 @@ public class ClaimListActivity extends ListActivity {
 
         App app = App.get(this);
 
+        Log.d("my tag", "HELLO WORLD!!!");
+
+
         mUser = app.getUser();
 
         mClaimListController = new ClaimListController(mUser, ClaimsList.getInstance(this));
@@ -53,18 +56,20 @@ public class ClaimListActivity extends ListActivity {
     public void onResume() {
         super.onResume();
 
-        Log.d("yo", "Yo yo yo");
-        ((ClaimsAdapter)getListAdapter()).notifyDataSetChanged();
-        ((ClaimsAdapter)getListAdapter()).notifyDataSetInvalidated();
+        mClaimantAdapter.notifyDataSetChanged();
+        mApproverAdapter.notifyDataSetChanged();
 
+
+        Log.d("my tag", "" + mClaimantAdapter.getCount());
+
+        ((ClaimsAdapter)getListAdapter()).notifyDataSetChanged();
 
     }
 
 	private void setupListView()
 	{
 		mApproverAdapter = new ClaimsAdapter(this, mClaimListController.getApprovableClaims());
-        mClaimantAdapter = new ClaimsAdapter(this, mClaimListController.getApprovableClaims());
-
+        mClaimantAdapter = new ClaimsAdapter(this, mClaimListController.getClaimantClaims());
 		setListAdapter(mClaimantAdapter);
 	
 	}
@@ -150,6 +155,7 @@ public class ClaimListActivity extends ListActivity {
     	if (requestCode == NEW_CLAIM) {
     		if (resultCode == RESULT_OK) {
     			Claim claim = data.getExtras().getParcelable(App.KEY_CLAIM);
+                Log.d("my tag", "" + mClaimantAdapter.getCount());
                 mClaimListController.addClaim(claim);
     		}
     	}

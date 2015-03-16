@@ -1,6 +1,7 @@
 package com.cmput301.cs.project.model;
 
 import android.content.Context;
+import android.util.Log;
 import com.cmput301.cs.project.utils.ClaimSaves;
 
 import java.util.Collections;
@@ -32,6 +33,8 @@ public class ClaimsList {
 
     public void addClaim(Claim claim) {
         mClaims.add(claim);
+
+        Log.d("claimlist", claim.toString());
 
         serialize();
     }

@@ -18,8 +18,6 @@ package com.cmput301.cs.project.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import com.cmput301.cs.project.controllers.TagsChangedListener;
-import com.cmput301.cs.project.controllers.TagsManager;
 import com.google.gson.InstanceCreator;
 
 import java.lang.reflect.Type;
@@ -29,11 +27,9 @@ import java.util.*;
  * Class that contains a set of implements Parcelable {@link com.cmput301.cs.project.model.Expense Expenses}, and details of a trip. <br/>
  * This is an immutable class. <br/>
  * Use {@link com.cmput301.cs.project.model.Claim.Builder Claim.Builder} to obtain an instance.
- * <p/>
- * If you want this to update itself as tags changes, add this with {@link TagsManager#addTagChangedListener(TagsChangedListener)}
  */
 // Effective Java Item 15, 17
-public final class Claim implements Comparable<Claim>, TagsChangedListener, Parcelable {
+public final class Claim implements Comparable<Claim>, Parcelable {
 
     /**
      * The unspecified title.
@@ -46,11 +42,11 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
     }
 
     public boolean canApprove(User user) {
-        if(mClaimant.equals(user)) {
+        if (mClaimant.equals(user)) {
             return false;
         }
 
-        if(mComments.size() == 0){
+        if (mComments.size() == 0) {
             return true;
         }
 
@@ -93,7 +89,6 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
 
         // default values
         private final List<Expense> mExpenses = new ArrayList<Expense>();
-
 
 
         private final Map<String, String> mDestinations = new HashMap<String, String>();  // Destination -> Reason
@@ -143,11 +138,11 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
             mGsonToFill = false;
         }
 
-        public Map<String, String> getDestinations(){
+        public Map<String, String> getDestinations() {
             return Collections.unmodifiableMap(mDestinations);
         }
 
-        public List<Expense> getExpenses(){
+        public List<Expense> getExpenses() {
             return Collections.unmodifiableList(mExpenses);
         }
 
@@ -526,29 +521,6 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
         return mStatus;
     }
 
-    @Override
-    public void onTagRenamed(Tag tag, String oldName) {
-        final String id = tag.getId();
-        for (Iterator<Tag> iterator = mTags.iterator(); iterator.hasNext(); ) {
-            final Tag t = iterator.next();
-            if (t.getId().equals(id)) {
-                iterator.remove();
-                mTags.add(tag);
-                break;
-            }
-        }
-    }
-
-    @Override
-    public void onTagDeleted(Tag tag) {
-        mTags.remove(tag);
-    }
-
-    @Override
-    public void onTagCreated(Tag tag) {
-        // do nothing
-    }
-
     /**
      * Compares this and another instance of {@code Expense} in the following order:
      * <ol>
@@ -556,13 +528,13 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
      * <li>{@link #getEndTime() end time}</li>
      * <li>{@link #getTitle() title}</li>
      * <li>{@link #getStatus() status} (by enum ordinal)</li>
-     * <li>{@link #getId() id}</li>
      * </ol>
      * Unsorted items:
      * <ul>
      * <li>{@link #peekExpenses() expenses}</li>
      * <li>{@link #peekDestinations() destinations}</li>
      * <li>{@link #peekTags() tags}</li>
+     * <li>{@link #getId() id}</li>
      * </ul>
      * This method is <em>inconsistent</em> with {@link #equals(Object)}: if this method returns {@code 0},
      * {@code equals(Object)} may not return {@code true}, as defined in <i>Effective Java</i> Item 12.
@@ -582,9 +554,6 @@ public final class Claim implements Comparable<Claim>, TagsChangedListener, Parc
 
         final int statusDiff = mStatus.compareTo(o.mStatus);
         if (statusDiff != 0) return statusDiff;
-
-        final int idDiff = mId.compareToIgnoreCase(o.mId);
-        if (idDiff != 0) return idDiff;
 
         return 0;
     }

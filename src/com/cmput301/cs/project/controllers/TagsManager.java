@@ -15,7 +15,7 @@ import java.util.*;
  *
  */
 
-public class TagsManager implements TagsChangedListener {
+public class TagsManager {
 
     private static TagsManager sInstance;
 
@@ -41,7 +41,6 @@ public class TagsManager implements TagsChangedListener {
     private TagsManager(ClaimSaves claimSaves) {
         mClaimSaves = claimSaves;
         mTags.addAll(claimSaves.readAllTags());
-        mListeners.add(this);
     }
 
     public void addTagChangedListener(TagsChangedListener listener) {
@@ -66,7 +65,7 @@ public class TagsManager implements TagsChangedListener {
         if (tag == null) {
             out = new Tag(name, this);
             mTags.add(out);
-            notifyListenersCreated(out);
+            tagCreatedInternal(out);
         } else {
             out = tag;
         }
@@ -95,7 +94,7 @@ public class TagsManager implements TagsChangedListener {
     public Tag renameTag(Tag tag, String newName) {
         final String oldName = tag.getName();
         final Tag newTag = new Tag(newName, this, tag.getId());
-        notifyListenersRenamed(newTag, oldName);
+        tagRenamedInternal(newTag, oldName);
         return newTag;
     }
 
@@ -103,7 +102,7 @@ public class TagsManager implements TagsChangedListener {
         final Tag tag = findTagById(id);
         if (tag != null) {
             mTags.remove(tag);
-            notifyListenersDeleted(tag);
+            tagDeletedInternal(tag);
         }
     }
 
@@ -111,8 +110,23 @@ public class TagsManager implements TagsChangedListener {
         final Tag tag = findTagByName(name);
         if (tag != null) {
             mTags.remove(tag);
-            notifyListenersDeleted(tag);
+            tagDeletedInternal(tag);
         }
+    }
+
+    private void tagCreatedInternal(Tag tag) {
+        mClaimSaves.saveAllTags(peekTags());
+        notifyListenersCreated(tag);
+    }
+
+    private void tagRenamedInternal(Tag tag, String oldName) {
+        mClaimSaves.saveAllTags(peekTags());
+        notifyListenersRenamed(tag, oldName);
+    }
+
+    private void tagDeletedInternal(Tag tag) {
+        mClaimSaves.saveAllTags(peekTags());
+        notifyListenersDeleted(tag);
     }
 
     private void notifyListenersCreated(Tag tag) {
@@ -120,6 +134,7 @@ public class TagsManager implements TagsChangedListener {
             listener.onTagCreated(tag);
         }
     }
+
 
     private void notifyListenersRenamed(Tag tag, String oldName) {
         for (TagsChangedListener listener : mListeners) {
@@ -135,20 +150,5 @@ public class TagsManager implements TagsChangedListener {
 
     public SortedSet<Tag> peekTags() {
         return Collections.unmodifiableSortedSet(mTags);
-    }
-
-    @Override
-    public void onTagRenamed(Tag tag, String oldName) {
-        mClaimSaves.saveAllTags(peekTags());
-    }
-
-    @Override
-    public void onTagDeleted(Tag tag) {
-        mClaimSaves.saveAllTags(peekTags());
-    }
-
-    @Override
-    public void onTagCreated(Tag tag) {
-        mClaimSaves.saveAllTags(peekTags());
     }
 }

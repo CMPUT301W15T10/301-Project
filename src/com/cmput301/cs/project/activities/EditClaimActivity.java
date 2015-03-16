@@ -116,7 +116,6 @@ public class EditClaimActivity extends Activity {
         });
     }
 
-
     /**
      * 
      * Method that sets up all the click listeners in this activity. Includes the discard bar as well.

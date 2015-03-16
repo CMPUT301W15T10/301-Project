@@ -105,6 +105,11 @@ public class ClaimViewActivity extends Activity {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Claim newClaim = Claim.Builder.copyFrom(mClaim).build();
+                newClaim.submitClaim();
+                mClaimList.editClaim(mClaim, newClaim);
+
                 finish();
 
             }

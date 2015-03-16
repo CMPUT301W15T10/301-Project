@@ -2,23 +2,32 @@ package com.cmput301.cs.project.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.TextWatcherAdapter;
 import com.cmput301.cs.project.model.Expense;
+import com.cmput301.cs.project.model.Receipt;
 import com.cmput301.cs.project.utils.Utils;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 
 public class EditExpenseActivity extends Activity {
     private static final int REQ_CODE_PICK_DATE = 1;
+    private static final int REQ_CODE_RECEIPT = 2;
 
     private Expense.Builder mBuilder;
 
@@ -32,6 +41,8 @@ public class EditExpenseActivity extends Activity {
 
     private Button mDate;
     private DateFormat mDateFormat;
+
+    private ImageButton mReceipt;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +67,7 @@ public class EditExpenseActivity extends Activity {
         }, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                setResult(RESULT_OK, new Intent().putExtra(KEY_EXPENSE, mBuilder.build()));
                 finish();
             }
         });
@@ -142,17 +153,58 @@ public class EditExpenseActivity extends Activity {
                         .selectedDate(mBuilder.getTime()).build(), REQ_CODE_PICK_DATE);
             }
         });
+
+        mReceipt = (ImageButton) findViewById(R.id.receiptImage);
+        mReceipt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                final Uri receiptFileUri = getReceiptUri();
+                Log.w("URI:", receiptFileUri.toString());
+
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, receiptFileUri);
+                startActivityForResult(intent, REQ_CODE_RECEIPT);
+            }
+        });
+    }
+
+    private Uri getReceiptUri() {
+        File file = new File(getStorageFolder(), mBuilder.getId() + ".jpg");
+        return Uri.fromFile(file);
+    }
+
+    // This is from http://developer.android.com/training/basics/data-storage/files.html
+    // March 15, 2015
+    private File getStorageFolder() {
+        File file = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "Receipt");
+
+        if (!file.mkdirs()) {
+            Log.e("Hi there", "Directory not created");
+        }
+
+        return file;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != RESULT_OK) {
+            super.onActivityResult(requestCode, resultCode, data);
+            return;
+        }
+
         switch (requestCode) {
             case REQ_CODE_PICK_DATE:
-                if (resultCode == RESULT_OK) {
-                    mBuilder.time(data.getLongExtra(CalendarActivity.KEY_DATE, -1));
-                    updateUI();
-                }
+                mBuilder.time(data.getLongExtra(CalendarActivity.KEY_DATE, -1));
+                updateUI();
                 break;
+
+            case REQ_CODE_RECEIPT:
+                mBuilder.receipt(new Receipt(getReceiptUri().toString()));
+                updateUI();
+                break;
+
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
@@ -164,19 +216,31 @@ public class EditExpenseActivity extends Activity {
         final Money money = mBuilder.getMoney();
         mAmount.setText(money.getAmount().toString());
 
+        int spinnerPosition = getIndex(mCurrency, money.getCurrencyUnit().toString());
+        mCurrency.setSelection(spinnerPosition);
+
         if (mBuilder.isTimeSet()) {
             mDate.setText(mDateFormat.format(mBuilder.getTime()));
         }
 
         if (mBuilder.isCategorySet()) {
-            int spinnerPosition = getIndex(mCategory, mBuilder.getCategory());
-            mCategory.setSelection(spinnerPosition);
+            int categoryPosition = getIndex(mCategory, mBuilder.getCategory());
+            mCategory.setSelection(categoryPosition);
         }
 
-        int spinnerPosition = getIndex(mCurrency, money.getCurrencyUnit().toString());
-        mCurrency.setSelection(spinnerPosition);
 
         mCompleted.setChecked(mBuilder.isCompleted());
+
+        if (mBuilder.hasReceipt()) {
+            mReceipt.setImageDrawable(getReceiptAsDrawable());
+        } else {
+            mReceipt.setImageDrawable(null);
+        }
+    }
+
+    private Drawable getReceiptAsDrawable() {
+        final File receiptFile = mBuilder.getReceipt().getFile();
+        return new BitmapDrawable(getResources(), receiptFile.getPath());
     }
 
     //private method of your class

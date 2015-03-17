@@ -16,6 +16,7 @@ import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.TextWatcherAdapter;
 import com.cmput301.cs.project.model.Expense;
 import com.cmput301.cs.project.model.Receipt;
+import com.cmput301.cs.project.utils.ReceiptLoading;
 import com.cmput301.cs.project.utils.Utils;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
@@ -176,30 +177,12 @@ public class EditExpenseActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                final Uri receiptFileUri = getReceiptUri();
+                final Uri receiptFileUri = ReceiptLoading.getReceiptUri(mBuilder.getId());
 
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, receiptFileUri);
                 startActivityForResult(intent, REQ_CODE_RECEIPT);
             }
         });
-    }
-
-    private Uri getReceiptUri() {
-        File file = new File(getStorageFolder(), mBuilder.getId() + ".jpg");
-        return Uri.fromFile(file);
-    }
-
-    // This is from http://developer.android.com/training/basics/data-storage/files.html
-    // March 15, 2015
-    private File getStorageFolder() {
-        File file = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
-
-        if (!file.mkdirs()) {
-
-        }
-
-        return file;
     }
 
     @Override
@@ -216,7 +199,8 @@ public class EditExpenseActivity extends Activity {
                 break;
 
             case REQ_CODE_RECEIPT:
-                mBuilder.receipt(new Receipt(getReceiptUri().toString()));
+                final Uri receiptFileUri = ReceiptLoading.getReceiptUri(mBuilder.getId());
+                mBuilder.receipt(new Receipt(receiptFileUri.toString()));
                 updateUI();
                 break;
 
@@ -247,17 +231,16 @@ public class EditExpenseActivity extends Activity {
         mCompleted.setChecked(mBuilder.isCompleted());
 
         if (mBuilder.hasReceipt()) {
-            mReceipt.setImageDrawable(getReceiptAsDrawable());
+            final Uri receiptFileUri = ReceiptLoading.getReceiptUri(mBuilder.getId());
+            final BitmapDrawable drawable = new BitmapDrawable(getResources(), receiptFileUri.toString());
+            mReceipt.setImageDrawable(drawable);
         } else {
             mReceipt.setImageDrawable(null);
         }
     }
 
-    private Drawable getReceiptAsDrawable() {
-        return new BitmapDrawable(getResources(), getReceiptUri().getPath());
-    }
-
-    //private method of your class
+    // This is from http://stackoverflow.com/questions/2390102/how-to-set-selected-item-of-spinner-by-value-not-by-position
+    // on March 15, 2015
     private int getIndex(Spinner spinner, String wantedString) {
         int index = 0;
 

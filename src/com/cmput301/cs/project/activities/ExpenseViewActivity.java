@@ -1,8 +1,10 @@
 package com.cmput301.cs.project.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,9 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.model.Expense;
+import com.cmput301.cs.project.model.Receipt;
+import com.cmput301.cs.project.utils.ReceiptLoading;
 import org.joda.money.Money;
 
-import java.io.File;
+import java.net.URI;
 import java.text.DateFormat;
 
 
@@ -24,9 +28,8 @@ import java.text.DateFormat;
  * An activity that shows the details of an {@link com.cmput301.cs.project.model.Expense Expense}. </br>
  * Has a menu button that calls {@link com.cmput301.cs.project.activities.EditExpenseActivity EditExpenseActivity} for editing
  * on that expense.
- * 
- * @author rozsa
  *
+ * @author rozsa
  */
 
 public class ExpenseViewActivity extends Activity {
@@ -79,18 +82,15 @@ public class ExpenseViewActivity extends Activity {
         mDate.setText(mDateFormat.format(mExpense.getTime()));
         mCategory.setText(mExpense.getCategory());
 
-        mCompleted.setText(mExpense.isCompleted() ? "Yes" : "No");
+        mCompleted.setText(mExpense.isCompleted() ? "Completed" : "In Progress");
 
         if (mExpense.hasReceipt()) {
-            mReceipt.setImageDrawable(getReceiptAsDrawable());
+            final Uri receiptFileUri = ReceiptLoading.getReceiptUri(mExpense.getId());
+            final BitmapDrawable drawable = new BitmapDrawable(getResources(), receiptFileUri.toString());
+            mReceipt.setImageDrawable(drawable);
         } else {
             mReceipt.setImageDrawable(null);
         }
-    }
-
-    private Drawable getReceiptAsDrawable() {
-        final File receiptFile = mExpense.getReceipt().getFile();
-        return new BitmapDrawable(getResources(), receiptFile.getPath());
     }
 
     @Override

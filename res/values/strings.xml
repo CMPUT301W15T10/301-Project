@@ -103,9 +103,9 @@
 
 
     <string name="title_activity_new_destination">NewDestinationActivity</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="completed">Completed</string>
+    <string name="yes">Completed</string>
+    <string name="no">In Progress</string>
+    <string name="completed">Expense Status</string>
     <string name="no_receipt">There is no receipt available.</string>
     <string name="claimant">Claimant</string>
     <string name="approver">Approver</string>
@@ -116,7 +116,7 @@
     <string name="delete_destination">Delete Destination</string>
 
     <string name="description">Description</string>
-    <string name="money">Money</string>
+    <string name="money">Cost</string>
     <string name="receipt">Receipt</string>
 
 

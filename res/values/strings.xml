@@ -104,7 +104,7 @@
 
     <string name="title_activity_new_destination">NewDestinationActivity</string>
     <string name="yes">Completed</string>
-    <string name="no">No</string>
+    <string name="no">In Progress</string>
     <string name="completed">Completed</string>
     <string name="no_receipt">There is no receipt available.</string>
     <string name="claimant">Claimant</string>

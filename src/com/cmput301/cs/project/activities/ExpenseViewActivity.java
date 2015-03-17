@@ -82,7 +82,7 @@ public class ExpenseViewActivity extends Activity {
         mDate.setText(mDateFormat.format(mExpense.getTime()));
         mCategory.setText(mExpense.getCategory());
 
-        mCompleted.setText(mExpense.isCompleted() ? "Yes" : "No");
+        mCompleted.setText(mExpense.isCompleted() ? "Completed" : "In Progress");
 
         if (mExpense.hasReceipt()) {
             final Uri receiptFileUri = ReceiptLoading.getReceiptUri(mExpense.getId());

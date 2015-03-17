@@ -25,7 +25,7 @@ import org.joda.money.Money;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Class that contains the details of an expense. <br/>
@@ -34,6 +34,31 @@ import java.util.UUID;
  */
 // Effective Java Item 15, 17
 public final class Expense implements Comparable<Expense>, Parcelable {
+
+    public static final Set<String> CATEGORIES = Collections.unmodifiableSet(new TreeSet<String>() {{
+        add("Accomodation");
+        add("Air Fare");
+        add("Ground Transport");
+        add("Vehicle Rental");
+        add("Fuel");
+        add("Parking");
+        add("Registration");
+        add("Meal");
+        add("Others");
+    }});
+
+    public static final Set<CurrencyUnit> CURRENCIES = Collections.unmodifiableSet(new TreeSet<CurrencyUnit>()
+    {{
+            add(CurrencyUnit.GBP);
+            add(CurrencyUnit.CAD);
+            add(CurrencyUnit.EUR);
+            add(CurrencyUnit.USD);
+            add(CurrencyUnit.CHF);
+            add(CurrencyUnit.JPY);
+            add(CurrencyUnit.getInstance("CNY"));
+
+        }});
+
 
     /**
      * The default {@link Money}, with the amount of zero in USD.
@@ -124,6 +149,11 @@ public final class Expense implements Comparable<Expense>, Parcelable {
          */
         public Builder currencyUnit(CurrencyUnit unit) {
             ClaimUtils.nonNullOrThrow(unit, "unit");
+
+            if(!CURRENCIES.contains(unit)){
+                throw new IllegalArgumentException(unit + "is not a valid currency");
+            }
+
             mMoney = mMoney.withCurrencyUnit(unit, RoundingMode.UP);
             return this;
         }
@@ -165,7 +195,14 @@ public final class Expense implements Comparable<Expense>, Parcelable {
          * @see #getCategory()
          * @see #isCategorySet()
          */
+
         public Builder category(String category) {
+            ClaimUtils.nonNullnonEmptyOrThrow(category,"category");
+
+            if(!CATEGORIES.contains(category)){
+                throw new IllegalArgumentException(category + "is not a valid category");
+            }
+
             mCategory = category;
             return this;
         }

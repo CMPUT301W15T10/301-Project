@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
-import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.cmput301.cs.project.App;
@@ -22,8 +21,10 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.util.ArrayList;
 
 
 /**
@@ -124,10 +125,11 @@ public class EditExpenseActivity extends Activity {
         });
 
         mCategory = (Spinner) findViewById(R.id.category);
+        mCategory.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new ArrayList<String>(Expense.CATEGORIES)));
         mCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                final ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) parent.getAdapter();
+                final ArrayAdapter<String> adapter = (ArrayAdapter<String>) parent.getAdapter();
                 mBuilder.category(adapter.getItem(position).toString());
             }
 
@@ -138,12 +140,12 @@ public class EditExpenseActivity extends Activity {
 
 
         mCurrency = (Spinner) findViewById(R.id.currency);
+        mCurrency.setAdapter(new ArrayAdapter<CurrencyUnit>(this, android.R.layout.simple_spinner_item,new ArrayList<CurrencyUnit>(Expense.CURRENCIES)));
         mCurrency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                final ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) parent.getAdapter();
-                final CurrencyUnit unit = CurrencyUnit.getInstance(adapter.getItem(position).toString());
-                mBuilder.currencyUnit(unit);
+                final ArrayAdapter<CurrencyUnit> adapter = (ArrayAdapter<CurrencyUnit>) parent.getAdapter();
+                mBuilder.currencyUnit(adapter.getItem(position));
             }
 
             @Override
@@ -194,8 +196,7 @@ public class EditExpenseActivity extends Activity {
                 Environment.DIRECTORY_PICTURES);
 
         if (!file.mkdirs()) {
-            Log.e("Hi there", file.toString());
-            Log.e("hi there ", "" + file.exists());
+
         }
 
         return file;
@@ -230,7 +231,7 @@ public class EditExpenseActivity extends Activity {
         final Money money = mBuilder.getMoney();
         mAmount.setText(money.getAmount().toString());
 
-        int spinnerPosition = getIndex(mCurrency, money.getCurrencyUnit().toString());
+        int spinnerPosition = ((ArrayAdapter<CurrencyUnit>) mCurrency.getAdapter()).getPosition(money.getCurrencyUnit());
         mCurrency.setSelection(spinnerPosition);
 
         if (mBuilder.isTimeSet()) {

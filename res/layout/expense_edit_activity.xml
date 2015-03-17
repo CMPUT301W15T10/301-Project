@@ -43,7 +43,7 @@
             android:layout_marginStart="@dimen/small_padding"
             android:layout_marginEnd="@dimen/small_padding"
             android:layout_marginBottom="@dimen/small_padding"
-            android:entries="@array/expense_categories"/>
+            />
 
         <TextView
             style="?android:listSeparatorTextViewStyle"
@@ -84,7 +84,7 @@
                 android:id="@+id/currency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/currencies"/>
+            />
 
         </LinearLayout>
 

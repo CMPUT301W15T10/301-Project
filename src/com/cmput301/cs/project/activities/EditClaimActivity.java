@@ -228,6 +228,7 @@ public class EditClaimActivity extends Activity {
                 if (resultCode == RESULT_OK) {
                     //TODO: bugged when editting
                     Expense expense = data.getParcelableExtra(App.KEY_EXPENSE);
+
                     mBuilder.removeExpenseById(mEdittingExpense);
                     mBuilder.putExpense(expense);
                     update();

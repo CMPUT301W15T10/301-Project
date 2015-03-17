@@ -7,10 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import com.cmput301.cs.project.utils.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class DestinationAdapter extends ArrayAdapter<Pair<String, String>> {

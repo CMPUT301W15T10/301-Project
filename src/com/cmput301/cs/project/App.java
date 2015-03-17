@@ -27,13 +27,12 @@ package com.cmput301.cs.project;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import com.cmput301.cs.project.activities.LoginActivity;
 import com.cmput301.cs.project.model.User;
 
 
 public final class App extends Application {
+
     private static final String USER_PREFERENCES = "USER_PREFERENCES";
     private static final String USER_ID = "USER_ID";
     private static final String USER_NAME = "USER_NAME";

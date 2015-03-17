@@ -61,7 +61,7 @@ public class ClaimsList {
     }
 
     public List<Claim> peekClaims() {
-        return Collections.unmodifiableList(mClaims);
+        return mClaims;
     }
 
 }

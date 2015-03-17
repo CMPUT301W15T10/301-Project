@@ -19,8 +19,13 @@ package com.cmput301.cs.project.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.gson.InstanceCreator;
+import org.joda.money.CurrencyUnit;
+import org.joda.money.Money;
+import org.joda.money.format.MoneyFormatter;
+import org.joda.money.format.MoneyFormatterBuilder;
 
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -35,6 +40,20 @@ public final class Claim implements Comparable<Claim>, Parcelable {
      * The unspecified title.
      */
     public static final String TITLE_UNNAMED = "";
+    public static final Comparator<? super Claim> START_DESCENDING = new Comparator<Claim>() {
+        @Override
+        public int compare(Claim lhs, Claim rhs) {
+            return ((Long) lhs.getStartTime()).compareTo(rhs.getStartTime());
+        }
+    };
+
+    public static final Comparator<? super Claim> START_ASCENDING = new Comparator<Claim>() {
+        @Override
+        public int compare(Claim lhs, Claim rhs) {
+            return ((Long) rhs.getStartTime()).compareTo(lhs.getStartTime());
+        }
+    };
+
     private final User mClaimant;
 
     public User getClaimant() {
@@ -56,6 +75,52 @@ public final class Claim implements Comparable<Claim>, Parcelable {
     public boolean isEditable() {
         return false;
     }
+
+    //http://stackoverflow.com/a/669165/1036813 March 17 2015 blaine1
+
+    public String getTagsAsString() {
+        StringBuilder sb = new StringBuilder();
+
+
+        String delimiter = "";
+        for (Tag tag : mTags){
+            sb.append(tag).append(delimiter);
+            delimiter = ", ";
+        }
+
+        return sb.toString();
+
+    }
+
+    //http://stackoverflow.com/a/669165/1036813 March 17 2015 blaine1
+
+    public String getTotalsAsString() {
+        Map<CurrencyUnit, Money> totals = new HashMap<CurrencyUnit, Money>();
+
+        for (Expense expense : mExpenses){
+            Money amount = expense.getAmount();
+            if(totals.containsKey(amount.getCurrencyUnit())){
+                Money newAmount = totals.get(amount.getCurrencyUnit()).plus(amount.getAmount());
+                totals.put(amount.getCurrencyUnit(), newAmount);
+            } else {
+                totals.put(amount.getCurrencyUnit(), amount);
+            }
+
+        }
+
+        StringBuilder sb = new StringBuilder();
+        String delimiter = "";
+
+        for (Map.Entry<CurrencyUnit, Money> amount : totals.entrySet()){
+            sb.append(amount.getValue().toString()).append(delimiter);
+            delimiter = ",";
+
+        }
+
+        return sb.toString();
+
+    }
+
 
     public enum Status {
         IN_PROGRESS(true), SUBMITTED(false), RETURNED(true), APPROVED(false);

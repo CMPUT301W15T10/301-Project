@@ -72,8 +72,8 @@ public class ClaimListActivity extends ListActivity {
         mClaimantAdapter.notifyDataSetChanged();
         mApproverAdapter.notifyDataSetChanged();
 
-
-        ((ClaimsAdapter)getListAdapter()).notifyDataSetChanged();
+        mClaimantAdapter.sort(Claim.START_DESCENDING);
+        mApproverAdapter.sort(Claim.START_ASCENDING);
 
     }
 
@@ -81,6 +81,7 @@ public class ClaimListActivity extends ListActivity {
 	{
 		mApproverAdapter = new ClaimsAdapter(this, mClaimListController.getApprovableClaims());
         mClaimantAdapter = new ClaimsAdapter(this, mClaimListController.getClaimantClaims());
+
 		setListAdapter(mClaimantAdapter);
 	
 	}

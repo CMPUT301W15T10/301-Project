@@ -118,9 +118,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
                             .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    // TODO newClaim == mClaim ???
-                                    Claim newClaim = Claim.Builder.copyFrom(mClaim).build();
-                                    newClaim.submitClaim();
+                                    final Claim newClaim = mClaim.edit().submitClaim().build();
                                     mClaimList.editClaim(mClaim, newClaim);
                                     finish();
                                 }

@@ -350,6 +350,43 @@ public final class Claim implements Comparable<Claim>, Parcelable {
             return this;
         }
 
+        public Builder submitClaim() {
+            mStatus = Status.SUBMITTED;
+            return this;
+        }
+
+        public Builder returnClaim(User approver, Comment comment) {
+            changeStatus(Status.RETURNED, approver, comment);
+            return this;
+        }
+
+        public Builder approveClaim(User approver, Comment comment) {
+            changeStatus(Status.APPROVED, approver, comment);
+            return this;
+        }
+
+        private void changeStatus(Status status, User approver, Comment comment) {
+            if (approver == mClaimant) {
+                throw new IllegalArgumentException("Approver cannot be claimaint");
+            }
+
+            changeStatus(status);
+        }
+
+        private void changeStatus(Status status) {
+            if ((mStatus == Status.IN_PROGRESS || mStatus == Status.RETURNED) && status != Status.SUBMITTED) {
+                throw new IllegalStateException("Statuses cannot be changed in such a way");
+            }
+            if (mStatus == Status.SUBMITTED && status != Status.SUBMITTED || status != Status.APPROVED) {
+                throw new IllegalStateException("Statuses cannot be changed in such a way");
+            }
+            if (mStatus == Status.APPROVED) {
+                throw new IllegalStateException("Statuses cannot be changed in such a way");
+            }
+
+            mStatus = status;
+        }
+
         /**
          * Peeks at the list of {@link com.cmput301.cs.project.model.Tag Tags}.
          *
@@ -480,7 +517,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
     private final long mStartTime;
     private final long mEndTime;
     private final String mId;
-    private Status mStatus;
+    private final Status mStatus;
     private final List<Comment> mComments;
 
     // Effective Java Item 2
@@ -684,40 +721,6 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         result = 31 * result + mComments.hashCode();
         result = 31 * result + mClaimant.hashCode();
         return result;
-    }
-
-    public void submitClaim() {
-        mStatus = Status.SUBMITTED;
-    }
-
-    public void returnClaim(User approver, Comment comment) {
-        changeStatus(Status.RETURNED, approver, comment);
-    }
-
-    public void approveClaim(User approver, Comment comment) {
-        changeStatus(Status.APPROVED, approver, comment);
-    }
-
-    private void changeStatus(Status status, User approver, Comment comment) {
-        if (approver == mClaimant) {
-            throw new IllegalArgumentException("Approver cannot be claimaint");
-        }
-
-        changeStatus(status);
-    }
-
-    private void changeStatus(Status status) {
-        if ((mStatus == Status.IN_PROGRESS || mStatus == Status.RETURNED) && status != Status.SUBMITTED) {
-            throw new IllegalStateException("Statuses cannot be changed in such a way");
-        }
-        if (mStatus == Status.SUBMITTED && status != Status.SUBMITTED || status != Status.APPROVED) {
-            throw new IllegalStateException("Statuses cannot be changed in such a way");
-        }
-        if (mStatus == Status.APPROVED) {
-            throw new IllegalStateException("Statuses cannot be changed in such a way");
-        }
-
-        mStatus = status;
     }
 
 

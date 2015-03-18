@@ -152,12 +152,7 @@ public class EditClaimActivity extends Activity {
                                 update();
                             }
                         })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        })
+                        .setNegativeButton(android.R.string.no, null)
                         .create()
                         .show();
                 return true;

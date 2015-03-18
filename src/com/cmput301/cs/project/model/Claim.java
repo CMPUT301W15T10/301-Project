@@ -21,11 +21,8 @@ import android.os.Parcelable;
 import com.google.gson.InstanceCreator;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
-import org.joda.money.format.MoneyFormatter;
-import org.joda.money.format.MoneyFormatterBuilder;
 
 import java.lang.reflect.Type;
-import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -79,17 +76,15 @@ public final class Claim implements Comparable<Claim>, Parcelable {
     //http://stackoverflow.com/a/669165/1036813 March 17 2015 blaine1
 
     public String getTagsAsString() {
-        StringBuilder sb = new StringBuilder();
-
+        final StringBuilder sb = new StringBuilder();
 
         String delimiter = "";
-        for (Tag tag : mTags){
-            sb.append(tag).append(delimiter);
+        for (Tag tag : mTags) {
+            sb.append(delimiter).append(tag.getName());
             delimiter = ", ";
         }
 
         return sb.toString();
-
     }
 
     //http://stackoverflow.com/a/669165/1036813 March 17 2015 blaine1
@@ -97,9 +92,9 @@ public final class Claim implements Comparable<Claim>, Parcelable {
     public String getTotalsAsString() {
         Map<CurrencyUnit, Money> totals = new HashMap<CurrencyUnit, Money>();
 
-        for (Expense expense : mExpenses){
+        for (Expense expense : mExpenses) {
             Money amount = expense.getAmount();
-            if(totals.containsKey(amount.getCurrencyUnit())){
+            if (totals.containsKey(amount.getCurrencyUnit())) {
                 Money newAmount = totals.get(amount.getCurrencyUnit()).plus(amount.getAmount());
                 totals.put(amount.getCurrencyUnit(), newAmount);
             } else {
@@ -111,7 +106,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         StringBuilder sb = new StringBuilder();
         String delimiter = "";
 
-        for (Map.Entry<CurrencyUnit, Money> amount : totals.entrySet()){
+        for (Map.Entry<CurrencyUnit, Money> amount : totals.entrySet()) {
             sb.append(amount.getValue().toString()).append(delimiter);
             delimiter = ",";
 
@@ -273,6 +268,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         }
 
         public Builder addTag(Tag tag) {
+            ClaimUtils.nonNullOrThrow(tag, "tag");
             mTags.add(tag);
             return this;
         }
@@ -355,6 +351,15 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         public Builder removeTag(Tag tag) {
             mTags.remove(tag);
             return this;
+        }
+
+        /**
+         * Peeks at the list of {@link com.cmput301.cs.project.model.Tag Tags}.
+         *
+         * @return an unmodifiable set of {@code Tag}
+         */
+        public SortedSet<Tag> peekTags() {
+            return Collections.unmodifiableSortedSet(mTags);
         }
 
         /**
@@ -517,7 +522,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         } else {
             mExpenses = null;
         }
-        mTags = (SortedSet) in.readValue(SortedSet.class.getClassLoader());
+        mTags = new TreeSet<Tag>(in.readArrayList(Tag.class.getClassLoader()));
         mTitle = in.readString();
         mStartTime = in.readLong();
         mEndTime = in.readLong();
@@ -732,7 +737,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
             dest.writeByte((byte) (0x01));
             dest.writeList(mExpenses);
         }
-        dest.writeValue(mTags);
+        dest.writeList(new ArrayList<Tag>(mTags));
         dest.writeString(mTitle);
         dest.writeLong(mStartTime);
         dest.writeLong(mEndTime);

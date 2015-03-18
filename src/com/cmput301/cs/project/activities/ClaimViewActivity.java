@@ -22,13 +22,13 @@ import com.cmput301.cs.project.utils.Utils;
 import java.text.DateFormat;
 
 /**
- * The activity that is called when a item is clicked within {@link com.cmput301.cs.project.activites.ClaimListActivity ClaimListActivity}
+ * The activity that is called when a item is clicked within {@link com.cmput301.cs.project.activities.ClaimListActivity ClaimListActivity}
  * that shows the specific details of that claim. </br>
- * Menu items allow {@link com.cmput301.cs.project.activites.EditClaimActivity EditClaimActivity} to be called on the claim
+ * Menu items allow {@link com.cmput301.cs.project.activities.EditClaimActivity EditClaimActivity} to be called on the claim
  * and for a claim to be deleted.</br>
  * The activity lists the StartDate, EndDate, Currencies, Status, Destinations and calls {@link com.cmput301.cs.project.activities.ExpenseListActivity ExpenseListActivity}
  * when the associated button is clicked.</br>
- * Returns to the {@link com.cmput301.cs.project.activites.ClaimListActivity ClaimListActivity} when Submit button is clicked.
+ * Returns to the {@link com.cmput301.cs.project.activities.ClaimListActivity ClaimListActivity} when Submit button is clicked.
  *
  * A claim must be passed via an intent for this activity to work
  *
@@ -44,6 +44,7 @@ public class ClaimViewActivity extends Activity {
     TextView mStartDate;
     TextView mEndDate;
     TextView mStatus;
+    TextView mTags;
     DateFormat mDateFormat;
 
     ClaimsList mClaimList;
@@ -58,10 +59,11 @@ public class ClaimViewActivity extends Activity {
 
         mClaim = getIntent().getExtras().getParcelable(App.KEY_CLAIM);
 
+        mDateFormat = android.text.format.DateFormat.getMediumDateFormat(this);
+
         findViewsByIds();
 
         initButtons();
-
     }
 
     private void findViewsByIds() {
@@ -71,19 +73,15 @@ public class ClaimViewActivity extends Activity {
         mEndDate = (TextView) findViewById(R.id.endDate);
         mStatus = (TextView) findViewById(R.id.statusText);
         mDestinations = (ListView) findViewById(R.id.destinations);
-
-        mDateFormat = android.text.format.DateFormat.getMediumDateFormat(this);
-
+        mTags = (TextView) findViewById(R.id.tags);
     }
 
     private void update() {
         mStartDate.setText(mDateFormat.format(mClaim.getStartTime()));
         mEndDate.setText(mDateFormat.format(mClaim.getEndTime()));
-
         mStatus.setText(Utils.stringIdForClaimStatus(mClaim.getStatus()));
-
         mDestinations.setAdapter(new DestinationAdapter(this, mClaim.getDestinations()));
-
+        mTags.setText(mClaim.getTagsAsString());
     }
 
     @Override
@@ -184,7 +182,5 @@ public class ClaimViewActivity extends Activity {
 
             update();
         }
-
     }
-
 }

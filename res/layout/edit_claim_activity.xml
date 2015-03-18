@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/pick_start_date"/>
+            android:hint="@string/start_date_hint"/>
 
         <Button
             android:id="@+id/endDate"
@@ -28,9 +28,22 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/pick_end_date"/>
-        
+            android:hint="@string/end_date_hint"/>
+
     </LinearLayout>
+
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tags"/>
+
+    <Button
+        android:id="@+id/tags"
+        style="?android:buttonBarButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/tags_hint"/>
 
     <TextView
         style="?android:listSeparatorTextViewStyle"
@@ -57,15 +70,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/list_of_destinations_text"/>
-        
-     <ListView
-         android:id="@+id/destinationList"
-         android:layout_width="match_parent"
-         android:layout_height="0dp"
-         android:layout_weight="1">
+
+    <ListView
+        android:id="@+id/destinationList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
     </ListView>
-    
+
     <Button
         android:id="@+id/newDestination"
         android:layout_width="match_parent"

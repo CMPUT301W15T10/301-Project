@@ -1,7 +1,9 @@
 package com.cmput301.cs.project.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Pair;
@@ -9,27 +11,30 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.DestinationAdapter;
 import com.cmput301.cs.project.adapters.ExpensesAdapter;
+import com.cmput301.cs.project.controllers.TagsManager;
 import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.model.Expense;
+import com.cmput301.cs.project.model.Tag;
 import com.cmput301.cs.project.utils.Utils;
 
 import java.text.DateFormat;
+import java.util.SortedSet;
 
 /**
  * The activity that is called when a New Claim is created or when an existing claim is going to be edited. </br>
  * Able to add {@link com.cmput301.cs.project.model.Expense Expenses} and {@link com.cmput301.cs.project.model.Claim Destinations}
- *  from this screen as well as {@literal StartDate} and {@literal EndDate}.
- *
+ * from this screen as well as {@literal StartDate} and {@literal EndDate}.
+ * <p/>
  * A claim must be passed via an intent as App.KEY_CLAIM.
- *
+ * <p/>
  * If there is no claim passed it is assumed that the activity is creating a new claim
  *
  * @author rozsa
- *
  */
 
 public class EditClaimActivity extends Activity {
@@ -53,6 +58,7 @@ public class EditClaimActivity extends Activity {
     private Button mEndDate;
     private Button mNewDestination;
     private Button mNewExpense;
+    private TextView mTags;
 
     private Claim.Builder mBuilder;
     private DateFormat mDateFormat;
@@ -74,6 +80,7 @@ public class EditClaimActivity extends Activity {
         mNewExpense = (Button) findViewById(R.id.newExpense);
         mDestinations = (ListView) findViewById(R.id.destinationList);
         mExpenses = (ListView) findViewById(R.id.expenseList);
+        mTags = (TextView) findViewById(R.id.tags);
 
         initBuilder();
         initButtons();
@@ -114,16 +121,60 @@ public class EditClaimActivity extends Activity {
                 startActivityForResult(intent, REQ_EDIT_EXPENSE);
             }
         });
+
+        mTags.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String[] tags = getTagNamesFromManager();
+                final boolean[] states = getTagsState();
+                new AlertDialog.Builder(EditClaimActivity.this)
+                        .setMultiChoiceItems(tags, states, new DialogInterface.OnMultiChoiceClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                states[which] = isChecked;
+                            }
+                        })
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                final TagsManager manager = TagsManager.get(EditClaimActivity.this);
+                                for (int i = 0, tagsLength = tags.length; i < tagsLength; i++) {
+                                    final Tag tag = manager.findTagByName(tags[i]);
+                                    final boolean isChecked = states[i];
+                                    if (isChecked) {
+                                        mBuilder.addTag(tag);
+                                    } else {
+                                        mBuilder.removeTag(tag);
+                                    }
+                                }
+                                update();
+                            }
+                        })
+                        .create()
+                        .show();
+            }
+        });
+    }
+
+    private String[] getTagNamesFromManager() {
+        final SortedSet<Tag> tags = TagsManager.get(EditClaimActivity.this).peekTags();
+        final String[] out = new String[tags.size()];
+        int i = 0;
+        for (Tag tag : tags) {  // would crash if someone else modifies the tags during this loop
+            out[i] = tag.getName();
+            i += 1;
+        }
+        return out;
     }
 
     /**
-     * 
      * Method that sets up all the click listeners in this activity. Includes the discard bar as well.
+     *
      * @author rozsa
      */
     private void initButtons() {
-    	
-    	mStartDate.setOnClickListener(new View.OnClickListener() {
+
+        mStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new CalendarActivity.Builder(EditClaimActivity.this)
@@ -148,7 +199,7 @@ public class EditClaimActivity extends Activity {
                 startActivityForResult(intent, REQ_CODE_CREATE_DESTINATION);
             }
         });
-        
+
         mNewExpense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,8 +221,8 @@ public class EditClaimActivity extends Activity {
             }
         });
     }
-    
-    
+
+
     private void initBuilder() {
         final Claim claim = getIntent().getParcelableExtra(App.KEY_CLAIM);
         if (claim == null) {
@@ -249,6 +300,30 @@ public class EditClaimActivity extends Activity {
 
         mDestinations.setAdapter(new DestinationAdapter(this, mBuilder.getDestinations()));
         mExpenses.setAdapter(new ExpensesAdapter(this, mBuilder.getExpenses()));
+        mTags.setText(getTagsAsCharSequence());
+    }
 
+    private CharSequence getTagsAsCharSequence() {
+        final StringBuilder builder = new StringBuilder();
+
+        String separator = "";
+        for (Tag tag : mBuilder.peekTags()) {
+            builder.append(separator).append(tag.getName());
+            separator = ", ";
+        }
+
+        return builder.toString();
+    }
+
+    private boolean[] getTagsState() {
+        final SortedSet<Tag> allTags = TagsManager.get(this).peekTags();
+        final SortedSet<Tag> addedTags = mBuilder.peekTags();
+        final boolean[] out = new boolean[allTags.size()];
+        int i = 0;
+        for (Tag tag : allTags) {
+            out[i] = addedTags.contains(tag);
+            i += 1;
+        }
+        return out;
     }
 }

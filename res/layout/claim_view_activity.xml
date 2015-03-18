@@ -1,88 +1,90 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/small_padding"
-            android:layout_marginEnd="@dimen/small_padding"
-            android:layout_marginTop="@dimen/small_padding"
-            android:layout_marginBottom="@dimen/small_padding">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:layout_marginStart="@dimen/small_padding"
+              android:layout_marginEnd="@dimen/small_padding"
+              android:layout_marginTop="@dimen/small_padding"
+              android:layout_marginBottom="@dimen/small_padding">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-	
-	    <LinearLayout 
-	        android:layout_width="match_parent"
-	        android:layout_height="0dp"
-	        android:layout_weight="1"
-	        android:orientation="horizontal"
-	        style="?android:buttonBarStyle">
-	        
-	        <TextView
-	            android:id="@+id/startDate"
-	            style="?android:buttonBarButtonStyle"
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"
-	            
-	            android:textAlignment="center" />
-	        
-	        <TextView
-	            android:id="@+id/endDate"
-	            style="?android:buttonBarButtonStyle"
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"
-	            
-	            android:textAlignment="center" />
-	        
-	    </LinearLayout>
-	    
-	    <TextView 
-	        style="?android:listSeparatorTextViewStyle"
-	        android:layout_width="match_parent"
-	        android:layout_height="0dp"
-	        android:layout_weight="1"
-	        android:text="Currency"/>
-	    
-	    <TextView 
-	        style="?android:listSeparatorTextViewStyle"
-	        android:layout_width="match_parent"
-	        android:layout_height="0dp"
-	        android:layout_weight="1"
-	        android:text="Status"/>
+        android:orientation="horizontal">
 
-	    <TextView
-	        android:id="@+id/statusText"
-	        android:layout_width="match_parent"
-	        android:layout_height="0dp"
-	        android:layout_weight="1" />
-	    
-	    <TextView 
-	        style="?android:listSeparatorTextViewStyle"
-	        android:layout_width="match_parent"
-	        android:layout_height="0dp"
-	        android:layout_weight="1"
-	        android:text="Destinations"/>
+        <TextView
+            android:id="@+id/startDate"
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="false"/>
 
-        <ListView android:id="@+id/destinations"
-                  android:layout_width="match_parent" android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@android:drawable/ic_media_play"
+            android:contentDescription="@string/to"/>
 
-        </ListView>
-
-	    <Button
-	        android:id="@+id/expenseButton"
-	        android:layout_width="match_parent"
-	        android:layout_height="0dp"
-	        android:layout_weight="1"
-	        android:text="@string/expenses_text" />
-	    
-	    <Button
-	        android:id="@+id/submitButton"
-	        android:layout_width="match_parent"
-	        android:layout_height="0dp"
-	        android:layout_weight="1"
-	        android:text="@string/submit_text" /> 
+        <TextView
+            android:id="@+id/endDate"
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="false"/>
 
     </LinearLayout>
-</ScrollView>
+
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tags"/>
+
+    <include
+        android:id="@+id/tags"
+        layout="@android:layout/simple_list_item_activated_1"/>
+
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/currency"/>
+
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/status"/>
+
+    <include
+        android:id="@+id/statusText"
+        layout="@android:layout/simple_list_item_activated_1"/>
+
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/destinations"/>
+
+    <ListView
+        android:id="@+id/destinations"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </ListView>
+
+    <Button
+        android:id="@+id/expenseButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/expenses_text"/>
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/submit_text"/>
+
+</LinearLayout>

@@ -120,7 +120,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
                 if (!mClaim.isCompleted()) {
                     new AlertDialog.Builder(ClaimViewActivity.this)
                             .setMessage("Submit an incomplete Claim?")
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     final Claim newClaim = mClaim.edit().submitClaim().build();
@@ -128,7 +128,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
                                     finish();
                                 }
                             })
-                            .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();
@@ -181,9 +181,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
             case R.id.editClaim:
 
                 if (mClaim.isEditable()) {
-                    Intent intent = new Intent(ClaimViewActivity.this, EditClaimActivity.class);
-                    intent.putExtra(App.KEY_CLAIM, mClaim);
-                    startActivityForResult(intent, EDIT_CLAIM);
+                    startActivityForResult(EditClaimActivity.intentWithClaim(this, mClaim), EDIT_CLAIM);
                 } else {
                     Toast.makeText(this, "Claim can't be edited!", Toast.LENGTH_LONG).show();
                 }

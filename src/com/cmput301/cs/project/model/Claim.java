@@ -257,7 +257,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
          * @param expense an instance of {@code Expense}; must not be null
          * @return this instance of {@code Builder}
          */
-        public Builder removeExpenseById(Expense expense) {
+        public Builder removeExpense(Expense expense) {
             ClaimUtils.nonNullOrThrow(expense, "expense");
             final String id = expense.getId();
             for (Iterator<Expense> iterator = mExpenses.iterator(); iterator.hasNext(); ) {

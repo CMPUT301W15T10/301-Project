@@ -23,20 +23,16 @@ public class DestinationAdapter extends ArrayAdapter<Pair<String, String>> {
     }
 
     private final LayoutInflater mInflater;
-    private final Context mContext;
 
 
     public DestinationAdapter(Context context, Map<String, String> destinations) {
         super(context, android.R.layout.simple_list_item_activated_2);
 
-        mContext = context;
         mInflater = LayoutInflater.from(context);
 
         for(Map.Entry<String, String> destination : destinations.entrySet()){
             add(new Pair<String, String>(destination.getKey(), destination.getValue()));
         }
-
-
     }
 
 

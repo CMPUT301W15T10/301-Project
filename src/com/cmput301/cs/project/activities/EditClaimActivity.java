@@ -44,9 +44,6 @@ public class EditClaimActivity extends Activity {
     private static final int REQ_EDIT_EXPENSE = 5;
     private static final int REQ_CODE_EDIT_DESTINATION = 6;
 
-    private ListView mDestinations;
-    private ListView mExpenses;
-
     public static Intent intentWithClaim(Context context, Claim claim) {
         return new Intent(context, EditClaimActivity.class).putExtra(App.KEY_CLAIM, claim);
     }
@@ -59,6 +56,8 @@ public class EditClaimActivity extends Activity {
     private Button mNewDestination;
     private Button mNewExpense;
     private TextView mTags;
+    private ListView mDestinations;
+    private ListView mExpenses;
 
     private Claim.Builder mBuilder;
     private DateFormat mDateFormat;
@@ -89,7 +88,6 @@ public class EditClaimActivity extends Activity {
         mExpenses.setAdapter(new ExpensesAdapter(this, mBuilder.getExpenses()));
 
         update();
-
     }
 
     private void initListeners() {
@@ -108,6 +106,26 @@ public class EditClaimActivity extends Activity {
             }
         });
 
+        mDestinations.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
+                new AlertDialog.Builder(EditClaimActivity.this)
+                        .setMessage("Delete this Destination?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                final DestinationAdapter adapter = (DestinationAdapter) parent.getAdapter();
+                                mBuilder.removeDestination(adapter.getItem(position).first);
+                                update();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .create()
+                        .show();
+                return true;
+            }
+        });
+
         mExpenses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -119,6 +137,30 @@ public class EditClaimActivity extends Activity {
                 mEdittingExpense = expense;
 
                 startActivityForResult(intent, REQ_EDIT_EXPENSE);
+            }
+        });
+        mExpenses.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
+                new AlertDialog.Builder(EditClaimActivity.this)
+                        .setMessage("Delete this Expense?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                final ExpensesAdapter adapter = (ExpensesAdapter) parent.getAdapter();
+                                mBuilder.removeExpense(adapter.getItem(position));
+                                update();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .create()
+                        .show();
+                return true;
             }
         });
 
@@ -280,7 +322,7 @@ public class EditClaimActivity extends Activity {
                     //TODO: bugged when editting
                     Expense expense = data.getParcelableExtra(App.KEY_EXPENSE);
 
-                    mBuilder.removeExpenseById(mEdittingExpense);
+                    mBuilder.removeExpense(mEdittingExpense);
                     mBuilder.putExpense(expense);
                     update();
                 }

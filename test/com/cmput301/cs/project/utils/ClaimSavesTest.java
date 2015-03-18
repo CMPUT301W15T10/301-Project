@@ -215,7 +215,7 @@ public class ClaimSavesTest extends TestCase {
         assertEquals(1, read.get(0).peekExpenses().size());
         assertEquals(claim, read.get(0));
 
-        final Claim removed = read.get(0).edit().removeExpenseById(expense).build();
+        final Claim removed = read.get(0).edit().removeExpense(expense).build();
         mClaimSaves.saveAllClaims(Collections.singleton(removed));
 
         final List<Claim> read1 = mClaimSaves.readAllClaims();

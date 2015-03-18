@@ -52,6 +52,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
 
     ClaimsList mClaimList;
     private ListView mDestinations;
+    private MenuItem mEditMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +97,11 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
         mStatus.setText(Utils.stringIdForClaimStatus(mClaim.getStatus()));
         mDestinations.setAdapter(new DestinationAdapter(this, mClaim.getDestinations()));
         mTags.setText(mClaim.getTagsAsString());
+
+        if (mEditMenuItem != null) {
+            updateEditMenuItem();
+            invalidateOptionsMenu();  // tell Android to draw
+        }
     }
 
     private void initButtons() {
@@ -105,7 +111,6 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
                 Intent intent = new Intent(ClaimViewActivity.this, ExpenseListActivity.class);
                 intent.putExtra(App.KEY_CLAIM, mClaim);
                 startActivity(intent);
-
             }
         });
 
@@ -140,9 +145,22 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.claim_view, menu);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        mEditMenuItem = menu.findItem(R.id.editClaim);
+        updateEditMenuItem();
+        return true;
+    }
+
+    private void updateEditMenuItem() {
+        final boolean editable = mClaim.isEditable();
+        mEditMenuItem.setEnabled(editable);
+        mEditMenuItem.getIcon().setAlpha(editable ? 255 : 255 / 2);
+        // call invalidateOptionsMenu() outside of onPrepareOptionsMenu(Menu)
     }
 
     @Override
@@ -153,7 +171,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
         switch (item.getItemId()) {
             case R.id.deleteClaim:
 
-                if (mClaim.getStatus().getAllowEdits()) {
+                if (mClaim.isEditable()) {
                     mClaimList.deleteClaim(mClaim);
                     finish();
                 } else {
@@ -162,7 +180,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
                 break;
             case R.id.editClaim:
 
-                if (mClaim.getStatus().getAllowEdits()) {
+                if (mClaim.isEditable()) {
                     Intent intent = new Intent(ClaimViewActivity.this, EditClaimActivity.class);
                     intent.putExtra(App.KEY_CLAIM, mClaim);
                     startActivityForResult(intent, EDIT_CLAIM);

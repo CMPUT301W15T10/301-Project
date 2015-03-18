@@ -70,7 +70,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
     }
 
     public boolean isEditable() {
-        return false;
+        return mStatus.getAllowEdits();
     }
 
     //http://stackoverflow.com/a/669165/1036813 March 17 2015 blaine1

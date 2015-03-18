@@ -155,7 +155,7 @@ public class ClaimSavesTest extends ActivityInstrumentationTestCase2<ClaimListAc
                 .putDestinationAndReason("Canada", "Go home")
                 .build();
 
-        final Claim claim = Claim.Builder.copyFrom(perfect)
+        final Claim claim = perfect.edit()
                 .startTime(now + 1)
                 .endTime(fiveDaysLater + 1)
                 .putDestinationAndReason("USA", "???")
@@ -215,7 +215,7 @@ public class ClaimSavesTest extends ActivityInstrumentationTestCase2<ClaimListAc
         assertEquals(1, read.get(0).peekExpenses().size());
         assertEquals(claim, read.get(0));
 
-        final Claim removed = Claim.Builder.copyFrom(read.get(0)).removeExpenseById(expense).build();
+        final Claim removed = read.get(0).edit().removeExpenseById(expense).build();
         mClaimSaves.saveAllClaims(Collections.singleton(removed));
 
         final List<Claim> read1 = mClaimSaves.readAllClaims();
@@ -283,7 +283,7 @@ public class ClaimSavesTest extends ActivityInstrumentationTestCase2<ClaimListAc
         mClaimSaves.saveAllClaims(Collections.singleton(claim));  // step 3
 
         final List<Claim> claims = mClaimSaves.readAllClaims();
-        final Claim claim1 = Claim.Builder.copyFrom(claims.get(0)).removeTag(tag).build();
+        final Claim claim1 = claims.get(0).edit().removeTag(tag).build();
         mClaimSaves.saveAllClaims(Collections.singleton(claim1));
 
         final List<Claim> claims1 = mClaimSaves.readAllClaims();

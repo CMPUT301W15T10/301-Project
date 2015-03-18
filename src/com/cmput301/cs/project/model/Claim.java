@@ -145,8 +145,10 @@ public final class Claim implements Comparable<Claim>, Parcelable {
          *
          * @param claim non-null instance of {@code Claim}
          * @return an instance of {@code Builder}
+         * @deprecated use {@link com.cmput301.cs.project.model.Claim#edit() Claim.edit()} instead
          */
         // Effective Java Item 1
+        @Deprecated
         public static Builder copyFrom(Claim claim) {
             return new Builder(claim);
         }
@@ -159,19 +161,20 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         private final SortedSet<Tag> mTags = new TreeSet<Tag>();
         private final boolean mGsonToFill;
         private final List<Comment> mComments = new ArrayList<Comment>();
+        private final User mClaimant;
 
         private String mTitle = TITLE_UNNAMED;
         private long mStartTime = -1;
         private long mEndTime = -1;
         private String mId = UUID.randomUUID().toString();
         private Status mStatus = Status.IN_PROGRESS;
-        private User mClaimant;
 
         /**
          * For Gson only. Use {@link #Builder(com.cmput301.cs.project.model.User)} instead.
          */
         private Builder() {
             mGsonToFill = true;
+            mClaimant = null;
         }
 
         /**
@@ -179,8 +182,8 @@ public final class Claim implements Comparable<Claim>, Parcelable {
          */
         public Builder(User claimaint) {
             ClaimUtils.nonNullOrThrow(claimaint, "claimaint");
-            mClaimant = claimaint;
             mGsonToFill = false;
+            mClaimant = claimaint;
         }
 
         /**
@@ -296,12 +299,6 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         public Builder title(String title) {
             ClaimUtils.nonNullnonEmptyOrThrow(title, "title");
             mTitle = title;
-            return this;
-        }
-
-        public Builder claimaint(User claimaint) {
-            ClaimUtils.nonNullOrThrow(claimaint, "claimant");
-            mClaimant = claimaint;
             return this;
         }
 
@@ -500,6 +497,10 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         mClaimant = b.mClaimant;
     }
 
+    public Claim.Builder edit() {
+        return Claim.Builder.copyFrom(this);
+    }
+
     public boolean isCompleted() {
         for (Expense expense : mExpenses) {
             if (!expense.isCompleted()) {
@@ -522,7 +523,10 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         } else {
             mExpenses = null;
         }
-        mTags = new TreeSet<Tag>(in.readArrayList(Tag.class.getClassLoader()));
+
+        @SuppressWarnings("unchecked")  // we know it is Tags from the Parcel
+        final List<Tag> list = in.readArrayList(Tag.class.getClassLoader());
+        mTags = new TreeSet<Tag>(list);
         mTitle = in.readString();
         mStartTime = in.readLong();
         mEndTime = in.readLong();

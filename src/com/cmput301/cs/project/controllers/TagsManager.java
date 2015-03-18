@@ -91,10 +91,11 @@ public class TagsManager {
         return null;
     }
 
-    public Tag renameTag(Tag tag, String newName) {
-        final String oldName = tag.getName();
-        final Tag newTag = new Tag(newName, this, tag.getId());
-        tagRenamedInternal(newTag, oldName);
+    public Tag renameTag(Tag oldTag, String newName) {
+        final Tag newTag = new Tag(newName, this, oldTag.getId());
+        mTags.remove(oldTag);
+        mTags.add(newTag);
+        tagRenamedInternal(newTag, oldTag);
         return newTag;
     }
 
@@ -119,9 +120,9 @@ public class TagsManager {
         notifyListenersCreated(tag);
     }
 
-    private void tagRenamedInternal(Tag tag, String oldName) {
+    private void tagRenamedInternal(Tag tag, Tag oldTag) {
         mClaimSaves.saveAllTags(peekTags());
-        notifyListenersRenamed(tag, oldName);
+        notifyListenersRenamed(tag, oldTag);
     }
 
     private void tagDeletedInternal(Tag tag) {
@@ -136,9 +137,9 @@ public class TagsManager {
     }
 
 
-    private void notifyListenersRenamed(Tag tag, String oldName) {
+    private void notifyListenersRenamed(Tag tag, Tag oldTag) {
         for (TagsChangedListener listener : mListeners) {
-            listener.onTagRenamed(tag, oldName);
+            listener.onTagRenamed(tag, oldTag);
         }
     }
 

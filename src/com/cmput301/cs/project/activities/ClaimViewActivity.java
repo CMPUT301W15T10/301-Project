@@ -15,8 +15,11 @@ import android.widget.Toast;
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.DestinationAdapter;
+import com.cmput301.cs.project.controllers.TagsChangedListener;
+import com.cmput301.cs.project.controllers.TagsManager;
 import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.model.ClaimsList;
+import com.cmput301.cs.project.model.Tag;
 import com.cmput301.cs.project.utils.Utils;
 
 import java.text.DateFormat;
@@ -29,13 +32,13 @@ import java.text.DateFormat;
  * The activity lists the StartDate, EndDate, Currencies, Status, Destinations and calls {@link com.cmput301.cs.project.activities.ExpenseListActivity ExpenseListActivity}
  * when the associated button is clicked.</br>
  * Returns to the {@link com.cmput301.cs.project.activities.ClaimListActivity ClaimListActivity} when Submit button is clicked.
- *
+ * <p/>
  * A claim must be passed via an intent for this activity to work
  *
  * @author rozsa
  */
 
-public class ClaimViewActivity extends Activity {
+public class ClaimViewActivity extends Activity implements TagsChangedListener {
 
     private static final int EDIT_CLAIM = 0;
     Claim mClaim;
@@ -64,6 +67,16 @@ public class ClaimViewActivity extends Activity {
         findViewsByIds();
 
         initButtons();
+
+        update();
+
+        TagsManager.get(this).addTagChangedListener(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TagsManager.get(this).removeTagChangedListener(this);
     }
 
     private void findViewsByIds() {
@@ -74,6 +87,7 @@ public class ClaimViewActivity extends Activity {
         mStatus = (TextView) findViewById(R.id.statusText);
         mDestinations = (ListView) findViewById(R.id.destinations);
         mTags = (TextView) findViewById(R.id.tags);
+        mTags.setHint(R.string.tags_view_hint);
     }
 
     private void update() {
@@ -82,13 +96,6 @@ public class ClaimViewActivity extends Activity {
         mStatus.setText(Utils.stringIdForClaimStatus(mClaim.getStatus()));
         mDestinations.setAdapter(new DestinationAdapter(this, mClaim.getDestinations()));
         mTags.setText(mClaim.getTagsAsString());
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        update();
     }
 
     private void initButtons() {
@@ -111,6 +118,7 @@ public class ClaimViewActivity extends Activity {
                             .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    // TODO newClaim == mClaim ???
                                     Claim newClaim = Claim.Builder.copyFrom(mClaim).build();
                                     newClaim.submitClaim();
                                     mClaimList.editClaim(mClaim, newClaim);
@@ -147,7 +155,7 @@ public class ClaimViewActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.deleteClaim:
 
-                if(mClaim.getStatus().getAllowEdits()) {
+                if (mClaim.getStatus().getAllowEdits()) {
                     mClaimList.deleteClaim(mClaim);
                     finish();
                 } else {
@@ -156,7 +164,7 @@ public class ClaimViewActivity extends Activity {
                 break;
             case R.id.editClaim:
 
-                if(mClaim.getStatus().getAllowEdits()) {
+                if (mClaim.getStatus().getAllowEdits()) {
                     Intent intent = new Intent(ClaimViewActivity.this, EditClaimActivity.class);
                     intent.putExtra(App.KEY_CLAIM, mClaim);
                     startActivityForResult(intent, EDIT_CLAIM);
@@ -172,7 +180,7 @@ public class ClaimViewActivity extends Activity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK && requestCode == EDIT_CLAIM){
+        if (resultCode == RESULT_OK && requestCode == EDIT_CLAIM) {
             Claim claim = data.getParcelableExtra(App.KEY_CLAIM);
 
 
@@ -182,5 +190,21 @@ public class ClaimViewActivity extends Activity {
 
             update();
         }
+    }
+
+    @Override
+    public void onTagRenamed(Tag tag, Tag oldTag) {
+        mClaim = mClaim.edit().removeTag(oldTag).addTag(tag).build();
+        update();
+    }
+
+    @Override
+    public void onTagDeleted(Tag tag) {
+        mClaim = mClaim.edit().removeTag(tag).build();
+    }
+
+    @Override
+    public void onTagCreated(Tag tag) {
+        // do nothing
     }
 }

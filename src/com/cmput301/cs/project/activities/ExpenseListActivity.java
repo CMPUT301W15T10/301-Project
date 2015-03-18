@@ -16,8 +16,8 @@ import com.cmput301.cs.project.model.Expense;
 
 /**
  * An activity that shows a list of all {@link com.cmput301.cs.project.model.Expense Expenses} associated with a {@link com.cmput301.cs.project.model.Claim Claim}. </br>
- * When an {@link com.cmput301.cs.project.model.Expense Expense} is clicked, {@link com.cmput301.cs.project.activites.ExpenseViewActivity ExpenseViewActivity} is called. </br>
- * When the menu item is clicked, {@link com.cmput301.cs.project.EditExpenseActivity EditExpenseActivity} is called to
+ * When an {@link com.cmput301.cs.project.model.Expense Expense} is clicked, {@link com.cmput301.cs.project.activities.ExpenseViewActivity ExpenseViewActivity} is called. </br>
+ * When the menu item is clicked, {@link com.cmput301.cs.project.activities.EditExpenseActivity EditExpenseActivity} is called to
  * generate a new expense.
  *
  * The claim which the expenses belong MUST be passed as an intent as App.KEY_CLAIM
@@ -85,7 +85,7 @@ public class ExpenseListActivity extends ListActivity {
         if(requestCode == EDIT_EXPENSE && resultCode == RESULT_OK){
             final ClaimsList claimsList = ClaimsList.getInstance(this);
             final Expense newExpense = data.getParcelableExtra(App.KEY_EXPENSE);
-            final Claim newClaim = Claim.Builder.copyFrom(mClaim).putExpense(newExpense).build();
+            final Claim newClaim = mClaim.edit().putExpense(newExpense).build();
             claimsList.editClaim(mClaim, newClaim);
         }
 

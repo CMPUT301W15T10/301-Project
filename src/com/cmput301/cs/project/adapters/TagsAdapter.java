@@ -79,7 +79,7 @@ public class TagsAdapter extends BaseAdapter implements TagsChangedListener {
     }
 
     @Override
-    public void onTagRenamed(Tag tag, String oldName) {
+    public void onTagRenamed(Tag tag, Tag oldTag) {
         final String id = tag.getId();
         for (int i = 0, tagsSize = mTags.size(); i < tagsSize; i++) {
             final Tag t = mTags.get(i);

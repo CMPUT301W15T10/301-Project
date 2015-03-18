@@ -228,7 +228,7 @@ public class EditClaimActivity extends Activity {
         if (claim == null) {
             mBuilder = new Claim.Builder(App.get(this).getUser());
         } else {
-            mBuilder = Claim.Builder.copyFrom(claim);
+            mBuilder = claim.edit();
         }
     }
 

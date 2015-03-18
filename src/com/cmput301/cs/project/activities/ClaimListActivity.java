@@ -15,25 +15,27 @@ import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.ClaimsAdapter;
 import com.cmput301.cs.project.controllers.ClaimListController;
+import com.cmput301.cs.project.controllers.TagsChangedListener;
+import com.cmput301.cs.project.controllers.TagsManager;
 import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.model.ClaimsList;
+import com.cmput301.cs.project.model.Tag;
 import com.cmput301.cs.project.model.User;
 
 /**
  * Is the activity that launches at start of app. </br>
  * An activity that shows a list of {@link com.cmput301.cs.project.model.Claim Claims}. </br>
- * Redirects to {@link com.cmput301.cs.project.activites.LoginActivity LoginActivity} if no user is found.
- * Has menu buttons that allow the creation of new claims via {@link com.cmput301.cs.project.activites.EditClaimActivity EditClaimActivity} 
- * and for the {@link com.cmput301.cs.project.activites.TagManagerActivity TagManagerActivity}. </br>
- * If a claim item is clicked {@link com.cmput301.cs.project.activites.ClaimViewActivity ClaimViewActivity} is called for that claim. </br>
+ * Redirects to {@link com.cmput301.cs.project.activities.LoginActivity LoginActivity} if no user is found.
+ * Has menu buttons that allow the creation of new claims via {@link com.cmput301.cs.project.activities.EditClaimActivity EditClaimActivity}
+ * and for the {@link com.cmput301.cs.project.activities.TagManagerActivity TagManagerActivity}. </br>
+ * If a claim item is clicked {@link com.cmput301.cs.project.activities.ClaimViewActivity ClaimViewActivity} is called for that claim. </br>
  * Finally there are tabs at the top of the activity that allow the user to switch between approver and claimant (not yet implemented).
- * 
- * @author rozsa
  *
+ * @author rozsa
  */
 
 
-public class ClaimListActivity extends ListActivity {
+public class ClaimListActivity extends ListActivity implements TagsChangedListener {
 
     private static final int POSITION_CLAIMANT = 0;
     private static final int POSITION_APPROVER = 1;
@@ -54,7 +56,7 @@ public class ClaimListActivity extends ListActivity {
 
         mUser = app.getUser();
 
-        if(mUser == null){
+        if (mUser == null) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
@@ -63,6 +65,8 @@ public class ClaimListActivity extends ListActivity {
 
         setupListView();
         setupActionBar();
+
+        TagsManager.get(this).addTagChangedListener(mClaimListController);
     }
 
     @Override
@@ -77,32 +81,36 @@ public class ClaimListActivity extends ListActivity {
 
     }
 
-	private void setupListView()
-	{
-		mApproverAdapter = new ClaimsAdapter(this, mClaimListController.getApprovableClaims());
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TagsManager.get(this).removeTagChangedListener(mClaimListController);
+    }
+
+    private void setupListView() {
+        mApproverAdapter = new ClaimsAdapter(this, mClaimListController.getApprovableClaims());
         mClaimantAdapter = new ClaimsAdapter(this, mClaimListController.getClaimantClaims());
 
-		setListAdapter(mClaimantAdapter);
-	
-	}
+        setListAdapter(mClaimantAdapter);
 
-	@Override
-	public void onListItemClick(ListView lv, View v, int position, long id){
+    }
+
+    @Override
+    public void onListItemClick(ListView lv, View v, int position, long id) {
 
 
-		ClaimsAdapter adapter = (ClaimsAdapter) getListAdapter();
-		Intent i = new Intent(this, ClaimViewActivity.class);
-		
-		i.putExtra(App.KEY_CLAIM, adapter.getItem(position));
-		
-		startActivity(i);
-		
-	}
-	
-	private void setupActionBar()
-	{
+        ClaimsAdapter adapter = (ClaimsAdapter) getListAdapter();
+        Intent i = new Intent(this, ClaimViewActivity.class);
 
-		final ActionBar actionBar = getActionBar();
+        i.putExtra(App.KEY_CLAIM, adapter.getItem(position));
+
+        startActivity(i);
+
+    }
+
+    private void setupActionBar() {
+
+        final ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             final ActionBar.TabListener listener = new ActionBar.TabListener() {
                 @Override
@@ -141,7 +149,7 @@ public class ClaimListActivity extends ListActivity {
                     .setText(R.string.approver)
                     .setTabListener(listener));
         }
-	}
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -163,12 +171,28 @@ public class ClaimListActivity extends ListActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-    	if (requestCode == NEW_CLAIM) {
-    		if (resultCode == RESULT_OK) {
-    			Claim claim = data.getExtras().getParcelable(App.KEY_CLAIM);
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == NEW_CLAIM) {
+            if (resultCode == RESULT_OK) {
+                Claim claim = data.getExtras().getParcelable(App.KEY_CLAIM);
                 mClaimListController.addClaim(claim);
-    		}
-    	}
+            }
+        }
+    }
+
+    @Override
+    public void onTagRenamed(Tag tag, Tag oldName) {
+        setupListView();
+    }
+
+    @Override
+    public void onTagDeleted(Tag tag) {
+        setupListView();
+    }
+
+    @Override
+    public void onTagCreated(Tag tag) {
+        // do nothing
     }
 }

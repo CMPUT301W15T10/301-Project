@@ -3,7 +3,6 @@ package com.cmput301.cs.project.model;
 import android.content.Context;
 import com.cmput301.cs.project.utils.ClaimSaves;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -48,9 +47,11 @@ public class ClaimsList {
         mClaimSaves.saveAllClaims(mClaims);
     }
 
-    public void editClaim(Claim editted, Claim newClaim){
-        mClaims.remove(editted);
-        mClaims.add(newClaim);
+    public void editClaim(Claim old, Claim newClaim) {
+        final int location = mClaims.indexOf(old);
+        if (location < 0) return;
+        mClaims.remove(old);
+        mClaims.add(location, newClaim);
         serialize();
     }
 

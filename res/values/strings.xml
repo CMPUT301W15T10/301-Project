@@ -133,5 +133,6 @@
     <string name="currency">Currency</string>
     <string name="destinations">Destinations</string>
     <string name="tags_hint">Tap to add tags…</string>
+    <string name="tags_view_hint">No Tags Yet</string>
 
 </resources>

@@ -123,8 +123,8 @@
     <string name="title_activity_edit_expense">EditExpenseActivity</string>
     <string name="expense_description_hint">Enter a description</string>
     <string name="expense_date_hint">Pick a Date</string>
-    <string name="list_of_destinations_text">List of Destinations:</string>
-    <string name="list_of_expenses_text">List of Expenses:</string>
+    <string name="list_of_destinations_text">Destinations</string>
+    <string name="list_of_expenses_text">Expenses</string>
     <string name="submit_text">Submit</string>
     <string name="expenses_text">Expenses</string>
     <string name="edit_claim">Edit Claim</string>

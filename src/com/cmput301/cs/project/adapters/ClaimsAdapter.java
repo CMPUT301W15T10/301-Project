@@ -21,13 +21,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.model.Claim;
-import com.cmput301.cs.project.model.ClaimUtils;
 import com.cmput301.cs.project.utils.Utils;
-import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.util.Date;

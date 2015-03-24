@@ -138,6 +138,12 @@ public abstract class ClaimSaves {
                 }
             }
         }
+
+        if(out == null) {
+            return new ArrayList<T>();
+
+        }
+
         return out;
     }
 

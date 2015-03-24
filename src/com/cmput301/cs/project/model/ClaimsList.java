@@ -3,6 +3,9 @@ package com.cmput301.cs.project.model;
 import android.content.Context;
 import com.cmput301.cs.project.utils.ClaimSaves;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -14,6 +17,14 @@ import java.util.List;
  */
 
 public class ClaimsList {
+
+    private final List<Claim> defaultClaims = Collections.unmodifiableList(new ArrayList<Claim>() {{
+        add(new Claim.Builder(new User("jordan")).putDestinationAndReason("place", "reason").build());
+        add(new Claim.Builder(new User("charles")).putDestinationAndReason("Paris", "love").
+                startTime(System.currentTimeMillis() * 60).endTime(System.currentTimeMillis() * 60 + 1000000).
+                putExpense(new Expense.Builder().description("Hotel").amountInBigDecimal(BigDecimal.TEN).build()).build());
+
+    }});
 
     private final Context mContext;
     private final List<Claim> mClaims;
@@ -34,17 +45,20 @@ public class ClaimsList {
         mClaimSaves = ClaimSaves.ofAndroid(context);
 
         mClaims = mClaimSaves.readAllClaims();
+        mClaims.addAll(defaultClaims);
 
+    }
+
+    private void serialize() {
+        mClaims.removeAll(defaultClaims);
+        mClaimSaves.saveAllClaims(mClaims);
+        mClaims.addAll(defaultClaims);
     }
 
     public void addClaim(Claim claim) {
         mClaims.add(claim);
 
         serialize();
-    }
-
-    private void serialize() {
-        mClaimSaves.saveAllClaims(mClaims);
     }
 
     public void editClaim(Claim old, Claim newClaim) {

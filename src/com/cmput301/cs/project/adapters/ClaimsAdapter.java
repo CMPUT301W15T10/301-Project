@@ -56,7 +56,7 @@ public final class ClaimsAdapter extends ArrayAdapter<Claim> {
     private final LayoutInflater mInflater;
     private final Context mContext;
 
-    DateFormat formatter = DateFormat.getDateInstance();
+    public static DateFormat formatter = DateFormat.getDateInstance();
 
     public ClaimsAdapter(Context context, List<Claim> claims) {
         super(context, R.layout.claim_list_item, claims);

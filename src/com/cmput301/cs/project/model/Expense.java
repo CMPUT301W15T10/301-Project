@@ -35,6 +35,15 @@ import java.util.*;
 // Effective Java Item 15, 17
 public final class Expense implements Comparable<Expense>, Parcelable {
 
+    public static final Comparator<? super Expense> OCCURRED_DESCENDING = new Comparator<Expense>() {
+        @Override
+        public int compare(Expense lhs, Expense rhs) {
+            return ((Long) lhs.getTimeOccurred()).compareTo(rhs.getTimeOccurred());
+        }
+    };
+
+
+
     public static final Set<String> CATEGORIES = Collections.unmodifiableSet(new TreeSet<String>() {{
         add("Accomodation");
         add("Air Fare");
@@ -64,6 +73,11 @@ public final class Expense implements Comparable<Expense>, Parcelable {
      * The default {@link Money}, with the amount of zero in USD.
      */
     public static final Money DEFAULT_MONEY = Money.zero(CurrencyUnit.USD);
+    private long mTimeOccurred;
+
+    public long getTimeOccurred() {
+        return mTimeOccurred;
+    }
 
     /**
      * Use this class to obtain instances of {@link com.cmput301.cs.project.model.Expense Expense}.
@@ -90,6 +104,7 @@ public final class Expense implements Comparable<Expense>, Parcelable {
         private String mId = UUID.randomUUID().toString();
         private boolean mCompleted = false;
         private Receipt mReceipt;
+        private long mOccurred = System.currentTimeMillis();
 
         /**
          * Creates an instance of {@code Builder} with the default values.
@@ -110,6 +125,7 @@ public final class Expense implements Comparable<Expense>, Parcelable {
             mId = expense.getId();
             mCompleted = expense.isCompleted();
             mReceipt = expense.getReceipt();
+            mOccurred = expense.getTimeOccurred();
         }
 
         /**

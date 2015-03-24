@@ -17,13 +17,17 @@
 package com.cmput301.cs.project.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.model.Expense;
 
+import java.text.DateFormat;
 import java.util.*;
 
 /**
@@ -33,87 +37,44 @@ import java.util.*;
  *
  */
 
-public final class ExpensesAdapter extends BaseAdapter {
+public final class ExpensesAdapter extends ArrayAdapter<Expense> {
 
     private static final class ViewHolder {
-        private final TextView title;
-        private final TextView subTitle;
+        private final TextView date;
+        private final TextView category;
+        private final TextView description;
+        private final TextView amount;
+        private final TextView receipt;
+        private final TextView complete;
+        private final TextView geolocation;
 
         private ViewHolder(View parent) {
-            title = (TextView) parent.findViewById(android.R.id.text1);
-            subTitle = (TextView) parent.findViewById(android.R.id.text2);
+            date = (TextView) parent.findViewById(R.id.date);
+            geolocation = (TextView) parent.findViewById(R.id.geolocation);
+            complete = (TextView) parent.findViewById(R.id.complete);
+            receipt = (TextView) parent.findViewById(R.id.receipt);
+            amount = (TextView) parent.findViewById(R.id.amount);
+            description = (TextView) parent.findViewById(R.id.description);
+            category = (TextView) parent.findViewById(R.id.category);
         }
     }
 
     private final LayoutInflater mInflater;
-    private final List<Expense> mExpenses;
 
-    public ExpensesAdapter(Context context, Collection<? extends Expense> expenses) {
+    public static DateFormat formatter = DateFormat.getDateInstance();
+
+
+    public ExpensesAdapter(Context context, List<Expense> expenses) {
+
+        super(context, R.layout.expense_list_item, expenses);
         mInflater = LayoutInflater.from(context);
-        mExpenses = new ArrayList<Expense>(expenses);
-    }
-
-    public List<Expense> peekAllExpenses() {
-        return Collections.unmodifiableList(mExpenses);
-    }
-
-    public void putAllExpenses(Iterable<? extends Expense> expenses) {
-        for (Expense expense : expenses) {
-            putExpense(expense);
-        }
-    }
-
-    public void removeExpenseById(Expense expense) {
-        final String id = expense.getId();
-        for (Iterator<Expense> iterator = mExpenses.iterator(); iterator.hasNext(); ) {
-            final Expense e = iterator.next();
-            if (e.getId().equals(id)) {
-                iterator.remove();
-                break;
-            }
-        }
-        notifyDataSetChanged();
-    }
-
-    public void putExpense(Expense expense) {
-        for (int i = 0, mClaimsSize = mExpenses.size(); i < mClaimsSize; ++i) {
-            final Expense o = mExpenses.get(i);
-
-            if (expense.getId().equals(o.getId())) {
-                mExpenses.remove(i);
-                mExpenses.add(i, expense);
-                notifyDataSetChanged();
-                return;
-            }
-        }
-        addExpense(expense);
-    }
-
-    public void addExpense(Expense expense) {
-        mExpenses.add(expense);
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public int getCount() {
-        return mExpenses.size();
-    }
-
-    @Override
-    public Expense getItem(int position) {
-        return mExpenses.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(android.R.layout.simple_list_item_activated_2, parent, false);
+            convertView = mInflater.inflate(R.layout.expense_list_item, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
@@ -121,8 +82,21 @@ public final class ExpensesAdapter extends BaseAdapter {
         }
 
         final Expense expense = getItem(position);
-        holder.title.setText(expense.getDescription());
-        holder.subTitle.setText(expense.getAmount().toString());
+
+        //Log.e("my tag", "" + expense.getTime());
+        //Log.e("my tag", "" + (holder == null));
+        //Log.e("my tag", "" + (holder.date == null));
+
+        holder.date.setText(formatter.format(new Date(expense.getTime())));
+        holder.category.setText(expense.getCategory());
+        holder.description.setText(expense.getDescription());
+        holder.amount.setText(expense.getAmount().toString());
+
+        holder.receipt.setText(expense.hasReceipt() ? "Receipt attached." : "");
+        holder.complete.setText(expense.isCompleted() ? "" : "Incomplete");
+
+        //TODO: add geolocation here
+        //holder.date.setText(expense.isGeoTagged());
 
         return convertView;
     }

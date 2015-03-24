@@ -45,6 +45,7 @@ public class ExpenseListActivity extends ListActivity {
 
         mAdapter = new ExpensesAdapter(this, mClaim.peekExpenses());
         setListAdapter(mAdapter);
+        mAdapter.sort(Expense.OCCURRED_DESCENDING);
     }
 
     @Override

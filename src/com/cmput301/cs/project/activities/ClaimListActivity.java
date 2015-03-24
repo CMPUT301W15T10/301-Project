@@ -76,8 +76,8 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
         mClaimantAdapter.notifyDataSetChanged();
         mApproverAdapter.notifyDataSetChanged();
 
-        mClaimantAdapter.sort(Claim.START_DESCENDING);
-        mApproverAdapter.sort(Claim.START_ASCENDING);
+        mClaimantAdapter.sort(Claim.START_ASCENDING);
+        mApproverAdapter.sort(Claim.START_DESCENDING);
 
     }
 
@@ -177,6 +177,9 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
             if (resultCode == RESULT_OK) {
                 Claim claim = data.getExtras().getParcelable(App.KEY_CLAIM);
                 mClaimListController.addClaim(claim);
+
+                mClaimantAdapter = new ClaimsAdapter(this, mClaimListController.getClaimantClaims());
+                setListAdapter(mClaimantAdapter);
             }
         }
     }

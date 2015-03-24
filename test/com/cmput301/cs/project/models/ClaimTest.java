@@ -123,11 +123,9 @@ public class ClaimTest extends TestCase {
                 .endTime(endTime)
                 .putDestinationAndReason(dest, reason)
                 .putExpense(expense)
-                .id(id.toString())
-                .title(title);
+                .id(id.toString());
         final Claim claim = builder.build();
 
-        assertTrue(builder.isTitleSet());
         assertTrue(builder.isEndTimeSet());
         assertTrue(builder.isStartTimeSet());
 
@@ -137,7 +135,6 @@ public class ClaimTest extends TestCase {
         assertEquals(user, builder.getClaimant());
         assertTrue(builder.peekExpenses().contains(expense));
         assertEquals(id.toString(), builder.getId());
-        assertEquals(title, builder.getTitle());
 
 
         assertEquals(endTime, claim.getEndTime());
@@ -145,7 +142,6 @@ public class ClaimTest extends TestCase {
         assertEquals(user, claim.getClaimant());
         assertTrue(claim.peekExpenses().contains(expense));
         assertEquals(id.toString(), claim.getId());
-        assertEquals(title, claim.getTitle());
 
 
     }
@@ -154,7 +150,6 @@ public class ClaimTest extends TestCase {
     public void testEquality() {
         final long time = System.currentTimeMillis();
         final User user = new User("name");
-        final String title = "my title";
         final String dest = "mydest";
         final String reason = "the reason";
         final Expense expense = new Expense.Builder().build();
@@ -166,8 +161,7 @@ public class ClaimTest extends TestCase {
                 .startTime(time)
                 .putDestinationAndReason(dest, reason)
                 .putExpense(expense)
-                .id(id.toString())
-                .title(title);
+                .id(id.toString());
 
         Claim carbonCopy = builder.build();
         Claim claim = builder.build();
@@ -193,13 +187,9 @@ public class ClaimTest extends TestCase {
                 .startTime(time)
                 .putDestinationAndReason(dest, reason)
                 .putExpense(expense)
-                .id(id.toString())
-                .title(title);
+                .id(id.toString());
         Claim claim = builder.build();
-        Claim almostCopy = builder.title("different title").build();
 
-        assertTrue(!almostCopy.equals(claim));
-        assertTrue(!(almostCopy.hashCode() == claim.hashCode()));
 
     }
 

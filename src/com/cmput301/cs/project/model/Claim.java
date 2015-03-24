@@ -36,7 +36,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
     /**
      * The unspecified title.
      */
-    public static final String TITLE_UNNAMED = "";
+    
     public static final Comparator<? super Claim> START_DESCENDING = new Comparator<Claim>() {
         @Override
         public int compare(Claim lhs, Claim rhs) {
@@ -163,7 +163,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         private final List<Comment> mComments = new ArrayList<Comment>();
         private final User mClaimant;
 
-        private String mTitle = TITLE_UNNAMED;
+        
         private long mStartTime = -1;
         private long mEndTime = -1;
         private String mId = UUID.randomUUID().toString();
@@ -194,7 +194,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         private Builder(Claim claim) {
             mExpenses.addAll(claim.peekExpenses());
             mDestinations.putAll(claim.peekDestinations());
-            mTitle = claim.getTitle();
+            
             mTags.addAll(claim.peekTags());
             mStartTime = claim.getStartTime();
             mEndTime = claim.getEndTime();
@@ -289,18 +289,8 @@ public final class Claim implements Comparable<Claim>, Parcelable {
             return this;
         }
 
-        /**
-         * Specifies the title of the {@code Claim}.
-         *
-         * @param title {@code String} title; must no be null
-         * @return this instance of {@code Builder}
-         * @see #getTitle()
-         */
-        public Builder title(String title) {
-            ClaimUtils.nonNullnonEmptyOrThrow(title, "title");
-            mTitle = title;
-            return this;
-        }
+       
+       
 
         /**
          * Specifies the start time of the {@code Claim}.
@@ -405,14 +395,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
             return Collections.unmodifiableList(mExpenses);
         }
 
-        /**
-         * @return the title specified by {@link #title(String)} if {@link #isStartTimeSet()};
-         * otherwise, {@link Claim#TITLE_UNNAMED}; never null
-         * @see #isTitleSet()
-         */
-        public String getTitle() {
-            return mTitle;
-        }
+     
 
         /**
          * @return the id specified by {@link #id(String)},
@@ -447,13 +430,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
             return mStatus;
         }
 
-        /**
-         * @return if the title is {@link Claim#TITLE_UNNAMED}
-         * @see #getTitle()
-         */
-        public boolean isTitleSet() {
-            return !TITLE_UNNAMED.equals(mTitle);
-        }
+   
 
         /**
          * @return if the start time is not specified by {@link #startTime(long)}
@@ -513,7 +490,6 @@ public final class Claim implements Comparable<Claim>, Parcelable {
     private final List<Expense> mExpenses;
     private final Map<String, String> mDestinations;  // destination -> reason
     private final SortedSet<Tag> mTags;
-    private final String mTitle;
     private final long mStartTime;
     private final long mEndTime;
     private final String mId;
@@ -525,7 +501,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         mExpenses = b.mExpenses;
         mDestinations = b.mDestinations;
         mTags = b.mTags;
-        mTitle = b.mTitle;
+       
         mStartTime = b.mStartTime;
         mEndTime = b.mEndTime;
         mId = b.mId;
@@ -564,7 +540,6 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         @SuppressWarnings("unchecked")  // we know it is Tags from the Parcel
         final List<Tag> list = in.readArrayList(Tag.class.getClassLoader());
         mTags = new TreeSet<Tag>(list);
-        mTitle = in.readString();
         mStartTime = in.readLong();
         mEndTime = in.readLong();
         mId = in.readString();
@@ -613,12 +588,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         return Collections.unmodifiableMap(mDestinations);
     }
 
-    /**
-     * @return the title; never null
-     */
-    public String getTitle() {
-        return mTitle;
-    }
+  
 
     /**
      * @return the start time; always >= {@link #getEndTime()} and positive
@@ -677,9 +647,6 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         if (mEndTime < o.mEndTime) return -1;
         if (mEndTime > o.mEndTime) return 1;
 
-        final int titleDiff = mTitle.compareToIgnoreCase(o.mTitle);
-        if (titleDiff != 0) return titleDiff;
-
         final int statusDiff = mStatus.compareTo(o.mStatus);
         if (statusDiff != 0) return statusDiff;
 
@@ -700,7 +667,6 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         if (!mId.equals(claim.mId)) return false;
         if (mStatus != claim.mStatus) return false;
         if (!mTags.equals(claim.mTags)) return false;
-        if (!mTitle.equals(claim.mTitle)) return false;
         if (!mClaimant.equals(claim.mClaimant)) return false;
         if (!mComments.equals(claim.mComments)) return false;
 
@@ -713,7 +679,6 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         int result = mExpenses.hashCode();
         result = 31 * result + mDestinations.hashCode();
         result = 31 * result + mTags.hashCode();
-        result = 31 * result + mTitle.hashCode();
         result = 31 * result + (int) (mStartTime ^ (mStartTime >>> 32));
         result = 31 * result + (int) (mEndTime ^ (mEndTime >>> 32));
         result = 31 * result + mId.hashCode();
@@ -745,7 +710,6 @@ public final class Claim implements Comparable<Claim>, Parcelable {
             dest.writeList(mExpenses);
         }
         dest.writeList(new ArrayList<Tag>(mTags));
-        dest.writeString(mTitle);
         dest.writeLong(mStartTime);
         dest.writeLong(mEndTime);
         dest.writeString(mId);

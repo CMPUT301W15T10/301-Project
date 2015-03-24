@@ -54,10 +54,8 @@ public class EditClaimActivity extends Activity {
     private Button mStartDate;
     private Button mEndDate;
     private Button mNewDestination;
-    private Button mNewExpense;
     private TextView mTags;
     private ListView mDestinations;
-    private ListView mExpenses;
 
     private Claim.Builder mBuilder;
     private DateFormat mDateFormat;
@@ -76,16 +74,13 @@ public class EditClaimActivity extends Activity {
         mStartDate = (Button) findViewById(R.id.startDate);
         mEndDate = (Button) findViewById(R.id.endDate);
         mNewDestination = (Button) findViewById(R.id.newDestination);
-        mNewExpense = (Button) findViewById(R.id.newExpense);
         mDestinations = (ListView) findViewById(R.id.destinationList);
-        mExpenses = (ListView) findViewById(R.id.expenseList);
         mTags = (TextView) findViewById(R.id.tags);
 
         initBuilder();
         initButtons();
         initListeners();
 
-        mExpenses.setAdapter(new ExpensesAdapter(this, mBuilder.getExpenses()));
 
         update();
     }
@@ -126,38 +121,7 @@ public class EditClaimActivity extends Activity {
             }
         });
 
-        mExpenses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(EditClaimActivity.this, EditExpenseActivity.class);
-                ExpensesAdapter adapter = ((ExpensesAdapter) mExpenses.getAdapter());
-                Expense expense = adapter.getItem(position);
-                intent.putExtra(App.KEY_EXPENSE, expense);
-
-                mEdittingExpense = expense;
-
-                startActivityForResult(intent, REQ_EDIT_EXPENSE);
-            }
-        });
-        mExpenses.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
-                new AlertDialog.Builder(EditClaimActivity.this)
-                        .setMessage("Delete this Expense?")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                final ExpensesAdapter adapter = (ExpensesAdapter) parent.getAdapter();
-                                mBuilder.removeExpense(adapter.getItem(position));
-                                update();
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, null)
-                        .create()
-                        .show();
-                return true;
-            }
-        });
+        
 
         mTags.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -237,13 +201,7 @@ public class EditClaimActivity extends Activity {
             }
         });
 
-        mNewExpense.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(EditClaimActivity.this, EditExpenseActivity.class);
-                startActivityForResult(intent, REQ_NEW_EXPENSE);
-            }
-        });
+       
         Utils.setupDiscardDoneBar(this, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -336,7 +294,6 @@ public class EditClaimActivity extends Activity {
         }
 
         mDestinations.setAdapter(new DestinationAdapter(this, mBuilder.getDestinations()));
-        mExpenses.setAdapter(new ExpensesAdapter(this, mBuilder.getExpenses()));
         mTags.setText(getTagsAsCharSequence());
     }
 

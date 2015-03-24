@@ -33,23 +33,30 @@ public class ClaimListController implements TagsChangedListener {
         mClaimsList.addClaim(claim);
     }
 
-    public List<Claim> getApprovableClaims() {
+    public List<Claim> getApprovableClaims(){
         //TODO: this won't work
         List<Claim> approvableClaims = new ArrayList<Claim>();
 
-        for (Claim claim : mClaimsList.peekClaims()) {
-            if (claim.canApprove(mUser)) {
+        for(Claim claim : mClaimsList.peekClaims()){
+            if(claim.canApprove(mUser)){
                 approvableClaims.add(claim);
             }
         }
 
-        //return approvableClaims;
-        return mClaimsList.peekClaims();
+        return approvableClaims;
 
     }
 
     public List<Claim> getClaimantClaims() {
-        return mClaimsList.peekClaims();
+        List<Claim> claimantClaims = new ArrayList<Claim>();
+
+        for(Claim claim : mClaimsList.peekClaims()){
+            if(claim.getClaimant().equals(mUser)) {
+                claimantClaims.add(claim);
+            }
+        }
+
+        return claimantClaims;
     }
 
     @Override

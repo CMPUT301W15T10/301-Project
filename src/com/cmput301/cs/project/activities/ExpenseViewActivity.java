@@ -86,7 +86,7 @@ public class ExpenseViewActivity extends Activity {
 
         if (mExpense.hasReceipt()) {
             final Uri receiptFileUri = ReceiptLoading.getReceiptUri(mExpense.getId());
-            final BitmapDrawable drawable = new BitmapDrawable(getResources(), receiptFileUri.toString());
+            final BitmapDrawable drawable = new BitmapDrawable(getResources(), receiptFileUri.getPath());
             mReceipt.setImageDrawable(drawable);
         } else {
             mReceipt.setImageDrawable(null);

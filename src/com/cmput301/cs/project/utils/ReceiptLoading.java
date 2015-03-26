@@ -1,8 +1,5 @@
 package com.cmput301.cs.project.utils;
 
-import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;

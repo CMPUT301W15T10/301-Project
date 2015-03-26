@@ -134,5 +134,6 @@
     <string name="destinations">Destinations</string>
     <string name="tags_hint">Tap to add tags…</string>
     <string name="tags_view_hint">No Tags Yet</string>
+    <string name="delete_receipt">Delete Receipt</string>
 
 </resources>

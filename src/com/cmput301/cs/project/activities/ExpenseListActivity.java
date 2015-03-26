@@ -21,9 +21,8 @@ import com.cmput301.cs.project.model.Expense;
  * generate a new expense.
  *
  * The claim which the expenses belong MUST be passed as an intent as App.KEY_CLAIM
- * 
- * @author rozsa
  *
+ * @author rozsa
  */
 
 public class ExpenseListActivity extends ListActivity {
@@ -83,7 +82,7 @@ public class ExpenseListActivity extends ListActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == EDIT_EXPENSE && resultCode == RESULT_OK){
+        if (requestCode == EDIT_EXPENSE && resultCode == RESULT_OK) {
             final ClaimsList claimsList = ClaimsList.getInstance(this);
             final Expense newExpense = data.getParcelableExtra(App.KEY_EXPENSE);
             final Claim newClaim = mClaim.edit().putExpense(newExpense).build();

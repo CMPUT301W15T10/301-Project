@@ -3,12 +3,11 @@ package com.cmput301.cs.project.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.cmput301.cs.project.App;
@@ -22,23 +21,20 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.util.ArrayList;
 
 
 /**
- * An activity that is called when a new expense is created or when a expense is being edited from 
+ * An activity that is called when a new expense is created or when a expense is being edited from
  * within {@link com.cmput301.cs.project.activities.ExpenseListActivity ExpenseListActivity}.</br>
  * Allows the user to add a Description, Category, Date, Money (with type), Receipt and select completeness which is stored
  * within that particular {@link com.cmput301.cs.project.model.Expense Expense}.
- *
+ * <p/>
  * The editted expense is passed back using setResult
  *
- *
  * @author rozsa
- *
  */
 
 public class EditExpenseActivity extends Activity {
@@ -59,6 +55,7 @@ public class EditExpenseActivity extends Activity {
     private DateFormat mDateFormat;
 
     private ImageButton mReceipt;
+    private Button mDeleteReceipt;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,7 +138,7 @@ public class EditExpenseActivity extends Activity {
 
 
         mCurrency = (Spinner) findViewById(R.id.currency);
-        mCurrency.setAdapter(new ArrayAdapter<CurrencyUnit>(this, android.R.layout.simple_spinner_item,new ArrayList<CurrencyUnit>(Expense.CURRENCIES)));
+        mCurrency.setAdapter(new ArrayAdapter<CurrencyUnit>(this, android.R.layout.simple_spinner_item, new ArrayList<CurrencyUnit>(Expense.CURRENCIES)));
         mCurrency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -183,6 +180,25 @@ public class EditExpenseActivity extends Activity {
                 startActivityForResult(intent, REQ_CODE_RECEIPT);
             }
         });
+
+        mDeleteReceipt = (Button) findViewById(R.id.deleteReceipt);
+        mDeleteReceipt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteReceipt();
+            }
+        });
+    }
+
+    private void deleteReceipt() {
+        File receiptFile = mBuilder.getReceipt().getFile();
+        if (!receiptFile.delete()) {
+            Log.w("EditExpenseActivity", "Unable to delete file " + receiptFile.toString());
+        }
+
+        mBuilder.receipt(null);
+
+        updateUI();
     }
 
     @Override
@@ -232,14 +248,19 @@ public class EditExpenseActivity extends Activity {
 
         if (mBuilder.hasReceipt()) {
             final Uri receiptFileUri = ReceiptLoading.getReceiptUri(mBuilder.getId());
-            final BitmapDrawable drawable = new BitmapDrawable(getResources(), receiptFileUri.toString());
+            final BitmapDrawable drawable = new BitmapDrawable(getResources(), receiptFileUri.getPath());
             mReceipt.setImageDrawable(drawable);
+
+            mDeleteReceipt.setEnabled(true);
         } else {
-            mReceipt.setImageDrawable(null);
+            mReceipt.setImageDrawable(getResources().getDrawable(android.R.drawable.gallery_thumb));
+
+            mDeleteReceipt.setEnabled(false);
         }
     }
 
-    // This is from http://stackoverflow.com/questions/2390102/how-to-set-selected-item-of-spinner-by-value-not-by-position
+    // This is from
+    // http://stackoverflow.com/questions/2390102/how-to-set-selected-item-of-spinner-by-value-not-by-position
     // on March 15, 2015
     private int getIndex(Spinner spinner, String wantedString) {
         int index = 0;

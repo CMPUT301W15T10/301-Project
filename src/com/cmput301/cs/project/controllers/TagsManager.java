@@ -3,7 +3,7 @@ package com.cmput301.cs.project.controllers;
 import android.content.Context;
 import com.cmput301.cs.project.model.ClaimUtils;
 import com.cmput301.cs.project.model.Tag;
-import com.cmput301.cs.project.utils.ClaimSaves;
+import com.cmput301.cs.project.utils.LocalClaimSaver;
 
 import java.util.*;
 
@@ -26,19 +26,19 @@ public class TagsManager {
         return sInstance;
     }
 
-    public static TagsManager ofClaimSaves(ClaimSaves claimSaves) {
+    public static TagsManager ofClaimSaves(LocalClaimSaver claimSaves) {
         return new TagsManager(claimSaves);
     }
 
-    private final ClaimSaves mClaimSaves;
+    private final LocalClaimSaver mClaimSaves;
     private final SortedSet<Tag> mTags = new TreeSet<Tag>();
     private final List<TagsChangedListener> mListeners = new ArrayList<TagsChangedListener>();
 
     private TagsManager(Context context) {
-        this(ClaimSaves.ofAndroid(context));
+        this(LocalClaimSaver.ofAndroid(context));
     }
 
-    private TagsManager(ClaimSaves claimSaves) {
+    private TagsManager(LocalClaimSaver claimSaves) {
         mClaimSaves = claimSaves;
         mTags.addAll(claimSaves.readAllTags());
     }

@@ -17,7 +17,7 @@ import java.util.List;
 public class ClaimSavesTest extends TestCase {
     public static final long FIVE_DAYS = 432000000L;
 
-    private ClaimSaves mClaimSaves;
+    private LocalClaimSaver mClaimSaves;
 
     @Override
     protected void setUp() throws Exception {

@@ -2,7 +2,7 @@ package com.cmput301.cs.project.utils;
 
 import java.io.*;
 
-public final class MockClaimSaves extends ClaimSaves {
+public final class MockClaimSaves extends LocalClaimSaver {
     private String mJsonString;
 
     @Override

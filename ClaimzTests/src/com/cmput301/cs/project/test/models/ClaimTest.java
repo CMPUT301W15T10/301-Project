@@ -14,7 +14,7 @@ import com.cmput301.cs.project.activities.ClaimListActivity;
 import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.model.Expense;
 import com.cmput301.cs.project.model.User;
-import com.cmput301.cs.project.utils.ClaimSaves;
+import com.cmput301.cs.project.utils.LocalClaimSaver;
 import com.google.gson.Gson;
 
 
@@ -170,7 +170,7 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<ClaimListActivit
                 .description("Taxi food")
                 .build();
 
-        final Gson gson = ClaimSaves.getGson();
+        final Gson gson = LocalClaimSaver.getGson();
 
         final String serialized = gson.toJson(expense);
         final Expense read = gson.fromJson(serialized, Expense.class);  // step 1, 2

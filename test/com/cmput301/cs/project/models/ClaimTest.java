@@ -15,7 +15,7 @@ package com.cmput301.cs.project.models;/*
  */
 
 import com.cmput301.cs.project.model.*;
-import com.cmput301.cs.project.utils.ClaimSaves;
+import com.cmput301.cs.project.utils.LocalClaimSaver;
 import com.google.gson.Gson;
 import junit.framework.TestCase;
 import org.joda.money.CurrencyUnit;
@@ -206,7 +206,7 @@ public class ClaimTest extends TestCase {
                 .description("Taxi food")
                 .build();
 
-        final Gson gson = ClaimSaves.getGson();
+        final Gson gson = LocalClaimSaver.getGson();
 
         final String serialized = gson.toJson(expense);
         final Expense read = gson.fromJson(serialized, Expense.class);  // step 1, 2

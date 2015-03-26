@@ -1,7 +1,7 @@
 package com.cmput301.cs.project.model;
 
 import android.content.Context;
-import com.cmput301.cs.project.utils.ClaimSaves;
+import com.cmput301.cs.project.utils.LocalClaimSaver;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class ClaimsList {
     private final List<Claim> mClaims;
 
     private static ClaimsList instance;
-    private final ClaimSaves mClaimSaves;
+    private final LocalClaimSaver mClaimSaves;
 
     public static ClaimsList getInstance(Context context) {
         if(instance == null){
@@ -42,7 +42,7 @@ public class ClaimsList {
 
     private ClaimsList(Context context) {
         mContext = context;
-        mClaimSaves = ClaimSaves.ofAndroid(context);
+        mClaimSaves = LocalClaimSaver.ofAndroid(context);
 
         mClaims = mClaimSaves.readAllClaims();
         mClaims.addAll(defaultClaims);

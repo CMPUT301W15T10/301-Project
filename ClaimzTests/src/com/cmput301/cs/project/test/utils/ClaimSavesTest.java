@@ -13,7 +13,7 @@ import com.cmput301.cs.project.model.Claim;
 import com.cmput301.cs.project.model.Expense;
 import com.cmput301.cs.project.model.Tag;
 import com.cmput301.cs.project.model.User;
-import com.cmput301.cs.project.utils.ClaimSaves;
+import com.cmput301.cs.project.utils.LocalClaimSaver;
 import com.cmput301.cs.project.utils.MockClaimSaves;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -26,7 +26,7 @@ public class ClaimSavesTest extends ActivityInstrumentationTestCase2<ClaimListAc
 
 	public static final long FIVE_DAYS = 432000000L;
 
-    private ClaimSaves mClaimSaves;
+    private LocalClaimSaver mClaimSaves;
 
     @Override
     protected void setUp() throws Exception {

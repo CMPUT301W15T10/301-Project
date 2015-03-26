@@ -39,7 +39,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ClaimSaves {
+public abstract class LocalClaimSaver {
     private static final String LOG_TAG = "ClaimSaves";
     private static final String CLAIMS_FILE_NAME = "claims.json";
     private static final Type CLAIMS_COLLECTION_TYPE = new TypeToken<List<Claim>>() {
@@ -54,9 +54,9 @@ public abstract class ClaimSaves {
             .registerTypeAdapter(Claim.class, Claim.getInstanceCreator())
             .create();
 
-    private static ClaimSaves sInstance;
+    private static LocalClaimSaver sInstance;
 
-    public static ClaimSaves ofAndroid(Context context) {
+    public static LocalClaimSaver ofAndroid(Context context) {
         if (sInstance == null) {
             sInstance = new AndroidClaimSaves(context);
         }
@@ -173,7 +173,7 @@ public abstract class ClaimSaves {
         return success;
     }
 
-    private static final class AndroidClaimSaves extends ClaimSaves {
+    private static final class AndroidClaimSaves extends LocalClaimSaver {
 
         private final Context mContext;
 

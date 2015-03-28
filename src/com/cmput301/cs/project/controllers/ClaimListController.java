@@ -1,15 +1,15 @@
 package com.cmput301.cs.project.controllers;
 
-import com.cmput301.cs.project.model.Claim;
-import com.cmput301.cs.project.model.ClaimsList;
-import com.cmput301.cs.project.model.Tag;
-import com.cmput301.cs.project.model.User;
+import com.cmput301.cs.project.models.Claim;
+import com.cmput301.cs.project.models.ClaimsList;
+import com.cmput301.cs.project.models.Tag;
+import com.cmput301.cs.project.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Controller for {@link com.cmput301.cs.project.model.ClaimsList ClaimsList}.
+ * Controller for {@link com.cmput301.cs.project.models.ClaimsList ClaimsList}.
  *
  * @author rozsa
  */

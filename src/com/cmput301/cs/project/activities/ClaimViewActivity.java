@@ -17,9 +17,9 @@ import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.DestinationAdapter;
 import com.cmput301.cs.project.controllers.TagsChangedListener;
 import com.cmput301.cs.project.controllers.TagsManager;
-import com.cmput301.cs.project.model.Claim;
-import com.cmput301.cs.project.model.ClaimsList;
-import com.cmput301.cs.project.model.Tag;
+import com.cmput301.cs.project.models.Claim;
+import com.cmput301.cs.project.models.ClaimsList;
+import com.cmput301.cs.project.models.Tag;
 import com.cmput301.cs.project.utils.Utils;
 
 import java.text.DateFormat;
@@ -41,16 +41,16 @@ import java.text.DateFormat;
 public class ClaimViewActivity extends Activity implements TagsChangedListener {
 
     private static final int EDIT_CLAIM = 0;
-    Claim mClaim;
-    Button mExpenseButton;
-    Button mSubmitButton;
-    TextView mStartDate;
-    TextView mEndDate;
-    TextView mStatus;
-    TextView mTags;
-    DateFormat mDateFormat;
+    private Claim mClaim;
+    private Button mExpenseButton;
+    private Button mSubmitButton;
+    private TextView mStartDate;
+    private TextView mEndDate;
+    private TextView mStatus;
+    private TextView mTags;
+    private DateFormat mDateFormat;
 
-    ClaimsList mClaimList;
+    private ClaimsList mClaimList;
     private ListView mDestinations;
     private MenuItem mEditMenuItem;
 

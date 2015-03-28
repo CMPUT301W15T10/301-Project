@@ -1,6 +1,5 @@
 package com.cmput301.cs.project.models;
 
-import com.cmput301.cs.project.model.Receipt;
 import org.junit.Test;
 
 import java.io.File;

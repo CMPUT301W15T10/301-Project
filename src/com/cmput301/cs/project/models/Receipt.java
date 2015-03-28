@@ -1,4 +1,4 @@
-package com.cmput301.cs.project.model;
+package com.cmput301.cs.project.models;
 
 
 import android.os.Parcel;

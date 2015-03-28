@@ -1,7 +1,5 @@
 package com.cmput301.cs.project.models;
 
-import com.cmput301.cs.project.model.Expense;
-import com.cmput301.cs.project.model.Receipt;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.junit.Test;
@@ -23,8 +21,9 @@ public class ExpenseTest {
 
         final Expense carbonCopy = new Expense.Builder().money(amount)
                 .description("Pizza").category("Food").time(time).build();
-        
+
         //assertNotEquals(first.getId(), carbonCopy.getId());
+        // TODO wtf happened here? why is this commented out?
     }
 
     @Test
@@ -113,9 +112,9 @@ public class ExpenseTest {
         assertEquals(null, expense.getDescription());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test()
     public void builderNegativeTime() {
-        new Expense.Builder().time(-1);
+        new Expense.Builder().time(-1);  // negative time gets dropped and doesn't crash
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -164,7 +163,7 @@ public class ExpenseTest {
         final UUID id = UUID.randomUUID();
         final Expense.Builder builder = new Expense.Builder()
                 .receipt(receipt)
-                .amountInBigDecimal(BigDecimal.TEN)
+                .amount(BigDecimal.TEN)
                 .category(category)
                 .completed(true)
                 .currencyUnit(CurrencyUnit.CAD)

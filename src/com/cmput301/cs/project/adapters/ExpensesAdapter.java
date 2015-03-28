@@ -17,21 +17,20 @@
 package com.cmput301.cs.project.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.cmput301.cs.project.R;
-import com.cmput301.cs.project.model.Expense;
+import com.cmput301.cs.project.models.Expense;
 
 import java.text.DateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 /**
- * Basic adapter that adapts an {@link com.cmput301.cs.project.model.Expense Expense} to be viewable in a ListView.
+ * Basic adapter that adapts an {@link com.cmput301.cs.project.models.Expense Expense} to be viewable in a ListView.
  * 
  * @author rozsa
  *
@@ -61,13 +60,13 @@ public final class ExpensesAdapter extends ArrayAdapter<Expense> {
 
     private final LayoutInflater mInflater;
 
-    public static DateFormat formatter = DateFormat.getDateInstance();
+    private final DateFormat mFormatter;
 
 
     public ExpensesAdapter(Context context, List<Expense> expenses) {
-
         super(context, R.layout.expense_list_item, expenses);
         mInflater = LayoutInflater.from(context);
+        mFormatter = android.text.format.DateFormat.getMediumDateFormat(context);  // with respect to user settings
     }
 
     @Override
@@ -87,7 +86,7 @@ public final class ExpensesAdapter extends ArrayAdapter<Expense> {
         //Log.e("my tag", "" + (holder == null));
         //Log.e("my tag", "" + (holder.date == null));
 
-        holder.date.setText(formatter.format(new Date(expense.getTime())));
+        holder.date.setText(mFormatter.format(new Date(expense.getTime())));
         holder.category.setText(expense.getCategory());
         holder.description.setText(expense.getDescription());
         holder.amount.setText(expense.getAmount().toString());

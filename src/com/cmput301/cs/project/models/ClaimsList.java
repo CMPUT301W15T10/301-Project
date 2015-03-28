@@ -1,4 +1,4 @@
-package com.cmput301.cs.project.model;
+package com.cmput301.cs.project.models;
 
 import android.content.Context;
 import com.cmput301.cs.project.utils.LocalClaimSaver;
@@ -22,11 +22,10 @@ public class ClaimsList {
         add(new Claim.Builder(new User("jordan")).putDestinationAndReason("place", "reason").build());
         add(new Claim.Builder(new User("charles")).putDestinationAndReason("Paris", "love").
                 startTime(System.currentTimeMillis() * 60).endTime(System.currentTimeMillis() * 60 + 1000000).
-                putExpense(new Expense.Builder().description("Hotel").amountInBigDecimal(BigDecimal.TEN).build()).build());
+                putExpense(new Expense.Builder().description("Hotel").amount(BigDecimal.TEN).build()).build());
 
     }});
 
-    private final Context mContext;
     private final List<Claim> mClaims;
 
     private static ClaimsList instance;
@@ -41,7 +40,6 @@ public class ClaimsList {
     }
 
     private ClaimsList(Context context) {
-        mContext = context;
         mClaimSaves = LocalClaimSaver.ofAndroid(context);
 
         mClaims = mClaimSaves.readAllClaims();

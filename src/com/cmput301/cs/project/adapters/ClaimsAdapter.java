@@ -23,7 +23,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.cmput301.cs.project.R;
-import com.cmput301.cs.project.model.Claim;
+import com.cmput301.cs.project.models.Claim;
 import com.cmput301.cs.project.utils.Utils;
 
 import java.text.DateFormat;
@@ -31,7 +31,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Basic adapter that adapts a {@link com.cmput301.cs.project.model.Claim Claim} to be viewable in a ListView. Not entirely correct yet.
+ * Basic adapter that adapts a {@link com.cmput301.cs.project.models.Claim Claim} to be viewable in a ListView. Not entirely correct yet.
  * 
  * @author rozsa
  *
@@ -54,14 +54,13 @@ public final class ClaimsAdapter extends ArrayAdapter<Claim> {
     }
 
     private final LayoutInflater mInflater;
-    private final Context mContext;
 
-    public static DateFormat formatter = DateFormat.getDateInstance();
+    private final DateFormat mDateFormat;
 
     public ClaimsAdapter(Context context, List<Claim> claims) {
         super(context, R.layout.claim_list_item, claims);
-        mContext = context;
         mInflater = LayoutInflater.from(context);
+        mDateFormat = android.text.format.DateFormat.getMediumDateFormat(context);  // with respec to user settings
     }
 
     @Override
@@ -77,7 +76,7 @@ public final class ClaimsAdapter extends ArrayAdapter<Claim> {
 
         final Claim claim = getItem(position);
 
-        holder.startDate.setText(formatter.format(new Date(claim.getStartTime())));
+        holder.startDate.setText(mDateFormat.format(new Date(claim.getStartTime())));
         holder.status.setText(Utils.stringIdForClaimStatus(claim.getStatus()));
         holder.tags.setText(claim.getTagsAsString());
         holder.totals.setText(claim.getTotalsAsString());

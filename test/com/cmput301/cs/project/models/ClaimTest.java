@@ -14,7 +14,6 @@ package com.cmput301.cs.project.models;/*
  * limitations under the License.
  */
 
-import com.cmput301.cs.project.model.*;
 import com.cmput301.cs.project.utils.LocalClaimSaver;
 import com.google.gson.Gson;
 import junit.framework.TestCase;
@@ -23,9 +22,6 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.*;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * As per "Requirement Specifications (Use Cases)" on GitHub wiki, Revision 6018854.
@@ -111,7 +107,6 @@ public class ClaimTest extends TestCase {
         final long startTime = System.currentTimeMillis();
         final long endTime = startTime + 10;
         final User user = new User("name");
-        final String title = "my title";
         final String dest = "mydest";
         final String reason = "the reason";
         final Expense expense = new Expense.Builder().build();
@@ -175,7 +170,6 @@ public class ClaimTest extends TestCase {
     public void testInequality() {
         final long time = System.currentTimeMillis();
         final User user = new User("name");
-        final String title = "my title";
         final String dest = "mydest";
         final String reason = "the reason";
         final Expense expense = new Expense.Builder().build();
@@ -190,7 +184,7 @@ public class ClaimTest extends TestCase {
                 .id(id.toString());
         Claim claim = builder.build();
 
-
+        // TODO incomplete test
     }
 
 
@@ -201,7 +195,7 @@ public class ClaimTest extends TestCase {
         final Expense expense = new Expense.Builder()
                 .time(System.currentTimeMillis())
                 .category("Meal")
-                .amountInBigDecimal(BigDecimal.TEN)
+                .amount(BigDecimal.TEN)
                 .currencyUnit(CurrencyUnit.CAD)
                 .description("Taxi food")
                 .build();
@@ -211,7 +205,7 @@ public class ClaimTest extends TestCase {
         final String serialized = gson.toJson(expense);
         final Expense read = gson.fromJson(serialized, Expense.class);  // step 1, 2
 
-        final Expense expense1 = Expense.Builder.copyFrom(read).description("no more food").build();  // step 3, 4
+        final Expense expense1 = read.edit().description("no more food").build();  // step 3, 4
         final String serialized1 = gson.toJson(expense1);  // step 5
         final Expense read1 = gson.fromJson(serialized1, Expense.class);
 
@@ -236,7 +230,7 @@ public class ClaimTest extends TestCase {
                 .putExpense(changedExpense)
                 .putExpense(unchangedExpense);
 
-        changedExpense = Expense.Builder.copyFrom(changedExpense).build();
+        changedExpense = changedExpense.edit().build();
 
         // It should now updated changedExpense in place
         builder.putExpense(changedExpense);

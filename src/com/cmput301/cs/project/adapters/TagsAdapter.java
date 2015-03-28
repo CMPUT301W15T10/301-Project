@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.cmput301.cs.project.controllers.TagsChangedListener;
 import com.cmput301.cs.project.controllers.TagsManager;
-import com.cmput301.cs.project.model.Tag;
+import com.cmput301.cs.project.models.Tag;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,7 +17,7 @@ import java.util.List;
 
 
 /**
- * Basic adapter that adapts a {@link com.cmput301.cs.project.model.Tag Tag} to be viewable in a ListView.
+ * Basic adapter that adapts a {@link com.cmput301.cs.project.models.Tag Tag} to be viewable in a ListView.
  * 
  * @author rozsa
  *

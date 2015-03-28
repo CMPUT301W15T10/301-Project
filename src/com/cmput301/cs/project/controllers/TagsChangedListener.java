@@ -1,6 +1,6 @@
 package com.cmput301.cs.project.controllers;
 
-import com.cmput301.cs.project.model.Tag;
+import com.cmput301.cs.project.models.Tag;
 
 /**
  * Interface for listeners that {@link com.cmput301.cs.project.controllers.TagsManager TagsManager} uses.
@@ -10,9 +10,9 @@ import com.cmput301.cs.project.model.Tag;
  */
 
 public interface TagsChangedListener {
-    public void onTagRenamed(Tag tag, Tag oldName);
+    void onTagRenamed(Tag tag, Tag oldName);
 
-    public void onTagDeleted(Tag tag);
+    void onTagDeleted(Tag tag);
 
-    public void onTagCreated(Tag tag);
+    void onTagCreated(Tag tag);
 }

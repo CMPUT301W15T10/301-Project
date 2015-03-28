@@ -16,7 +16,7 @@
 
 /**
  * App is a controller of sorts that contains a series of methods for logging in
- * and miscellanious tasks.
+ * and miscellaneous tasks.
  *
  *
  */
@@ -28,7 +28,7 @@ package com.cmput301.cs.project;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import com.cmput301.cs.project.model.User;
+import com.cmput301.cs.project.models.User;
 
 
 public final class App extends Application {

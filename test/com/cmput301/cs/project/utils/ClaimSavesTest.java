@@ -1,10 +1,10 @@
 package com.cmput301.cs.project.utils;
 
 import com.cmput301.cs.project.controllers.TagsManager;
-import com.cmput301.cs.project.model.Claim;
-import com.cmput301.cs.project.model.Expense;
-import com.cmput301.cs.project.model.Tag;
-import com.cmput301.cs.project.model.User;
+import com.cmput301.cs.project.models.Claim;
+import com.cmput301.cs.project.models.Expense;
+import com.cmput301.cs.project.models.Tag;
+import com.cmput301.cs.project.models.User;
 import junit.framework.TestCase;
 import org.joda.money.CurrencyUnit;
 import org.junit.Test;
@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class ClaimSavesTest extends TestCase {
-    public static final long FIVE_DAYS = 432000000L;
+    private static final long FIVE_DAYS = 432000000L;
 
     private LocalClaimSaver mClaimSaves;
 
@@ -196,7 +196,7 @@ public class ClaimSavesTest extends TestCase {
         final Expense expense = new Expense.Builder()
                 .time(System.currentTimeMillis())
                 .category("Meal")
-                .amountInBigDecimal(BigDecimal.TEN)
+                .amount(BigDecimal.TEN)
                 .currencyUnit(CurrencyUnit.CAD)
                 .description("Taxi food")
                 .build();
@@ -232,7 +232,7 @@ public class ClaimSavesTest extends TestCase {
         final Expense first = new Expense.Builder()
                 .time(System.currentTimeMillis())
                 .category("Meal")
-                .amountInBigDecimal(BigDecimal.TEN)
+                .amount(BigDecimal.TEN)
                 .currencyUnit(CurrencyUnit.CAD)
                 .description("Taxi food")
                 .build();
@@ -240,7 +240,7 @@ public class ClaimSavesTest extends TestCase {
         final Expense second = new Expense.Builder()
                 .time(System.currentTimeMillis())
                 .category("Meal Round 2")
-                .amountInBigDecimal(BigDecimal.TEN)
+                .amount(BigDecimal.TEN)
                 .currencyUnit(CurrencyUnit.CAD)
                 .description("Taxi food")
                 .build();
@@ -249,7 +249,7 @@ public class ClaimSavesTest extends TestCase {
                 .time(System.currentTimeMillis())
 
                 .category("Meal Round 3")
-                .amountInBigDecimal(BigDecimal.TEN)
+                .amount(BigDecimal.TEN)
                 .currencyUnit(CurrencyUnit.CAD)
                 .description("Taxi food")
                 .build();

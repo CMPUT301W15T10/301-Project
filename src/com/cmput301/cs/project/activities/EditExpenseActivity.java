@@ -13,8 +13,8 @@ import android.widget.*;
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.TextWatcherAdapter;
-import com.cmput301.cs.project.model.Expense;
-import com.cmput301.cs.project.model.Receipt;
+import com.cmput301.cs.project.models.Expense;
+import com.cmput301.cs.project.models.Receipt;
 import com.cmput301.cs.project.utils.ReceiptLoading;
 import com.cmput301.cs.project.utils.Utils;
 import org.joda.money.CurrencyUnit;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
  * An activity that is called when a new expense is created or when a expense is being edited from
  * within {@link com.cmput301.cs.project.activities.ExpenseListActivity ExpenseListActivity}.</br>
  * Allows the user to add a Description, Category, Date, Money (with type), Receipt and select completeness which is stored
- * within that particular {@link com.cmput301.cs.project.model.Expense Expense}.
+ * within that particular {@link com.cmput301.cs.project.models.Expense Expense}.
  * <p/>
  * The editted expense is passed back using setResult
  *
@@ -91,7 +91,7 @@ public class EditExpenseActivity extends Activity {
         if (expense == null)
             mBuilder = new Expense.Builder();
         else
-            mBuilder = Expense.Builder.copyFrom(expense);
+            mBuilder = expense.edit();
     }
 
     /*
@@ -114,7 +114,7 @@ public class EditExpenseActivity extends Activity {
             @Override
             public void afterTextChanged(Editable s) {
                 try {
-                    mBuilder.amountInBigDecimal(new BigDecimal(s.toString()));
+                    mBuilder.amount(new BigDecimal(s.toString()));
                     mAmount.setError(null);
                 } catch (NumberFormatException e) {
                     mAmount.setError(getText(R.string.money_amount_error));
@@ -127,8 +127,9 @@ public class EditExpenseActivity extends Activity {
         mCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                @SuppressWarnings("unchecked")  // we know it's ArrayAdapter<String>
                 final ArrayAdapter<String> adapter = (ArrayAdapter<String>) parent.getAdapter();
-                mBuilder.category(adapter.getItem(position).toString());
+                mBuilder.category(adapter.getItem(position));
             }
 
             @Override
@@ -142,6 +143,7 @@ public class EditExpenseActivity extends Activity {
         mCurrency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                @SuppressWarnings("unchecked")  // we know it's ArrayAdapter<CurrencyUnit>
                 final ArrayAdapter<CurrencyUnit> adapter = (ArrayAdapter<CurrencyUnit>) parent.getAdapter();
                 mBuilder.currencyUnit(adapter.getItem(position));
             }
@@ -231,7 +233,9 @@ public class EditExpenseActivity extends Activity {
         final Money money = mBuilder.getMoney();
         mAmount.setText(money.getAmount().toString());
 
-        int spinnerPosition = ((ArrayAdapter<CurrencyUnit>) mCurrency.getAdapter()).getPosition(money.getCurrencyUnit());
+        @SuppressWarnings("unchecked")  // we know it's ArrayAdapter<CurrencyUnit>
+        final ArrayAdapter<CurrencyUnit> adapter = (ArrayAdapter<CurrencyUnit>) mCurrency.getAdapter();
+        int spinnerPosition = adapter.getPosition(money.getCurrencyUnit());
         mCurrency.setSelection(spinnerPosition);
 
         if (mBuilder.isTimeSet()) {

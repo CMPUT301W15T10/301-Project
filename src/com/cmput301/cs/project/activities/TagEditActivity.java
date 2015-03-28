@@ -8,14 +8,14 @@ import android.view.View;
 import android.widget.EditText;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.controllers.TagsManager;
-import com.cmput301.cs.project.model.Tag;
+import com.cmput301.cs.project.models.Tag;
 import com.cmput301.cs.project.utils.Utils;
 
 /**
  * An activity that is called when a new tag is created or a tag is clicked on 
- * {@link com.cmput301.cs.project.activites.TagManagerActivity TagManagerActivity}.</br>
+ * {@link TagManagerActivity}.</br>
  * Allows the tag to be deleted from the app. </br>
- * Contains a String and generates a unique ID which is stored in a {@link com.cmput301.cs.project.model.Tag Tag}.
+ * Contains a String and generates a unique ID which is stored in a {@link com.cmput301.cs.project.models.Tag Tag}.
  * 
  * @author rozsa
  *

@@ -1,6 +1,5 @@
 package com.cmput301.cs.project.models;
 
-import com.cmput301.cs.project.model.User;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -11,21 +10,21 @@ public class UserTest {
 
     @Test
     public void testCreateUser() {
-        User user = new User("name");
+        new User("name");
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testEmptyUserName() {
-        User user = new User("");
+        new User("");
     }
 
-    @Test (expected = IllegalArgumentException.class)
-    public void testNullUserName(){
-        User user = new User(null);
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullUserName() {
+        new User((String) null);
     }
 
     @Test
-         public void testGetUserName() throws Exception {
+    public void testGetUserName() throws Exception {
         User user = new User("name");
         assertEquals("name", user.getUserName());
     }
@@ -54,6 +53,7 @@ public class UserTest {
         assertEquals(name, user.getUserName());
 
     }
+
     @Test
     public void testEquality() {
         final UUID uuid = UUID.randomUUID();
@@ -82,7 +82,7 @@ public class UserTest {
         assertTrue(!user.equals(almostCopy1));
         assertTrue(!(user.hashCode() == almostCopy1.hashCode()));
 
-        assertTrue(!user.equals( almostCopy2));
+        assertTrue(!user.equals(almostCopy2));
         assertTrue(!(user.hashCode() == almostCopy2.hashCode()));
 
         assertTrue(!user.equals(almostCopy3));

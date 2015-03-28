@@ -15,11 +15,10 @@ import android.widget.TextView;
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.DestinationAdapter;
-import com.cmput301.cs.project.adapters.ExpensesAdapter;
 import com.cmput301.cs.project.controllers.TagsManager;
-import com.cmput301.cs.project.model.Claim;
-import com.cmput301.cs.project.model.Expense;
-import com.cmput301.cs.project.model.Tag;
+import com.cmput301.cs.project.models.Claim;
+import com.cmput301.cs.project.models.Expense;
+import com.cmput301.cs.project.models.Tag;
 import com.cmput301.cs.project.utils.Utils;
 
 import java.text.DateFormat;
@@ -27,7 +26,7 @@ import java.util.SortedSet;
 
 /**
  * The activity that is called when a New Claim is created or when an existing claim is going to be edited. </br>
- * Able to add {@link com.cmput301.cs.project.model.Expense Expenses} and {@link com.cmput301.cs.project.model.Claim Destinations}
+ * Able to add {@link com.cmput301.cs.project.models.Expense Expenses} and {@link com.cmput301.cs.project.models.Claim Destinations}
  * from this screen as well as {@literal StartDate} and {@literal EndDate}.
  * <p/>
  * A claim must be passed via an intent as App.KEY_CLAIM.
@@ -170,8 +169,6 @@ public class EditClaimActivity extends Activity {
 
     /**
      * Method that sets up all the click listeners in this activity. Includes the discard bar as well.
-     *
-     * @author rozsa
      */
     private void initButtons() {
 

@@ -16,19 +16,12 @@
 
 package com.cmput301.cs.project.utils;
 
-/**
- * This class is used to save claims via saveAllClaims()
- *
- * It can be used by calling ClaimSaves.ofAndroid() *
- *
- */
-
 
 import android.content.Context;
 import android.util.Log;
-import com.cmput301.cs.project.model.Claim;
-import com.cmput301.cs.project.model.Expense;
-import com.cmput301.cs.project.model.Tag;
+import com.cmput301.cs.project.models.Claim;
+import com.cmput301.cs.project.models.Expense;
+import com.cmput301.cs.project.models.Tag;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -39,6 +32,12 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * This class is used to save claims via saveAllClaims()
+ * <p/>
+ * It can be used by calling {@link LocalClaimSaver#ofAndroid(Context) LocalClaimSaver.ofAndroid(Context)}
+ */
 public abstract class LocalClaimSaver {
     private static final String LOG_TAG = "ClaimSaves";
     private static final String CLAIMS_FILE_NAME = "claims.json";
@@ -56,6 +55,12 @@ public abstract class LocalClaimSaver {
 
     private static LocalClaimSaver sInstance;
 
+    /**
+     * Obtains the singleton of {@code LocalClaimSaver}.
+     *
+     * @param context a non-null instance of {@code Context}
+     * @return a non-null instance of {@code LocalClaimSaver}
+     */
     public static LocalClaimSaver ofAndroid(Context context) {
         if (sInstance == null) {
             sInstance = new AndroidClaimSaves(context);
@@ -139,7 +144,7 @@ public abstract class LocalClaimSaver {
             }
         }
 
-        if(out == null) {
+        if (out == null) {
             return new ArrayList<T>();
 
         }

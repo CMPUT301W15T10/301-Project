@@ -18,13 +18,11 @@ package com.cmput301.cs.project.utils;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.cmput301.cs.project.R;
-import com.cmput301.cs.project.model.Claim;
+import com.cmput301.cs.project.models.Claim;
 
 /**
  * Utility class that has various methods that are used in the app. </br>
@@ -40,9 +38,9 @@ public final class Utils {
 
     /**
      * Creates a Discard/Done bar in an activity and allows OnClickListeners to be attached.</br>
-     * @param activity
-     * @param discardListener
-     * @param doneListener
+     * @param activity non-null
+     * @param discardListener listener for the discard button; can be null
+     * @param doneListener listener for the done button; can be null
      */
     
     public static void setupDiscardDoneBar(Activity activity, View.OnClickListener discardListener, View.OnClickListener doneListener) {
@@ -64,9 +62,9 @@ public final class Utils {
 
     /**
      * Returns value for Status that can be used to display the status. </br>
-     * 
-     * @param status
-     * @return
+     *
+     * @param status non-null
+     * @return Android resource string id
      */
     
     public static int stringIdForClaimStatus(Claim.Status status) {
@@ -82,21 +80,5 @@ public final class Utils {
             default:
                 throw new AssertionError("unexpected status: " + status);
         }
-    }
-
-    /**
-     * Creates an intent to send to email. No longer relevant for the project.
-     * 
-     * @param subject
-     * @param text
-     * @return
-     */
-    
-    public static Intent intentWithEmailString(String subject, String text) {
-        // ref: http://stackoverflow.com/questions/8701634/send-email-intent
-        return new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "", null))
-                .putExtra(Intent.EXTRA_SUBJECT, subject)
-                .putExtra(Intent.EXTRA_TEXT, text);
-
     }
 }

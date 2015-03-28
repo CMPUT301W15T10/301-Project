@@ -22,11 +22,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import com.cmput301.cs.project.model.Claim;
+import com.cmput301.cs.project.models.Claim;
 import com.cmput301.cs.project.utils.Utils;
 
 /**
- * Basic adapter that adapts a {@link com.cmput301.cs.project.model.Claim Claim's Status} to be viewable in a ListView.
+ * Basic adapter that adapts a {@link com.cmput301.cs.project.models.Claim Claim's Status} to be viewable in a ListView.
  * 
  * @author rozsa
  *

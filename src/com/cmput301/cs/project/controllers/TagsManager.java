@@ -1,8 +1,8 @@
 package com.cmput301.cs.project.controllers;
 
 import android.content.Context;
-import com.cmput301.cs.project.model.ClaimUtils;
-import com.cmput301.cs.project.model.Tag;
+import com.cmput301.cs.project.models.ClaimUtils;
+import com.cmput301.cs.project.models.Tag;
 import com.cmput301.cs.project.utils.LocalClaimSaver;
 
 import java.util.*;

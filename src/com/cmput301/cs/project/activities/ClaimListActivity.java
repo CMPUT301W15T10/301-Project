@@ -17,14 +17,14 @@ import com.cmput301.cs.project.adapters.ClaimsAdapter;
 import com.cmput301.cs.project.controllers.ClaimListController;
 import com.cmput301.cs.project.controllers.TagsChangedListener;
 import com.cmput301.cs.project.controllers.TagsManager;
-import com.cmput301.cs.project.model.Claim;
-import com.cmput301.cs.project.model.ClaimsList;
-import com.cmput301.cs.project.model.Tag;
-import com.cmput301.cs.project.model.User;
+import com.cmput301.cs.project.models.Claim;
+import com.cmput301.cs.project.models.ClaimsList;
+import com.cmput301.cs.project.models.Tag;
+import com.cmput301.cs.project.models.User;
 
 /**
  * Is the activity that launches at start of app. </br>
- * An activity that shows a list of {@link com.cmput301.cs.project.model.Claim Claims}. </br>
+ * An activity that shows a list of {@link com.cmput301.cs.project.models.Claim Claims}. </br>
  * Redirects to {@link com.cmput301.cs.project.activities.LoginActivity LoginActivity} if no user is found.
  * Has menu buttons that allow the creation of new claims via {@link com.cmput301.cs.project.activities.EditClaimActivity EditClaimActivity}
  * and for the {@link com.cmput301.cs.project.activities.TagManagerActivity TagManagerActivity}. </br>
@@ -41,10 +41,10 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
     private static final int POSITION_APPROVER = 1;
     private static final int NEW_CLAIM = 0;
 
-    User mUser;
-    ClaimListController mClaimListController;
-    ClaimsAdapter mApproverAdapter;
-    ClaimsAdapter mClaimantAdapter;
+    private User mUser;
+    private ClaimListController mClaimListController;
+    private ClaimsAdapter mApproverAdapter;
+    private ClaimsAdapter mClaimantAdapter;
 
 
     @Override

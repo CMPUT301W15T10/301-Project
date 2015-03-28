@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cmput301.cs.project.model;
+package com.cmput301.cs.project.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -26,9 +26,9 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 /**
- * Class that contains a set of implements Parcelable {@link com.cmput301.cs.project.model.Expense Expenses}, and details of a trip. <br/>
+ * Class that contains a set of implements Parcelable {@link com.cmput301.cs.project.models.Expense Expenses}, and details of a trip. <br/>
  * This is an immutable class. <br/>
- * Use {@link com.cmput301.cs.project.model.Claim.Builder Claim.Builder} to obtain an instance.
+ * See {@link com.cmput301.cs.project.models.Claim.Builder Claim.Builder} on how to obtain an instance.
  */
 // Effective Java Item 15, 17
 public final class Claim implements Comparable<Claim>, Parcelable {
@@ -36,7 +36,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
     /**
      * The unspecified title.
      */
-    
+
     public static final Comparator<? super Claim> START_DESCENDING = new Comparator<Claim>() {
         @Override
         public int compare(Claim lhs, Claim rhs) {
@@ -135,23 +135,30 @@ public final class Claim implements Comparable<Claim>, Parcelable {
     }
 
     /**
-     * Use this class to obtain instances of {@link com.cmput301.cs.project.model.Claim Claim}.
+     * Use this class to obtain instances of {@link com.cmput301.cs.project.models.Claim Claim}.
+     * <br/>
+     * Creating a Claim:
+     * <pre>
+     * Claim claim = new Claim.Builder(App.get(this).getUser())
+     *                   .startTime(…)
+     *                   .endTime(…)
+     *                   …
+     *                   .build();
+     * </pre>
+     * <br/>
+     * Editing a Claim:
+     * <pre>
+     * Claim oldClaim = …;
+     * Claim claim = oldClaim.edit()
+     *                       .startTime(…)
+     *                       .endTime(…)
+     *                       …
+     *                       .build();
+     * </pre>
      */
     // Effective Java Item 2
     public static final class Builder {
 
-        /**
-         * Creates a {@code Builder} instance with the given {@code Claim}.
-         *
-         * @param claim non-null instance of {@code Claim}
-         * @return an instance of {@code Builder}
-         * @deprecated use {@link com.cmput301.cs.project.model.Claim#edit() Claim.edit()} instead
-         */
-        // Effective Java Item 1
-        @Deprecated
-        public static Builder copyFrom(Claim claim) {
-            return new Builder(claim);
-        }
 
         // default values
         private final List<Expense> mExpenses = new ArrayList<Expense>();
@@ -163,14 +170,14 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         private final List<Comment> mComments = new ArrayList<Comment>();
         private final User mClaimant;
 
-        
+
         private long mStartTime = -1;
         private long mEndTime = -1;
         private String mId = UUID.randomUUID().toString();
         private Status mStatus = Status.IN_PROGRESS;
 
         /**
-         * For Gson only. Use {@link #Builder(com.cmput301.cs.project.model.User)} instead.
+         * For Gson only. Use {@link #Builder(com.cmput301.cs.project.models.User)} instead.
          */
         private Builder() {
             mGsonToFill = true;
@@ -194,7 +201,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         private Builder(Claim claim) {
             mExpenses.addAll(claim.peekExpenses());
             mDestinations.putAll(claim.peekDestinations());
-            
+
             mTags.addAll(claim.peekTags());
             mStartTime = claim.getStartTime();
             mEndTime = claim.getEndTime();
@@ -214,8 +221,8 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         }
 
         /**
-         * Updates the {@link com.cmput301.cs.project.model.Expense Expense} if there is already an {@code Expense}
-         * with the same {@link com.cmput301.cs.project.model.Expense#getId() id}.
+         * Updates the {@link com.cmput301.cs.project.models.Expense Expense} if there is already an {@code Expense}
+         * with the same {@link com.cmput301.cs.project.models.Expense#getId() id}.
          * <br/>
          * Adds the {@code Expense} otherwise.
          *
@@ -238,7 +245,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         }
 
         /**
-         * Adds an {@link com.cmput301.cs.project.model.Expense Expense} to the underlying {@code Set}. Equality
+         * Adds an {@link com.cmput301.cs.project.models.Expense Expense} to the underlying {@code Set}. Equality
          * is determined by {@link Expense#compareTo(Expense)}.
          *
          * @param expense non-null instance of {@code Expense}
@@ -252,7 +259,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         }
 
         /**
-         * Removes an {@link com.cmput301.cs.project.model.Expense Expense} with the same id.
+         * Removes an {@link com.cmput301.cs.project.models.Expense Expense} with the same id.
          *
          * @param expense an instance of {@code Expense}; must not be null
          * @return this instance of {@code Builder}
@@ -289,8 +296,6 @@ public final class Claim implements Comparable<Claim>, Parcelable {
             return this;
         }
 
-       
-       
 
         /**
          * Specifies the start time of the {@code Claim}.
@@ -378,7 +383,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         }
 
         /**
-         * Peeks at the list of {@link com.cmput301.cs.project.model.Tag Tags}.
+         * Peeks at the list of {@link com.cmput301.cs.project.models.Tag Tags}.
          *
          * @return an unmodifiable set of {@code Tag}
          */
@@ -387,7 +392,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         }
 
         /**
-         * Peeks at the list of {@link com.cmput301.cs.project.model.Expense Expenses}.
+         * Peeks at the list of {@link com.cmput301.cs.project.models.Expense Expenses}.
          *
          * @return an unmodifiable list of {@code Expenses}
          */
@@ -395,7 +400,6 @@ public final class Claim implements Comparable<Claim>, Parcelable {
             return Collections.unmodifiableList(mExpenses);
         }
 
-     
 
         /**
          * @return the id specified by {@link #id(String)},
@@ -423,14 +427,13 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         }
 
         /**
-         * @return the status specified by {@link ( com.cmput301.cs.project.model.Claim.Status)};
+         * @return the status specified by {@link ( com.cmput301.cs.project.models.Claim.Status)};
          * otherwise, {@link Status#IN_PROGRESS}; never null
          */
         public Status getStatus() {
             return mStatus;
         }
 
-   
 
         /**
          * @return if the start time is not specified by {@link #startTime(long)}
@@ -501,7 +504,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         mExpenses = b.mExpenses;
         mDestinations = b.mDestinations;
         mTags = b.mTags;
-       
+
         mStartTime = b.mStartTime;
         mEndTime = b.mEndTime;
         mId = b.mId;
@@ -510,8 +513,13 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         mClaimant = b.mClaimant;
     }
 
+    /**
+     * Creates a {@code Builder} instance with the given {@code Claim}.
+     *
+     * @return an instance of {@code Builder}
+     */
     public Claim.Builder edit() {
-        return Claim.Builder.copyFrom(this);
+        return new Claim.Builder(this);
     }
 
     public boolean isCompleted() {
@@ -558,7 +566,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
     }
 
     /**
-     * Peeks at the list of {@link com.cmput301.cs.project.model.Expense Expenses}.
+     * Peeks at the list of {@link com.cmput301.cs.project.models.Expense Expenses}.
      *
      * @return an unmodifiable list of {@code Expenses}
      */
@@ -588,7 +596,6 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         return Collections.unmodifiableMap(mDestinations);
     }
 
-  
 
     /**
      * @return the start time; always >= {@link #getEndTime()} and positive
@@ -624,7 +631,6 @@ public final class Claim implements Comparable<Claim>, Parcelable {
      * <ol>
      * <li>{@link #getStartTime() start time}</li>
      * <li>{@link #getEndTime() end time}</li>
-     * <li>{@link #getTitle() title}</li>
      * <li>{@link #getStatus() status} (by enum ordinal)</li>
      * </ol>
      * Unsorted items:
@@ -654,6 +660,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
     }
 
     @Override
+    @SuppressWarnings("RedundantIfStatement")
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Claim)) return false;

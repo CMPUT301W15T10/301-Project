@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cmput301.cs.project.model;
+package com.cmput301.cs.project.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -30,7 +30,7 @@ import java.util.*;
 /**
  * Class that contains the details of an expense. <br/>
  * This is an immutable class. <br/>
- * Use implements Parcelable {@link com.cmput301.cs.project.model.Expense.Builder Expense.Builder} to obtain an instance.
+ * See {@link com.cmput301.cs.project.models.Expense.Builder Expense.Builder} on how to obtain an instance.
  */
 // Effective Java Item 15, 17
 public final class Expense implements Comparable<Expense>, Parcelable {
@@ -41,7 +41,6 @@ public final class Expense implements Comparable<Expense>, Parcelable {
             return ((Long) lhs.getTimeOccurred()).compareTo(rhs.getTimeOccurred());
         }
     };
-
 
 
     public static final Set<String> CATEGORIES = Collections.unmodifiableSet(new TreeSet<String>() {{
@@ -56,23 +55,22 @@ public final class Expense implements Comparable<Expense>, Parcelable {
         add("Others");
     }});
 
-    public static final Set<CurrencyUnit> CURRENCIES = Collections.unmodifiableSet(new TreeSet<CurrencyUnit>()
-    {{
-            add(CurrencyUnit.GBP);
-            add(CurrencyUnit.CAD);
-            add(CurrencyUnit.EUR);
-            add(CurrencyUnit.USD);
-            add(CurrencyUnit.CHF);
-            add(CurrencyUnit.JPY);
-            add(CurrencyUnit.getInstance("CNY"));
+    public static final Set<CurrencyUnit> CURRENCIES = Collections.unmodifiableSet(new TreeSet<CurrencyUnit>() {{
+        add(CurrencyUnit.GBP);
+        add(CurrencyUnit.CAD);
+        add(CurrencyUnit.EUR);
+        add(CurrencyUnit.USD);
+        add(CurrencyUnit.CHF);
+        add(CurrencyUnit.JPY);
+        add(CurrencyUnit.getInstance("CNY"));
 
-        }});
+    }});
 
 
     /**
      * The default {@link Money}, with the amount of zero in USD.
      */
-    public static final Money DEFAULT_MONEY = Money.zero(CurrencyUnit.USD);
+    private static final Money DEFAULT_MONEY = Money.zero(CurrencyUnit.USD);
     private long mTimeOccurred;
 
     public long getTimeOccurred() {
@@ -80,21 +78,30 @@ public final class Expense implements Comparable<Expense>, Parcelable {
     }
 
     /**
-     * Use this class to obtain instances of {@link com.cmput301.cs.project.model.Expense Expense}.
+     * Use this class to obtain instances of {@link com.cmput301.cs.project.models.Expense Expense}.
+     * <br/>
+     * Creating an Expense:
+     * <pre>
+     * Expense expense = new Expense.Builder()
+     *                       .amount(BigDecimal.TEN)
+     *                       .currencyUnit(CurrencyUnit.CAD)
+     *                       …
+     *                       .build();
+     * </pre>
+     * <br/>
+     * Editing an Expense:
+     * <pre>
+     * Expense oldExpense = …;
+     * Expense expense = oldExpense.edit()
+     *                             .amount(BigDecimal.TEN)
+     *                             .currencyUnit(CurrencyUnit.CAD)
+     *                             …
+     *                             .build();
+     * </pre>
      */
     // Effective Java Item 2
     public static final class Builder {
         private Receipt receipt;
-
-        /**
-         * Creates a {@code Builder} instance with the given {@code Expense}.
-         *
-         * @param expense non-null instance of {@code Expense}
-         * @return an instance of {@code Builder}
-         */
-        public static Builder copyFrom(Expense expense) {
-            return new Builder(expense);
-        }
 
         // default values
         private String mDescription = null;
@@ -149,7 +156,7 @@ public final class Expense implements Comparable<Expense>, Parcelable {
          * @see Expense#DEFAULT_MONEY
          * @see #currencyUnit(org.joda.money.CurrencyUnit)
          */
-        public Builder amountInBigDecimal(BigDecimal amount) {
+        public Builder amount(BigDecimal amount) {
             ClaimUtils.nonNullOrThrow(amount, "amount");
             mMoney = mMoney.withAmount(amount, RoundingMode.UP);
             return this;
@@ -161,12 +168,12 @@ public final class Expense implements Comparable<Expense>, Parcelable {
          * @param unit non-null instance of {@link org.joda.money.CurrencyUnit CurrencyUnit}
          * @return this instance of {@code Builder}
          * @see Expense#DEFAULT_MONEY
-         * @see #amountInBigDecimal(java.math.BigDecimal)
+         * @see #amount(java.math.BigDecimal)
          */
         public Builder currencyUnit(CurrencyUnit unit) {
             ClaimUtils.nonNullOrThrow(unit, "unit");
 
-            if(!CURRENCIES.contains(unit)){
+            if (!CURRENCIES.contains(unit)) {
                 throw new IllegalArgumentException(unit + "is not a valid currency");
             }
 
@@ -189,15 +196,15 @@ public final class Expense implements Comparable<Expense>, Parcelable {
         }
 
         /**
-         * Specifies the time of the {@code Expense}.
+         * Specifies the time of the {@code Expense}. Negative time will be dropped.
          *
-         * @param time non-negative time
+         * @param time non-negative time; otherwise no-op
          * @return this instance of {@code Builder}
          * @see #getTime()
          * @see #isTimeSet()
          */
         public Builder time(long time) {
-            ClaimUtils.nonNegativeOrThrow(time, "time");
+            if (time < 0) return this;
             mTime = time;
             return this;
         }
@@ -213,9 +220,9 @@ public final class Expense implements Comparable<Expense>, Parcelable {
          */
 
         public Builder category(String category) {
-            ClaimUtils.nonNullnonEmptyOrThrow(category,"category");
+            ClaimUtils.nonNullnonEmptyOrThrow(category, "category");
 
-            if(!CATEGORIES.contains(category)){
+            if (!CATEGORIES.contains(category)) {
                 throw new IllegalArgumentException(category + "is not a valid category");
             }
 
@@ -385,6 +392,15 @@ public final class Expense implements Comparable<Expense>, Parcelable {
     }
 
     /**
+     * Creates a {@code Builder} instance with the given {@code Expense}.
+     *
+     * @return an instance of {@code Builder}
+     */
+    public Expense.Builder edit() {
+        return new Builder(this);
+    }
+
+    /**
      * Compares this and another instance of {@code Expense} in the following order:
      * <ol>
      * <li>{@link #getTime() time}</li>
@@ -419,30 +435,33 @@ public final class Expense implements Comparable<Expense>, Parcelable {
     }
 
     @Override
+    @SuppressWarnings("SimplifiableIfStatement")
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Expense)) return false;
 
         final Expense expense = (Expense) o;
 
+        if (mTimeOccurred != expense.mTimeOccurred) return false;
         if (mTime != expense.mTime) return false;
-        if (mAmount != null ? !mAmount.equals(expense.mAmount) : expense.mAmount != null) return false;
-        if (mCategory != null ? !mCategory.equals(expense.mCategory) : expense.mCategory != null) return false;
-        if (mId != null ? !mId.equals(expense.mId) : expense.mId != null) return false;
-        if (mDescription != null ? !mDescription.equals(expense.mDescription) : expense.mDescription != null) return false;
-
-        return true;
+        if (mCompleted != expense.mCompleted) return false;
+        if (!mDescription.equals(expense.mDescription)) return false;
+        if (!mAmount.equals(expense.mAmount)) return false;
+        if (!mCategory.equals(expense.mCategory)) return false;
+        if (!mId.equals(expense.mId)) return false;
+        return mReceipt.equals(expense.mReceipt);
     }
 
     @Override
     public int hashCode() {
-        int result = mDescription != null ? mDescription.hashCode() : 0;
-        result = 31 * result + (mAmount != null ? mAmount.hashCode() : 0);
-        result = 31 * result + (mCategory != null ? mCategory.hashCode() : 0);
+        int result = (int) (mTimeOccurred ^ (mTimeOccurred >>> 32));
+        result = 31 * result + mDescription.hashCode();
+        result = 31 * result + mAmount.hashCode();
+        result = 31 * result + mCategory.hashCode();
         result = 31 * result + (int) (mTime ^ (mTime >>> 32));
-        result = 31 * result + (mId != null ? mId.hashCode() : 0);
-        result = 31 * result + (mReceipt != null ? mReceipt.hashCode() : 0);
-
+        result = 31 * result + mId.hashCode();
+        result = 31 * result + (mCompleted ? 1 : 0);
+        result = 31 * result + mReceipt.hashCode();
         return result;
     }
 

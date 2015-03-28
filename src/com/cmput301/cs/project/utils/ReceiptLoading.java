@@ -10,7 +10,7 @@ import java.io.File;
  * This class is meant to provide a standard way to get the Uri for a receipt.
  */
 public class ReceiptLoading {
-    private static String LOG_TAG = "ReceiptLoading";
+    private static final String LOG_TAG = "ReceiptLoading";
 
     /*
      * @return Will return the {link @Uri} for the given expense id. Each expenseId will have a unique receipt file.

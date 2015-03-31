@@ -17,8 +17,6 @@
 /**
  * App is a controller of sorts that contains a series of methods for logging in
  * and miscellaneous tasks.
- *
- *
  */
 
 
@@ -48,7 +46,7 @@ public final class App extends Application {
         String userName = sharedPreferences.getString(USER_NAME, null);
         String userId = sharedPreferences.getString(USER_ID, null);
 
-        if(userId == null || userName == null || userId.isEmpty() || userName.isEmpty()) {
+        if (userId == null || userName == null || userId.isEmpty() || userName.isEmpty()) {
             return null;
         }
 
@@ -65,6 +63,5 @@ public final class App extends Application {
         editor.apply();
 
     }
-
 }
 

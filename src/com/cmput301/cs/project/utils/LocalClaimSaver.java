@@ -35,8 +35,8 @@ import java.util.List;
 
 /**
  * This class is used to save claims via saveAllClaims()
- * <p/>
- * It can be used by calling {@link LocalClaimSaver#ofAndroid(Context) LocalClaimSaver.ofAndroid(Context)}
+ * <p>
+ * It can be used by calling {@link LocalClaimSaver#ofAndroid(Context)}
  */
 public abstract class LocalClaimSaver {
     private static final String LOG_TAG = "ClaimSaves";

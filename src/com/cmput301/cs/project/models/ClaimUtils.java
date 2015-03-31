@@ -29,7 +29,7 @@ public final class ClaimUtils {
 
     /**
      * Ensures the object is not null, then returns the same reference. Otherwise, an {@code IllegalArgumentException} is thrown with the name given.
-     * <br/>
+     * <p>
      * Example:
      * <pre>
      * final String stringThatMaybeNull = …;
@@ -52,7 +52,7 @@ public final class ClaimUtils {
     /**
      * Ensures the {@code String} is not null or empty, then returns the same {@code String}.
      * Otherwise, an {@code IllegalArgumentException} is thrown with the name given.
-     * <br/>
+     * <p>
      * Example:
      * <pre>
      * final String stringThatMaybeNullOrEmpty = …;

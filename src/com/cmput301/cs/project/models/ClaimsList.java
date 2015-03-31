@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Singleton</br>
+ * Singleton<p>
  * A class that contains the ClaimList for the app. This is changed whenever a claim is created, edited or removed.
  * 
  * @author rozsa

@@ -11,9 +11,9 @@ import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.utils.Utils;
 
 /**
- * An activity that allows a destination to be created with an associated reason. </br>
+ * An activity that allows a destination to be created with an associated reason. <p>
  * Is called when a new destination is created or when a destination is being edited within 
- * {@link com.cmput301.cs.project.activities.EditClaimActivity EditClaimActivity}. </br>
+ * {@link com.cmput301.cs.project.activities.EditClaimActivity EditClaimActivity}. <p>
  * The key-value pair is stored within that particular {@link com.cmput301.cs.project.models.Claim Claim}.
  *   
  * @author rozsa

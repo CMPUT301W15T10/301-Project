@@ -28,10 +28,10 @@ import java.util.ArrayList;
 
 /**
  * An activity that is called when a new expense is created or when a expense is being edited from
- * within {@link com.cmput301.cs.project.activities.ExpenseListActivity ExpenseListActivity}.</br>
+ * within {@link com.cmput301.cs.project.activities.ExpenseListActivity ExpenseListActivity}.<p>
  * Allows the user to add a Description, Category, Date, Money (with type), Receipt and select completeness which is stored
  * within that particular {@link com.cmput301.cs.project.models.Expense Expense}.
- * <p/>
+ * <p>
  * The editted expense is passed back using setResult
  *
  * @author rozsa

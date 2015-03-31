@@ -7,7 +7,7 @@ import com.cmput301.cs.project.controllers.TagsManager;
 import java.util.UUID;
 
 /**
- * Class that contains a name and a unique ID that a user can associate with a {@link com.cmput301.cs.project.models.Claim Claim}. </br>
+ * Class that contains a name and a unique ID that a user can associate with a {@link com.cmput301.cs.project.models.Claim Claim}. <p>
  * Specific tags are bound to a user (device).
  * 
  * @author rozsa

@@ -13,8 +13,8 @@ import com.cmput301.cs.project.utils.Utils;
 
 /**
  * An activity that is called when a new tag is created or a tag is clicked on 
- * {@link TagManagerActivity}.</br>
- * Allows the tag to be deleted from the app. </br>
+ * {@link TagManagerActivity}.<p>
+ * Allows the tag to be deleted from the app. <p>
  * Contains a String and generates a unique ID which is stored in a {@link com.cmput301.cs.project.models.Tag Tag}.
  * 
  * @author rozsa

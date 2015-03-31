@@ -26,7 +26,7 @@ import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.utils.Utils;
 
 /**
- * Activity for picking a date. This activity is used whenvever a date needs to be picked in the app.</br>
+ * Activity for picking a date. This activity is used whenvever a date needs to be picked in the app.<p>
  * If an activity relies on both a start date and an end date the calendar will restrict choices to the user so
  *  that an end date can't come before a start date and vice versa.
  *

@@ -26,8 +26,8 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 /**
- * Class that contains a set of implements Parcelable {@link com.cmput301.cs.project.models.Expense Expenses}, and details of a trip. <br/>
- * This is an immutable class. <br/>
+ * Class that contains a set of implements Parcelable {@link com.cmput301.cs.project.models.Expense Expenses}, and details of a trip. <p>
+ * This is an immutable class. <p>
  * See {@link com.cmput301.cs.project.models.Claim.Builder Claim.Builder} on how to obtain an instance.
  */
 // Effective Java Item 15, 17
@@ -136,7 +136,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
 
     /**
      * Use this class to obtain instances of {@link com.cmput301.cs.project.models.Claim Claim}.
-     * <br/>
+     * <p>
      * Creating a Claim:
      * <pre>
      * Claim claim = new Claim.Builder(App.get(this).getUser())
@@ -145,7 +145,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
      *                   …
      *                   .build();
      * </pre>
-     * <br/>
+     * <p>
      * Editing a Claim:
      * <pre>
      * Claim oldClaim = …;
@@ -223,7 +223,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         /**
          * Updates the {@link com.cmput301.cs.project.models.Expense Expense} if there is already an {@code Expense}
          * with the same {@link com.cmput301.cs.project.models.Expense#getId() id}.
-         * <br/>
+         * <p>
          * Adds the {@code Expense} otherwise.
          *
          * @param expense non-null instance of {@code Expense}
@@ -299,10 +299,10 @@ public final class Claim implements Comparable<Claim>, Parcelable {
 
         /**
          * Specifies the start time of the {@code Claim}.
-         * <br/>
+         * <p>
          * If {@link #isEndTimeSet()}, then the start time must be larger or equals to the end time. No-op if violated.
          *
-         * @param startTime non-negative time; and >= end time if {@link #isEndTimeSet()}; no-op if violated
+         * @param startTime non-negative time; and {@code >=} end time if {@link #isEndTimeSet()}; no-op if violated
          * @return this instance of {@code Builder}
          * @see #getStartTime()
          */
@@ -314,10 +314,10 @@ public final class Claim implements Comparable<Claim>, Parcelable {
 
         /**
          * Specifies the end time of the {@code Claim}.
-         * <br/>
+         * <p>
          * If {@link #isStartTimeSet()}, then the end time must be smaller or equals to the end time. No-op if violated.
          *
-         * @param endTime non-negative time; and <= start time if {@link #isStartTimeSet()}; no-op if violated
+         * @param endTime non-negative time; and {@code <=} start time if {@link #isStartTimeSet()}; no-op if violated
          * @return this instance of {@code Builder}
          * @see #getEndTime()
          */
@@ -427,7 +427,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         }
 
         /**
-         * @return the status specified by {@link ( com.cmput301.cs.project.models.Claim.Status)};
+         * @return the status specified by {@link com.cmput301.cs.project.models.Claim.Status};
          * otherwise, {@link Status#IN_PROGRESS}; never null
          */
         public Status getStatus() {
@@ -598,7 +598,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
 
 
     /**
-     * @return the start time; always >= {@link #getEndTime()} and positive
+     * @return the start time; always {@code >=} {@link #getEndTime()} and positive
      * @see #getEndTime()
      */
     public long getStartTime() {
@@ -606,7 +606,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
     }
 
     /**
-     * @return the end time; always <= {@link #getStartTime()} and positive
+     * @return the end time; always {@code <=} {@link #getStartTime()} and positive
      */
     public long getEndTime() {
         return mEndTime;
@@ -642,7 +642,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
      * </ul>
      * This method is <em>inconsistent</em> with {@link #equals(Object)}: if this method returns {@code 0},
      * {@code equals(Object)} may not return {@code true}, as defined in <i>Effective Java</i> Item 12.
-     * <p/>
+     * <p>
      * {@inheritDoc}
      */
     @Override

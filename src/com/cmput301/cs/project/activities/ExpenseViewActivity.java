@@ -21,7 +21,7 @@ import java.text.DateFormat;
 // on March 12, 2015
 
 /**
- * An activity that shows the details of an {@link com.cmput301.cs.project.models.Expense Expense}. </br>
+ * An activity that shows the details of an {@link com.cmput301.cs.project.models.Expense Expense}. <p>
  * Has a menu button that calls {@link com.cmput301.cs.project.activities.EditExpenseActivity EditExpenseActivity} for editing
  * on that expense.
  *

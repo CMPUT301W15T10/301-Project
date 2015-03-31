@@ -25,7 +25,7 @@ import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.models.Claim;
 
 /**
- * Utility class that has various methods that are used in the app. </br>
+ * Utility class that has various methods that are used in the app. <p>
 
  * @author rozsa
  *
@@ -37,7 +37,7 @@ public final class Utils {
     }
 
     /**
-     * Creates a Discard/Done bar in an activity and allows OnClickListeners to be attached.</br>
+     * Creates a Discard/Done bar in an activity and allows OnClickListeners to be attached.<p>
      * @param activity non-null
      * @param discardListener listener for the discard button; can be null
      * @param doneListener listener for the done button; can be null
@@ -61,7 +61,7 @@ public final class Utils {
     }
 
     /**
-     * Returns value for Status that can be used to display the status. </br>
+     * Returns value for Status that can be used to display the status. <p>
      *
      * @param status non-null
      * @return Android resource string id

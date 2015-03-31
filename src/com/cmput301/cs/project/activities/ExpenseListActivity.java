@@ -15,8 +15,8 @@ import com.cmput301.cs.project.models.ClaimsList;
 import com.cmput301.cs.project.models.Expense;
 
 /**
- * An activity that shows a list of all {@link com.cmput301.cs.project.models.Expense Expenses} associated with a {@link com.cmput301.cs.project.models.Claim Claim}. </br>
- * When an {@link com.cmput301.cs.project.models.Expense Expense} is clicked, {@link com.cmput301.cs.project.activities.ExpenseViewActivity ExpenseViewActivity} is called. </br>
+ * An activity that shows a list of all {@link com.cmput301.cs.project.models.Expense Expenses} associated with a {@link com.cmput301.cs.project.models.Claim Claim}. <p>
+ * When an {@link com.cmput301.cs.project.models.Expense Expense} is clicked, {@link com.cmput301.cs.project.activities.ExpenseViewActivity ExpenseViewActivity} is called. <p>
  * When the menu item is clicked, {@link com.cmput301.cs.project.activities.EditExpenseActivity EditExpenseActivity} is called to
  * generate a new expense.
  *

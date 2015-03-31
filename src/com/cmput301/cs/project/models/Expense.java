@@ -28,8 +28,8 @@ import java.math.RoundingMode;
 import java.util.*;
 
 /**
- * Class that contains the details of an expense. <br/>
- * This is an immutable class. <br/>
+ * Class that contains the details of an expense. <p>
+ * This is an immutable class. <p>
  * See {@link com.cmput301.cs.project.models.Expense.Builder Expense.Builder} on how to obtain an instance.
  */
 // Effective Java Item 15, 17
@@ -79,7 +79,7 @@ public final class Expense implements Comparable<Expense>, Parcelable {
 
     /**
      * Use this class to obtain instances of {@link com.cmput301.cs.project.models.Expense Expense}.
-     * <br/>
+     * <p>
      * Creating an Expense:
      * <pre>
      * Expense expense = new Expense.Builder()
@@ -88,7 +88,7 @@ public final class Expense implements Comparable<Expense>, Parcelable {
      *                       …
      *                       .build();
      * </pre>
-     * <br/>
+     * <p>
      * Editing an Expense:
      * <pre>
      * Expense oldExpense = …;
@@ -183,7 +183,7 @@ public final class Expense implements Comparable<Expense>, Parcelable {
 
         /**
          * Specifies the description of the {@code Claim}.
-         * <br/>
+         * <p>
          *
          * @param description nullable {@code String} description
          * @return this instance of {@code Builder}
@@ -211,7 +211,7 @@ public final class Expense implements Comparable<Expense>, Parcelable {
 
         /**
          * Specifies the category of the {@code Expense}.
-         * <br/>
+         * <p>
          *
          * @param category nullable {@code String} category
          * @return this instance of {@code Builder}
@@ -331,7 +331,7 @@ public final class Expense implements Comparable<Expense>, Parcelable {
 
         /**
          * Creates an instance of {@code Expense}.
-         * <br/>
+         * <p>
          * If {@link #isTimeSet()} is false, time will be set to {@link System#currentTimeMillis()}.
          *
          * @return an instance of {@code Expense}; never null
@@ -411,7 +411,7 @@ public final class Expense implements Comparable<Expense>, Parcelable {
      * </ol>
      * This method is consistent with {@link #equals(Object)}: if this method returns {@code 0},
      * {@code equals(Object)} returns {@code true}, as defined in <i>Effective Java</i> Item 12.
-     * <p/>
+     * <p>
      * {@inheritDoc}
      */
     @Override

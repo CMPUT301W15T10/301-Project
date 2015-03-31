@@ -26,13 +26,13 @@ import java.text.DateFormat;
 
 /**
  * The activity that is called when a item is clicked within {@link com.cmput301.cs.project.activities.ClaimListActivity ClaimListActivity}
- * that shows the specific details of that claim. </br>
+ * that shows the specific details of that claim. <p>
  * Menu items allow {@link com.cmput301.cs.project.activities.EditClaimActivity EditClaimActivity} to be called on the claim
- * and for a claim to be deleted.</br>
+ * and for a claim to be deleted.<p>
  * The activity lists the StartDate, EndDate, Currencies, Status, Destinations and calls {@link com.cmput301.cs.project.activities.ExpenseListActivity ExpenseListActivity}
- * when the associated button is clicked.</br>
+ * when the associated button is clicked.<p>
  * Returns to the {@link com.cmput301.cs.project.activities.ClaimListActivity ClaimListActivity} when Submit button is clicked.
- * <p/>
+ * <p>
  * A claim must be passed via an intent for this activity to work
  *
  * @author rozsa

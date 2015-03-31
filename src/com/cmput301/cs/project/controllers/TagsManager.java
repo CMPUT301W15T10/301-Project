@@ -8,7 +8,7 @@ import com.cmput301.cs.project.utils.LocalClaimSaver;
 import java.util.*;
 
 /**
- * Controls the tags that are shown in {@link com.cmput301.cs.project.activities.TagManagerActivity TagManagerActivity}. </br>
+ * Controls the tags that are shown in {@link com.cmput301.cs.project.activities.TagManagerActivity TagManagerActivity}. <p>
  * Implements {@link com.cmput301.cs.project.controllers.TagsChangedListener TagsChangedListener}.
  * 
  * @author rozsa

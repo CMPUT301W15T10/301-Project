@@ -27,12 +27,12 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
 /**
- * Is the activity that launches at start of app. </br>
- * An activity that shows a list of {@link com.cmput301.cs.project.models.Claim Claims}. </br>
+ * Is the activity that launches at start of app. <p>
+ * An activity that shows a list of {@link com.cmput301.cs.project.models.Claim Claims}. <p>
  * Redirects to {@link com.cmput301.cs.project.activities.LoginActivity LoginActivity} if no user is found.
  * Has menu buttons that allow the creation of new claims via {@link com.cmput301.cs.project.activities.EditClaimActivity EditClaimActivity}
- * and for the {@link com.cmput301.cs.project.activities.TagManagerActivity TagManagerActivity}. </br>
- * If a claim item is clicked {@link com.cmput301.cs.project.activities.ClaimViewActivity ClaimViewActivity} is called for that claim. </br>
+ * and for the {@link com.cmput301.cs.project.activities.TagManagerActivity TagManagerActivity}. <p>
+ * If a claim item is clicked {@link com.cmput301.cs.project.activities.ClaimViewActivity ClaimViewActivity} is called for that claim. <p>
  * Finally there are tabs at the top of the activity that allow the user to switch between approver and claimant (not yet implemented).
  *
  * @author rozsa

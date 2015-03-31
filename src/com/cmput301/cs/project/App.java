@@ -13,13 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * App is a controller of sorts that contains a series of methods for logging in
- * and miscellaneous tasks.
- */
-
-
 package com.cmput301.cs.project;
 
 
@@ -29,6 +22,10 @@ import android.content.SharedPreferences;
 import com.cmput301.cs.project.models.User;
 
 
+/**
+ * App is a controller of sorts that contains a series of methods for logging in
+ * and miscellaneous tasks.
+ */
 public final class App extends Application {
 
     private static final String USER_PREFERENCES = "USER_PREFERENCES";

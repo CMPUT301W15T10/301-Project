@@ -25,12 +25,12 @@ import java.text.DateFormat;
 import java.util.SortedSet;
 
 /**
- * The activity that is called when a New Claim is created or when an existing claim is going to be edited. </br>
+ * The activity that is called when a New Claim is created or when an existing claim is going to be edited. <p>
  * Able to add {@link com.cmput301.cs.project.models.Expense Expenses} and {@link com.cmput301.cs.project.models.Claim Destinations}
  * from this screen as well as {@literal StartDate} and {@literal EndDate}.
- * <p/>
+ * <p>
  * A claim must be passed via an intent as App.KEY_CLAIM.
- * <p/>
+ * <p>
  * If there is no claim passed it is assumed that the activity is creating a new claim
  *
  * @author rozsa

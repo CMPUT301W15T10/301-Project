@@ -138,7 +138,7 @@ public class ClaimSavesTest extends TestCase {
 
     /**
      * Use Case 4 (US 01.04.01, US 01.06.01)
-     * <br/>
+     * <p>
      * relies on {@link #testCreateClaim()}
      */
     @Test

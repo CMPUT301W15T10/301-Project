@@ -68,6 +68,8 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
         mResolvingError = savedInstanceState != null
                 && savedInstanceState.getBoolean(STATE_RESOLVING_ERROR, false);
 
+        buildGoogleApiClient();
+
         mUser = App.get(this).getUser();
 
         if (mUser == null) {

@@ -19,8 +19,8 @@ import java.util.List;
 public class ClaimsList {
 
     private final List<Claim> defaultClaims = Collections.unmodifiableList(new ArrayList<Claim>() {{
-        add(new Claim.Builder(new User("jordan")).putDestinationAndReason("place", "reason").build());
-        add(new Claim.Builder(new User("charles")).putDestinationAndReason("Paris", "love").
+        add(new Claim.Builder(new User("jordan")).putDestination(new Destination.Builder("place", "reason").build()).build());
+        add(new Claim.Builder(new User("charles")).putDestination(new Destination.Builder("Paris", "love").build()).
                 startTime(System.currentTimeMillis() * 60).endTime(System.currentTimeMillis() * 60 + 1000000).
                 putExpense(new Expense.Builder().description("Hotel").amount(BigDecimal.TEN).build()).build());
 

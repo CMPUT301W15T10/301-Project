@@ -1,16 +1,16 @@
 package com.cmput301.cs.project.adapters;
 
 import android.content.Context;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import com.cmput301.cs.project.models.Destination;
 
-import java.util.Map;
+import java.util.Collection;
 
-public class DestinationAdapter extends ArrayAdapter<Pair<String, String>> {
+public class DestinationAdapter extends ArrayAdapter<Destination> {
 
     private static final class ViewHolder {
         private final TextView destination;
@@ -25,14 +25,11 @@ public class DestinationAdapter extends ArrayAdapter<Pair<String, String>> {
     private final LayoutInflater mInflater;
 
 
-    public DestinationAdapter(Context context, Map<String, String> destinations) {
+    public DestinationAdapter(Context context, Collection<Destination> destinations) {
         super(context, android.R.layout.simple_list_item_activated_2);
 
         mInflater = LayoutInflater.from(context);
-
-        for(Map.Entry<String, String> destination : destinations.entrySet()){
-            add(new Pair<String, String>(destination.getKey(), destination.getValue()));
-        }
+        addAll(destinations);
     }
 
 
@@ -47,9 +44,9 @@ public class DestinationAdapter extends ArrayAdapter<Pair<String, String>> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        final Pair<String, String> destination = getItem(position);
-        holder.destination.setText(destination.first);
-        holder.reason.setText(destination.second);
+        final Destination destination = getItem(position);
+        holder.destination.setText(destination.getName());
+        holder.reason.setText(destination.getReason());
 
         return convertView;
     }

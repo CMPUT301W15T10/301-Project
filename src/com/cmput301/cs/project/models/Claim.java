@@ -136,7 +136,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
 
     /**
      * Use this class to obtain instances of {@link com.cmput301.cs.project.models.Claim Claim}.
-     * <p>
+     * <p/>
      * Creating a Claim:
      * <pre>
      * Claim claim = new Claim.Builder(App.get(this).getUser())
@@ -145,7 +145,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
      *                   …
      *                   .build();
      * </pre>
-     * <p>
+     * <p/>
      * Editing a Claim:
      * <pre>
      * Claim oldClaim = …;
@@ -164,7 +164,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         private final List<Expense> mExpenses = new ArrayList<Expense>();
 
 
-        private final Map<String, String> mDestinations = new HashMap<String, String>();  // Destination -> Reason
+        private final List<Destination> mDestinations = new ArrayList<Destination>();
         private final SortedSet<Tag> mTags = new TreeSet<Tag>();
         private final boolean mGsonToFill;
         private final List<Comment> mComments = new ArrayList<Comment>();
@@ -200,7 +200,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
          */
         private Builder(Claim claim) {
             mExpenses.addAll(claim.peekExpenses());
-            mDestinations.putAll(claim.peekDestinations());
+            mDestinations.addAll(claim.peekDestinations());
 
             mTags.addAll(claim.peekTags());
             mStartTime = claim.getStartTime();
@@ -212,8 +212,8 @@ public final class Claim implements Comparable<Claim>, Parcelable {
             mGsonToFill = false;
         }
 
-        public Map<String, String> getDestinations() {
-            return Collections.unmodifiableMap(mDestinations);
+        public List<Destination> getDestinations() {
+            return Collections.unmodifiableList(mDestinations);
         }
 
         public List<Expense> getExpenses() {
@@ -223,7 +223,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         /**
          * Updates the {@link com.cmput301.cs.project.models.Expense Expense} if there is already an {@code Expense}
          * with the same {@link com.cmput301.cs.project.models.Expense#getId() id}.
-         * <p>
+         * <p/>
          * Adds the {@code Expense} otherwise.
          *
          * @param expense non-null instance of {@code Expense}
@@ -286,20 +286,19 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         /**
          * Puts the destination and the associated reason to the underlying {@code Map}.
          *
-         * @param destination the {@code String} destination
-         * @param reason      the {@code String} associated reason
+         * @param destination the {@link Destination}
          * @return this instance of {@code Builder}
          */
-        public Builder putDestinationAndReason(String destination, String reason) {
-            ClaimUtils.nonNullnonEmptyOrThrow(destination, "destination");
-            mDestinations.put(destination, reason);
+        public Builder putDestination(Destination destination) {
+            ClaimUtils.nonNullOrThrow(destination, "destination");
+            mDestinations.add(destination);
             return this;
         }
 
 
         /**
          * Specifies the start time of the {@code Claim}.
-         * <p>
+         * <p/>
          * If {@link #isEndTimeSet()}, then the start time must be larger or equals to the end time. No-op if violated.
          *
          * @param startTime non-negative time; and {@code >=} end time if {@link #isEndTimeSet()}; no-op if violated
@@ -314,7 +313,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
 
         /**
          * Specifies the end time of the {@code Claim}.
-         * <p>
+         * <p/>
          * If {@link #isStartTimeSet()}, then the end time must be smaller or equals to the end time. No-op if violated.
          *
          * @param endTime non-negative time; and {@code <=} start time if {@link #isStartTimeSet()}; no-op if violated
@@ -468,7 +467,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
             return mClaimant;
         }
 
-        public void removeDestination(String destination) {
+        public void removeDestination(Destination destination) {
             mDestinations.remove(destination);
         }
     }
@@ -491,7 +490,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
     };
 
     private final List<Expense> mExpenses;
-    private final Map<String, String> mDestinations;  // destination -> reason
+    private final List<Destination> mDestinations;
     private final SortedSet<Tag> mTags;
     private final long mStartTime;
     private final long mEndTime;
@@ -531,8 +530,8 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         return true;
     }
 
-    public Map<String, String> getDestinations() {
-        return Collections.unmodifiableMap(mDestinations);
+    public List<Destination> getDestinations() {
+        return Collections.unmodifiableList(mDestinations);
     }
 
     // generated by http://www.parcelabler.com/
@@ -558,10 +557,12 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         } else {
             mComments = null;
         }
-        final int size = in.readInt();
-        mDestinations = new HashMap<String, String>(size);
-        for (int i = 0; i < size; i++) {
-            mDestinations.put(in.readString(), in.readString());
+
+        if (in.readByte() == 0x01) {
+            mDestinations = new ArrayList<Destination>();
+            in.readList(mDestinations, Destination.class.getClassLoader());
+        } else {
+            mDestinations = null;
         }
     }
 
@@ -592,8 +593,8 @@ public final class Claim implements Comparable<Claim>, Parcelable {
      *
      * @return an unmodifiable map of {@code destination -> reason}
      */
-    public Map<String, String> peekDestinations() {
-        return Collections.unmodifiableMap(mDestinations);
+    public List<Destination> peekDestinations() {
+        return Collections.unmodifiableList(mDestinations);
     }
 
 
@@ -642,7 +643,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
      * </ul>
      * This method is <em>inconsistent</em> with {@link #equals(Object)}: if this method returns {@code 0},
      * {@code equals(Object)} may not return {@code true}, as defined in <i>Effective Java</i> Item 12.
-     * <p>
+     * <p/>
      * {@inheritDoc}
      */
     @Override
@@ -727,10 +728,11 @@ public final class Claim implements Comparable<Claim>, Parcelable {
             dest.writeByte((byte) (0x01));
             dest.writeList(mComments);
         }
-        dest.writeInt(mDestinations.size());
-        for (Map.Entry<String, String> entry : mDestinations.entrySet()) {
-            dest.writeString(entry.getKey());
-            dest.writeString(entry.getValue());
+        if (mDestinations == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(mDestinations);
         }
     }
 

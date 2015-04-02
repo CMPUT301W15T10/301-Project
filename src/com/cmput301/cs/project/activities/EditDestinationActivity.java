@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.cmput301.cs.project.R;
+import com.cmput301.cs.project.models.Destination;
 import com.cmput301.cs.project.utils.Utils;
 
 /**
@@ -23,7 +24,6 @@ import com.cmput301.cs.project.utils.Utils;
 public class EditDestinationActivity extends Activity {
 
     public static final String DESTINATION = "DESTINATION";
-    public static final String REASON = "REASON";
     private TextView mDestination;
     private TextView mReason;
 
@@ -35,9 +35,9 @@ public class EditDestinationActivity extends Activity {
         mDestination = (TextView) findViewById(R.id.newDestinationInput);
         mReason = (TextView) findViewById(R.id.newReason);
 
-        mDestination.setText(getIntent().getStringExtra(DESTINATION));
-        mReason.setText(getIntent().getStringExtra(REASON));
-
+        final Destination destination = getIntent().getParcelableExtra(DESTINATION);
+        mDestination.setText(destination.getName());
+        mReason.setText(destination.getReason());
     }
 
 	@Override
@@ -63,8 +63,9 @@ public class EditDestinationActivity extends Activity {
                     return;
                 }
 
-                intent.putExtra(DESTINATION, mDestination.getText().toString());
-                intent.putExtra(REASON, mReason.getText().toString());
+                final String name = mDestination.getText().toString();
+                final String reason = mReason.getText().toString();
+                intent.putExtra(DESTINATION, new Destination.Builder(name, reason).build());
 
                 setResult(RESULT_OK, intent);
                 finish();

@@ -1,10 +1,7 @@
 package com.cmput301.cs.project.utils;
 
 import com.cmput301.cs.project.controllers.TagsManager;
-import com.cmput301.cs.project.models.Claim;
-import com.cmput301.cs.project.models.Expense;
-import com.cmput301.cs.project.models.Tag;
-import com.cmput301.cs.project.models.User;
+import com.cmput301.cs.project.models.*;
 import junit.framework.TestCase;
 import org.joda.money.CurrencyUnit;
 
@@ -21,7 +18,7 @@ public class ClaimSavesTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mClaimSaves = new MockClaimSaves();
+        mClaimSaves = new com.cmput301.cs.project.utils.MockClaimSaves();
     }
 
     /**
@@ -36,7 +33,7 @@ public class ClaimSavesTest extends TestCase {
         final Claim claim = new Claim.Builder(new User("name"))
                 .startTime(now)
                 .endTime(fiveDaysLater)
-                .putDestinationAndReason("Canada", "Go home")
+                .putDestination(new Destination.Builder("Canada", "Go home").build())
                 .build();
         changing.add(claim);
 
@@ -71,7 +68,7 @@ public class ClaimSavesTest extends TestCase {
         final Claim.Builder builder = new Claim.Builder(new User("name"))
                 .startTime(now)
                 .endTime(fiveDaysLater)
-                .putDestinationAndReason(dest, reason);  // step 2
+                .putDestination(new Destination.Builder(dest, reason).build());  // step 2
 
         builder.startTime(builder.getEndTime() + 1); // step 2.b
         assertEquals(now, builder.getStartTime());
@@ -80,19 +77,19 @@ public class ClaimSavesTest extends TestCase {
         assertEquals(fiveDaysLater, builder.getEndTime());
 
         try {
-            builder.putDestinationAndReason(" ", " ");  // step 2.b
+            builder.putDestination(new Destination.Builder(" ", " ").build());  // step 2.b
             fail("expected IllegalArgumentException");
         } catch (IllegalArgumentException ignored) {  // success
         }
 
         try {
-            builder.putDestinationAndReason(dest, " ");  // step 2.b
+            builder.putDestination(new Destination.Builder(dest, " ").build());  // step 2.b
             fail("expected IllegalArgumentException");
         } catch (IllegalArgumentException ignored) {  // success
         }
 
         try {
-            builder.putDestinationAndReason(" ", reason);  // step 2.b
+            builder.putDestination(new Destination.Builder(" ", reason).build());  // step 2.b
             fail("expected IllegalArgumentException");
         } catch (IllegalArgumentException ignored) {  // success
         }
@@ -100,8 +97,7 @@ public class ClaimSavesTest extends TestCase {
         final Claim perfect = builder.build();
         assertEquals(now, perfect.getStartTime());
         assertEquals(fiveDaysLater, perfect.getEndTime());
-        assertTrue(perfect.peekDestinations().containsKey(dest));
-        assertTrue(perfect.peekDestinations().containsValue(reason));
+        assertTrue(perfect.peekDestinations().contains(new Destination.Builder(dest, reason).build()));
 
         mClaimSaves.saveAllClaims(Collections.singleton(perfect));  // step 3
         final List<Claim> claims = mClaimSaves.readAllClaims();
@@ -112,29 +108,29 @@ public class ClaimSavesTest extends TestCase {
 
     /**
      * Use Case 3 (US 01.03.01)
-
-    public void testReadingClaims() {
-        final long now = System.currentTimeMillis();
-        final long fiveDaysLater = now + FIVE_DAYS;
-
-        final Claim claim = new Claim.Builder(new User("name"))
-                .startTime(now)
-                .endTime(fiveDaysLater)
-                .putDestinationAndReason("Canada", "Go home")
-                .build();
-
-        mClaimSaves.saveAllClaims(Collections.singleton(claim));  // step 1
-
-        // asserts multiple calls to read the claims would not corrupt the data
-        final List<Claim> claims = mClaimSaves.readAllClaims();
-        final List<Claim> claims2 = mClaimSaves.readAllClaims();
-        assertEquals(claims, claims2);
-    }
-
-
-    /**
+     * <p/>
+     * public void testReadingClaims() {
+     * final long now = System.currentTimeMillis();
+     * final long fiveDaysLater = now + FIVE_DAYS;
+     * <p/>
+     * final Claim claim = new Claim.Builder(new User("name"))
+     * .startTime(now)
+     * .endTime(fiveDaysLater)
+     * .putDestination(new Destination.Builder("Canada",  "Go home")
+     * .build();
+     * <p/>
+     * mClaimSaves.saveAllClaims(Collections.singleton(claim));  // step 1
+     * <p/>
+     * // asserts multiple calls to read the claims would not corrupt the data
+     * final List<Claim> claims = mClaimSaves.readAllClaims();
+     * final List<Claim> claims2 = mClaimSaves.readAllClaims();
+     * assertEquals(claims, claims2);
+     * }
+     * <p/>
+     * <p/>
+     * /**
      * Use Case 4 (US 01.04.01, US 01.06.01)
-     * <p>
+     * <p/>
      * relies on {@link #testCreateClaim()}
      */
     public void testEditClaim() {
@@ -145,13 +141,13 @@ public class ClaimSavesTest extends TestCase {
         final Claim perfect = new Claim.Builder(new User("name"))
                 .startTime(now)
                 .endTime(fiveDaysLater)
-                .putDestinationAndReason("Canada", "Go home")
+                .putDestination(new Destination.Builder("Canada", "Go home").build())
                 .build();
 
         final Claim claim = perfect.edit()
                 .startTime(now + 1)
                 .endTime(fiveDaysLater + 1)
-                .putDestinationAndReason("USA", "???")
+                .putDestination(new Destination.Builder("USA", "???").build())
                 .build();  // step 2
 
         assertTrue(!claim.equals(perfect));
@@ -197,7 +193,7 @@ public class ClaimSavesTest extends TestCase {
         final Claim claim = new Claim.Builder(new User("name"))
                 .startTime(System.currentTimeMillis())
                 .endTime(System.currentTimeMillis() + FIVE_DAYS)
-                .putDestinationAndReason("Canada", "Go home")
+                .putDestination(new Destination.Builder("Canada", "Go home").build())
                 .putExpense(expense)
                 .build();
 
@@ -249,7 +245,7 @@ public class ClaimSavesTest extends TestCase {
         final Claim claim = new Claim.Builder(new User("name"))
                 .startTime(System.currentTimeMillis())
                 .endTime(System.currentTimeMillis() + FIVE_DAYS)
-                .putDestinationAndReason("Canada", "Go home")
+                .putDestination(new Destination.Builder("Canada", "Go home").build())
                 .putExpense(first)
                 .putExpense(second)
                 .putExpense(third)

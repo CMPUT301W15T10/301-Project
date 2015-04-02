@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -17,6 +16,7 @@ import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.DestinationAdapter;
 import com.cmput301.cs.project.controllers.TagsManager;
 import com.cmput301.cs.project.models.Claim;
+import com.cmput301.cs.project.models.Destination;
 import com.cmput301.cs.project.models.Expense;
 import com.cmput301.cs.project.models.Tag;
 import com.cmput301.cs.project.utils.Utils;
@@ -60,7 +60,7 @@ public class EditClaimActivity extends Activity {
     private DateFormat mDateFormat;
 
     private Expense mEdittingExpense;
-    private Pair<String, String> mEdittingDestination;
+    private Destination mEdittingDestination;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,10 +90,8 @@ public class EditClaimActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(EditClaimActivity.this, EditDestinationActivity.class);
                 DestinationAdapter adapter = ((DestinationAdapter) mDestinations.getAdapter());
-                Pair<String, String> item = adapter.getItem(position);
-                intent.putExtra(EditDestinationActivity.DESTINATION, item.first);
-                intent.putExtra(EditDestinationActivity.REASON, item.second);
-
+                Destination item = adapter.getItem(position);
+                intent.putExtra(EditDestinationActivity.DESTINATION, item);
                 mEdittingDestination = item;
 
                 startActivityForResult(intent, REQ_CODE_EDIT_DESTINATION);
@@ -109,7 +107,7 @@ public class EditClaimActivity extends Activity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 final DestinationAdapter adapter = (DestinationAdapter) parent.getAdapter();
-                                mBuilder.removeDestination(adapter.getItem(position).first);
+                                mBuilder.removeDestination(adapter.getItem(position));
                                 update();
                             }
                         })
@@ -242,19 +240,17 @@ public class EditClaimActivity extends Activity {
             case REQ_CODE_CREATE_DESTINATION:
                 if (resultCode == RESULT_OK) {
                     //TODO: bugged when editting a reason
-                    String reason = data.getStringExtra(EditDestinationActivity.REASON);
-                    String destination = data.getStringExtra(EditDestinationActivity.DESTINATION);
-                    mBuilder.putDestinationAndReason(destination, reason);
+                    Destination destination = data.getParcelableExtra(EditDestinationActivity.DESTINATION);
+                    mBuilder.putDestination(destination);
                     update();
                 }
                 break;
             case REQ_CODE_EDIT_DESTINATION:
                 if (resultCode == RESULT_OK) {
                     //TODO: bugged when editting a reason
-                    String reason = data.getStringExtra(EditDestinationActivity.REASON);
-                    String destination = data.getStringExtra(EditDestinationActivity.DESTINATION);
-                    mBuilder.removeDestination(mEdittingDestination.first);
-                    mBuilder.putDestinationAndReason(destination, reason);
+                    Destination destination = data.getParcelableExtra(EditDestinationActivity.DESTINATION);
+                    mBuilder.removeDestination(mEdittingDestination);
+                    mBuilder.putDestination(destination);
                     update();
                 }
                 break;

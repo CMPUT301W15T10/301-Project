@@ -14,19 +14,13 @@ package com.cmput301.cs.project.models;/*
  * limitations under the License.
  */
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.UUID;
-
-import junit.framework.TestCase;
-
-import org.joda.money.CurrencyUnit;
-
 import com.cmput301.cs.project.utils.LocalClaimSaver;
 import com.google.gson.Gson;
+import junit.framework.TestCase;
+import org.joda.money.CurrencyUnit;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * As per "Requirement Specifications (Use Cases)" on GitHub wiki, Revision 6018854.
@@ -121,7 +115,7 @@ public class ClaimTest extends TestCase {
         Claim.Builder builder = new Claim.Builder(user)
                 .startTime(startTime)
                 .endTime(endTime)
-                .putDestinationAndReason(dest, reason)
+                .putDestination(new Destination.Builder(dest, reason).build())
                 .putExpense(expense)
                 .id(id.toString());
         final Claim claim = builder.build();
@@ -158,7 +152,7 @@ public class ClaimTest extends TestCase {
         Claim.Builder builder = new Claim.Builder(user)
                 .endTime(time + 10)
                 .startTime(time)
-                .putDestinationAndReason(dest, reason)
+                .putDestination(new Destination.Builder(dest, reason).build())
                 .putExpense(expense)
                 .id(id.toString());
 
@@ -181,7 +175,7 @@ public class ClaimTest extends TestCase {
         Claim.Builder builder = new Claim.Builder(user)
                 .endTime(time + 10)
                 .startTime(time)
-                .putDestinationAndReason(dest, reason)
+                .putDestination(new Destination.Builder(dest, reason).build())
                 .putExpense(expense)
                 .id(id.toString());
         Claim claim = builder.build();

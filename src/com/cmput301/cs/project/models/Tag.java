@@ -2,15 +2,28 @@ package com.cmput301.cs.project.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import com.cmput301.cs.project.controllers.TagsManager;
 
 import java.util.UUID;
 
 /**
- * Class that contains a name and a unique ID that a user can associate with a {@link com.cmput301.cs.project.models.Claim Claim}. <p>
- * Specific tags are bound to a user (device).
+ * Class that contains a name and a unique ID that a user can associate with a {@link com.cmput301.cs.project.models.Claim Claim}. A {@link com.cmput301.cs.project.models.Claim Claim} can hold any number of tags that are associated with the claimant ({@link com.cmput301.cs.project.models.User User}) <p>
+ * Specific tags are bound to a {@link com.cmput301.cs.project.models.User User} (device). <p>
+ * <pre>
+ * <b>Creating a new Tag:</b>  final Tag tag = new Tag(name, this);
+ * 
+ * 
+ * <b>Editing an Existing Tag:</b>  final Tag newTag = new Tag(newName, this, oldTag.getId());
+ * 
+ * After creating renaming the old tag make sure to delete the oldTag from the list and adding the newTag to the list of tags <p>
+ *</pre>
+ *<p>
+ *
+ * The Parcelable implementation allows the tags to be passed into and pulled out of intents by using intent.putExtra() and intent.getExtra() respectively.
  * 
  * @author rozsa
+ * @author jbenson
  *
  */
 

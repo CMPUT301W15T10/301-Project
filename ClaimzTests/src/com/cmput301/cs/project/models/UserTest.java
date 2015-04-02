@@ -1,49 +1,49 @@
 package com.cmput301.cs.project.models;
 
-import org.junit.Test;
-
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
-public class UserTest {
+public class UserTest extends TestCase {
 
-    @Test
     public void testCreateUser() {
         new User("name");
     }
 
-    @Test(expected = IllegalArgumentException.class)
     public void testEmptyUserName() {
-        new User("");
+        try {
+            new User("");
+            fail();
+        } catch (IllegalArgumentException e) {
+            // Success
+        }
     }
 
-    @Test(expected = IllegalArgumentException.class)
     public void testNullUserName() {
+        try {
         new User((String) null);
+        fail();
+        } catch (IllegalArgumentException e) {
+            // Success
+        }
     }
 
-    @Test
     public void testGetUserName() throws Exception {
         User user = new User("name");
         assertEquals("name", user.getUserName());
     }
 
-    @Test
     public void testGetUserId() throws Exception {
         User user = new User("name");
         assertNotNull(user.getUserId());
     }
 
-    @Test
     public void testGetUserIdUnique() throws Exception {
         User user1 = new User("name");
         User user2 = new User("name");
         assertTrue(!user1.getUserId().equals(user2.getUserId()));
     }
 
-
-    @Test
     public void testConstructUserWithId() throws Exception {
         final UUID uuid = UUID.randomUUID();
         final String name = "name";
@@ -54,7 +54,6 @@ public class UserTest {
 
     }
 
-    @Test
     public void testEquality() {
         final UUID uuid = UUID.randomUUID();
         final String name = "name";
@@ -67,7 +66,6 @@ public class UserTest {
         assertEquals(user.hashCode(), carbonCopy.hashCode());
     }
 
-    @Test
     public void testInequality() {
         final UUID uuid = UUID.randomUUID();
         final UUID uuid2 = UUID.randomUUID();
@@ -87,8 +85,5 @@ public class UserTest {
 
         assertTrue(!user.equals(almostCopy3));
         assertTrue(!(user.hashCode() == almostCopy3.hashCode()));
-
     }
-
-
 }

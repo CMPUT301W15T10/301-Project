@@ -1,32 +1,40 @@
 package com.cmput301.cs.project.models;
 
-import org.junit.Test;
+import junit.framework.TestCase;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+public class CommentTest extends TestCase {
 
-public class CommentTest {
-
-    @Test
-    public void testCreateComment(){
+    public void testCreateComment() {
         new Comment("My comment", new User("Name"));
     }
 
-    @Test (expected = IllegalArgumentException.class)
     public void testCreateNullComment() {
-        new Comment(null, new User("Name"));
+        try {
+            new Comment(null, new User("Name"));
+            fail();
+        } catch (IllegalArgumentException e) {
+            // Success
+        }
     }
-    @Test (expected = IllegalArgumentException.class)
+
     public void testCreateEmptyComment() {
-        new Comment("", new User("Name"));
+        try {
+            new Comment("", new User("Name"));
+            fail();
+        } catch (IllegalArgumentException e) {
+            // Success
+        }
     }
 
-    @Test (expected = IllegalArgumentException.class)
     public void testCreateNullUser() {
-        new Comment("a comment", null);
+        try {
+            new Comment("a comment", null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // Success
+        }
     }
 
-    @Test
     public void testGetApprover() throws Exception {
         User approver = new User("The approver");
 
@@ -35,13 +43,12 @@ public class CommentTest {
         assertEquals(approver, comment.getApprover());
     }
 
-    @Test
     public void testGetText() throws Exception {
         final Comment comment = new Comment("A valid comment", new User("My user"));
 
-        assertEquals("A valid comment",comment.getText());
+        assertEquals("A valid comment", comment.getText());
     }
-    @Test
+
     public void testEquality() {
         final String text = "comment";
         final User user = new User("name");
@@ -52,7 +59,6 @@ public class CommentTest {
         assertEquals(carbonCopy.hashCode(), comment.hashCode());
     }
 
-    @Test
     public void testInequality() {
         final String text1 = "comment";
         final String text2 = "different comment";
@@ -72,8 +78,5 @@ public class CommentTest {
 
         assertTrue(!almostCopy3.equals(comment));
         assertTrue(!(almostCopy3.hashCode() == comment.hashCode()));
-
-
     }
-
 }

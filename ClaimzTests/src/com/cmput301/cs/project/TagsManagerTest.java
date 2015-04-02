@@ -1,24 +1,21 @@
 package com.cmput301.cs.project;
 
+import junit.framework.TestCase;
+
 import com.cmput301.cs.project.controllers.TagsManager;
 import com.cmput301.cs.project.models.Tag;
 import com.cmput301.cs.project.utils.MockClaimSaves;
-import org.junit.Before;
-import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class TagsManagerTest {
+public class TagsManagerTest extends TestCase {
 
     private TagsManager mManager;
 
-    @Before
-    public void setup() {
+    @Override
+    protected void setUp() {
         mManager = TagsManager.ofClaimSaves(new MockClaimSaves());
     }
 
-    @Test
-    public void singleTag() {
+    public void testSingleTag() {
         final Tag okTag = mManager.getTagByName("ok");
         final Tag aOkTag = mManager.getTagByName("ok");
         assertTrue(okTag == aOkTag);  // identity check
@@ -26,8 +23,7 @@ public class TagsManagerTest {
         assertEquals(okTag.getName(), aOkTag.getName());
     }
 
-    @Test
-    public void deleteTag() {
+    public void testDeleteTag() {
         mManager.getTagByName("ok");
         assertNotNull(mManager.findTagByName("ok"));
         mManager.deleteTagByName("ok");

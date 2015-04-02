@@ -1,20 +1,21 @@
 package com.cmput301.cs.project.models;
 
-import org.junit.Test;
-
 import java.io.File;
 
-import static org.junit.Assert.assertEquals;
+import junit.framework.TestCase;
 
-public class ReceiptTest {
+public class ReceiptTest extends TestCase {
 
-    @Test(expected = UnsupportedOperationException.class)
     public void fileSize() {
-        final File bigFile = new MockFile("", Receipt.MAX_FILE_SIZE + 1);
-        new Receipt(bigFile);
+        try {
+            final File bigFile = new MockFile("", Receipt.MAX_FILE_SIZE + 1);
+            new Receipt(bigFile);
+            fail();
+        } catch (UnsupportedOperationException e) {
+            // Success
+        }
     }
 
-    @Test
     public void testGetImage() throws Exception {
         String path = "path";
         final Receipt receipt = new Receipt(path);

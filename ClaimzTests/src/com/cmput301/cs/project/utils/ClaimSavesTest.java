@@ -7,7 +7,6 @@ import com.cmput301.cs.project.models.Tag;
 import com.cmput301.cs.project.models.User;
 import junit.framework.TestCase;
 import org.joda.money.CurrencyUnit;
-import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -28,7 +27,6 @@ public class ClaimSavesTest extends TestCase {
     /**
      * Use Case 5 (US 01.05.01, US 01.06.01)
      */
-    @Test
     public void testDeleteClaim() {
         final List<Claim> changing = new ArrayList<Claim>();
 
@@ -62,7 +60,6 @@ public class ClaimSavesTest extends TestCase {
      * Use Case 2 (US 01.01.01, US 01.02.01, US 01.06.01)
      * Use Case 12 (US 06.01.01, US 06.04.01)
      */
-    @Test
     public void testCreateClaim() {
         final long now = System.currentTimeMillis();
         final long fiveDaysLater = now + FIVE_DAYS;
@@ -115,8 +112,7 @@ public class ClaimSavesTest extends TestCase {
 
     /**
      * Use Case 3 (US 01.03.01)
-     */
-    @Test
+
     public void testReadingClaims() {
         final long now = System.currentTimeMillis();
         final long fiveDaysLater = now + FIVE_DAYS;
@@ -141,7 +137,6 @@ public class ClaimSavesTest extends TestCase {
      * <p>
      * relies on {@link #testCreateClaim()}
      */
-    @Test
     public void testEditClaim() {
         final long now = System.currentTimeMillis();
         final long fiveDaysLater = now + FIVE_DAYS;
@@ -173,7 +168,6 @@ public class ClaimSavesTest extends TestCase {
      * Use Case 8 (US 03.01.01)
      * Use Case 11 (US 03.02.01) (new tags are created implicitly)
      */
-    @Test
     public void testAddTag() {
         final Tag tag = TagsManager.ofClaimSaves(mClaimSaves).getTagByName("myTag");
         final Claim claim = new Claim.Builder(new User("name")).addTag(tag).build();  // step 1, 2
@@ -189,7 +183,6 @@ public class ClaimSavesTest extends TestCase {
     /**
      * Use Case 18 (US 4.07.01)
      */
-    @Test
     public void testDeleteExpense() {
 
         // step 1
@@ -226,7 +219,6 @@ public class ClaimSavesTest extends TestCase {
     /**
      * Use Case 19 (US 05.01.01, 08.04.01)
      */
-    @Test
     public void testReadExpenses() {
         // asserts the expenses are sorted by the order of entry
         final Expense first = new Expense.Builder()
@@ -278,7 +270,6 @@ public class ClaimSavesTest extends TestCase {
     /**
      * Use Case 29 (US 03.02.01)
      */
-    @Test
     public void testDeleteTag() {
         final Tag tag = TagsManager.ofClaimSaves(mClaimSaves).getTagByName("MyTag");
         final Claim claim = new Claim.Builder(new User("name")).addTag(tag).build();  // step 1, 2

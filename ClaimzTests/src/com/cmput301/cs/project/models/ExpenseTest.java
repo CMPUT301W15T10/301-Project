@@ -1,75 +1,70 @@
 package com.cmput301.cs.project.models;
 
-import org.joda.money.CurrencyUnit;
-import org.joda.money.Money;
-import org.junit.Test;
-
 import java.math.BigDecimal;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
-public class ExpenseTest {
+import org.joda.money.CurrencyUnit;
+import org.joda.money.Money;
 
-    @Test
-    public void independentId() {
+public class ExpenseTest extends TestCase {
+
+    public void testIndependentId() {
         final long time = System.currentTimeMillis();
         final Money amount = Money.ofMajor(CurrencyUnit.USD, 20);
 
-        final Expense first = new Expense.Builder().money(amount)
-                .description("Pizza").category("Food").time(time).build();
+        final Expense first = new Expense.Builder().money(amount).description("Pizza").category("Food").time(time)
+                .build();
 
-        final Expense carbonCopy = new Expense.Builder().money(amount)
-                .description("Pizza").category("Food").time(time).build();
+        final Expense carbonCopy = new Expense.Builder().money(amount).description("Pizza").category("Food").time(time)
+                .build();
 
-        //assertNotEquals(first.getId(), carbonCopy.getId());
+        assertTrue(!(first.getId(). equals(carbonCopy.getId())));
         // TODO wtf happened here? why is this commented out?
     }
 
-    @Test
-         public void equality() {
+    public void testEquality() {
         final long time = System.currentTimeMillis();
         final Money amount = Money.ofMajor(CurrencyUnit.USD, 20);
 
-        final Expense first = new Expense.Builder().money(amount).id("rofl")
-                .description("Pizza").category("Food").time(time).build();
+        final Expense first = new Expense.Builder().money(amount).id("rofl").description("Pizza").category("Food")
+                .time(time).build();
 
-        final Expense carbonCopy = new Expense.Builder().money(amount).id("rofl")
-                .description("Pizza").category("Food").time(time).build();
+        final Expense carbonCopy = new Expense.Builder().money(amount).id("rofl").description("Pizza").category("Food")
+                .time(time).build();
 
         assertEquals(first, carbonCopy);
         assertEquals(first.hashCode(), carbonCopy.hashCode());
     }
 
-    @Test
-    public void inequality() {
+    public void TestInequality() {
         final long time = System.currentTimeMillis();
         final Money amount = Money.ofMajor(CurrencyUnit.USD, 20);
 
-        final Expense first = new Expense.Builder().money(amount).id("rofl")
-                .description("Hot Dog").category("Food").time(time).build();
+        final Expense first = new Expense.Builder().money(amount).id("rofl").description("Hot Dog").category("Food")
+                .time(time).build();
 
-        final Expense carbonCopy = new Expense.Builder().money(amount).id("rofl")
-                .description("Pizza").category("Food").time(time).build();
+        final Expense carbonCopy = new Expense.Builder().money(amount).id("rofl").description("Pizza").category("Food")
+                .time(time).build();
 
         assertTrue(!first.equals(carbonCopy));
         assertTrue(!(first.hashCode() == carbonCopy.hashCode()));
     }
 
-    @Test
-    public void compare() {
+    public void testCompare() {
         final long time = System.currentTimeMillis();
         final long laterTime = time + 50;
         final Money amount = Money.ofMajor(CurrencyUnit.USD, 20);
 
-        final Expense first = new Expense.Builder().money(amount).id("rofl")
-                .description("Pizza").category("Food").time(time).build();
+        final Expense first = new Expense.Builder().money(amount).id("rofl").description("Pizza").category("Food")
+                .time(time).build();
 
-        final Expense carbonCopy = new Expense.Builder().money(amount).id("rofl")
-                .description("Pizza").category("Food").time(time).build();
+        final Expense carbonCopy = new Expense.Builder().money(amount).id("rofl").description("Pizza").category("Food")
+                .time(time).build();
 
-        final Expense later = new Expense.Builder().money(amount).id("rofl")
-                .description("Pizza").category("Food").time(laterTime).build();
+        final Expense later = new Expense.Builder().money(amount).id("rofl").description("Pizza").category("Food")
+                .time(laterTime).build();
 
         assertTrue(first.compareTo(later) < 0);
         assertTrue(later.compareTo(first) > 0);
@@ -78,97 +73,93 @@ public class ExpenseTest {
         assertTrue(carbonCopy.compareTo(first) == 0);
     }
 
-    @Test
-    public void defaultTitle() {
+    public void testDefaultTitle() {
         final Expense expense = new Expense.Builder().build();
         assertEquals(null, expense.getDescription());
     }
 
-    @Test
-    public void defaultCategory() {
+    public void testDefaultCategory() {
         final Expense expense = new Expense.Builder().build();
         assertEquals(null, expense.getCategory());
     }
 
-    @Test
-    public void builderAmountNegative() {  // expect builder don't throw
+    public void testBuilderAmountNegative() { // expect builder don't throw
         new Expense.Builder().money(Money.ofMajor(CurrencyUnit.USD, -20));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void builderAmountNull() {
-        new Expense.Builder().money(null);
+    public void testBuilderAmountNull() {
+        try {
+            new Expense.Builder().money(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // Success
+        }
     }
 
-    @Test
-    public void builderTitleNull() {
+    public void testBuilderTitleNull() {
         final Expense expense = new Expense.Builder().description(null).build();
         assertEquals(null, expense.getDescription());
     }
 
-    @Test
-    public void builderTitleEmpty() {
+    public void testBuilderTitleEmpty() {
         final Expense expense = new Expense.Builder().description(" ").build();
         assertEquals(null, expense.getDescription());
     }
 
-    @Test()
-    public void builderNegativeTime() {
-        new Expense.Builder().time(-1);  // negative time gets dropped and doesn't crash
+    public void testBuilderNegativeTime() {
+        new Expense.Builder().time(-1); // negative time gets dropped and
+                                        // doesn't crash
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void builderIdNull() {
-        new Expense.Builder().id(null);
+    public void testBuilderIdNull() {
+        try {
+            new Expense.Builder().id(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // Success
+        }
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void builderIdEmpty() {
-        new Expense.Builder().id(" ");
+    public void testBuilderIdEmpty() {
+        try {
+            new Expense.Builder().id(" ");
+            fail();
+        } catch (IllegalArgumentException e) {
+            // Success
+        }
     }
 
-    @Test
-    public void builderCategoryNull() {
+    public void testBuilderCategoryNull() {
         final Expense expense = new Expense.Builder().category(null).build();
         assertEquals(null, expense.getCategory());
     }
 
-    @Test
-    public void builderCategoryEmpty() {
+    public void testBuilderCategoryEmpty() {
         final Expense expense = new Expense.Builder().category(" ").build();
         assertEquals(null, expense.getCategory());
     }
 
-    @Test
-    public void builderReceiptNull() {
+    public void testBuilderReceiptNull() {
         final Expense expense = new Expense.Builder().receipt(null).build();
         assertNull(expense.getReceipt());
 
     }
 
-    @Test
-    public void builderReceipt() {
+    public void testBuilderReceipt() {
         final Receipt receipt = new Receipt("/path/to/receipt");
         final Expense expense = new Expense.Builder().receipt(receipt).build();
         assertEquals(receipt, expense.getReceipt());
 
     }
 
-    @Test
-    public void testBuilderSanity(){
+    public void testBuilderSanity() {
         final long time = System.currentTimeMillis();
         final String category = "Food";
         final Receipt receipt = new Receipt("/path");
         final String title = "My title";
         final UUID id = UUID.randomUUID();
-        final Expense.Builder builder = new Expense.Builder()
-                .receipt(receipt)
-                .amount(BigDecimal.TEN)
-                .category(category)
-                .completed(true)
-                .currencyUnit(CurrencyUnit.CAD)
-                .time(time)
-                .description(title)
+        final Expense.Builder builder = new Expense.Builder().receipt(receipt).amount(BigDecimal.TEN)
+                .category(category).completed(true).currencyUnit(CurrencyUnit.CAD).time(time).description(title)
                 .id(id.toString());
         assertTrue(builder.isCategorySet());
         assertTrue(builder.isTimeSet());
@@ -193,7 +184,5 @@ public class ExpenseTest {
         assertEquals(time, expense.getTime());
         assertEquals(title, expense.getDescription());
         assertEquals(id.toString(), expense.getId());
-
     }
-
 }

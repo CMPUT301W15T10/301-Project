@@ -14,14 +14,19 @@ package com.cmput301.cs.project.models;/*
  * limitations under the License.
  */
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.UUID;
+
+import junit.framework.TestCase;
+
+import org.joda.money.CurrencyUnit;
+
 import com.cmput301.cs.project.utils.LocalClaimSaver;
 import com.google.gson.Gson;
-import junit.framework.TestCase;
-import org.joda.money.CurrencyUnit;
-import org.junit.Test;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 /**
  * As per "Requirement Specifications (Use Cases)" on GitHub wiki, Revision 6018854.
@@ -141,7 +146,6 @@ public class ClaimTest extends TestCase {
 
     }
 
-    @Test
     public void testEquality() {
         final long time = System.currentTimeMillis();
         final User user = new User("name");
@@ -165,8 +169,6 @@ public class ClaimTest extends TestCase {
         assertEquals(carbonCopy.hashCode(), claim.hashCode());
     }
 
-
-    @Test
     public void testInequality() {
         final long time = System.currentTimeMillis();
         final User user = new User("name");

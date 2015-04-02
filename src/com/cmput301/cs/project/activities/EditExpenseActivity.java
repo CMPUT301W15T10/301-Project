@@ -57,6 +57,7 @@ public class EditExpenseActivity extends Activity {
     private ImageButton mReceipt;
     private Button mDeleteReceipt;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.expense_edit_activity);

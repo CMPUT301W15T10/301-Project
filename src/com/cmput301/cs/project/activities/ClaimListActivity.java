@@ -188,6 +188,7 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
         }
     }
 
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == NEW_CLAIM) {
             if (resultCode == RESULT_OK) {

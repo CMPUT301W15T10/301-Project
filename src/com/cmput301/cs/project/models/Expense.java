@@ -101,8 +101,6 @@ public final class Expense implements Comparable<Expense>, Parcelable {
      */
     // Effective Java Item 2
     public static final class Builder {
-        private Receipt receipt;
-
         // default values
         private String mDescription = null;
         private Money mMoney = DEFAULT_MONEY;

@@ -57,14 +57,14 @@ public final class ClaimUtils {
      * <pre>
      * final String stringThatMaybeNullOrEmpty = …;
      * final String stringThatCantBeNullOrEmpty = ClaimUtils.nonNullOrThrow(stringThatMaybeNullOrEmpty, "s");
-     * stringThatCantBeNull.isEmpty();  // always false
+     * stringThatCantBeNull.isEmpty();  // always false (and won't crash)
      * </pre>
      *
      * @param string the {@code String} to check for nullity
      * @param name   the name of the object (for Exception message)
      * @return the original {@code String}, if not null or empty
      */
-    public static String nonNullnonEmptyOrThrow(String string, String name) {
+    public static String nonNullNonEmptyOrThrow(String string, String name) {
         if (string == null || string.trim().isEmpty()) {
             throw new IllegalArgumentException(name + " must not be null or empty.");
         }

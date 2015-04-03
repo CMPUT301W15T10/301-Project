@@ -218,7 +218,7 @@ public final class Expense implements Comparable<Expense>, Parcelable {
          */
 
         public Builder category(String category) {
-            ClaimUtils.nonNullnonEmptyOrThrow(category, "category");
+            ClaimUtils.nonNullNonEmptyOrThrow(category, "category");
 
             if (!CATEGORIES.contains(category)) {
                 throw new IllegalArgumentException(category + "is not a valid category");
@@ -236,7 +236,7 @@ public final class Expense implements Comparable<Expense>, Parcelable {
          * @see #getId()
          */
         public Builder id(String id) {
-            ClaimUtils.nonNullnonEmptyOrThrow(id, "id");
+            ClaimUtils.nonNullNonEmptyOrThrow(id, "id");
             mId = id;
             return this;
         }

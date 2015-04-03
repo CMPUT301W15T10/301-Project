@@ -11,6 +11,9 @@ public class Destination implements Parcelable {
         private LatLng mLocation;
         private String mReason;
 
+        public Builder() {
+        }
+
         public Builder(String name, String reason) {
             mName = ClaimUtils.nonNullNonEmptyOrThrow(name, "name");
             mReason = ClaimUtils.nonNullNonEmptyOrThrow(reason, "reason");
@@ -35,6 +38,18 @@ public class Destination implements Parcelable {
         public Builder reason(String reason) {
             mReason = ClaimUtils.nonNullNonEmptyOrThrow(reason, "reason");
             return this;
+        }
+
+        public String getName() {
+            return mName;
+        }
+
+        public LatLng getLocation() {
+            return mLocation;
+        }
+
+        public String getReason() {
+            return mReason;
         }
 
         public Destination build() {

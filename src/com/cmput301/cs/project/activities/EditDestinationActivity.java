@@ -3,85 +3,102 @@ package com.cmput301.cs.project.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
+import android.text.Editable;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.cmput301.cs.project.R;
+import com.cmput301.cs.project.TextWatcherAdapter;
 import com.cmput301.cs.project.models.Destination;
 import com.cmput301.cs.project.utils.Utils;
 
 /**
  * An activity that allows a destination to be created with an associated reason. <p>
- * Is called when a new destination is created or when a destination is being edited within 
+ * Is called when a new destination is created or when a destination is being edited within
  * {@link com.cmput301.cs.project.activities.EditClaimActivity EditClaimActivity}. <p>
  * The key-value pair is stored within that particular {@link com.cmput301.cs.project.models.Claim Claim}.
- *   
- * @author rozsa
  *
+ * @author rozsa
  */
 
 public class EditDestinationActivity extends Activity {
+    public static final String KEY_DESTINATION = "key_destination";
 
-    public static final String DESTINATION = "DESTINATION";
+    private static final int REQ_CODE_MAP = 1;
+
+    private Destination.Builder mBuilder;
     private TextView mDestination;
     private TextView mReason;
 
     @Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.edit_destination_activity);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setUpActionBar();
+        setResult(RESULT_CANCELED);
+
+        setContentView(R.layout.edit_destination_activity);
+
+        initBuilder();
 
         mDestination = (TextView) findViewById(R.id.newDestinationInput);
         mReason = (TextView) findViewById(R.id.newReason);
 
-        final Destination destination = getIntent().getParcelableExtra(DESTINATION);
-        mDestination.setText(destination.getName());
-        mReason.setText(destination.getReason());
+        updateUI();
+        installListeners();
     }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		
-		
-		Utils.setupDiscardDoneBar(this, new View.OnClickListener() {
+    private void initBuilder() {
+        final Destination destination = getIntent().getParcelableExtra(KEY_DESTINATION);
+        if (destination == null) {
+            mBuilder = new Destination.Builder();
+        } else {
+            mBuilder = destination.edit();
+        }
+    }
+
+    private void installListeners() {
+        mDestination.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(RESULT_CANCELED);
+                startActivityForResult(new Intent(EditDestinationActivity.this, MapActivity.class), REQ_CODE_MAP);
+            }
+        });
+        mReason.addTextChangedListener(new TextWatcherAdapter() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() == 0) {
+                    mReason.setError(getString(R.string.empty_error));
+                } else {
+                    mBuilder.reason(s.toString());
+                }
+            }
+        });
+
+        findViewById(R.id.deleteTag).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO actually delete
+                finish();
+            }
+        });
+    }
+
+    private void updateUI() {
+        mDestination.setText(mBuilder.getName());
+        mReason.setText(mBuilder.getReason());
+    }
+
+    private void setUpActionBar() {
+        Utils.setupDiscardDoneBar(this, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 finish();
             }
         }, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent();
-
-                if(mDestination.getText().length() == 0){
-
-                    Toast.makeText(EditDestinationActivity.this, "Destination cannot be empty!", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                final String name = mDestination.getText().toString();
-                final String reason = mReason.getText().toString();
-                intent.putExtra(DESTINATION, new Destination.Builder(name, reason).build());
-
-                setResult(RESULT_OK, intent);
+                setResult(RESULT_OK, new Intent().putExtra(KEY_DESTINATION, mBuilder.build()));
                 finish();
             }
         });
-		
-		findViewById(R.id.deleteTag).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-		
-		return true;
-		
-		
-	}
-
+    }
 }

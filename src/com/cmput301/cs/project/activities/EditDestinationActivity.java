@@ -59,13 +59,14 @@ public class EditDestinationActivity extends Activity {
         mDestination.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(EditDestinationActivity.this, MapActivity.class), REQ_CODE_MAP);
+                startActivityForResult(new Intent(EditDestinationActivity.this, MapActivity.class)
+                        .putExtra(MapActivity.KEY_DESTINATION, mBuilder.build()), REQ_CODE_MAP);
             }
         });
         mReason.addTextChangedListener(new TextWatcherAdapter() {
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() == 0) {
+                if (s.toString().trim().isEmpty()) {
                     mReason.setError(getString(R.string.empty_error));
                 } else {
                     mBuilder.reason(s.toString());
@@ -80,6 +81,20 @@ public class EditDestinationActivity extends Activity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQ_CODE_MAP) {
+            if (resultCode == RESULT_OK) {
+                final Destination destination = data.getParcelableExtra(MapActivity.KEY_DESTINATION);
+                mBuilder.name(destination.getName())
+                        .location(destination.getLocation());
+                updateUI();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     private void updateUI() {

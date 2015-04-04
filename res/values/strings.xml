@@ -137,5 +137,6 @@
     <string name="delete_receipt">Delete Receipt</string>
     <string name="map_activity_hint">Type a place here…</string>
     <string name="empty_error">Can\'t be empty!</string>
+    <string name="clear">Clear</string>
 
 </resources>

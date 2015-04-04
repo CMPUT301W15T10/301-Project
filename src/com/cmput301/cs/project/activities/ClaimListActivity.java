@@ -29,9 +29,14 @@ import com.cmput301.cs.project.models.User;
  * Has menu buttons that allow the creation of new claims via {@link com.cmput301.cs.project.activities.EditClaimActivity EditClaimActivity}
  * and for the {@link com.cmput301.cs.project.activities.TagManagerActivity TagManagerActivity}. <p>
  * If a claim item is clicked {@link com.cmput301.cs.project.activities.ClaimViewActivity ClaimViewActivity} is called for that claim. <p>
- * Finally there are tabs at the top of the activity that allow the user to switch between approver and claimant (not yet implemented).
+ * Finally there are tabs at the top of the activity that allow the user to switch between approver and claimant. Claimant shows only claims
+ * for the current user and Approver shows a list of the claims for every user EXCEPT the current user. 
+ * <p>
+ * If a tag is renamed or deleted the onTagRename and onTagResume methods, respectively, will reload the list of claims.
+ * 
  *
  * @author rozsa
+ * @author jbenson
  */
 
 public class ClaimListActivity extends ListActivity implements TagsChangedListener {

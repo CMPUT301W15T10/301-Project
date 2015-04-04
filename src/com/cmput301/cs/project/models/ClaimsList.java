@@ -18,7 +18,8 @@ import java.util.List;
  * <li> deleteClaim(claim), which is used to delete a specific claim from the list
  * <li> editClaim(oldClaim, newClaim), which is used to replace a claim in the list with a more recently updated version of itself. It is important to note that when editing a claim you should not edit it directly but instead edit a copy of the claim because you need the original claim in order to update the list using this method.
  * </ul>
- * 
+ * This model is used when populating the {@link com.cmput301.cs.project.activities.ClaimListActivity ClaimListActivity}, {@link com.cmput301.cs.project.activities.ClaimViewActivity ClaimViewActivity}, and {@link com.cmput301.cs.project.activities.ExpenseListActivity ExpenseListActivity}. <p>
+ * It is used in the {@link com.cmput301.cs.project.controllers.ClaimListController ClaimListController} to control this activities as well.
  * @author rozsa
  * @author jbenson
  *

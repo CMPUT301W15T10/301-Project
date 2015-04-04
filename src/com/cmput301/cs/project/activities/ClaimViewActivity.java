@@ -34,6 +34,13 @@ import java.text.DateFormat;
  * Returns to the {@link com.cmput301.cs.project.activities.ClaimListActivity ClaimListActivity} when Submit button is clicked.
  * <p>
  * A claim must be passed via an intent for this activity to work
+ * The claim can be loaded out of the intent by using:
+ * <pre>
+ * getIntent().getExtras().getParcelable(App.KEY_CLAIM)
+ *</pre>
+ *, where the KEY_CLAIM is the key assigned to the claim when it was put into the intent. <p>
+ *
+ *The methods onTagDeleted and onTagRemoved ensure that the details of the tags attached to the claim are kept up to date. 
  *
  * @author rozsa
  */

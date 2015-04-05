@@ -53,7 +53,7 @@
         android:text="@string/currency"/>
 
     <include
-        android:id="@+id/currency"
+        android:id="@+id/currencies"
         layout="@android:layout/simple_list_item_activated_1"/>
 
     <TextView

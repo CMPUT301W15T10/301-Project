@@ -97,7 +97,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
         mDestinations = (ListView) findViewById(R.id.destinations);
         mTags = (TextView) findViewById(R.id.tags);
         mTags.setHint(R.string.tags_view_hint);
-        mCurrency = (TextView) findViewById(R.id.currency);
+        mCurrency = (TextView) findViewById(R.id.currencies);
         mCurrency.setHint(R.string.currencies_view_hint);
     }
 

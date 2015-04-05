@@ -55,6 +55,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
     private TextView mEndDate;
     private TextView mStatus;
     private TextView mTags;
+    private TextView mCurrency;
     private DateFormat mDateFormat;
 
     private ClaimsList mClaimList;
@@ -96,6 +97,8 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
         mDestinations = (ListView) findViewById(R.id.destinations);
         mTags = (TextView) findViewById(R.id.tags);
         mTags.setHint(R.string.tags_view_hint);
+        mCurrency = (TextView) findViewById(R.id.currency);
+        mCurrency.setHint(R.string.currencies_view_hint);
     }
 
     private void update() {
@@ -104,6 +107,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
         mStatus.setText(Utils.stringIdForClaimStatus(mClaim.getStatus()));
         mDestinations.setAdapter(new DestinationAdapter(this, mClaim.getDestinations()));
         mTags.setText(mClaim.getTagsAsString());
+        mCurrency.setText(mClaim.getTotalsAsString());
 
         if (mEditMenuItem != null) {
             updateEditMenuItem();

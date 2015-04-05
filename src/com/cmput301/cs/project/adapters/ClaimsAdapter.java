@@ -44,12 +44,14 @@ public final class ClaimsAdapter extends ArrayAdapter<Claim> {
         private final TextView startDate;
         private final TextView tags;
         private final TextView totals;
+        private final TextView destinations;
 
         private ViewHolder(View parent) {
             startDate = (TextView) parent.findViewById(R.id.start_date);
             tags = (TextView) parent.findViewById(R.id.tags);
             totals = (TextView) parent.findViewById(R.id.totals);
             status = (TextView) parent.findViewById(R.id.status);
+            destinations = (TextView) parent.findViewById(R.id.destinations);
         }
     }
 
@@ -80,7 +82,7 @@ public final class ClaimsAdapter extends ArrayAdapter<Claim> {
         holder.status.setText(Utils.stringIdForClaimStatus(claim.getStatus()));
         holder.tags.setText(claim.getTagsAsString());
         holder.totals.setText(claim.getTotalsAsString());
-
+        holder.destinations.setText(claim.getDestinationsAsString());
 
         return convertView;
     }

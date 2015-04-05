@@ -52,6 +52,10 @@
         android:layout_height="wrap_content"
         android:text="@string/currency"/>
 
+    <include
+        android:id="@+id/currency"
+        layout="@android:layout/simple_list_item_activated_1"/>
+
     <TextView
         style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"

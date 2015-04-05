@@ -115,6 +115,19 @@ public final class Claim implements Comparable<Claim>, Parcelable {
 
     }
 
+    public String getDestinationsAsString() {
+        StringBuilder sb = new StringBuilder();
+        String separator = "";
+
+        for (Destination dest : mDestinations) {
+            sb.append(separator).append(dest.getName());
+
+            separator = " ";
+        }
+
+        return null;
+    }
+
 
     public enum Status {
         IN_PROGRESS(true), SUBMITTED(false), RETURNED(true), APPROVED(false);

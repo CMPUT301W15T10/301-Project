@@ -133,6 +133,7 @@
     <string name="currency">Currency</string>
     <string name="destinations">Destinations</string>
     <string name="tags_hint">Tap to add tags…</string>
+    <string name="currencies_view_hint">No Currencies Yet</string>
     <string name="tags_view_hint">No Tags Yet</string>
     <string name="delete_receipt">Delete Receipt</string>
     <string name="map_activity_hint">Type a place here…</string>

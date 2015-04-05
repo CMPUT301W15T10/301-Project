@@ -2,7 +2,6 @@ package com.cmput301.cs.project.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import com.cmput301.cs.project.controllers.TagsManager;
 
 import java.util.UUID;

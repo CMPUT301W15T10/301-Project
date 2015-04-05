@@ -34,7 +34,6 @@ public class ClaimListController implements TagsChangedListener {
     }
 
     public List<Claim> getApprovableClaims(){
-        //TODO: this won't work
         List<Claim> approvableClaims = new ArrayList<Claim>();
 
         for(Claim claim : mClaimsList.peekClaims()){

@@ -52,13 +52,14 @@ public final class Claim implements Comparable<Claim>, Parcelable {
     };
 
     private final User mClaimant;
+    private final long mModified;
 
     public User getClaimant() {
         return mClaimant;
     }
 
     public boolean canApprove(User user) {
-        if (mClaimant.equals(user)) {
+        if (mClaimant.equals(user) || mStatus != Status.SUBMITTED) {
             return false;
         }
 
@@ -126,6 +127,10 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         }
 
         return null;
+    }
+
+    public long getModified() {
+        return mModified;
     }
 
 
@@ -522,6 +527,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         mStatus = b.mStatus;
         mComments = b.mComments;
         mClaimant = b.mClaimant;
+        mModified = System.currentTimeMillis();
     }
 
     /**
@@ -561,6 +567,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         mTags = new TreeSet<Tag>(list);
         mStartTime = in.readLong();
         mEndTime = in.readLong();
+        mModified = in.readLong();
         mId = in.readString();
         mStatus = (Status) in.readValue(Status.class.getClassLoader());
         if (in.readByte() == 0x01) {
@@ -732,6 +739,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         dest.writeList(new ArrayList<Tag>(mTags));
         dest.writeLong(mStartTime);
         dest.writeLong(mEndTime);
+        dest.writeLong(mModified);
         dest.writeString(mId);
         dest.writeValue(mStatus);
         if (mComments == null) {

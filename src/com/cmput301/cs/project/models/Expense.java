@@ -109,7 +109,7 @@ public final class Expense implements Comparable<Expense>, Parcelable {
         private String mId = UUID.randomUUID().toString();
         private boolean mCompleted = false;
         private Receipt mReceipt;
-        private long mOccurred = System.currentTimeMillis();
+        private long mTimeOccurred = System.currentTimeMillis();
 
         /**
          * Creates an instance of {@code Builder} with the default values.
@@ -130,7 +130,7 @@ public final class Expense implements Comparable<Expense>, Parcelable {
             mId = expense.getId();
             mCompleted = expense.isCompleted();
             mReceipt = expense.getReceipt();
-            mOccurred = expense.getTimeOccurred();
+            mTimeOccurred = expense.getTimeOccurred();
         }
 
         /**
@@ -387,6 +387,7 @@ public final class Expense implements Comparable<Expense>, Parcelable {
         mId = b.mId.trim();
         mCompleted = b.mCompleted;
         mReceipt = b.mReceipt;
+        mTimeOccurred = b.mTimeOccurred;
     }
 
     /**
@@ -401,6 +402,7 @@ public final class Expense implements Comparable<Expense>, Parcelable {
     /**
      * Compares this and another instance of {@code Expense} in the following order:
      * <ol>
+     * <li>{@link #getTimeOccurred() timeOccured}</li>
      * <li>{@link #getTime() time}</li>
      * <li>{@link #getDescription() description}</li>
      * <li>{@link #getAmount() money}</li>
@@ -414,6 +416,9 @@ public final class Expense implements Comparable<Expense>, Parcelable {
      */
     @Override
     public int compareTo(Expense o) {
+        if (mTimeOccurred < o.mTimeOccurred) return -1;
+        if (mTimeOccurred > o.mTimeOccurred) return 1;
+        
         if (mTime < o.mTime) return -1;
         if (mTime > o.mTime) return 1;
 
@@ -433,7 +438,6 @@ public final class Expense implements Comparable<Expense>, Parcelable {
     }
 
     @Override
-    @SuppressWarnings("SimplifiableIfStatement")
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Expense)) return false;
@@ -443,23 +447,43 @@ public final class Expense implements Comparable<Expense>, Parcelable {
         if (mTimeOccurred != expense.mTimeOccurred) return false;
         if (mTime != expense.mTime) return false;
         if (mCompleted != expense.mCompleted) return false;
-        if (!mDescription.equals(expense.mDescription)) return false;
-        if (!mAmount.equals(expense.mAmount)) return false;
-        if (!mCategory.equals(expense.mCategory)) return false;
-        if (!mId.equals(expense.mId)) return false;
-        return mReceipt.equals(expense.mReceipt);
+
+
+        // Made more difficult by them possibly being null
+        // If null, check if other is not null, otherwise check if equal
+        if (mDescription == null ? 
+                expense.mDescription != null : 
+                !mDescription.equals(expense.mDescription))
+            return false;
+        if (mAmount == null ? 
+                expense.mAmount != null : 
+                !mAmount.equals(expense.mAmount))
+            return false;
+        if (mCategory == null ? 
+                expense.mCategory != null : 
+                !mCategory.equals(expense.mCategory))
+            return false;
+        if (mId == null ? 
+                expense.mId != null : 
+                !mId.equals(expense.mId))
+            return false;
+
+        // Want the others receipt to be in the same state
+        return mReceipt == null ? 
+                expense.mReceipt == null : 
+                mReceipt.equals(expense.mReceipt);
     }
 
     @Override
     public int hashCode() {
         int result = (int) (mTimeOccurred ^ (mTimeOccurred >>> 32));
-        result = 31 * result + mDescription.hashCode();
-        result = 31 * result + mAmount.hashCode();
-        result = 31 * result + mCategory.hashCode();
+        result = 31 * result + ((mDescription != null) ? mDescription.hashCode() : 0);
+        result = 31 * result + ((mAmount != null) ? mAmount.hashCode() : 0);
+        result = 31 * result + ((mCategory != null) ? mCategory.hashCode() : 0);
         result = 31 * result + (int) (mTime ^ (mTime >>> 32));
-        result = 31 * result + mId.hashCode();
+        result = 31 * result + ((mId != null) ? mId.hashCode() : 0);
         result = 31 * result + (mCompleted ? 1 : 0);
-        result = 31 * result + mReceipt.hashCode();
+        result = 31 * result + ((mReceipt != null) ? mReceipt.hashCode() : 0);
         return result;
     }
 

@@ -2,6 +2,7 @@ package com.cmput301.cs.project.utils;
 
 import com.cmput301.cs.project.controllers.TagsManager;
 import com.cmput301.cs.project.models.*;
+
 import junit.framework.TestCase;
 import org.joda.money.CurrencyUnit;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 public class ClaimSavesTest extends TestCase {
     private static final long FIVE_DAYS = 432000000L;
+    private static final String VALID_CATEGORY = Expense.CATEGORIES.iterator().next();
 
     private LocalClaimSaver mClaimSaves;
 
@@ -184,7 +186,7 @@ public class ClaimSavesTest extends TestCase {
         // step 1
         final Expense expense = new Expense.Builder()
                 .time(System.currentTimeMillis())
-                .category("Meal")
+                .category(VALID_CATEGORY)
                 .amount(BigDecimal.TEN)
                 .currencyUnit(CurrencyUnit.CAD)
                 .description("Taxi food")
@@ -219,27 +221,26 @@ public class ClaimSavesTest extends TestCase {
         // asserts the expenses are sorted by the order of entry
         final Expense first = new Expense.Builder()
                 .time(System.currentTimeMillis())
-                .category("Meal")
+                .category(VALID_CATEGORY)
                 .amount(BigDecimal.TEN)
                 .currencyUnit(CurrencyUnit.CAD)
-                .description("Taxi food")
+                .description("Taxi food 1")
                 .build();
 
         final Expense second = new Expense.Builder()
                 .time(System.currentTimeMillis())
-                .category("Meal Round 2")
+                .category(VALID_CATEGORY)
                 .amount(BigDecimal.TEN)
                 .currencyUnit(CurrencyUnit.CAD)
-                .description("Taxi food")
+                .description("Taxi food 2")
                 .build();
 
         final Expense third = new Expense.Builder()
                 .time(System.currentTimeMillis())
-
-                .category("Meal Round 3")
+                .category(VALID_CATEGORY)
                 .amount(BigDecimal.TEN)
                 .currencyUnit(CurrencyUnit.CAD)
-                .description("Taxi food")
+                .description("Taxi food 3")
                 .build();
 
         final Claim claim = new Claim.Builder(new User("name"))

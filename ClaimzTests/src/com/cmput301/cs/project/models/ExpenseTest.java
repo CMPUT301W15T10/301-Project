@@ -1,6 +1,9 @@
 package com.cmput301.cs.project.models;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import junit.framework.TestCase;
@@ -9,29 +12,29 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 public class ExpenseTest extends TestCase {
+    private static final String VALID_CATEGORY = Expense.CATEGORIES.iterator().next();
 
     public void testIndependentId() {
         final long time = System.currentTimeMillis();
         final Money amount = Money.ofMajor(CurrencyUnit.USD, 20);
 
-        final Expense first = new Expense.Builder().money(amount).description("Pizza").category("Food").time(time)
+        final Expense first = new Expense.Builder().money(amount).description("Pizza").category(VALID_CATEGORY).time(time)
                 .build();
 
-        final Expense carbonCopy = new Expense.Builder().money(amount).description("Pizza").category("Food").time(time)
+        final Expense carbonCopy = new Expense.Builder().money(amount).description("Pizza").category(VALID_CATEGORY).time(time)
                 .build();
 
         assertTrue(!(first.getId(). equals(carbonCopy.getId())));
-        // TODO wtf happened here? why is this commented out?
     }
 
     public void testEquality() {
         final long time = System.currentTimeMillis();
         final Money amount = Money.ofMajor(CurrencyUnit.USD, 20);
 
-        final Expense first = new Expense.Builder().money(amount).id("rofl").description("Pizza").category("Food")
+        final Expense first = new Expense.Builder().money(amount).id("rofl").description("Pizza").category(VALID_CATEGORY)
                 .time(time).build();
 
-        final Expense carbonCopy = new Expense.Builder().money(amount).id("rofl").description("Pizza").category("Food")
+        final Expense carbonCopy = new Expense.Builder().money(amount).id("rofl").description("Pizza").category(VALID_CATEGORY)
                 .time(time).build();
 
         assertEquals(first, carbonCopy);
@@ -42,10 +45,10 @@ public class ExpenseTest extends TestCase {
         final long time = System.currentTimeMillis();
         final Money amount = Money.ofMajor(CurrencyUnit.USD, 20);
 
-        final Expense first = new Expense.Builder().money(amount).id("rofl").description("Hot Dog").category("Food")
+        final Expense first = new Expense.Builder().money(amount).id("rofl").description("Hot Dog").category(VALID_CATEGORY)
                 .time(time).build();
 
-        final Expense carbonCopy = new Expense.Builder().money(amount).id("rofl").description("Pizza").category("Food")
+        final Expense carbonCopy = new Expense.Builder().money(amount).id("rofl").description("Pizza").category(VALID_CATEGORY)
                 .time(time).build();
 
         assertTrue(!first.equals(carbonCopy));
@@ -57,13 +60,13 @@ public class ExpenseTest extends TestCase {
         final long laterTime = time + 50;
         final Money amount = Money.ofMajor(CurrencyUnit.USD, 20);
 
-        final Expense first = new Expense.Builder().money(amount).id("rofl").description("Pizza").category("Food")
+        final Expense first = new Expense.Builder().money(amount).id("rofl").description("Pizza").category(VALID_CATEGORY)
                 .time(time).build();
 
-        final Expense carbonCopy = new Expense.Builder().money(amount).id("rofl").description("Pizza").category("Food")
+        final Expense carbonCopy = new Expense.Builder().money(amount).id("rofl").description("Pizza").category(VALID_CATEGORY)
                 .time(time).build();
 
-        final Expense later = new Expense.Builder().money(amount).id("rofl").description("Pizza").category("Food")
+        final Expense later = new Expense.Builder().money(amount).id("rofl").description("Pizza").category(VALID_CATEGORY)
                 .time(laterTime).build();
 
         assertTrue(first.compareTo(later) < 0);
@@ -71,6 +74,33 @@ public class ExpenseTest extends TestCase {
 
         assertTrue(first.compareTo(carbonCopy) == 0);
         assertTrue(carbonCopy.compareTo(first) == 0);
+    }
+    
+    /**
+     * Use Case 19 (US 05.01.01, 08.04.01)
+     * Ensuring that the expenses will be in the correct order, even when one is updated using OCCURRED_DESCENDING
+     */
+    public void testSort() {
+        List<Expense> expenses = new ArrayList<Expense>();
+
+        final Expense expenseOne = new Expense.Builder().build();
+        
+        // This will ensure that there is an actual difference between their time occured/created
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+        }
+
+        final Expense expenseTwo = new Expense.Builder().build();
+        
+        // Not the correct order once sorted
+        expenses.add(expenseTwo);
+        expenses.add(expenseOne);
+        
+        Collections.sort(expenses, Expense.OCCURRED_DESCENDING);
+
+        assertEquals(0, expenses.indexOf(expenseOne));
+        assertEquals(1, expenses.indexOf(expenseTwo));
     }
 
     public void testDefaultTitle() {
@@ -102,8 +132,8 @@ public class ExpenseTest extends TestCase {
     }
 
     public void testBuilderTitleEmpty() {
-        final Expense expense = new Expense.Builder().description(" ").build();
-        assertEquals(null, expense.getDescription());
+        final Expense expense = new Expense.Builder().description("").build();
+        assertEquals("", expense.getDescription());
     }
 
     public void testBuilderNegativeTime() {
@@ -130,13 +160,21 @@ public class ExpenseTest extends TestCase {
     }
 
     public void testBuilderCategoryNull() {
-        final Expense expense = new Expense.Builder().category(null).build();
-        assertEquals(null, expense.getCategory());
+        try {
+            new Expense.Builder().category(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // Success
+        }
     }
 
     public void testBuilderCategoryEmpty() {
-        final Expense expense = new Expense.Builder().category(" ").build();
-        assertEquals(null, expense.getCategory());
+        try {
+            new Expense.Builder().category(" ");
+            fail();
+        } catch (IllegalArgumentException e) {
+            // Success
+        }
     }
 
     public void testBuilderReceiptNull() {
@@ -154,12 +192,11 @@ public class ExpenseTest extends TestCase {
 
     public void testBuilderSanity() {
         final long time = System.currentTimeMillis();
-        final String category = "Food";
         final Receipt receipt = new Receipt("/path");
         final String title = "My title";
         final UUID id = UUID.randomUUID();
         final Expense.Builder builder = new Expense.Builder().receipt(receipt).amount(BigDecimal.TEN)
-                .category(category).completed(true).currencyUnit(CurrencyUnit.CAD).time(time).description(title)
+                .category(VALID_CATEGORY).completed(true).currencyUnit(CurrencyUnit.CAD).time(time).description(title)
                 .id(id.toString());
         assertTrue(builder.isCategorySet());
         assertTrue(builder.isTimeSet());
@@ -167,7 +204,7 @@ public class ExpenseTest extends TestCase {
 
         assertEquals(receipt, builder.getReceipt());
         assertEquals(0, BigDecimal.TEN.compareTo(builder.getMoney().getAmount()));
-        assertEquals(category, builder.getCategory());
+        assertEquals(VALID_CATEGORY, builder.getCategory());
         assertTrue(builder.isCompleted());
         assertEquals(CurrencyUnit.CAD, builder.getMoney().getCurrencyUnit());
         assertEquals(time, builder.getTime());
@@ -178,7 +215,7 @@ public class ExpenseTest extends TestCase {
 
         assertEquals(receipt, expense.getReceipt());
         assertEquals(0, BigDecimal.TEN.compareTo(expense.getAmount().getAmount()));
-        assertEquals(category, expense.getCategory());
+        assertEquals(VALID_CATEGORY, expense.getCategory());
         assertTrue(expense.isCompleted());
         assertEquals(CurrencyUnit.CAD, expense.getAmount().getCurrencyUnit());
         assertEquals(time, expense.getTime());

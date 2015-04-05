@@ -76,7 +76,7 @@ public class ExpenseViewActivity extends Activity {
         if (mExpense == null) {
             throw new IllegalStateException("Expected an Expense");
         } else if (mClaim == null) {
-
+            throw new IllegalStateException("Expected a Claim");
         }
     }
 

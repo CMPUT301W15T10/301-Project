@@ -19,7 +19,7 @@ import com.cmput301.cs.project.models.Expense;
  * When an {@link com.cmput301.cs.project.models.Expense Expense} is clicked, {@link com.cmput301.cs.project.activities.ExpenseViewActivity ExpenseViewActivity} is called. <p>
  * When the menu item is clicked, {@link com.cmput301.cs.project.activities.EditExpenseActivity EditExpenseActivity} is called to
  * generate a new expense.
- *
+ * <p/>
  * The claim which the expenses belong MUST be passed as an intent as App.KEY_CLAIM
  *
  * @author rozsa
@@ -42,10 +42,16 @@ public class ExpenseListActivity extends ListActivity {
         if (mClaim == null) {
             throw new IllegalStateException("Must have claim passed in using KEY_CLAIM");
         }
+    }
 
-        mAdapter = new ExpensesAdapter(this, mClaim.peekExpenses());
-        setListAdapter(mAdapter);
-        mAdapter.sort(Expense.OCCURRED_DESCENDING);
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final ClaimsList claimsList = ClaimsList.getInstance(this);
+        mClaim = claimsList.getClaimById(mClaim.getId());
+
+        updateList();
     }
 
     @Override

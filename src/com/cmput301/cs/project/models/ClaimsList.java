@@ -87,5 +87,14 @@ public class ClaimsList {
         return mClaims;
     }
 
+    public Claim getClaimById(String id) {
+        for (Claim claim : mClaims) {
+            if (claim.getId().equals(id)) {
+                return claim;
+            }
+        }
+
+        return null;
+    }
 }
 

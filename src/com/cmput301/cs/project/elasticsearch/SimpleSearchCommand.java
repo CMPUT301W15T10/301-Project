@@ -1,5 +1,7 @@
 package com.cmput301.cs.project.elasticsearch;
 
+//https://github.com/blainelewis1/AndroidElasticSearch/ [blaine1 april 05 2014]
+
 public class SimpleSearchCommand {
 	private SimpleSearchQuery query;
 		

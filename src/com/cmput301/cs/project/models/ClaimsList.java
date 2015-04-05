@@ -43,7 +43,7 @@ public class ClaimsList {
 
     }});
 
-    private final List<Claim> mClaims;
+    private List<Claim> mClaims;
 
     private static ClaimsList instance;
     private final LocalClaimSaver mClaimSaves;
@@ -64,13 +64,15 @@ public class ClaimsList {
         mClaimSaves = LocalClaimSaver.ofAndroid(context);
         mRemoteClaimSaves = RemoteClaimSaver.ofAndroid(context);
         
-        mClaims = mergeAllClaims();
-
-        mClaims.addAll(defaultClaims);
+        deserialize();
 
     }
 
-    private List<Claim> mergeAllClaims() {
+    private void deserialize() {
+        mergeAllClaims();
+    }
+
+    private void mergeAllClaims() {
         List<Claim> claims = new ArrayList<Claim>();
         List<Claim> remoteClaims = new ArrayList<Claim>();
 
@@ -112,7 +114,9 @@ public class ClaimsList {
 
         claims.addAll(remoteClaims);
 
-        return claims;
+        mRemoteClaimSaves.saveAllClaims(claims);
+
+        this.mClaims = claims;
     }
 
     public void addClaim(Claim claim) {
@@ -143,6 +147,7 @@ public class ClaimsList {
     private void serialize() {
         mClaims.removeAll(defaultClaims);
         mClaimSaves.saveAllClaims(mClaims);
+        mRemoteClaimSaves.saveAllClaims(mClaims);
         mClaims.addAll(defaultClaims);
     }
 

@@ -1,5 +1,8 @@
 package com.cmput301.cs.project.elasticsearch;
 
+//https://github.com/blainelewis1/AndroidElasticSearch/ [blaine1 april 05 2014]
+
+
 import java.util.ArrayList;
 import java.util.List;
 

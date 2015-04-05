@@ -104,12 +104,11 @@ public final class Claim implements Comparable<Claim>, Parcelable {
         }
 
         StringBuilder sb = new StringBuilder();
-        String delimiter = "";
+        String separator = "";
 
         for (Map.Entry<CurrencyUnit, Money> amount : totals.entrySet()) {
-            sb.append(amount.getValue().toString()).append(delimiter);
-            delimiter = ",";
-
+            sb.append(separator).append(amount.getValue().toString());
+            separator = ", ";
         }
 
         return sb.toString();

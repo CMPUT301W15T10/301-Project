@@ -27,6 +27,7 @@ import com.cmput301.cs.project.models.Expense;
 
 public class ExpenseListActivity extends ListActivity {
     private static final int EDIT_EXPENSE = 0;
+    private static final int NEW_EXPENSE = 1;
 
     private Claim mClaim;
 
@@ -53,7 +54,7 @@ public class ExpenseListActivity extends ListActivity {
 
         Intent intent = new Intent(this, ExpenseViewActivity.class);
         intent.putExtra(ExpenseViewActivity.KEY_EXPENSE, expenseSelected);
-        startActivity(intent);
+        startActivityForResult(intent, EDIT_EXPENSE);
     }
 
     @Override
@@ -73,7 +74,7 @@ public class ExpenseListActivity extends ListActivity {
             return true;
         } else if (id == R.id.add_expense) {
             Intent intent = new Intent(ExpenseListActivity.this, EditExpenseActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, NEW_EXPENSE);
 
             return true;
         }
@@ -82,13 +83,46 @@ public class ExpenseListActivity extends ListActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == EDIT_EXPENSE && resultCode == RESULT_OK) {
-            final ClaimsList claimsList = ClaimsList.getInstance(this);
-            final Expense newExpense = data.getParcelableExtra(App.KEY_EXPENSE);
-            final Claim newClaim = mClaim.edit().putExpense(newExpense).build();
-            claimsList.editClaim(mClaim, newClaim);
+        if (resultCode == App.RESULT_DELETE && requestCode == EDIT_EXPENSE) {
+            deleteExpense(data);
+        } else if (resultCode == RESULT_OK && 
+                (requestCode == EDIT_EXPENSE || requestCode == NEW_EXPENSE)) {
+            updateExpense(data);
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
-
     }
 
+    private void updateExpense(Intent data) {
+        final ClaimsList claimsList = ClaimsList.getInstance(this);
+        final Expense newExpense = data.getParcelableExtra(App.KEY_EXPENSE);
+        final Claim newClaim = mClaim.edit().putExpense(newExpense).build();
+
+        claimsList.editClaim(mClaim, newClaim);
+        mClaim = newClaim;
+
+        updateList();
+    }
+
+    private void deleteExpense(Intent data) {
+        final ClaimsList claimsList = ClaimsList.getInstance(this);
+        final Expense newExpense = data.getParcelableExtra(App.KEY_EXPENSE);
+        final Claim newClaim = mClaim.edit().removeExpense(newExpense).build();
+
+        claimsList.editClaim(mClaim, newClaim);
+        mClaim = newClaim;
+
+        updateList();
+    }
+
+    /*
+     * This is basically a hack..... Will create a new adapter everytime it
+     * needs to update the list
+     */
+    private void updateList() {
+        mAdapter = new ExpensesAdapter(this, mClaim.peekExpenses());
+        setListAdapter(mAdapter);
+
+        mAdapter.sort(Expense.OCCURRED_DESCENDING);
+    }
 }

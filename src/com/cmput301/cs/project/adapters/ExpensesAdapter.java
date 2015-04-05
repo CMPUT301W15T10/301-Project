@@ -31,6 +31,7 @@ import java.util.List;
 
 /**
  * Basic adapter that adapts an {@link com.cmput301.cs.project.models.Expense Expense} to be viewable in a ListView.
+ * WARNING: This creates a COPY of the list. This is because it will change the list which doesn't work with unmodifiable lists
  * 
  * @author rozsa
  *
@@ -62,9 +63,11 @@ public final class ExpensesAdapter extends ArrayAdapter<Expense> {
 
     private final DateFormat mFormatter;
 
-
+    /**
+     * WARNING: This creates a COPY of the list. This is because it will change the list when sorting, which doesn't work with unmodifiable lists
+     */
     public ExpensesAdapter(Context context, List<Expense> expenses) {
-        super(context, R.layout.expense_list_item, expenses);
+        super(context, R.layout.expense_list_item, new ArrayList<Expense>(expenses));
         mInflater = LayoutInflater.from(context);
         mFormatter = android.text.format.DateFormat.getMediumDateFormat(context);  // with respect to user settings
     }

@@ -34,9 +34,12 @@ public final class App extends Application {
     public static final String KEY_CLAIM = "key_claim";
     public static final String KEY_EXPENSE = "key_expense";
 
+    public static final int RESULT_DELETE = 16;
+
     public static App get(Context context) {
         return (App) context.getApplicationContext();
     }
+
 
     public User getUser() {
         SharedPreferences sharedPreferences = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE);

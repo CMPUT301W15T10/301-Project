@@ -1,6 +1,7 @@
 package com.cmput301.cs.project.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.models.Expense;
 import com.cmput301.cs.project.utils.ReceiptLoading;
@@ -30,6 +33,7 @@ import java.text.DateFormat;
 
 public class ExpenseViewActivity extends Activity {
     public static final String KEY_EXPENSE = "key_expense";
+    private static final int EDIT_EXPENSE = 0;
 
     private Expense mExpense;
     private DateFormat mDateFormat;
@@ -102,12 +106,25 @@ public class ExpenseViewActivity extends Activity {
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.delete) {
-            // Handle delete here
+            setResult(App.RESULT_DELETE, new Intent().putExtra(App.KEY_EXPENSE, mExpense));
+            finish();
             return true;
         } else if (id == R.id.edit) {
-            // Handle edit here
+            Intent intent = new Intent(this, EditExpenseActivity.class);
+            intent.putExtra(App.KEY_EXPENSE, mExpense);
+            startActivityForResult(intent, EDIT_EXPENSE);
+
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == EDIT_EXPENSE) {
+            mExpense = data.getParcelableExtra(App.KEY_EXPENSE);
+            setResult(RESULT_OK, new Intent().putExtra(App.KEY_EXPENSE, mExpense));
+
+            updateUi();
+        }
     }
 }

@@ -8,46 +8,31 @@
               android:layout_marginTop="@dimen/small_padding"
               android:layout_marginBottom="@dimen/small_padding">
 
-    <LinearLayout
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:text="@string/destination_name_text"/>
 
-        <TextView
-            android:id="@+id/destinationNameText"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:text="@string/destination_name_text"/>
-
-        <EditText
-            android:id="@+id/newDestinationInput"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:hint="@string/new_destination"/>
-
-    </LinearLayout>
-
-    <LinearLayout
+    <Button
+        style="?android:buttonBarButtonStyle"
+        android:id="@+id/newDestinationInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginBottom="@dimen/small_padding"
+        android:hint="@string/destination_hint"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/reason_text"/>
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/reason_text"/>
 
-        <EditText
-            android:id="@+id/newReason"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:hint="@string/reason_hint"/>
-
-    </LinearLayout>
+    <EditText
+        android:id="@+id/newReason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/reason_hint"/>
 
     <Space
         android:layout_width="match_parent"
@@ -56,7 +41,6 @@
 
     <Button
         android:id="@+id/deleteTag"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/delete_destination"

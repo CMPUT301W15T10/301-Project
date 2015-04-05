@@ -334,7 +334,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
          * @see #getId()
          */
         public Builder id(String id) {
-            ClaimUtils.nonNullnonEmptyOrThrow(id, "id");
+            ClaimUtils.nonNullNonEmptyOrThrow(id, "id");
             mId = id;
             return this;
         }

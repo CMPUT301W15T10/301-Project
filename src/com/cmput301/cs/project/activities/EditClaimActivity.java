@@ -91,7 +91,7 @@ public class EditClaimActivity extends Activity {
                 Intent intent = new Intent(EditClaimActivity.this, EditDestinationActivity.class);
                 DestinationAdapter adapter = ((DestinationAdapter) mDestinations.getAdapter());
                 Destination item = adapter.getItem(position);
-                intent.putExtra(EditDestinationActivity.DESTINATION, item);
+                intent.putExtra(EditDestinationActivity.KEY_DESTINATION, item);
                 mEdittingDestination = item;
 
                 startActivityForResult(intent, REQ_CODE_EDIT_DESTINATION);
@@ -240,7 +240,7 @@ public class EditClaimActivity extends Activity {
             case REQ_CODE_CREATE_DESTINATION:
                 if (resultCode == RESULT_OK) {
                     //TODO: bugged when editting a reason
-                    Destination destination = data.getParcelableExtra(EditDestinationActivity.DESTINATION);
+                    Destination destination = data.getParcelableExtra(EditDestinationActivity.KEY_DESTINATION);
                     mBuilder.putDestination(destination);
                     update();
                 }
@@ -248,7 +248,7 @@ public class EditClaimActivity extends Activity {
             case REQ_CODE_EDIT_DESTINATION:
                 if (resultCode == RESULT_OK) {
                     //TODO: bugged when editting a reason
-                    Destination destination = data.getParcelableExtra(EditDestinationActivity.DESTINATION);
+                    Destination destination = data.getParcelableExtra(EditDestinationActivity.KEY_DESTINATION);
                     mBuilder.removeDestination(mEdittingDestination);
                     mBuilder.putDestination(destination);
                     update();

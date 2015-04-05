@@ -177,11 +177,8 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
                 setListAdapter(mClaimantAdapter);
             }
         } else if (requestCode == VIEW_CLAIM) {
-            if (resultCode == App.RESULT_DELETE) {
-                // Just need to update the current list
-                mClaimantAdapter = new ClaimsAdapter(this, mClaimListController.getClaimantClaims());
-                setListAdapter(mClaimantAdapter);
-            }
+            mClaimantAdapter = new ClaimsAdapter(this, mClaimListController.getClaimantClaims());
+            setListAdapter(mClaimantAdapter);
         }
     }
 

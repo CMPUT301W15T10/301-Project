@@ -9,9 +9,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
+import com.cmput301.cs.project.models.Claim;
+import com.cmput301.cs.project.models.ClaimsList;
 import com.cmput301.cs.project.models.Expense;
 import com.cmput301.cs.project.utils.ReceiptLoading;
 import org.joda.money.Money;
@@ -27,15 +28,18 @@ import java.text.DateFormat;
  * An activity that shows the details of an {@link com.cmput301.cs.project.models.Expense Expense}. <p>
  * Has a menu button that calls {@link com.cmput301.cs.project.activities.EditExpenseActivity EditExpenseActivity} for editing
  * on that expense.
+ * <p/>
+ * Expects to be given a claim using App.KEY_CLAIM and an expense using App.KEY_EXPENSE in its intent.
  *
  * @author rozsa
  */
 
 public class ExpenseViewActivity extends Activity {
-    public static final String KEY_EXPENSE = "key_expense";
     private static final int EDIT_EXPENSE = 0;
 
+    private Claim mClaim;
     private Expense mExpense;
+
     private DateFormat mDateFormat;
 
     private TextView mDescription;
@@ -68,9 +72,12 @@ public class ExpenseViewActivity extends Activity {
     }
 
     private void initExpenseController() {
-        mExpense = getIntent().getParcelableExtra(KEY_EXPENSE);
+        mClaim = getIntent().getParcelableExtra(App.KEY_CLAIM);
+        mExpense = getIntent().getParcelableExtra(App.KEY_EXPENSE);
         if (mExpense == null) {
             throw new IllegalStateException("Expected an Expense");
+        } else if (mClaim == null) {
+
         }
     }
 
@@ -108,6 +115,7 @@ public class ExpenseViewActivity extends Activity {
         } else if (id == R.id.delete) {
             setResult(App.RESULT_DELETE, new Intent().putExtra(App.KEY_EXPENSE, mExpense));
             finish();
+
             return true;
         } else if (id == R.id.edit) {
             Intent intent = new Intent(this, EditExpenseActivity.class);
@@ -121,10 +129,17 @@ public class ExpenseViewActivity extends Activity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == EDIT_EXPENSE) {
-            mExpense = data.getParcelableExtra(App.KEY_EXPENSE);
-            setResult(RESULT_OK, new Intent().putExtra(App.KEY_EXPENSE, mExpense));
+            updateClaim(data);
 
             updateUi();
         }
+    }
+
+    private void updateClaim(Intent data) {
+        final ClaimsList claimsList = ClaimsList.getInstance(this);
+        mExpense = data.getParcelableExtra(App.KEY_EXPENSE);
+        final Claim newClaim = mClaim.edit().putExpense(mExpense).build();
+
+        claimsList.editClaim(mClaim, newClaim);
     }
 }

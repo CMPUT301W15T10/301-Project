@@ -26,7 +26,7 @@ import com.cmput301.cs.project.models.Expense;
  */
 
 public class ExpenseListActivity extends ListActivity {
-    private static final int EDIT_EXPENSE = 0;
+    private static final int VIEW_EXPENSE = 0;
     private static final int NEW_EXPENSE = 1;
 
     private Claim mClaim;
@@ -53,8 +53,9 @@ public class ExpenseListActivity extends ListActivity {
         Expense expenseSelected = mAdapter.getItem(position);
 
         Intent intent = new Intent(this, ExpenseViewActivity.class);
-        intent.putExtra(ExpenseViewActivity.KEY_EXPENSE, expenseSelected);
-        startActivityForResult(intent, EDIT_EXPENSE);
+        intent.putExtra(App.KEY_CLAIM, mClaim);
+        intent.putExtra(App.KEY_EXPENSE, expenseSelected);
+        startActivityForResult(intent, VIEW_EXPENSE);
     }
 
     @Override
@@ -80,10 +81,9 @@ public class ExpenseListActivity extends ListActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == App.RESULT_DELETE && requestCode == EDIT_EXPENSE) {
+        if (resultCode == App.RESULT_DELETE && requestCode == VIEW_EXPENSE) {
             deleteExpense(data);
-        } else if (resultCode == RESULT_OK && 
-                (requestCode == EDIT_EXPENSE || requestCode == NEW_EXPENSE)) {
+        } else if (resultCode == RESULT_OK && requestCode == NEW_EXPENSE) {
             updateExpense(data);
         } else {
             super.onActivityResult(requestCode, resultCode, data);

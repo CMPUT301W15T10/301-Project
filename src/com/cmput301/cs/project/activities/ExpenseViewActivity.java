@@ -14,7 +14,6 @@ import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.models.Claim;
 import com.cmput301.cs.project.models.ClaimsList;
 import com.cmput301.cs.project.models.Expense;
-import com.cmput301.cs.project.utils.ReceiptLoading;
 import org.joda.money.Money;
 
 import java.text.DateFormat;
@@ -92,7 +91,7 @@ public class ExpenseViewActivity extends Activity {
         mCompleted.setText(mExpense.isCompleted() ? "Completed" : "In Progress");
 
         if (mExpense.hasReceipt()) {
-            final Uri receiptFileUri = ReceiptLoading.getReceiptUri(mExpense.getId());
+            final Uri receiptFileUri = mExpense.getReceipt().getUri();
             final BitmapDrawable drawable = new BitmapDrawable(getResources(), receiptFileUri.getPath());
             mReceipt.setImageDrawable(drawable);
         } else {
@@ -129,17 +128,20 @@ public class ExpenseViewActivity extends Activity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == EDIT_EXPENSE) {
-            updateClaim(data);
+            mExpense = data.getParcelableExtra(App.KEY_EXPENSE);
+
+            updateClaim();
 
             updateUi();
         }
     }
 
-    private void updateClaim(Intent data) {
+    private void updateClaim() {
         final ClaimsList claimsList = ClaimsList.getInstance(this);
-        mExpense = data.getParcelableExtra(App.KEY_EXPENSE);
         final Claim newClaim = mClaim.edit().putExpense(mExpense).build();
 
         claimsList.editClaim(mClaim, newClaim);
+
+        mClaim = newClaim;
     }
 }

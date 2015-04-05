@@ -1,6 +1,7 @@
 package com.cmput301.cs.project.models;
 
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -27,6 +28,10 @@ public class Receipt implements Parcelable {
             //TODO: limit file size by compressing etc.
         }
         mFile = file;
+    }
+
+    public Uri getUri() {
+        return Uri.fromFile(mFile);
     }
 
     public File getFile() {

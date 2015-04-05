@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.util.Log;
@@ -15,13 +16,13 @@ import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.TextWatcherAdapter;
 import com.cmput301.cs.project.models.Expense;
 import com.cmput301.cs.project.models.Receipt;
-import com.cmput301.cs.project.utils.ReceiptLoading;
 import com.cmput301.cs.project.utils.Utils;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.net.URI;
 import java.text.DateFormat;
 import java.util.ArrayList;
 
@@ -177,7 +178,7 @@ public class EditExpenseActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                final Uri receiptFileUri = ReceiptLoading.getReceiptUri(mBuilder.getId());
+                final Uri receiptFileUri = getReceiptUri();
 
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, receiptFileUri);
                 startActivityForResult(intent, REQ_CODE_RECEIPT);
@@ -191,6 +192,24 @@ public class EditExpenseActivity extends Activity {
                 deleteReceipt();
             }
         });
+    }
+
+    private Uri getReceiptUri() {
+        File file = new File(getStorageFolder(), mBuilder.getId() + ".jpg");
+        return Uri.fromFile(file);
+    }
+
+    // This is from http://developer.android.com/training/basics/data-storage/files.html
+    // March 15, 2015
+    private File getStorageFolder() {
+        File file = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+
+        if (!file.mkdirs()) {
+            Log.e("EditExpenseActivity", "Was unable to make the directory " + file.toString());
+        }
+
+        return file;
     }
 
     private void deleteReceipt() {
@@ -218,8 +237,8 @@ public class EditExpenseActivity extends Activity {
                 break;
 
             case REQ_CODE_RECEIPT:
-                final Uri receiptFileUri = ReceiptLoading.getReceiptUri(mBuilder.getId());
-                mBuilder.receipt(new Receipt(receiptFileUri.toString()));
+                final Uri receiptFileUri = getReceiptUri();
+                mBuilder.receipt(new Receipt(receiptFileUri.getPath()));
                 updateUI();
                 break;
 
@@ -248,11 +267,11 @@ public class EditExpenseActivity extends Activity {
             mCategory.setSelection(categoryPosition);
         }
 
-
         mCompleted.setChecked(mBuilder.isCompleted());
 
         if (mBuilder.hasReceipt()) {
-            final Uri receiptFileUri = ReceiptLoading.getReceiptUri(mBuilder.getId());
+            final Uri receiptFileUri = mBuilder.getReceipt().getUri();
+
             final BitmapDrawable drawable = new BitmapDrawable(getResources(), receiptFileUri.getPath());
             mReceipt.setImageDrawable(drawable);
 

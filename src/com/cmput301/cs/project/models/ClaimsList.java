@@ -2,6 +2,7 @@ package com.cmput301.cs.project.models;
 
 import android.content.Context;
 import android.os.StrictMode;
+import android.util.Log;
 import android.widget.Toast;
 import com.cmput301.cs.project.utils.LocalClaimSaver;
 import com.cmput301.cs.project.utils.RemoteClaimSaver;
@@ -102,6 +103,7 @@ public class ClaimsList {
             if(rem == null) {
                 claims.add(next);
             } else {
+
                 remoteClaims.remove(rem);
 
                 if(rem.getModified() > next.getModified()){
@@ -114,7 +116,11 @@ public class ClaimsList {
 
         claims.addAll(remoteClaims);
 
-        mRemoteClaimSaves.saveAllClaims(claims);
+        try {
+            mRemoteClaimSaves.saveAllClaims(claims);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         this.mClaims = claims;
     }
@@ -146,8 +152,8 @@ public class ClaimsList {
     
     private void serialize() {
         mClaims.removeAll(defaultClaims);
+        mergeAllClaims();
         mClaimSaves.saveAllClaims(mClaims);
-        mRemoteClaimSaves.saveAllClaims(mClaims);
         mClaims.addAll(defaultClaims);
     }
 

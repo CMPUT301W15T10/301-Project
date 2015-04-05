@@ -7,10 +7,7 @@ import com.cmput301.cs.project.models.Claim;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.IOError;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -36,7 +33,7 @@ public class RemoteClaimSaver {
         this.mContext = mContext;
     }
 
-    public void saveAllClaims(List<Claim> claims) {
+    public void saveAllClaims(List<Claim> claims) throws IOException {
 
         try {
 
@@ -44,28 +41,42 @@ public class RemoteClaimSaver {
                 URL url = new URL(ES_URL + "/" + claim.getId());
 
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("POST");
                 urlConnection.setDoOutput(true);
 
-                Gson gson = new Gson();
+                urlConnection.connect();
 
-                gson.toJson(claim, new OutputStreamWriter(urlConnection.getOutputStream()));
+                Gson gson = new Gson();
+                OutputStreamWriter writer = new OutputStreamWriter(urlConnection.getOutputStream());
+
+                gson.toJson(claim, Claim.class, writer);
+
+                Log.d("yo",  gson.toJson(claim, Claim.class));
+
+
+                writer.flush();
+                writer.close();
+
+                Log.d("yo", "code" + urlConnection.getResponseCode());
+                Log.d("yo", urlConnection.getResponseMessage());
 
                 urlConnection.disconnect();
             }
         } catch (MalformedURLException e) {
-            Log.d("malformed url", "yo yo yo");
+            throw new IOException();
         } catch (IOException e) {
-            Log.d("IO Exception", "lollllllllllllllllllllllllllllllllll");
+            throw new IOException();
         }
 
     }
     public List<Claim> readAllClaims() throws IOException {
-        List<Claim> claims;
+        List<Claim> claims = new ArrayList<Claim>();
 
         try {
             URL url = new URL(ES_URL + "/_search");
 
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setDoInput(true);
 
             InputStreamReader in = new InputStreamReader(urlConnection.getInputStream());
 

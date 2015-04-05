@@ -59,7 +59,7 @@ public final class Claim implements Comparable<Claim>, Parcelable {
     }
 
     public boolean canApprove(User user) {
-        if (mClaimant.equals(user)) {
+        if (mClaimant.equals(user) || mStatus != Status.SUBMITTED) {
             return false;
         }
 

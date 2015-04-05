@@ -2,14 +2,11 @@ package com.cmput301.cs.project.models;
 
 import android.content.Context;
 import android.os.StrictMode;
-import android.util.Log;
 import android.widget.Toast;
 import com.cmput301.cs.project.utils.LocalClaimSaver;
 import com.cmput301.cs.project.utils.RemoteClaimSaver;
 
-import java.io.IOError;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -135,8 +132,9 @@ public class ClaimsList {
         Iterator<Claim> iterator = mClaims.iterator();
         while (iterator.hasNext()) {
             Claim current = iterator.next();
-            if (current.getId().equals(claim.getId()))
+            if (current.getId().equals(claim.getId())) {
                 iterator.remove();
+            }
         }
 
         serialize();
@@ -158,6 +156,7 @@ public class ClaimsList {
     }
 
     public List<Claim> peekClaims() {
+        deserialize();
         return mClaims;
     }
 

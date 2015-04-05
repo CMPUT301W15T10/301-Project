@@ -1,13 +1,15 @@
 package com.cmput301.cs.project.utils;
 
 import android.content.Context;
-import android.util.Log;
 import com.cmput301.cs.project.elasticsearch.SearchResponse;
 import com.cmput301.cs.project.models.Claim;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.*;
+import java.io.IOError;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -51,14 +53,8 @@ public class RemoteClaimSaver {
 
                 gson.toJson(claim, Claim.class, writer);
 
-                Log.d("yo",  gson.toJson(claim, Claim.class));
-
-
                 writer.flush();
                 writer.close();
-
-                Log.d("yo", "code" + urlConnection.getResponseCode());
-                Log.d("yo", urlConnection.getResponseMessage());
 
                 urlConnection.disconnect();
             }

@@ -1,8 +1,14 @@
 package com.cmput301.cs.project.models;
 
 import android.content.Context;
+import android.os.StrictMode;
+import android.widget.Toast;
 import com.cmput301.cs.project.utils.LocalClaimSaver;
+import com.cmput301.cs.project.utils.RemoteClaimSaver;
 
+import java.io.IOError;
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,6 +47,8 @@ public class ClaimsList {
 
     private static ClaimsList instance;
     private final LocalClaimSaver mClaimSaves;
+    private final RemoteClaimSaver mRemoteClaimSaves;
+    private final Context mContext;
 
     public static ClaimsList getInstance(Context context) {
         if(instance == null){
@@ -51,13 +59,62 @@ public class ClaimsList {
     }
 
     private ClaimsList(Context context) {
-        mClaimSaves = LocalClaimSaver.ofAndroid(context);
+        mContext = context;
 
-        mClaims = mClaimSaves.readAllClaims();
+        mClaimSaves = LocalClaimSaver.ofAndroid(context);
+        mRemoteClaimSaves = RemoteClaimSaver.ofAndroid(context);
+        
+        mClaims = mergeAllClaims();
+
         mClaims.addAll(defaultClaims);
 
     }
-    
+
+    private List<Claim> mergeAllClaims() {
+        List<Claim> claims = new ArrayList<Claim>();
+        List<Claim> remoteClaims = new ArrayList<Claim>();
+
+        //http://stackoverflow.com/questions/12650921/quick-fix-for-networkonmainthreadexception [blaine1 april 05 2015]
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        try {
+            remoteClaims = mRemoteClaimSaves.readAllClaims();
+        } catch (IOException ex) {
+            Toast.makeText(mContext, "Failed to connect to server. In Local mode.", Toast.LENGTH_LONG);
+        }
+
+        List<Claim> localClaims = mClaimSaves.readAllClaims();
+
+        for (Iterator<Claim> it = localClaims.iterator(); it.hasNext(); ) {
+            Claim next =  it.next();
+
+            Claim rem = null;
+            for (Claim remoteClaim : remoteClaims) {
+                if(remoteClaim.getId().equals(next.getId())){
+                    rem = remoteClaim;
+                }
+            }
+
+            if(rem == null) {
+                claims.add(next);
+            } else {
+                remoteClaims.remove(rem);
+
+                if(rem.getModified() > next.getModified()){
+                    claims.add(rem);
+                } else {
+                    claims.add(next);
+                }
+            }
+        }
+
+        claims.addAll(remoteClaims);
+
+        return claims;
+    }
+
     public void addClaim(Claim claim) {
         mClaims.add(claim);
 

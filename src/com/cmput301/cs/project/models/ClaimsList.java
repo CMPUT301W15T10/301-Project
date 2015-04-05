@@ -6,6 +6,7 @@ import com.cmput301.cs.project.utils.LocalClaimSaver;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -64,7 +65,12 @@ public class ClaimsList {
     }
     
     public void deleteClaim(Claim claim) {
-        mClaims.remove(claim);
+        Iterator<Claim> iterator = mClaims.iterator();
+        while (iterator.hasNext()) {
+            Claim current = iterator.next();
+            if (current.getId().equals(claim.getId()))
+                iterator.remove();
+        }
 
         serialize();
     }

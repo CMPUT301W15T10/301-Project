@@ -167,14 +167,12 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.deleteClaim:
 
                 if (mClaim.isEditable()) {
                     mClaimList.deleteClaim(mClaim);
+                    setResult(App.RESULT_DELETE);
                     finish();
                 } else {
                     Toast.makeText(this, "Claim can no longer be deleted!", Toast.LENGTH_LONG).show();

@@ -44,8 +44,8 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
     private static final int POSITION_CLAIMANT = 0;
     private static final int POSITION_APPROVER = 1;
     private static final int NEW_CLAIM = 0;
+    private static final int VIEW_CLAIM = 1;
 
-    private User mUser;
     private ClaimListController mClaimListController;
     private ClaimsAdapter mApproverAdapter;
     private ClaimsAdapter mClaimantAdapter;
@@ -55,14 +55,14 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.claim_list_activity);
 
-        mUser = App.get(this).getUser();
+        User user = App.get(this).getUser();
 
-        if (mUser == null) {
+        if (user == null) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
 
-        mClaimListController = new ClaimListController(mUser, ClaimsList.getInstance(this));
+        mClaimListController = new ClaimListController(user, ClaimsList.getInstance(this));
 
         setupListView();
         setupActionBar();
@@ -101,7 +101,7 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
 
         i.putExtra(App.KEY_CLAIM, adapter.getItem(position));
 
-        startActivity(i);
+        startActivityForResult(i, VIEW_CLAIM);
     }
 
     private void setupActionBar() {
@@ -114,11 +114,9 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
                     final int position = tab.getPosition();
                     switch (position) {
                         case POSITION_CLAIMANT:
-                            // TODO impl claimant filter
                             setListAdapter(mClaimantAdapter);
                             break;
                         case POSITION_APPROVER:
-                            // TODO impl approver filter
                             setListAdapter(mApproverAdapter);
                             break;
                         default:
@@ -175,6 +173,12 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
                 Claim claim = data.getExtras().getParcelable(App.KEY_CLAIM);
                 mClaimListController.addClaim(claim);
 
+                mClaimantAdapter = new ClaimsAdapter(this, mClaimListController.getClaimantClaims());
+                setListAdapter(mClaimantAdapter);
+            }
+        } else if (requestCode == VIEW_CLAIM) {
+            if (resultCode == App.RESULT_DELETE) {
+                // Just need to update the current list
                 mClaimantAdapter = new ClaimsAdapter(this, mClaimListController.getClaimantClaims());
                 setListAdapter(mClaimantAdapter);
             }

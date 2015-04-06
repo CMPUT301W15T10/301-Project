@@ -2,6 +2,7 @@ package com.cmput301.cs.project.models;
 
 import android.content.Context;
 import android.os.StrictMode;
+import android.util.Log;
 import android.widget.Toast;
 import com.cmput301.cs.project.utils.LocalClaimSaver;
 import com.cmput301.cs.project.utils.RemoteClaimSaver;
@@ -33,6 +34,7 @@ import java.util.List;
 public class ClaimsList {
 
 
+    private static final String LOG_TAG = "ClaimsList";
     private List<Claim> mClaims = new ArrayList<Claim>();
 
     private static ClaimsList instance;
@@ -106,7 +108,7 @@ public class ClaimsList {
         try {
             mRemoteClaimSaves.saveAllClaims(claims);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.d(LOG_TAG, "Failed to save claims remotely.");
         }
 
         this.mClaims = claims;
@@ -130,11 +132,18 @@ public class ClaimsList {
         serialize();
     }
     
-    public void editClaim(Claim old, Claim newClaim) {
-        final int location = mClaims.indexOf(old);
-        if (location < 0) return;
-        mClaims.remove(old);
-        mClaims.add(location, newClaim);
+    public void editClaim(Claim oldClaim, Claim newClaim) {
+
+        Iterator<Claim> iterator = mClaims.iterator();
+        while (iterator.hasNext()) {
+            Claim current = iterator.next();
+            if (current.getId().equals(oldClaim.getId())) {
+                iterator.remove();
+            }
+        }
+
+        mClaims.add(newClaim);
+
         serialize();
     }
     

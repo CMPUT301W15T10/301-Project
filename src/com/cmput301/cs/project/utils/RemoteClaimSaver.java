@@ -1,6 +1,7 @@
 package com.cmput301.cs.project.utils;
 
 import android.content.Context;
+import android.util.Log;
 import com.cmput301.cs.project.elasticsearch.SearchResponse;
 import com.cmput301.cs.project.models.Claim;
 import com.google.gson.Gson;
@@ -19,6 +20,7 @@ import java.util.List;
 
 public class RemoteClaimSaver {
     private static final String ES_URL = "http://cmput301.softwareprocess.es:8080/cmput301w15t10/claims";
+    private static final String LOG_TAG = "RemoteClaimSaver";
 
     Context mContext;
 
@@ -53,14 +55,22 @@ public class RemoteClaimSaver {
 
                 gson.toJson(claim, Claim.class, writer);
 
+                Log.d(LOG_TAG, gson.toJson(claim, Claim.class));
+
+                Log.d(LOG_TAG, urlConnection.getResponseMessage());
+                Log.d(LOG_TAG, "" + urlConnection.getResponseCode());
+
                 writer.flush();
                 writer.close();
 
                 urlConnection.disconnect();
+
             }
         } catch (MalformedURLException e) {
+
             throw new IOException();
         } catch (IOException e) {
+
             throw new IOException();
         }
 

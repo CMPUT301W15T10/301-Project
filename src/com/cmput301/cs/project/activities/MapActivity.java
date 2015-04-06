@@ -242,14 +242,14 @@ public class MapActivity extends Activity
 
     @Override
     public void onMapClick(LatLng latLng) {
-        updateWithNameAndLatLng(latLng.toString(), latLng);
+        updateWithNameAndLatLng(getText(R.string.custom_location), latLng);
     }
 
     @Override
     public void onMyLocationChange(Location l) {
         mGoogleMap.setOnMyLocationChangeListener(null);
         final LatLng latLng = new LatLng(l.getLatitude(), l.getLongitude());
-        updateWithNameAndLatLng(latLng.toString(), latLng);
+        updateWithNameAndLatLng(getText(R.string.custom_location), latLng);
     }
 
     private void animateMapTo(LatLng latLng) {

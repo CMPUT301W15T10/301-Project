@@ -101,7 +101,7 @@ public class ExpenseListActivity extends ListActivity {
         final Expense newExpense = data.getParcelableExtra(App.KEY_EXPENSE);
         final Claim newClaim = mClaim.edit().putExpense(newExpense).build();
 
-        claimsList.editClaim(mClaim, newClaim);
+        claimsList.editClaim(newClaim);
         mClaim = newClaim;
 
         updateList();
@@ -112,7 +112,7 @@ public class ExpenseListActivity extends ListActivity {
         final Expense newExpense = data.getParcelableExtra(App.KEY_EXPENSE);
         final Claim newClaim = mClaim.edit().removeExpense(newExpense).build();
 
-        claimsList.editClaim(mClaim, newClaim);
+        claimsList.editClaim(newClaim);
         mClaim = newClaim;
 
         updateList();

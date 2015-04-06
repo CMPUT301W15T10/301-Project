@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Singleton<p>
  * A class that contains the ClaimList for the app. This is changed whenever a claim is created, edited or removed.
- * <p>
+ * <p/>
  * The most important methods used are:
  * <ul>
  * <li> addClaim(claim), which is used to store a new claim into the list
@@ -27,9 +27,9 @@ import java.util.List;
  * </ul>
  * This model is used when populating the {@link com.cmput301.cs.project.activities.ClaimListActivity ClaimListActivity}, {@link com.cmput301.cs.project.activities.ClaimViewActivity ClaimViewActivity}, and {@link com.cmput301.cs.project.activities.ExpenseListActivity ExpenseListActivity}. <p>
  * It is used in the {@link com.cmput301.cs.project.controllers.ClaimListController ClaimListController} to control this activities as well.
+ *
  * @author rozsa
  * @author jbenson
- *
  */
 
 public class ClaimsList {
@@ -45,7 +45,7 @@ public class ClaimsList {
     private final Context mContext;
 
     public static ClaimsList getInstance(Context context) {
-        if(instance == null){
+        if (instance == null) {
             instance = new ClaimsList(context);
         }
 
@@ -62,10 +62,10 @@ public class ClaimsList {
         mRemoteClaimSaves = new RemoteSaver<Claim>(CLAIM_ELASTIC_SEARCH_INDEX, type);
 
         mergeAllClaims();
-
     }
+
     /**
-     * 
+     *
      */
     private void mergeAllClaims() {
         List<Claim> claims = new ArrayList<Claim>();
@@ -79,28 +79,24 @@ public class ClaimsList {
         try {
             remoteClaims = mRemoteClaimSaves.readAll();
         } catch (IOException ex) {
-            Toast.makeText(mContext, "Failed to connect to server. In Local mode.", Toast.LENGTH_LONG);
+            Toast.makeText(mContext, "Failed to connect to server. In Local mode.", Toast.LENGTH_LONG).show();
         }
 
-        List<Claim> localClaims = mClaimSaves.readAllClaims();
-
-        for (Iterator<Claim> it = localClaims.iterator(); it.hasNext(); ) {
-            Claim next =  it.next();
-
+        for (Claim next : mClaimSaves.readAllClaims()) {
             Claim rem = null;
             for (Claim remoteClaim : remoteClaims) {
-                if(remoteClaim.getId().equals(next.getId())){
+                if (remoteClaim.getId().equals(next.getId())) {
                     rem = remoteClaim;
                 }
             }
 
-            if(rem == null) {
+            if (rem == null) {
                 claims.add(next);
             } else {
 
                 remoteClaims.remove(rem);
 
-                if(rem.getModified() > next.getModified()){
+                if (rem.getModified() > next.getModified()) {
                     claims.add(rem);
                 } else {
                     claims.add(next);
@@ -124,34 +120,38 @@ public class ClaimsList {
 
         serialize();
     }
-    
+
     public void deleteClaim(Claim claim) {
-        Iterator<Claim> iterator = mClaims.iterator();
-        while (iterator.hasNext()) {
+        for (Iterator<Claim> iterator = mClaims.iterator(); iterator.hasNext(); ) {
             Claim current = iterator.next();
             if (current.getId().equals(claim.getId())) {
                 iterator.remove();
+                break;
             }
         }
 
         serialize();
     }
-    
-    public void editClaim(Claim oldClaim, Claim newClaim) {
 
-        Iterator<Claim> iterator = mClaims.iterator();
-        while (iterator.hasNext()) {
-            Claim current = iterator.next();
-            if (current.getId().equals(oldClaim.getId())) {
-                iterator.remove();
+    /**
+     * Update the claim with the ID of the {@code newClaim}.
+     * The old claim with the same id will be removed, and the {@code newClaim} will be added at the same location in the list.
+     *
+     * @param newClaim
+     */
+    public void editClaim(Claim newClaim) {
+        for (int i = 0, mClaimsSize = mClaims.size(); i < mClaimsSize; i++) {
+            final Claim claim = mClaims.get(i);
+            if (claim.getId().equals(newClaim.getId())) {
+                mClaims.remove(i);
+                mClaims.add(i, newClaim);
+                break;
             }
         }
 
-        mClaims.add(newClaim);
-
         serialize();
     }
-    
+
     private void serialize() {
         mClaimSaves.saveAllClaims(mClaims);
 
@@ -159,7 +159,7 @@ public class ClaimsList {
     }
 
     public List<Claim> peekClaims() {
-        return mClaims;
+        return new ArrayList<Claim>(mClaims);
     }
 
     public Claim getClaimById(String id) {

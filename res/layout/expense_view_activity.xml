@@ -80,12 +80,10 @@
 
         <TextView
             android:id="@+id/completed"
+            style="?android:buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/small_padding"
-            android:layout_marginEnd="@dimen/small_padding"
-            android:layout_marginBottom="@dimen/small_padding"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+            android:layout_marginBottom="@dimen/small_padding"/>
 
         <TextView
             style="?android:listSeparatorTextViewStyle"
@@ -101,6 +99,20 @@
             android:layout_marginStart="@dimen/small_padding"
             android:layout_marginEnd="@dimen/small_padding"/>
 
+        <TextView
+            style="?android:listSeparatorTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/location"/>
+
+        <Button
+            android:id="@+id/location"
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/small_padding"
+            android:hint="@string/empty_location"
+            />
 
     </LinearLayout>
 </ScrollView>

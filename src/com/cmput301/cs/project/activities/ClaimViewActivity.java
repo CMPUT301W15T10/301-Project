@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -136,7 +135,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     final Claim newClaim = mClaim.edit().submitClaim().build();
-                                    mClaimList.editClaim(mClaim, newClaim);
+                                    mClaimList.editClaim(newClaim);
                                     finish();
                                 }
                             })
@@ -145,7 +144,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
                             .show();
                 } else {
                     final Claim newClaim = mClaim.edit().submitClaim().build();
-                    mClaimList.editClaim(mClaim, newClaim);
+                    mClaimList.editClaim(newClaim);
 
                     finish();
                 }
@@ -206,7 +205,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
             Claim claim = data.getParcelableExtra(App.KEY_CLAIM);
 
 
-            ClaimsList.getInstance(this).editClaim(mClaim, claim);
+            ClaimsList.getInstance(this).editClaim(claim);
 
             mClaim = claim;
 

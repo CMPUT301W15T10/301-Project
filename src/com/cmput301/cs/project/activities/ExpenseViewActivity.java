@@ -7,13 +7,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.models.Claim;
 import com.cmput301.cs.project.models.ClaimsList;
+import com.cmput301.cs.project.models.Destination;
 import com.cmput301.cs.project.models.Expense;
+import com.google.android.gms.maps.model.LatLng;
 import org.joda.money.Money;
 
 import java.text.DateFormat;
@@ -46,6 +49,7 @@ public class ExpenseViewActivity extends Activity {
     private TextView mDate;
     private TextView mCategory;
     private TextView mCompleted;
+    private TextView mLocation;
 
     private ImageView mReceipt;
 
@@ -55,19 +59,53 @@ public class ExpenseViewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.expense_view_activity);
 
+        initExpenseController();
+
+        mDateFormat = android.text.format.DateFormat.getMediumDateFormat(this);
+
         mDescription = (TextView) findViewById(R.id.description);
         mMoney = (TextView) findViewById(R.id.money);
         mDate = (TextView) findViewById(R.id.date);
         mCategory = (TextView) findViewById(R.id.category);
         mCompleted = (TextView) findViewById(R.id.completed);
-
         mReceipt = (ImageView) findViewById(R.id.receiptImage);
 
-        mDateFormat = android.text.format.DateFormat.getMediumDateFormat(this);
+        mLocation = (TextView) findViewById(R.id.location);
 
-        initExpenseController();
+        final Destination destination = mExpense.getDestination();
+        if (destination != null) {
+            final LatLng latLng = destination.getLocation();
+            if (latLng != null) {
+                mLocation.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final Uri uri = getUriForDestination(destination);
+                        startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                    }
+                });
+            }
+        }
 
         updateUi();
+    }
+
+    // Apr 6, 2015 https://developers.google.com/maps/documentation/android/intents
+    private static Uri getUriForDestination(Destination destination) {
+        final StringBuilder builder = new StringBuilder("geo:0,0?q=");
+        final LatLng latLng = destination.getLocation();
+        final String name = destination.getName();
+        if (latLng != null) {
+            builder.append(latLng.latitude)
+                    .append(",")
+                    .append(latLng.longitude);
+        }
+        if (name != null) {
+            builder.append("(")
+                    .append(name)
+                    .append(")");
+        }
+        // format: geo:0,0?q=latitude,longitude(label)
+        return Uri.parse(builder.toString());
     }
 
     private void initExpenseController() {
@@ -96,6 +134,11 @@ public class ExpenseViewActivity extends Activity {
             mReceipt.setImageDrawable(drawable);
         } else {
             mReceipt.setImageDrawable(null);
+        }
+
+        final Destination destination = mExpense.getDestination();
+        if (destination != null) {
+            mLocation.setText(destination.getName());
         }
     }
 
@@ -140,7 +183,7 @@ public class ExpenseViewActivity extends Activity {
         final ClaimsList claimsList = ClaimsList.getInstance(this);
         final Claim newClaim = mClaim.edit().putExpense(mExpense).build();
 
-        claimsList.editClaim(mClaim, newClaim);
+        claimsList.editClaim(newClaim);
 
         mClaim = newClaim;
     }

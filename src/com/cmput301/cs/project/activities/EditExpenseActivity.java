@@ -14,6 +14,7 @@ import android.widget.*;
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.TextWatcherAdapter;
+import com.cmput301.cs.project.models.Destination;
 import com.cmput301.cs.project.models.Expense;
 import com.cmput301.cs.project.models.Receipt;
 import com.cmput301.cs.project.utils.Utils;
@@ -22,7 +23,6 @@ import org.joda.money.Money;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.net.URI;
 import java.text.DateFormat;
 import java.util.ArrayList;
 
@@ -32,7 +32,7 @@ import java.util.ArrayList;
  * within {@link com.cmput301.cs.project.activities.ExpenseListActivity ExpenseListActivity}.<p>
  * Allows the user to add a Description, Category, Date, Money (with type), Receipt and select completeness which is stored
  * within that particular {@link com.cmput301.cs.project.models.Expense Expense}.
- * <p>
+ * <p/>
  * The editted expense is passed back using setResult
  *
  * @author rozsa
@@ -41,6 +41,7 @@ import java.util.ArrayList;
 public class EditExpenseActivity extends Activity {
     private static final int REQ_CODE_PICK_DATE = 1;
     private static final int REQ_CODE_RECEIPT = 2;
+    private static final int REQ_CODE_LOCATION = 3;
 
     private Expense.Builder mBuilder;
 
@@ -57,6 +58,8 @@ public class EditExpenseActivity extends Activity {
 
     private ImageButton mReceipt;
     private Button mDeleteReceipt;
+
+    private Button mLocationButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +95,9 @@ public class EditExpenseActivity extends Activity {
         Expense expense = getIntent().getParcelableExtra(App.KEY_EXPENSE);
         if (expense == null)
             mBuilder = new Expense.Builder();
-        else
+        else {
             mBuilder = expense.edit();
+        }
     }
 
     /*
@@ -192,6 +196,16 @@ public class EditExpenseActivity extends Activity {
                 deleteReceipt();
             }
         });
+
+        mLocationButton = (Button) findViewById(R.id.location_btn);
+        mLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(EditExpenseActivity.this, MapActivity.class)
+                        .putExtra(MapActivity.KEY_DESTINATION,
+                                mBuilder.getDestination()), REQ_CODE_LOCATION);
+            }
+        });
     }
 
     private Uri getReceiptUri() {
@@ -242,6 +256,12 @@ public class EditExpenseActivity extends Activity {
                 updateUI();
                 break;
 
+            case REQ_CODE_LOCATION:
+                final Destination destination = data.getParcelableExtra(MapActivity.KEY_DESTINATION);
+                mBuilder.destination(destination);
+                updateUI();
+                break;
+
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
@@ -280,6 +300,11 @@ public class EditExpenseActivity extends Activity {
             mReceipt.setImageDrawable(getResources().getDrawable(android.R.drawable.gallery_thumb));
 
             mDeleteReceipt.setEnabled(false);
+        }
+
+        final Destination destination = mBuilder.getDestination();
+        if (destination != null) {
+            mLocationButton.setText(destination.getName());
         }
     }
 

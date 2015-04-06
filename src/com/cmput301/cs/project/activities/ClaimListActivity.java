@@ -98,6 +98,9 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
         mClaimantAdapter = new ClaimsClaimantAdapter(this, mClaimListController.getClaimantClaims());
         mClaimantAdapter.updateFilter(mWantedTags);
 
+        mClaimantAdapter.sort(Claim.START_ASCENDING);
+        mApproverAdapter.sort(Claim.START_DESCENDING);
+
         if (showClaimantList()) {
             setListAdapter(mClaimantAdapter);
         } else {

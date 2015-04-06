@@ -57,7 +57,9 @@ public class ClaimsList {
         mergeAllClaims();
 
     }
-
+    /**
+     * 
+     */
     private void mergeAllClaims() {
         List<Claim> claims = new ArrayList<Claim>();
         List<Claim> remoteClaims = new ArrayList<Claim>();

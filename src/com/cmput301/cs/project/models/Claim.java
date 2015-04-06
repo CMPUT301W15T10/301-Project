@@ -28,7 +28,12 @@ import java.util.*;
 /**
  * Class that contains a set of implements Parcelable {@link com.cmput301.cs.project.models.Expense Expenses}, and details of a trip. <p>
  * This is an immutable class. <p>
- * See {@link com.cmput301.cs.project.models.Claim.Builder Claim.Builder} on how to obtain an instance.
+ * See {@link com.cmput301.cs.project.models.Claim.Builder Claim.Builder} on how to obtain an instance.<p>
+ * Claims are the main component of this app and therefore there are references to it in most other areas of the app. The most common uses of the Claim class are:
+ * <ul>
+ * <li>Creating a new Claim (uses the builder)- 
+ * <li>
+ * </ul>
  */
 // Effective Java Item 15, 17
 public final class Claim implements Comparable<Claim>, Parcelable {

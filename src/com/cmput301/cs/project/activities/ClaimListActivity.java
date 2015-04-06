@@ -2,6 +2,7 @@ package com.cmput301.cs.project.activities;
 
 
 import android.app.ActionBar;
+import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -17,10 +18,14 @@ import com.cmput301.cs.project.adapters.ClaimsAdapter;
 import com.cmput301.cs.project.controllers.ClaimListController;
 import com.cmput301.cs.project.controllers.TagsChangedListener;
 import com.cmput301.cs.project.controllers.TagsManager;
+import com.cmput301.cs.project.dialogs.TagSelectorDialogFragment;
+import com.cmput301.cs.project.listeners.TagSelectorListener;
 import com.cmput301.cs.project.models.Claim;
 import com.cmput301.cs.project.models.ClaimsList;
 import com.cmput301.cs.project.models.Tag;
 import com.cmput301.cs.project.models.User;
+
+import java.util.ArrayList;
 
 /**
  * Is the activity that launches at start of app. <p>
@@ -30,21 +35,22 @@ import com.cmput301.cs.project.models.User;
  * and for the {@link com.cmput301.cs.project.activities.TagManagerActivity TagManagerActivity}. <p>
  * If a claim item is clicked {@link com.cmput301.cs.project.activities.ClaimViewActivity ClaimViewActivity} is called for that claim. <p>
  * Finally there are tabs at the top of the activity that allow the user to switch between approver and claimant. Claimant shows only claims
- * for the current user and Approver shows a list of the claims for every user EXCEPT the current user. 
- * <p>
+ * for the current user and Approver shows a list of the claims for every user EXCEPT the current user.
+ * <p/>
  * If a tag is renamed or deleted the onTagRename and onTagResume methods, respectively, will reload the list of claims.
- * 
  *
  * @author rozsa
  * @author jbenson
  */
 
-public class ClaimListActivity extends ListActivity implements TagsChangedListener {
+public class ClaimListActivity extends ListActivity implements TagsChangedListener, TagSelectorListener {
 
     private static final int POSITION_CLAIMANT = 0;
     private static final int POSITION_APPROVER = 1;
     private static final int NEW_CLAIM = 0;
     private static final int VIEW_CLAIM = 1;
+
+    private ArrayList<Tag> mWantedTags;
 
     private ClaimListController mClaimListController;
     private ClaimsAdapter mApproverAdapter;
@@ -62,6 +68,7 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
             finish();
         }
 
+        mWantedTags = new ArrayList<Tag>();
         mClaimListController = new ClaimListController(user, ClaimsList.getInstance(this));
 
         setupListView();
@@ -79,6 +86,8 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
 
         mClaimantAdapter.sort(Claim.START_ASCENDING);
         mApproverAdapter.sort(Claim.START_DESCENDING);
+
+        mClaimantAdapter.updateFilter(mWantedTags);
     }
 
     @Override
@@ -161,9 +170,18 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
             case R.id.add:
                 startActivityForResult(new Intent(this, EditClaimActivity.class), NEW_CLAIM);
                 return true;
+            case R.id.filter:
+                startTagSelector();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void startTagSelector() {
+        ArrayList<Tag> allTags = new ArrayList<Tag>(TagsManager.get(this).peekTags());
+        DialogFragment fragment = TagSelectorDialogFragment.newInstance(allTags, mWantedTags);
+        fragment.show(getFragmentManager(), "dialog");
     }
 
     @Override
@@ -185,15 +203,34 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
     @Override
     public void onTagRenamed(Tag tag, Tag oldName) {
         setupListView();
+
+        if (mWantedTags.contains(oldName)) {
+            mWantedTags.remove(tag);
+            mWantedTags.add(tag);
+
+            mClaimantAdapter.updateFilter(mWantedTags);
+        }
     }
 
     @Override
     public void onTagDeleted(Tag tag) {
         setupListView();
+
+        if (mWantedTags.contains(tag)) {
+            mWantedTags.remove(tag);
+
+            mClaimantAdapter.updateFilter(mWantedTags);
+        }
     }
 
     @Override
     public void onTagCreated(Tag tag) {
         // do nothing
+    }
+
+    @Override
+    public void wantedTagsChanged(ArrayList<Tag> newWantedTags) {
+        mWantedTags = newWantedTags;
+        mClaimantAdapter.updateFilter(mWantedTags);
     }
 }

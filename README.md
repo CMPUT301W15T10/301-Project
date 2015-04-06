@@ -31,6 +31,8 @@ Reference
 -------
 - https://android.googlesource.com/platform/developers/samples/android/+/master/ui/actionbar/DoneBar
 
+The filter icon we used is from https://www.iconfinder.com/icons/37571/filter_icon#size=48
+
 License
 -------
 Copyright 2015  

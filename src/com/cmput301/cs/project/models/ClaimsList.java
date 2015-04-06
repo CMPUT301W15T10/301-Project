@@ -4,13 +4,14 @@ import android.content.Context;
 import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Toast;
+import com.cmput301.cs.project.elasticsearch.SearchResponse;
 import com.cmput301.cs.project.utils.LocalClaimSaver;
-import com.cmput301.cs.project.utils.RemoteClaimSaver;
+import com.cmput301.cs.project.utils.RemoteSaver;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
-import java.math.BigDecimal;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -35,11 +36,12 @@ public class ClaimsList {
 
 
     private static final String LOG_TAG = "ClaimsList";
+    private static final String CLAIM_ELASTIC_SEARCH_INDEX = "claims";
     private List<Claim> mClaims = new ArrayList<Claim>();
 
     private static ClaimsList instance;
     private final LocalClaimSaver mClaimSaves;
-    private final RemoteClaimSaver mRemoteClaimSaves;
+    private final RemoteSaver<Claim> mRemoteClaimSaves;
     private final Context mContext;
 
     public static ClaimsList getInstance(Context context) {
@@ -54,7 +56,10 @@ public class ClaimsList {
         mContext = context;
 
         mClaimSaves = LocalClaimSaver.ofAndroid(context);
-        mRemoteClaimSaves = RemoteClaimSaver.ofAndroid(context);
+
+        Type type = new TypeToken<SearchResponse<Claim>>() {}.getType();
+
+        mRemoteClaimSaves = new RemoteSaver<Claim>(CLAIM_ELASTIC_SEARCH_INDEX, type);
 
         mergeAllClaims();
 
@@ -72,7 +77,7 @@ public class ClaimsList {
         StrictMode.setThreadPolicy(policy);
 
         try {
-            remoteClaims = mRemoteClaimSaves.readAllClaims();
+            remoteClaims = mRemoteClaimSaves.readAll();
         } catch (IOException ex) {
             Toast.makeText(mContext, "Failed to connect to server. In Local mode.", Toast.LENGTH_LONG);
         }
@@ -106,7 +111,7 @@ public class ClaimsList {
         claims.addAll(remoteClaims);
 
         try {
-            mRemoteClaimSaves.saveAllClaims(claims);
+            mRemoteClaimSaves.saveAll(claims);
         } catch (IOException e) {
             Log.d(LOG_TAG, "Failed to save claims remotely.");
         }

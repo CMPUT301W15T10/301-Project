@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
+import com.cmput301.cs.project.controllers.LoginController;
 import com.cmput301.cs.project.models.User;
 
 /**
@@ -18,21 +19,26 @@ import com.cmput301.cs.project.models.User;
  */
 
 public class LoginActivity extends Activity {
+    private LoginController loginController;
+    private EditText mName;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+
+        loginController = new LoginController(this);
+
+        mName = (EditText) findViewById(R.id.name);
     }
 
     public void login(View view) {
-        EditText nameEditText = (EditText) findViewById(R.id.name);
-        String name = nameEditText.getText().toString();
+        String name = mName.getText().toString();
 
         if(name.isEmpty()) {
-            nameEditText.setError("Name must not be empty");
+            mName.setError("Name must not be empty");
         } else {
-            User user = new User(name);
-            App.get(this).createUser(user);
+            loginController.attemptLogin(name);
 
             startActivity(new Intent(this, ClaimListActivity.class));
 

@@ -18,5 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/login"
-            android:id="@+id/login" android:layout_gravity="center_horizontal" android:onClick="login"/>
+            android:id="@+id/login"
+            android:layout_gravity="center_horizontal"
+            android:onClick="login"/>
 </LinearLayout>

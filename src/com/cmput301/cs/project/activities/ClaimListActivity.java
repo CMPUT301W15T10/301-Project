@@ -7,11 +7,13 @@ import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.ClaimsAdapter;
@@ -180,8 +182,13 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
 
     private void startTagSelector() {
         ArrayList<Tag> allTags = new ArrayList<Tag>(TagsManager.get(this).peekTags());
-        DialogFragment fragment = TagSelectorDialogFragment.newInstance(allTags, mWantedTags);
-        fragment.show(getFragmentManager(), "dialog");
+        if (allTags.size() > 0) {
+            Log.e("ClaimList", "Size: " + mWantedTags.size());
+            DialogFragment fragment = TagSelectorDialogFragment.newInstance(allTags, mWantedTags);
+            fragment.show(getFragmentManager(), "dialog");
+        } else {
+            Toast.makeText(this, "There are no tags to filter using", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

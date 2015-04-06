@@ -68,7 +68,8 @@
     <string name="name">Name</string>
     <string name="login">Login</string>
     <string name="tag_hint">Name your tag here</string>
-    <string name="destination_hint">Tap to choose a destination…</string>
+    <string name="location_hint">Tap to choose a location…</string>
+    <string name="custom_location">Point on map</string>
 
     <string-array name="currencies">
         <item>CAD</item>
@@ -118,6 +119,7 @@
     <string name="description">Description</string>
     <string name="money">Cost</string>
     <string name="receipt">Receipt</string>
+    <string name="location">Location</string>
 
 
     <string name="title_activity_edit_expense">EditExpenseActivity</string>
@@ -141,5 +143,6 @@
     <string name="clear">Clear</string>
     <string name="filter">Filter</string>
     <string name="filter_by_tag">Filter By Tag</string>
+    <string name="empty_location">No location</string>
 
 </resources>

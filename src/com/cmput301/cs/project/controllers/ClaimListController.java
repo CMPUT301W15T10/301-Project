@@ -63,7 +63,7 @@ public class ClaimListController implements TagsChangedListener {
         for (Claim claim : mClaimsList.peekClaims()) {
             if (claim.peekTags().contains(oldTag)) {
                 final Claim edited = claim.edit().removeTag(oldTag).addTag(tag).build();
-                mClaimsList.editClaim(claim, edited);
+                mClaimsList.editClaim(edited);
             }
         }
     }
@@ -73,7 +73,7 @@ public class ClaimListController implements TagsChangedListener {
         for (Claim claim : mClaimsList.peekClaims()) {
             if (claim.peekTags().contains(tag)) {
                 final Claim edited = claim.edit().removeTag(tag).build();
-                mClaimsList.editClaim(claim, edited);
+                mClaimsList.editClaim(edited);
             }
         }
     }

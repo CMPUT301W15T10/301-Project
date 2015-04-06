@@ -119,21 +119,28 @@ public class ClaimsList {
             Claim current = iterator.next();
             if (current.getId().equals(claim.getId())) {
                 iterator.remove();
+                break;
             }
         }
 
         serialize();
     }
 
-    public void editClaim(Claim oldClaim, Claim newClaim) {
-        for (final Iterator<Claim> iterator = mClaims.iterator(); iterator.hasNext(); ) {
-            Claim current = iterator.next();
-            if (current.getId().equals(oldClaim.getId())) {
-                iterator.remove();
+    /**
+     * Update the claim with the ID of the {@code newClaim}.
+     * The old claim with the same id will be removed, and the {@code newClaim} will be added at the same location in the list.
+     *
+     * @param newClaim
+     */
+    public void editClaim(Claim newClaim) {
+        for (int i = 0, mClaimsSize = mClaims.size(); i < mClaimsSize; i++) {
+            final Claim claim = mClaims.get(i);
+            if (claim.getId().equals(newClaim.getId())) {
+                mClaims.remove(i);
+                mClaims.add(i, newClaim);
+                break;
             }
         }
-
-        mClaims.add(newClaim);
 
         serialize();
     }

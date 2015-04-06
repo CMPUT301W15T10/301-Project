@@ -43,8 +43,7 @@ import java.util.List;
 // From http://stackoverflow.com/questions/5780289/filtering-listview-with-custom-object-adapter April 5, 2015
 // and http://www.survivingwithandroid.com/2012/10/android-listview-custom-filter-and.html April 5, 2015
 // (Used some ideas from both)
-public final class ClaimsAdapter extends ArrayAdapter<Claim> implements Filterable {
-
+public final class ClaimsClaimantAdapter extends ArrayAdapter<Claim> implements Filterable {
 
     private static final class ViewHolder {
         private final TextView status;
@@ -71,11 +70,11 @@ public final class ClaimsAdapter extends ArrayAdapter<Claim> implements Filterab
     private final List<Claim> mUnfilteredClaims;
     private List<Claim> mFilteredClaims;
 
-    public ClaimsAdapter(Context context, List<Claim> claims) {
-        super(context, R.layout.claim_list_item, claims);
+    public ClaimsClaimantAdapter(Context context, List<Claim> claims) {
+        super(context, R.layout.claim_list_claimant_item, claims);
 
         mInflater = LayoutInflater.from(context);
-        mDateFormat = android.text.format.DateFormat.getMediumDateFormat(context);  // with respec to user settings
+        mDateFormat = android.text.format.DateFormat.getMediumDateFormat(context);  // with respect to user settings
 
         mFilter = new ClaimsFilter();
 
@@ -87,7 +86,7 @@ public final class ClaimsAdapter extends ArrayAdapter<Claim> implements Filterab
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.claim_list_item, parent, false);
+            convertView = mInflater.inflate(R.layout.claim_list_claimant_item, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
@@ -170,7 +169,7 @@ public final class ClaimsAdapter extends ArrayAdapter<Claim> implements Filterab
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             mFilteredClaims = (List<Claim>) results.values;
-            ClaimsAdapter.this.notifyDataSetChanged();
+            ClaimsClaimantAdapter.this.notifyDataSetChanged();
         }
 
         public void setWantedTags(List<Tag> wantedTags) {

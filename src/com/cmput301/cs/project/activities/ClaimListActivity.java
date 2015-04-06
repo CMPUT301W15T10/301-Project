@@ -15,7 +15,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
-import com.cmput301.cs.project.adapters.ClaimsAdapter;
+import com.cmput301.cs.project.adapters.ClaimsApproverAdapter;
+import com.cmput301.cs.project.adapters.ClaimsClaimantAdapter;
 import com.cmput301.cs.project.controllers.ClaimListController;
 import com.cmput301.cs.project.controllers.TagsChangedListener;
 import com.cmput301.cs.project.controllers.TagsManager;
@@ -54,8 +55,8 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
     private ArrayList<Tag> mWantedTags;
 
     private ClaimListController mClaimListController;
-    private ClaimsAdapter mApproverAdapter;
-    private ClaimsAdapter mClaimantAdapter;
+    private ClaimsApproverAdapter mApproverAdapter;
+    private ClaimsClaimantAdapter mClaimantAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,15 +99,15 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
     }
 
     private void setupListView() {
-        mApproverAdapter = new ClaimsAdapter(this, mClaimListController.getApprovableClaims());
-        mClaimantAdapter = new ClaimsAdapter(this, mClaimListController.getClaimantClaims());
+        mApproverAdapter = new ClaimsApproverAdapter(this, mClaimListController.getApprovableClaims());
+        mClaimantAdapter = new ClaimsClaimantAdapter(this, mClaimListController.getClaimantClaims());
 
         setListAdapter(mClaimantAdapter);
     }
 
     @Override
     public void onListItemClick(ListView lv, View v, int position, long id) {
-        ClaimsAdapter adapter = (ClaimsAdapter) getListAdapter();
+        ClaimsClaimantAdapter adapter = (ClaimsClaimantAdapter) getListAdapter();
         Intent i = new Intent(this, ClaimViewActivity.class);
 
         i.putExtra(App.KEY_CLAIM, adapter.getItem(position));
@@ -199,11 +200,11 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
                 Claim claim = data.getExtras().getParcelable(App.KEY_CLAIM);
                 mClaimListController.addClaim(claim);
 
-                mClaimantAdapter = new ClaimsAdapter(this, mClaimListController.getClaimantClaims());
+                mClaimantAdapter = new ClaimsClaimantAdapter(this, mClaimListController.getClaimantClaims());
                 setListAdapter(mClaimantAdapter);
             }
         } else if (requestCode == VIEW_CLAIM) {
-            mClaimantAdapter = new ClaimsAdapter(this, mClaimListController.getClaimantClaims());
+            mClaimantAdapter = new ClaimsClaimantAdapter(this, mClaimListController.getClaimantClaims());
             setListAdapter(mClaimantAdapter);
         }
     }

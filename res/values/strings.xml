@@ -146,5 +146,8 @@
     <string name="empty_location">No location</string>
     <string name="home">Home</string>
     <string name="formated_home">Home (%1$s)</string>
+    <string name="no_currencies">No currencies entered</string>
+    <string name="no_tags">No tags entered</string>
+    <string name="no_destinations">No destinations entered</string>
 
 </resources>

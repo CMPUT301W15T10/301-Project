@@ -56,6 +56,11 @@ public final class Claim implements Comparable<Claim>, Saveable {
 
     private final User mClaimant;
     private final long mModified;
+    private boolean mDeleted;
+
+    public boolean isDeleted() {
+        return mDeleted;
+    }
 
     public User getClaimant() {
         return mClaimant;
@@ -205,6 +210,7 @@ public final class Claim implements Comparable<Claim>, Saveable {
         private long mEndTime = -1;
         private String mId = UUID.randomUUID().toString();
         private Status mStatus = Status.IN_PROGRESS;
+        private boolean mDeleted = false;
 
         /**
          * For Gson only. Use {@link #Builder(com.cmput301.cs.project.models.User)} instead.
@@ -240,6 +246,11 @@ public final class Claim implements Comparable<Claim>, Saveable {
             mComments.addAll(claim.peekComments());
             mClaimant = claim.getClaimant();
             mGsonToFill = false;
+        }
+
+        public Builder delete() {
+            mDeleted = true;
+            return this;
         }
 
         public List<Destination> getDestinations() {
@@ -542,6 +553,7 @@ public final class Claim implements Comparable<Claim>, Saveable {
         mComments = b.mComments;
         mClaimant = b.mClaimant;
         mModified = System.currentTimeMillis();
+        mDeleted = b.mDeleted;
     }
 
     /**

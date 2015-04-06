@@ -37,7 +37,7 @@ public class ClaimListController implements TagsChangedListener {
         List<Claim> approvableClaims = new ArrayList<Claim>();
 
         for(Claim claim : mClaimsList.peekClaims()){
-            if(claim.canApprove(mUser)){
+            if(claim.canApprove(mUser)  && !claim.isDeleted()){
                 approvableClaims.add(claim);
             }
         }
@@ -50,7 +50,7 @@ public class ClaimListController implements TagsChangedListener {
         List<Claim> claimantClaims = new ArrayList<Claim>();
 
         for(Claim claim : mClaimsList.peekClaims()){
-            if(claim.getClaimant().equals(mUser)) {
+            if(claim.getClaimant().equals(mUser) && !claim.isDeleted()) {
                 claimantClaims.add(claim);
             }
         }

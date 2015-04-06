@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.cmput301.cs.project.App;
@@ -83,13 +84,7 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
     public void onResume() {
         super.onResume();
 
-        mClaimantAdapter.notifyDataSetChanged();
-        mApproverAdapter.notifyDataSetChanged();
-
-        mClaimantAdapter.sort(Claim.START_ASCENDING);
-        mApproverAdapter.sort(Claim.START_DESCENDING);
-
-        mClaimantAdapter.updateFilter(mWantedTags);
+        setupListView();
     }
 
     @Override
@@ -101,13 +96,23 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
     private void setupListView() {
         mApproverAdapter = new ClaimsApproverAdapter(this, mClaimListController.getApprovableClaims());
         mClaimantAdapter = new ClaimsClaimantAdapter(this, mClaimListController.getClaimantClaims());
+        mClaimantAdapter.updateFilter(mWantedTags);
 
-        setListAdapter(mClaimantAdapter);
+        if (showClaimantList()) {
+            setListAdapter(mClaimantAdapter);
+        } else {
+            setListAdapter(mApproverAdapter);
+        }
+    }
+
+    private boolean showClaimantList() {
+        final ActionBar actionBar = getActionBar();
+        return actionBar == null || actionBar.getSelectedTab() == null || actionBar.getSelectedTab().getPosition() == POSITION_CLAIMANT;
     }
 
     @Override
     public void onListItemClick(ListView lv, View v, int position, long id) {
-        ClaimsClaimantAdapter adapter = (ClaimsClaimantAdapter) getListAdapter();
+        ArrayAdapter<Claim> adapter = (ArrayAdapter<Claim>) getListAdapter();
         Intent i = new Intent(this, ClaimViewActivity.class);
 
         i.putExtra(App.KEY_CLAIM, adapter.getItem(position));
@@ -189,7 +194,7 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
             DialogFragment fragment = TagSelectorDialogFragment.newInstance(allTags, mWantedTags);
             fragment.show(getFragmentManager(), "dialog");
         } else {
-            Toast.makeText(this, "There are no tags to filter using", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "There are no tags to filter", Toast.LENGTH_LONG).show();
         }
     }
 

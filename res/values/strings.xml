@@ -149,5 +149,6 @@
     <string name="no_currencies">No currencies entered</string>
     <string name="no_tags">No tags entered</string>
     <string name="no_destinations">No destinations entered</string>
+    <string name="no_previous_approvers">No previous approvers</string>
 
 </resources>

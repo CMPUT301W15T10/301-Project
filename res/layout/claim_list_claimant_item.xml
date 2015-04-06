@@ -41,11 +41,4 @@
             android:text="@string/destinations"
             android:id="@+id/destinations"
             android:hint="@string/no_destinations"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/editText"/>
 </LinearLayout>

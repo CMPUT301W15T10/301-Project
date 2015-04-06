@@ -7,7 +7,6 @@ import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -186,7 +185,6 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
     private void startTagSelector() {
         ArrayList<Tag> allTags = new ArrayList<Tag>(TagsManager.get(this).peekTags());
         if (allTags.size() > 0) {
-            Log.e("ClaimList", "Size: " + mWantedTags.size());
             DialogFragment fragment = TagSelectorDialogFragment.newInstance(allTags, mWantedTags);
             fragment.show(getFragmentManager(), "dialog");
         } else {

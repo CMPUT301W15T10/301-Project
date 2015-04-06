@@ -174,6 +174,9 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
             case R.id.filter:
                 startTagSelector();
                 return true;
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

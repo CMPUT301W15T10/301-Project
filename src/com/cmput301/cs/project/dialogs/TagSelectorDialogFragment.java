@@ -46,10 +46,10 @@ public class TagSelectorDialogFragment extends DialogFragment implements Compoun
 
         // Standard way to be able to communicate with the Activity
         // Prefer this to trying to cast when button is hit because this throws an error earlier
-        try {
+        if (activity instanceof TagSelectorListener) {
             mListener = (TagSelectorListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException("The activity " + activity.toString() + " must implement TagSelectorListener");
+        } else {
+            throw new IllegalStateException("The activity " + activity.toString() + " must implement TagSelectorListener");
         }
     }
 

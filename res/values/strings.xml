@@ -144,5 +144,7 @@
     <string name="filter">Filter</string>
     <string name="filter_by_tag">Filter By Tag</string>
     <string name="empty_location">No location</string>
+    <string name="home">Home</string>
+    <string name="formated_home">Home (%1$s)</string>
 
 </resources>

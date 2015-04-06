@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.PlaceAutocompleteAdapter;
+import com.cmput301.cs.project.controllers.SettingsController;
 import com.cmput301.cs.project.models.Destination;
 import com.cmput301.cs.project.utils.Utils;
 import com.google.android.gms.common.ConnectionResult;
@@ -49,15 +50,18 @@ public class MapActivity extends Activity
     private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
             new LatLng(-34.041458, 150.790100), new LatLng(-33.682247, 151.383362));
     private static final float ZOOM_PERCENTAGE = 0.8f;  // 80% zoom level
-
     private AutoCompleteTextView mAddressSearch;
 
     private Destination mOriginalDestination;
+
     private GoogleApiClient mGoogleApiClient;
     // Bool to track whether the app is already resolving an error
     private boolean mResolvingError = false;
     private GoogleMap mGoogleMap;
     private PlaceAutocompleteAdapter mAdapter;
+    private Destination mHome;
+
+    private final Destination.Builder mBuilder = new Destination.Builder();
 
     /**
      * Listener that handles selections from suggestions from the AutoCompleteTextView that
@@ -139,22 +143,52 @@ public class MapActivity extends Activity
         });
 
         mOriginalDestination = getIntent().getParcelableExtra(KEY_DESTINATION);
+
+        mHome = SettingsController.get(this).loadHomeAsDestination();
+        final LatLng location = mHome.getLocation();
+        final String name = mHome.getName();
+        if (location != null) {
+            final View view = findViewById(R.id.home_btn);
+            view.setVisibility(View.VISIBLE);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    animateMapTo(location);
+                    if (name == null) {
+                        setSearchTextWithoutAdapter(getString(R.string.home));
+                        updateLatLng(location);
+                    } else {
+                        updateWithNameAndLatLng(name, location);
+                    }
+                }
+            });
+        }
     }
 
     private void updateWithNameAndLatLng(CharSequence name, LatLng latLng) {
+        if (latLng == null) return;
         updateLatLng(latLng);
-        setSearchTextWithoutAdapter(name);
+        if (latLng.equals(mHome.getLocation())) {
+            setSearchTextWithoutAdapter(getString(R.string.formated_home, name));
+        } else {
+            setSearchTextWithoutAdapter(name);
+        }
         setResult(RESULT_OK, new Intent()
-                .putExtra(KEY_DESTINATION, new Destination.Builder()
+                .putExtra(KEY_DESTINATION, mBuilder
                         .name(name.toString())
-                        .location(latLng)
+//                        .location(latLng)  already set by updateLatLng(LatLng)
                         .build()));
     }
 
     private void updateLatLng(LatLng latLng) {
+        if (latLng == null) return;
         mGoogleMap.clear();
         mGoogleMap.addMarker(new MarkerOptions().position(latLng));
         animateMapTo(latLng);
+        setResult(RESULT_OK, new Intent()
+                .putExtra(KEY_DESTINATION, mBuilder
+                        .location(latLng)
+                        .build()));
     }
 
     private void setSearchTextWithoutAdapter(CharSequence charSequence) {
@@ -228,13 +262,8 @@ public class MapActivity extends Activity
         map.setOnCameraChangeListener(this);
         if (mOriginalDestination != null) {
             final String name = mOriginalDestination.getName();
-            if (name != null) {
-                setSearchTextWithoutAdapter(name);
-            }
             final LatLng location = mOriginalDestination.getLocation();
-            if (location != null) {
-                updateLatLng(location);
-            }
+            updateWithNameAndLatLng(name, location);
         } else {
             map.setOnMyLocationChangeListener(this);
         }

@@ -20,14 +20,13 @@ import com.cmput301.cs.project.models.Expense;
  * When the menu item is clicked, {@link com.cmput301.cs.project.activities.EditExpenseActivity EditExpenseActivity} is called to
  * generate a new expense.
  * <p/>
- * The claim which the expenses belong MUST be passed as an intent as App.KEY_CLAIM
+ * The claim which the expenses belong MUST be passed as an intent as App.KEY_CLAIM_ID
  *
  * @author rozsa
  */
 
 public class ExpenseListActivity extends ListActivity {
     private static final int VIEW_EXPENSE = 0;
-    private static final int NEW_EXPENSE = 1;
 
     private Claim mClaim;
 
@@ -37,11 +36,6 @@ public class ExpenseListActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.expense_list_activity);
-
-        mClaim = getIntent().getParcelableExtra(App.KEY_CLAIM);
-        if (mClaim == null) {
-            throw new IllegalStateException("Must have claim passed in using KEY_CLAIM");
-        }
     }
 
     @Override
@@ -49,7 +43,13 @@ public class ExpenseListActivity extends ListActivity {
         super.onResume();
 
         final ClaimsList claimsList = ClaimsList.getInstance(this);
-        mClaim = claimsList.getClaimById(mClaim.getId());
+
+        String claimId = getIntent().getStringExtra(App.KEY_CLAIM_ID);
+        if (claimId == null) {
+            throw new IllegalStateException("Must have claim id passed in using KEY_CLAIM_ID");
+        }
+
+        mClaim = claimsList.getClaimById(claimId);
 
         updateList();
     }
@@ -59,8 +59,8 @@ public class ExpenseListActivity extends ListActivity {
         Expense expenseSelected = mAdapter.getItem(position);
 
         Intent intent = new Intent(this, ExpenseViewActivity.class);
-        intent.putExtra(App.KEY_CLAIM, mClaim);
-        intent.putExtra(App.KEY_EXPENSE, expenseSelected);
+        intent.putExtra(App.KEY_CLAIM_ID, mClaim.getId());
+        intent.putExtra(App.KEY_EXPENSE_ID, expenseSelected.getId());
         startActivityForResult(intent, VIEW_EXPENSE);
     }
 
@@ -76,7 +76,8 @@ public class ExpenseListActivity extends ListActivity {
         int id = item.getItemId();
         if (id == R.id.add_expense) {
             Intent intent = new Intent(ExpenseListActivity.this, EditExpenseActivity.class);
-            startActivityForResult(intent, NEW_EXPENSE);
+            intent.putExtra(App.KEY_CLAIM_ID, mClaim.getId());
+            startActivity(intent);
 
             return true;
         }
@@ -87,28 +88,16 @@ public class ExpenseListActivity extends ListActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == App.RESULT_DELETE && requestCode == VIEW_EXPENSE) {
             deleteExpense(data);
-        } else if (resultCode == RESULT_OK && requestCode == NEW_EXPENSE) {
-            updateExpense(data);
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
-    private void updateExpense(Intent data) {
-        final ClaimsList claimsList = ClaimsList.getInstance(this);
-        final Expense newExpense = data.getParcelableExtra(App.KEY_EXPENSE);
-        final Claim newClaim = mClaim.edit().putExpense(newExpense).build();
-
-        claimsList.editClaim(newClaim);
-        mClaim = newClaim;
-
-        updateList();
-    }
-
     private void deleteExpense(Intent data) {
         final ClaimsList claimsList = ClaimsList.getInstance(this);
-        final Expense newExpense = data.getParcelableExtra(App.KEY_EXPENSE);
-        final Claim newClaim = mClaim.edit().removeExpense(newExpense).build();
+        final String expenseId = data.getStringExtra(App.KEY_EXPENSE_ID);
+        final Expense removedExpense = mClaim.getExpense(expenseId);
+        final Claim newClaim = mClaim.edit().removeExpense(removedExpense).build();
 
         claimsList.editClaim(newClaim);
         mClaim = newClaim;

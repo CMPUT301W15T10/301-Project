@@ -5,8 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Pair;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,9 +34,9 @@ import java.text.DateFormat;
  * A claim must be passed via an intent for this activity to work
  * The claim can be loaded out of the intent by using:
  * <pre>
- * getIntent().getExtras().getParcelable(App.KEY_CLAIM)
+ * getIntent().getExtras().getString(App.KEY_CLAIM_ID), which gives the claim id, then using ClaimList.getClaim(key)
  *</pre>
- *, where the KEY_CLAIM is the key assigned to the claim when it was put into the intent. <p>
+ *, where the KEY_CLAIM_ID is the key assigned to the claim when it was put into the intent. <p>
  *
  *The methods onTagDeleted and onTagRemoved ensure that the details of the tags attached to the claim are kept up to date. 
  *
@@ -46,8 +44,6 @@ import java.text.DateFormat;
  */
 
 public class ClaimViewActivity extends Activity implements TagsChangedListener {
-
-    private static final int EDIT_CLAIM = 0;
     private static final int ADD_RETURN_COMMENT = 1;
     private static final int ADD_APPROVE_COMMENT = 2;
     private Claim mClaim;
@@ -75,17 +71,30 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
         mClaimList = ClaimsList.getInstance(this);
         mUser = App.get(this).getUser();
 
-        mClaim = getIntent().getExtras().getParcelable(App.KEY_CLAIM);
-
         mDateFormat = android.text.format.DateFormat.getMediumDateFormat(this);
 
         findViewsByIds();
 
         initButtons();
 
-        update();
-
         TagsManager.get(this).addTagChangedListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        reloadClaim();
+        update();
+    }
+
+    private void reloadClaim() {
+        String claimId = getIntent().getStringExtra(App.KEY_CLAIM_ID);
+        if (claimId == null) {
+            throw new IllegalStateException("Must have claim id passed in using KEY_CLAIM_ID");
+        }
+
+        mClaim = mClaimList.getClaimById(claimId);
     }
 
     @Override
@@ -147,7 +156,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ClaimViewActivity.this, ExpenseListActivity.class);
-                intent.putExtra(App.KEY_CLAIM, mClaim);
+                intent.putExtra(App.KEY_CLAIM_ID, mClaim.getId());
                 startActivity(intent);
             }
         });
@@ -215,7 +224,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
             case R.id.editClaim:
 
                 if (mClaim.isEditable()) {
-                    startActivityForResult(EditClaimActivity.intentWithClaim(this, mClaim), EDIT_CLAIM);
+                    startActivity(EditClaimActivity.intentWithClaimId(this, mClaim.getId()));
                 } else {
                     Toast.makeText(this, "Claim can't be edited!", Toast.LENGTH_LONG).show();
                 }
@@ -228,13 +237,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && requestCode == EDIT_CLAIM) {
-            Claim claim = data.getParcelableExtra(App.KEY_CLAIM);
-
-            ClaimsList.getInstance(this).editClaim(claim);
-            mClaim = claim;
-            update();
-        } else if(resultCode == RESULT_OK && (requestCode == ADD_APPROVE_COMMENT || requestCode == ADD_RETURN_COMMENT)) {
+        if(resultCode == RESULT_OK && (requestCode == ADD_APPROVE_COMMENT || requestCode == ADD_RETURN_COMMENT)) {
             String commentText = data.getStringExtra(CommentActivity.COMMENT_TEXT);
 
             Comment comment = new Comment(commentText, mUser);

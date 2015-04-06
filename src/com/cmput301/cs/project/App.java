@@ -18,7 +18,6 @@ package com.cmput301.cs.project;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
 import com.cmput301.cs.project.models.User;
 
 
@@ -27,12 +26,8 @@ import com.cmput301.cs.project.models.User;
  * and miscellaneous tasks.
  */
 public final class App extends Application {
-
-    private static final String USER_PREFERENCES = "USER_PREFERENCES";
-    private static final String USER_ID = "USER_ID";
-    private static final String USER_NAME = "USER_NAME";
-    public static final String KEY_CLAIM = "key_claim";
-    public static final String KEY_EXPENSE = "key_expense";
+    public static final String KEY_CLAIM_ID = "key_claim";
+    public static final String KEY_EXPENSE_ID = "key_expense";
 
     public static final int RESULT_DELETE = 16;
     private User mUser;

@@ -32,7 +32,7 @@ import java.text.DateFormat;
  * Has a menu button that calls {@link com.cmput301.cs.project.activities.EditExpenseActivity EditExpenseActivity} for editing
  * on that expense.
  * <p/>
- * Expects to be given a claim using App.KEY_CLAIM and an expense using App.KEY_EXPENSE in its intent.
+ * Expects to be given a claim using App.KEY_CLAIM_ID and an expense using App.KEY_EXPENSE_ID in its intent.
  *
  * @author rozsa
  */
@@ -60,7 +60,7 @@ public class ExpenseViewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.expense_view_activity);
 
-        initExpenseController();
+        loadExpense();
 
         mDateFormat = android.text.format.DateFormat.getMediumDateFormat(this);
 
@@ -86,7 +86,13 @@ public class ExpenseViewActivity extends Activity {
                 });
             }
         }
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        loadExpense();
         updateUi();
     }
 
@@ -109,14 +115,28 @@ public class ExpenseViewActivity extends Activity {
         return Uri.parse(builder.toString());
     }
 
-    private void initExpenseController() {
-        mClaim = getIntent().getParcelableExtra(App.KEY_CLAIM);
-        mExpense = getIntent().getParcelableExtra(App.KEY_EXPENSE);
-        if (mExpense == null) {
+    private void loadExpense() {
+        ClaimsList claimList = ClaimsList.getInstance(this);
+
+        mClaim = claimList.getClaim(getClaimId());
+
+        mExpense = mClaim.getExpense(getExpenseId());
+    }
+
+    private String getClaimId() {
+        String claimId = getIntent().getStringExtra(App.KEY_CLAIM_ID);
+        if (claimId == null) {
             throw new IllegalStateException("Expected an Expense");
-        } else if (mClaim == null) {
-            throw new IllegalStateException("Expected a Claim");
         }
+        return claimId;
+    }
+
+    private String getExpenseId() {
+        String expenseId = getIntent().getStringExtra(App.KEY_EXPENSE_ID);
+        if (expenseId == null) {
+            throw new IllegalStateException("Expected an Expense ID");
+        }
+        return expenseId;
     }
 
     private void updateUi() {
@@ -158,36 +178,18 @@ public class ExpenseViewActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.delete) {
-            setResult(App.RESULT_DELETE, new Intent().putExtra(App.KEY_EXPENSE, mExpense));
+            setResult(App.RESULT_DELETE, new Intent().putExtra(App.KEY_EXPENSE_ID, mExpense.getId()));
             finish();
 
             return true;
         } else if (id == R.id.edit) {
             Intent intent = new Intent(this, EditExpenseActivity.class);
-            intent.putExtra(App.KEY_EXPENSE, mExpense);
-            startActivityForResult(intent, EDIT_EXPENSE);
+            intent.putExtra(App.KEY_CLAIM_ID, getClaimId());
+            intent.putExtra(App.KEY_EXPENSE_ID, mExpense.getId());
+            startActivity(intent);
 
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && requestCode == EDIT_EXPENSE) {
-            mExpense = data.getParcelableExtra(App.KEY_EXPENSE);
-
-            updateClaim();
-
-            updateUi();
-        }
-    }
-
-    private void updateClaim() {
-        final ClaimsList claimsList = ClaimsList.getInstance(this);
-        final Claim newClaim = mClaim.edit().putExpense(mExpense).build();
-
-        claimsList.editClaim(newClaim);
-
-        mClaim = newClaim;
     }
 }

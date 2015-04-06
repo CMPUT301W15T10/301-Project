@@ -1,14 +1,14 @@
 package com.cmput301.cs.project.utils;
 
-import android.content.Context;
 import android.util.Log;
 import com.cmput301.cs.project.elasticsearch.SearchResponse;
-import com.cmput301.cs.project.models.Claim;
 import com.cmput301.cs.project.models.Saveable;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.*;
+import java.io.IOError;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -16,13 +16,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RemoteSaver <T extends Saveable>{
+public class RemoteSaver<T extends Saveable> {
     private static final String ES_URL = "http://cmput301.softwareprocess.es:8080/cmput301w15t10/";
     private static final String LOG_TAG = "RemoteSaver";
     private final Type mType;
 
     private String mIndex;
-
 
 
     public RemoteSaver(String index, Type type) {
@@ -95,8 +94,6 @@ public class RemoteSaver <T extends Saveable>{
             SearchResponse<T> resp = gson.fromJson(in, mType);
 
             items = resp.getSources();
-
-
 
 
             if (items == null) {

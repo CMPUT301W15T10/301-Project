@@ -121,6 +121,16 @@ public class ClaimsList {
         serialize();
     }
 
+    public Claim getClaim(String claimId) {
+        for (Claim claim : mClaims) {
+            if (claim.getId().equals(claimId)) {
+                return claim;
+            }
+        }
+
+        return null;
+    }
+
     public void deleteClaim(Claim claim) {
         for (Iterator<Claim> iterator = mClaims.iterator(); iterator.hasNext(); ) {
             Claim current = iterator.next();

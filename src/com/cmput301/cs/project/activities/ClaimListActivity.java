@@ -50,8 +50,7 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
 
     private static final int POSITION_CLAIMANT = 0;
     private static final int POSITION_APPROVER = 1;
-    private static final int NEW_CLAIM = 0;
-    private static final int VIEW_CLAIM = 1;
+    private static final int VIEW_CLAIM = 0;
 
     private ArrayList<Tag> mWantedTags;
 
@@ -118,7 +117,7 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
         ArrayAdapter<Claim> adapter = (ArrayAdapter<Claim>) getListAdapter();
         Intent i = new Intent(this, ClaimViewActivity.class);
 
-        i.putExtra(App.KEY_CLAIM, adapter.getItem(position));
+        i.putExtra(App.KEY_CLAIM_ID, adapter.getItem(position).getId());
 
         startActivityForResult(i, VIEW_CLAIM);
     }
@@ -178,7 +177,7 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
                 startActivity(new Intent(this, TagManagerActivity.class));
                 return true;
             case R.id.add:
-                startActivityForResult(new Intent(this, EditClaimActivity.class), NEW_CLAIM);
+                startActivity(new Intent(this, EditClaimActivity.class));
                 return true;
             case R.id.filter:
                 startTagSelector();
@@ -203,15 +202,7 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == NEW_CLAIM) {
-            if (resultCode == RESULT_OK) {
-                Claim claim = data.getExtras().getParcelable(App.KEY_CLAIM);
-                mClaimListController.addClaim(claim);
-
-                mClaimantAdapter = new ClaimsClaimantAdapter(this, mClaimListController.getClaimantClaims());
-                setListAdapter(mClaimantAdapter);
-            }
-        } else if (requestCode == VIEW_CLAIM) {
+        if (requestCode == VIEW_CLAIM) {
             mClaimantAdapter = new ClaimsClaimantAdapter(this, mClaimListController.getClaimantClaims());
             setListAdapter(mClaimantAdapter);
         }

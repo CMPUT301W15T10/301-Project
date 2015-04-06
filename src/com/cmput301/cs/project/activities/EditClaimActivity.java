@@ -15,10 +15,7 @@ import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.DestinationAdapter;
 import com.cmput301.cs.project.controllers.TagsManager;
-import com.cmput301.cs.project.models.Claim;
-import com.cmput301.cs.project.models.Destination;
-import com.cmput301.cs.project.models.Expense;
-import com.cmput301.cs.project.models.Tag;
+import com.cmput301.cs.project.models.*;
 import com.cmput301.cs.project.utils.Utils;
 
 import java.text.DateFormat;
@@ -29,7 +26,7 @@ import java.util.SortedSet;
  * Able to add {@link com.cmput301.cs.project.models.Expense Expenses} and {@link com.cmput301.cs.project.models.Claim Destinations}
  * from this screen as well as {@literal StartDate} and {@literal EndDate}.
  * <p>
- * A claim must be passed via an intent as App.KEY_CLAIM.
+ * A claim must be passed via an intent as App.KEY_CLAIM_ID.
  * <p>
  * If there is no claim passed it is assumed that the activity is creating a new claim
  *
@@ -39,12 +36,10 @@ import java.util.SortedSet;
 public class EditClaimActivity extends Activity {
 
     private static final int REQ_CODE_CREATE_DESTINATION = 3;
-    private static final int REQ_NEW_EXPENSE = 4;
-    private static final int REQ_EDIT_EXPENSE = 5;
     private static final int REQ_CODE_EDIT_DESTINATION = 6;
 
-    public static Intent intentWithClaim(Context context, Claim claim) {
-        return new Intent(context, EditClaimActivity.class).putExtra(App.KEY_CLAIM, claim);
+    public static Intent intentWithClaimId(Context context, String claimId) {
+        return new Intent(context, EditClaimActivity.class).putExtra(App.KEY_CLAIM_ID, claimId);
     }
 
     private static final int REQ_CODE_PICK_START_DATE = 1;
@@ -200,13 +195,13 @@ public class EditClaimActivity extends Activity {
         Utils.setupDiscardDoneBar(this, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(RESULT_CANCELED);
                 finish();
             }
         }, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(RESULT_OK, new Intent().putExtra(App.KEY_CLAIM, mBuilder.build()));
+                ClaimsList claimList = ClaimsList.getInstance(EditClaimActivity.this);
+                claimList.editClaim(mBuilder.build());
                 finish();
             }
         });
@@ -214,11 +209,14 @@ public class EditClaimActivity extends Activity {
 
 
     private void initBuilder() {
-        final Claim claim = getIntent().getParcelableExtra(App.KEY_CLAIM);
-        if (claim == null) {
+        ClaimsList claimList = ClaimsList.getInstance(this);
+
+        String claimId = getIntent().getStringExtra(App.KEY_CLAIM_ID);
+
+        if (claimList.getClaimById(claimId) == null) {
             mBuilder = new Claim.Builder(App.get(this).getUser());
         } else {
-            mBuilder = claim.edit();
+            mBuilder = claimList.getClaimById(claimId).edit();
         }
     }
 
@@ -254,25 +252,7 @@ public class EditClaimActivity extends Activity {
                     update();
                 }
                 break;
-            case REQ_NEW_EXPENSE:
-                if (resultCode == RESULT_OK) {
-                    //TODO: bugged when editting
-                    Expense expense = data.getParcelableExtra(App.KEY_EXPENSE);
-                    mBuilder.putExpense(expense);
-                    update();
-                }
-                break;
 
-            case REQ_EDIT_EXPENSE:
-                if (resultCode == RESULT_OK) {
-                    //TODO: bugged when editting
-                    Expense expense = data.getParcelableExtra(App.KEY_EXPENSE);
-
-                    mBuilder.removeExpense(mEdittingExpense);
-                    mBuilder.putExpense(expense);
-                    update();
-                }
-                break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }

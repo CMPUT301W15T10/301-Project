@@ -15,9 +15,7 @@ import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.TextWatcherAdapter;
 import com.cmput301.cs.project.controllers.SettingsController;
-import com.cmput301.cs.project.models.Destination;
-import com.cmput301.cs.project.models.Expense;
-import com.cmput301.cs.project.models.Receipt;
+import com.cmput301.cs.project.models.*;
 import com.cmput301.cs.project.utils.Utils;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
@@ -44,7 +42,9 @@ public class EditExpenseActivity extends Activity {
     private static final int REQ_CODE_RECEIPT = 2;
     private static final int REQ_CODE_LOCATION = 3;
 
+    private Claim mClaim;
     private Expense.Builder mBuilder;
+    private ClaimsList mClaimList;
 
     private EditText mDescription;
     private EditText mAmount;
@@ -86,19 +86,28 @@ public class EditExpenseActivity extends Activity {
         }, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(RESULT_OK, new Intent().putExtra(App.KEY_EXPENSE, mBuilder.build()));
+                Claim changedClaim = mClaim.edit().putExpense(mBuilder.build()).build();
+                mClaimList.editClaim(changedClaim);
                 finish();
             }
         });
     }
 
     private void createBuilder() {
-        Expense expense = getIntent().getParcelableExtra(App.KEY_EXPENSE);
-        if (expense == null)
-            mBuilder = new Expense.Builder();
-        else {
-            mBuilder = expense.edit();
+        mClaimList = ClaimsList.getInstance(this);
+        String claimId = getIntent().getStringExtra(App.KEY_CLAIM_ID);
+        if (claimId == null) {
+            throw new IllegalStateException("Requires a Claim ID");
         }
+
+        mClaim = mClaimList.getClaim(claimId);
+
+        String expenseId = getIntent().getStringExtra(App.KEY_EXPENSE_ID);
+
+        if (mClaim.getExpense(expenseId) == null)
+            mBuilder = new Expense.Builder();
+        else
+            mBuilder = mClaim.getExpense(expenseId).edit();
     }
 
     /*

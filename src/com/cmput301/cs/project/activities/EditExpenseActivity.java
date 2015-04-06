@@ -14,6 +14,7 @@ import android.widget.*;
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.TextWatcherAdapter;
+import com.cmput301.cs.project.controllers.SettingsController;
 import com.cmput301.cs.project.models.Destination;
 import com.cmput301.cs.project.models.Expense;
 import com.cmput301.cs.project.models.Receipt;
@@ -304,7 +305,14 @@ public class EditExpenseActivity extends Activity {
 
         final Destination destination = mBuilder.getDestination();
         if (destination != null) {
-            mLocationButton.setText(destination.getName());
+            final String name = destination.getName();
+            if (name != null) {
+                if (SettingsController.get(this).isLocationHome(destination.getLocation())) {
+                    mLocationButton.setText(getString(R.string.formated_home, name));
+                } else {
+                    mLocationButton.setText(name);
+                }
+            }
         }
     }
 

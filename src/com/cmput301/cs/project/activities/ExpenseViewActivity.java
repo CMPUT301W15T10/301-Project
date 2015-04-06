@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
+import com.cmput301.cs.project.controllers.SettingsController;
 import com.cmput301.cs.project.models.Claim;
 import com.cmput301.cs.project.models.ClaimsList;
 import com.cmput301.cs.project.models.Destination;
@@ -138,7 +139,11 @@ public class ExpenseViewActivity extends Activity {
 
         final Destination destination = mExpense.getDestination();
         if (destination != null) {
-            mLocation.setText(destination.getName());
+            if (SettingsController.get(this).isLocationHome(destination.getLocation())) {
+                mLocation.setText(getString(R.string.formated_home, destination.getName()));
+            } else {
+                mLocation.setText(destination.getName());
+            }
         }
     }
 
@@ -152,9 +157,7 @@ public class ExpenseViewActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.delete) {
+        if (id == R.id.delete) {
             setResult(App.RESULT_DELETE, new Intent().putExtra(App.KEY_EXPENSE, mExpense));
             finish();
 

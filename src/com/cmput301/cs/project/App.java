@@ -35,6 +35,7 @@ public final class App extends Application {
     public static final String KEY_EXPENSE = "key_expense";
 
     public static final int RESULT_DELETE = 16;
+    private User mUser;
 
     public static App get(Context context) {
         return (App) context.getApplicationContext();
@@ -42,26 +43,11 @@ public final class App extends Application {
 
 
     public User getUser() {
-        SharedPreferences sharedPreferences = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE);
-        String userName = sharedPreferences.getString(USER_NAME, null);
-        String userId = sharedPreferences.getString(USER_ID, null);
-
-        if (userId == null || userName == null || userId.isEmpty() || userName.isEmpty()) {
-            return null;
-        }
-
-        return new User(userName, userId);
+       return mUser;
     }
 
-    public void createUser(User user) {
-        SharedPreferences sharedPreferences = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putString(USER_ID, user.getUserId().toString());
-        editor.putString(USER_NAME, user.getUserName());
-
-        editor.apply();
-
+    public void setUser(User user) {
+        this.mUser = user;
     }
 }
 

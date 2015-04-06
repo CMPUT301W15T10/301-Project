@@ -36,7 +36,7 @@ import java.util.*;
  * </ul>
  */
 // Effective Java Item 15, 17
-public final class Claim implements Comparable<Claim>, Parcelable {
+public final class Claim implements Comparable<Claim>, Parcelable, Saveable {
 
     /**
      * The unspecified title.

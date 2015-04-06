@@ -35,13 +35,13 @@ public class UserTest extends TestCase {
 
     public void testGetUserId() throws Exception {
         User user = new User("name");
-        assertNotNull(user.getUserId());
+        assertNotNull(user.getId());
     }
 
     public void testGetUserIdUnique() throws Exception {
         User user1 = new User("name");
         User user2 = new User("name");
-        assertTrue(!user1.getUserId().equals(user2.getUserId()));
+        assertTrue(!user1.getId().equals(user2.getId()));
     }
 
     public void testConstructUserWithId() throws Exception {
@@ -49,7 +49,7 @@ public class UserTest extends TestCase {
         final String name = "name";
         final User user = new User(name, uuid.toString());
 
-        assertEquals(uuid, user.getUserId());
+        assertEquals(uuid, user.getId());
         assertEquals(name, user.getUserName());
 
     }

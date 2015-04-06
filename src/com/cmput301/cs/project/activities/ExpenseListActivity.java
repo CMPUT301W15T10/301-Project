@@ -74,9 +74,7 @@ public class ExpenseListActivity extends ListActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.add_expense) {
+        if (id == R.id.add_expense) {
             Intent intent = new Intent(ExpenseListActivity.this, EditExpenseActivity.class);
             startActivityForResult(intent, NEW_EXPENSE);
 

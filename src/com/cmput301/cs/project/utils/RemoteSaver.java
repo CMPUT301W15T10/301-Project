@@ -30,45 +30,51 @@ public class RemoteSaver <T extends Saveable>{
         mType = type;
     }
 
-    public void saveAll(List<T> items) throws IOException {
+    public void saveAll(final List<T> items) throws IOException {
 
-        //http://developer.android.com/reference/java/net/HttpURLConnection.html [blaine1 april 5 2015']
+        Thread thread = new Thread() {
 
+            protected List<T> mItems = items;
 
-        for (T item : items) {
-            try {
+            @Override
+            public void run() {
+                //http://developer.android.com/reference/java/net/HttpURLConnection.html [blaine1 april 5 2015]
 
-                URL url = new URL(ES_URL + mIndex + "/" + item.getId());
+                for (T item : mItems) {
+                    try {
 
-                Log.d(LOG_TAG, url.toString());
+                        URL url = new URL(ES_URL + mIndex + "/" + item.getId());
 
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setDoOutput(true);
+                        Log.d(LOG_TAG, url.toString());
 
-                Gson gson = new Gson();
-                OutputStreamWriter writer = new OutputStreamWriter(urlConnection.getOutputStream());
+                        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                        urlConnection.setDoOutput(true);
 
-                gson.toJson(item, writer);
+                        Gson gson = new Gson();
+                        OutputStreamWriter writer = new OutputStreamWriter(urlConnection.getOutputStream());
 
-                Log.d(LOG_TAG, gson.toJson(item));
+                        gson.toJson(item, writer);
 
-                writer.flush();
+                        Log.d(LOG_TAG, gson.toJson(item));
 
-                Log.d(LOG_TAG, urlConnection.getResponseMessage());
-                Log.d(LOG_TAG, urlConnection.getResponseCode() + "");
+                        writer.flush();
 
-                urlConnection.disconnect();
+                        Log.d(LOG_TAG, urlConnection.getResponseMessage());
+                        Log.d(LOG_TAG, urlConnection.getResponseCode() + "");
 
-            } catch (MalformedURLException e) {
-                Log.d(LOG_TAG, "MAL URL" + e.toString());
+                        urlConnection.disconnect();
 
-                throw new IOException();
-            } catch (IOException e) {
-                Log.d(LOG_TAG, "IO EXC: " + e.toString());
-                throw new IOException();
+                    } catch (MalformedURLException e) {
+                        Log.d(LOG_TAG, "MAL URL" + e.toString());
+                    } catch (IOException e) {
+                        Log.d(LOG_TAG, "IO EXC: " + e.toString());
+                    }
+                }
+
             }
-        }
+        };
 
+        thread.start();
 
     }
 
@@ -76,7 +82,7 @@ public class RemoteSaver <T extends Saveable>{
         List<T> items = new ArrayList<T>();
 
         try {
-            //http://developer.android.com/reference/java/net/HttpURLConnection.html [blaine1 april 5 2015']
+            //http://developer.android.com/reference/java/net/HttpURLConnection.html [blaine1 april 5 2015]
             URL url = new URL(ES_URL + mIndex + "/_search");
 
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();

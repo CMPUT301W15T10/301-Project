@@ -32,16 +32,8 @@ import java.util.List;
 
 public class ClaimsList {
 
-	// this must be deleted after elastic search is working. It is just a couple test claims for the approver.
-    private final List<Claim> defaultClaims = Collections.unmodifiableList(new ArrayList<Claim>() {{
-        add(new Claim.Builder(new User("jordan")).putDestination(new Destination.Builder("place", "reason").build()).build());
-        add(new Claim.Builder(new User("charles")).putDestination(new Destination.Builder("Paris", "love").build()).
-                startTime(System.currentTimeMillis() * 60).endTime(System.currentTimeMillis() * 60 + 1000000).
-                putExpense(new Expense.Builder().description("Hotel").amount(BigDecimal.TEN).build()).build());
 
-    }});
-
-    private List<Claim> mClaims;
+    private List<Claim> mClaims = new ArrayList<Claim>();
 
     private static ClaimsList instance;
     private final LocalClaimSaver mClaimSaves;
@@ -61,15 +53,13 @@ public class ClaimsList {
 
         mClaimSaves = LocalClaimSaver.ofAndroid(context);
         mRemoteClaimSaves = RemoteClaimSaver.ofAndroid(context);
-        
-        deserialize();
 
-    }
-
-    private void deserialize() {
         mergeAllClaims();
-    }
 
+    }
+    /**
+     * 
+     */
     private void mergeAllClaims() {
         List<Claim> claims = new ArrayList<Claim>();
         List<Claim> remoteClaims = new ArrayList<Claim>();
@@ -149,14 +139,12 @@ public class ClaimsList {
     }
     
     private void serialize() {
-        mClaims.removeAll(defaultClaims);
-        mergeAllClaims();
         mClaimSaves.saveAllClaims(mClaims);
-        mClaims.addAll(defaultClaims);
+
+        mergeAllClaims();
     }
 
     public List<Claim> peekClaims() {
-        deserialize();
         return mClaims;
     }
 

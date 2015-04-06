@@ -34,7 +34,7 @@ public class TagSelectorDialogFragment extends DialogFragment implements Compoun
 
         Bundle args = new Bundle();
         args.putParcelableArrayList(ALL_TAGS, allTags);
-        args.putParcelableArrayList(SELECTED_TAGS, currentlyWantedTags);
+        args.putParcelableArrayList(SELECTED_TAGS, new ArrayList<Tag>(currentlyWantedTags));
         f.setArguments(args);
 
         return f;
@@ -46,10 +46,10 @@ public class TagSelectorDialogFragment extends DialogFragment implements Compoun
 
         // Standard way to be able to communicate with the Activity
         // Prefer this to trying to cast when button is hit because this throws an error earlier
-        try {
+        if (activity instanceof TagSelectorListener) {
             mListener = (TagSelectorListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException("The activity " + activity.toString() + " must implement TagSelectorListener");
+        } else {
+            throw new IllegalStateException("The activity " + activity.toString() + " must implement TagSelectorListener");
         }
     }
 
@@ -73,11 +73,17 @@ public class TagSelectorDialogFragment extends DialogFragment implements Compoun
 
         tagsList.setAdapter(adapter);
 
-        // Set up the button
-        Button button = (Button) view.findViewById(R.id.filterButton);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button filterButton = (Button) view.findViewById(R.id.filterButton);
+        filterButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 mListener.wantedTagsChanged(mWantedTags);
+                dismiss();
+            }
+        });
+
+        Button cancelButton = (Button) view.findViewById(R.id.cancelButton);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 dismiss();
             }
         });

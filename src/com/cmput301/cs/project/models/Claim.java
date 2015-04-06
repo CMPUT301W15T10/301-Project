@@ -391,14 +391,15 @@ public final class Claim implements Comparable<Claim>, Parcelable, Saveable {
 
         private void changeStatus(Status status) {
             if ((mStatus == Status.IN_PROGRESS || mStatus == Status.RETURNED) && status != Status.SUBMITTED) {
-                throw new IllegalStateException("Statuses cannot be changed in such a way");
+                throw new IllegalStateException("Returned and in progress claims can only be submitted");
             }
-            if (mStatus == Status.SUBMITTED && status != Status.SUBMITTED || status != Status.APPROVED) {
-                throw new IllegalStateException("Statuses cannot be changed in such a way");
+            if ((mStatus == Status.SUBMITTED) && !(status == Status.APPROVED || status == Status.RETURNED)) {
+                throw new IllegalStateException("submitted claims can only returned or approved");
             }
             if (mStatus == Status.APPROVED) {
-                throw new IllegalStateException("Statuses cannot be changed in such a way");
+                throw new IllegalStateException("approved claims cannot be changed");
             }
+
 
             mStatus = status;
         }

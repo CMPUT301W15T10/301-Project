@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,9 +18,7 @@ import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.DestinationAdapter;
 import com.cmput301.cs.project.controllers.TagsChangedListener;
 import com.cmput301.cs.project.controllers.TagsManager;
-import com.cmput301.cs.project.models.Claim;
-import com.cmput301.cs.project.models.ClaimsList;
-import com.cmput301.cs.project.models.Tag;
+import com.cmput301.cs.project.models.*;
 import com.cmput301.cs.project.utils.Utils;
 
 import java.text.DateFormat;
@@ -48,9 +47,13 @@ import java.text.DateFormat;
 public class ClaimViewActivity extends Activity implements TagsChangedListener {
 
     private static final int EDIT_CLAIM = 0;
+    private static final int ADD_RETURN_COMMENT = 1;
+    private static final int ADD_APPROVE_COMMENT = 2;
     private Claim mClaim;
     private Button mExpenseButton;
     private Button mSubmitButton;
+    private Button mReturnButton;
+    private Button mApproveButton;
     private TextView mStartDate;
     private TextView mEndDate;
     private TextView mStatus;
@@ -61,6 +64,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
     private ClaimsList mClaimList;
     private ListView mDestinations;
     private MenuItem mEditMenuItem;
+    private User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
         setContentView(R.layout.claim_view_activity);
 
         mClaimList = ClaimsList.getInstance(this);
+        mUser = App.get(this).getUser();
 
         mClaim = getIntent().getExtras().getParcelable(App.KEY_CLAIM);
 
@@ -91,6 +96,9 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
     private void findViewsByIds() {
         mExpenseButton = (Button) findViewById(R.id.expenseButton);
         mSubmitButton = (Button) findViewById(R.id.submitButton);
+        mApproveButton = (Button) findViewById(R.id.approveButton);
+        mReturnButton = (Button) findViewById(R.id.returnButton);
+
         mStartDate = (TextView) findViewById(R.id.startDate);
         mEndDate = (TextView) findViewById(R.id.endDate);
         mStatus = (TextView) findViewById(R.id.statusText);
@@ -99,6 +107,8 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
         mTags.setHint(R.string.tags_view_hint);
         mCurrency = (TextView) findViewById(R.id.currencies);
         mCurrency.setHint(R.string.currencies_view_hint);
+
+
     }
 
     private void update() {
@@ -112,6 +122,22 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
         if (mEditMenuItem != null) {
             updateEditMenuItem();
             invalidateOptionsMenu();  // tell Android to draw
+        }
+
+        if((mClaim.getStatus() == Claim.Status.IN_PROGRESS ||  mClaim.getStatus() == Claim.Status.RETURNED) &&
+                mClaim.getClaimant().equals(mUser)) {
+            mSubmitButton.setVisibility(View.VISIBLE);
+            mReturnButton.setVisibility(View.GONE);
+            mApproveButton.setVisibility(View.GONE);
+        } else if(mClaim.getStatus() == Claim.Status.SUBMITTED &&
+                mClaim.canApprove(mUser)) {
+            mSubmitButton.setVisibility(View.GONE);
+            mReturnButton.setVisibility(View.VISIBLE);
+            mApproveButton.setVisibility(View.VISIBLE);
+        } else {
+            mSubmitButton.setVisibility(View.GONE);
+            mReturnButton.setVisibility(View.GONE);
+            mApproveButton.setVisibility(View.GONE);
         }
     }
 
@@ -204,12 +230,24 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
         if (resultCode == RESULT_OK && requestCode == EDIT_CLAIM) {
             Claim claim = data.getParcelableExtra(App.KEY_CLAIM);
 
-
             ClaimsList.getInstance(this).editClaim(claim);
-
             mClaim = claim;
-
             update();
+        } else if(resultCode == RESULT_OK && (requestCode == ADD_APPROVE_COMMENT || requestCode == ADD_RETURN_COMMENT)) {
+            String commentText = data.getStringExtra(CommentActivity.COMMENT_TEXT);
+
+            Comment comment = new Comment(commentText, mUser);
+
+            Claim newClaim;
+
+            if(requestCode == ADD_APPROVE_COMMENT) {
+                newClaim = mClaim.edit().approveClaim(mUser, comment).build();
+            } else {
+                newClaim = mClaim.edit().returnClaim(mUser, comment).build();
+            }
+
+            mClaimList.editClaim(newClaim);
+            finish();
         }
     }
 
@@ -228,4 +266,19 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
     public void onTagCreated(Tag tag) {
         // do nothing
     }
+
+    public void returnClaim(View view) {
+
+        Intent intent = new Intent(this, CommentActivity.class);
+
+        startActivityForResult(intent, ADD_RETURN_COMMENT);
+    }
+
+    public void approveClaim(View view) {
+        Intent intent = new Intent(this, CommentActivity.class);
+
+        startActivityForResult(intent, ADD_APPROVE_COMMENT);
+    }
 }
+
+

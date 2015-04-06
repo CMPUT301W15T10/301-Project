@@ -66,5 +66,7 @@
         <activity
             android:name=".activities.EditExpenseActivity"
             android:label="@string/title_activity_new_destination"/>
+        <activity android:name=".activities.CommentActivity"/>
+        <activity android:name=".activities.CommentActivity"/>
     </application>
 </manifest>

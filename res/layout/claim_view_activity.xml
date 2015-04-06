@@ -86,9 +86,21 @@
         android:text="@string/expenses_text"/>
 
     <Button
-        android:id="@+id/submitButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/submit_text"/>
+            android:id="@+id/submitButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/submit_text"/>
+    <Button
+            android:id="@+id/returnButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="returnClaim"
+            android:text="Return"/>
+    <Button
+            android:id="@+id/approveButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="approveClaim"
+            android:text="Approve"/>
 
 </LinearLayout>

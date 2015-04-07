@@ -39,8 +39,8 @@ public final class Expense implements Comparable<Expense> {
             return ((Long) lhs.getTimeOccurred()).compareTo(rhs.getTimeOccurred());
         }
     };
-
-
+    //We don't serialize so we can suppress these warnings
+    @SuppressWarnings("all")
     public static final Set<String> CATEGORIES = Collections.unmodifiableSet(new HashSet<String>() {{
         add("Accomodation");
         add("Air Fare");
@@ -52,7 +52,8 @@ public final class Expense implements Comparable<Expense> {
         add("Meal");
         add("Others");
     }});
-
+    //We don't serialize so we can suppress these warnings
+    @SuppressWarnings("all")
     public static final Set<CurrencyUnit> CURRENCIES = Collections.unmodifiableSet(new HashSet<CurrencyUnit>() {{
         add(CurrencyUnit.GBP);
         add(CurrencyUnit.CAD);

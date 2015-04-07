@@ -33,7 +33,7 @@ public class RemoteSaver<T extends Saveable> {
 
         Thread thread = new Thread() {
 
-            protected List<T> mItems = items;
+            protected List<T> mItems = new ArrayList<T>(items);
 
             @Override
             public void run() {

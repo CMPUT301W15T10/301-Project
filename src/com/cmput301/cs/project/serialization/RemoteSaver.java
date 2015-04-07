@@ -137,17 +137,17 @@ public class RemoteSaver<T extends Saveable> {
             urlConnection.disconnect();
         } catch (IOError e) {
             Log.d(LOG_TAG, "IO error " + e.toString());
-            throw new IOException();
+            throw new IOException(e);
 
         } catch (MalformedURLException e) {
             Log.d(LOG_TAG, "MAL URL  " + e.toString());
 
-            throw new IOException();
+            throw new IOException(e);
 
         } catch (IOException e) {
             Log.d(LOG_TAG, "IO EXC  " + e.toString());
 
-            throw new IOException();
+            throw new IOException(e);
         }
 
         return items;

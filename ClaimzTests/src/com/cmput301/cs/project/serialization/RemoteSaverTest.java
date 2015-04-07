@@ -15,17 +15,17 @@ package com.cmput301.cs.project.serialization;/*
  */
 
 
-import com.cmput301.cs.project.models.Claim;
-import com.cmput301.cs.project.models.User;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
-import com.cmput301.cs.project.serialization.elasticsearch.SearchHit;
-import com.google.gson.reflect.TypeToken;
 import junit.framework.TestCase;
+
+import com.cmput301.cs.project.models.Claim;
+import com.cmput301.cs.project.models.User;
+import com.cmput301.cs.project.serialization.elasticsearch.SearchResponse;
+import com.google.gson.reflect.TypeToken;
 
 
 public class RemoteSaverTest extends TestCase {
@@ -41,7 +41,7 @@ public class RemoteSaverTest extends TestCase {
         claims.add(claim2);
         claims.add(claim3);
 
-        Type type = new TypeToken<SearchHit<Claim>>(){}.getType();
+        Type type = new TypeToken<SearchResponse<Claim>>(){}.getType();
 
         RemoteSaver<Claim> remoteSaver = new RemoteSaver<Claim>("test", type);
 
@@ -52,14 +52,14 @@ public class RemoteSaverTest extends TestCase {
         }
 
         try {
-            wait(5000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             fail();
         }
 
         List<Claim> loadedClaims = remoteSaver.readAll();
 
-        assertEquals("Claims are equal", loadedClaims, claims);
+        assertEquals(claims, loadedClaims);
 
     }
 }

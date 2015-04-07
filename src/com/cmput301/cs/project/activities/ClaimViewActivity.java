@@ -63,6 +63,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
     private MenuItem mEditMenuItem;
     private User mUser;
     private Button mCommentButton;
+    private MenuItem mDeleteMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,6 +206,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         mEditMenuItem = menu.findItem(R.id.editClaim);
+        mDeleteMenuItem = menu.findItem(R.id.deleteClaim);
         updateEditMenuItem();
         return true;
     }
@@ -213,6 +215,9 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
         final boolean editable = mClaim.isEditable();
         mEditMenuItem.setEnabled(editable);
         mEditMenuItem.getIcon().setAlpha(editable ? 255 : 255 / 2);
+
+        mDeleteMenuItem.setEnabled(editable);
+        mDeleteMenuItem.getIcon().setAlpha(editable ? 255 : 255 / 2);
         // call invalidateOptionsMenu() outside of onPrepareOptionsMenu(Menu)
     }
 

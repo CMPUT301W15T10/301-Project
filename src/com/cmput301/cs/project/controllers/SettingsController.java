@@ -27,7 +27,9 @@ public class SettingsController {
     }
 
     public boolean isLocationHome(LatLng latLng) {
-        final LatLng home = parseLatLng(getPreferences().getString(KEY_LATLONG, null));
+        final String latLongStr = getPreferences().getString(KEY_LATLONG, null);
+        if (latLongStr == null) return false;
+        final LatLng home = parseLatLng(latLongStr);
         return latLng.equals(home);
     }
 

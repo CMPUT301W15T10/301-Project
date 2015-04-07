@@ -176,7 +176,7 @@ public class MapActivity extends Activity
         setResult(RESULT_OK, new Intent()
                 .putExtra(KEY_DESTINATION, mBuilder
                         .name(name.toString())
-//                        .location(latLng)  already set by updateLatLng(LatLng)
+//                        .location(latLng)  already set to the builder by updateLatLng(LatLng)
                         .build()));
     }
 

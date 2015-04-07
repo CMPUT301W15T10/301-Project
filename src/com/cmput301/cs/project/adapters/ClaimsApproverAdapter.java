@@ -60,7 +60,7 @@ public class ClaimsApproverAdapter extends ArrayAdapter<Claim> {
         holder.startDate.setText(mDateFormat.format(new Date(claim.getStartTime())));
         holder.status.setText(Utils.stringIdForClaimStatus(claim.getStatus()));
         holder.totals.setText(claim.getTotalsAsString());
-        //holder.approverName.setText(claim.ap());
+        holder.approverName.setText(claim.getAllApprovers());
 
         return convertView;
     }

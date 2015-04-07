@@ -57,6 +57,7 @@ public final class Claim implements Comparable<Claim>, Saveable {
     private final User mClaimant;
     private final long mModified;
     private boolean mDeleted;
+    private String allApprovers;
 
     public boolean isDeleted() {
         return mDeleted;
@@ -71,11 +72,7 @@ public final class Claim implements Comparable<Claim>, Saveable {
             return false;
         }
 
-        if (mComments.size() == 0) {
-            return true;
-        }
-
-        return mComments.get(0).getApprover().equals(user);
+        return true;
     }
 
     public boolean isEditable() {
@@ -149,6 +146,18 @@ public final class Claim implements Comparable<Claim>, Saveable {
         }
 
         return null;
+    }
+
+    public String getAllApprovers() {
+        final StringBuilder sb = new StringBuilder();
+
+        String delimiter = "";
+        for (Comment comment : peekComments()) {
+            sb.append(delimiter).append(comment.getApprover().getUserName());
+            delimiter = ", ";
+        }
+
+        return sb.toString();
     }
 
 

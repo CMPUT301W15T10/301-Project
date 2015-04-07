@@ -2,7 +2,9 @@ package com.cmput301.cs.project.controllers;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 import com.cmput301.cs.project.App;
+import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.elasticsearch.SearchResponse;
 import com.cmput301.cs.project.models.User;
 import com.cmput301.cs.project.utils.RemoteSaver;
@@ -31,7 +33,13 @@ public class LoginController {
         try {
             users = userLoader.readAll();
         } catch (IOException e) {
-            Log.d(LOG_TAG, "couldn't read");
+            User user = App.get(mContext).getStoredUser();
+
+            if(user == null) {
+                Toast.makeText(mContext, "You have no internet and haven't logged in,", Toast.LENGTH_LONG).show();
+            } else {
+                App.get(mContext).setUser(user);
+            }
         }
 
         for(User user : users){

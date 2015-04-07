@@ -18,6 +18,7 @@ package com.cmput301.cs.project;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import com.cmput301.cs.project.models.User;
 
 
@@ -30,6 +31,9 @@ public final class App extends Application {
     public static final String KEY_EXPENSE_ID = "key_expense";
 
     public static final int RESULT_DELETE = 16;
+    private static final String USER_ID = "user_id";
+    private static final String USER_NAME = "user_name";
+    private static final String USER_PREFERENCES = "user_preferences";
     private User mUser;
 
     public static App get(Context context) {
@@ -43,6 +47,31 @@ public final class App extends Application {
 
     public void setUser(User user) {
         this.mUser = user;
+        setStoredUser(user);
     }
+
+    public User getStoredUser() {
+        SharedPreferences sharedPreferences = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE);
+        String userName = sharedPreferences.getString(USER_NAME, null);
+        String userId = sharedPreferences.getString(USER_ID, null);
+
+        if (userId == null || userName == null || userId.isEmpty() || userName.isEmpty()) {
+            return null;
+        }
+
+        return new User(userName, userId);
+    }
+
+    public void setStoredUser(User user) {
+        SharedPreferences sharedPreferences = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(USER_ID, user.getId());
+        editor.putString(USER_NAME, user.getUserName());
+
+        editor.apply();
+
+    }
+
 }
 

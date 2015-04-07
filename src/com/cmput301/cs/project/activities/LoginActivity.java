@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.controllers.LoginController;
 
@@ -37,6 +38,10 @@ public class LoginActivity extends Activity {
             mName.setError("Name must not be empty");
         } else {
             loginController.attemptLogin(name);
+
+            if(App.get(this).getUser() == null) {
+                return;
+            }
 
             startActivity(new Intent(this, ClaimListActivity.class));
 

@@ -3,7 +3,7 @@ package com.cmput301.cs.project.utils;
 import com.cmput301.cs.project.controllers.TagsManager;
 import com.cmput301.cs.project.models.*;
 
-import com.cmput301.cs.project.serialization.LocalClaimSaver;
+import com.cmput301.cs.project.serialization.LocalSaver;
 import junit.framework.TestCase;
 import org.joda.money.CurrencyUnit;
 
@@ -16,12 +16,12 @@ public class ClaimSavesTest extends TestCase {
     private static final long FIVE_DAYS = 432000000L;
     private static final String VALID_CATEGORY = Expense.CATEGORIES.iterator().next();
 
-    private LocalClaimSaver mClaimSaves;
+    private LocalSaver mClaimSaves;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mClaimSaves = new com.cmput301.cs.project.utils.MockClaimSaves();
+        mClaimSaves = new MockSaves();
     }
 
     /**

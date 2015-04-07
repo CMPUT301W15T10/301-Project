@@ -14,7 +14,7 @@ package com.cmput301.cs.project.models;/*
  * limitations under the License.
  */
 
-import com.cmput301.cs.project.serialization.LocalClaimSaver;
+import com.cmput301.cs.project.serialization.LocalSaver;
 import com.google.gson.Gson;
 import junit.framework.TestCase;
 import org.joda.money.CurrencyUnit;
@@ -200,7 +200,7 @@ public class ClaimTest extends TestCase {
                 .description("Taxi food")
                 .build();
 
-        final Gson gson = LocalClaimSaver.getGson();
+        final Gson gson = LocalSaver.getGson();
 
         final String serialized = gson.toJson(expense);
         final Expense read = gson.fromJson(serialized, Expense.class);  // step 1, 2

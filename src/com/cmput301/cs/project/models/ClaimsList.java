@@ -5,7 +5,7 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Toast;
 import com.cmput301.cs.project.serialization.elasticsearch.SearchResponse;
-import com.cmput301.cs.project.serialization.LocalClaimSaver;
+import com.cmput301.cs.project.serialization.LocalSaver;
 import com.cmput301.cs.project.serialization.RemoteSaver;
 import com.google.gson.reflect.TypeToken;
 
@@ -40,7 +40,7 @@ public class ClaimsList {
     private List<Claim> mClaims = new ArrayList<Claim>();
 
     private static ClaimsList instance;
-    private final LocalClaimSaver mClaimSaves;
+    private final LocalSaver mClaimSaves;
     private final RemoteSaver<Claim> mRemoteClaimSaves;
     private final Context mContext;
 
@@ -55,7 +55,7 @@ public class ClaimsList {
     private ClaimsList(Context context) {
         mContext = context;
 
-        mClaimSaves = LocalClaimSaver.ofAndroid(context);
+        mClaimSaves = LocalSaver.ofAndroid(context);
 
         Type type = new TypeToken<SearchResponse<Claim>>() {}.getType();
 

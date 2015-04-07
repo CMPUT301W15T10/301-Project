@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 import com.cmput301.cs.project.controllers.TagsManager;
 import com.cmput301.cs.project.models.Tag;
-import com.cmput301.cs.project.utils.MockClaimSaves;
+import com.cmput301.cs.project.utils.MockSaves;
 
 public class TagsManagerTest extends TestCase {
 
@@ -12,7 +12,7 @@ public class TagsManagerTest extends TestCase {
 
     @Override
     protected void setUp() {
-        mManager = TagsManager.ofClaimSaves(new MockClaimSaves());
+        mManager = TagsManager.ofClaimSaves(new MockSaves());
     }
 
     public void testSingleTag() {

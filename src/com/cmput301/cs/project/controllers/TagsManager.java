@@ -4,13 +4,13 @@ import android.content.Context;
 import com.cmput301.cs.project.listeners.TagsChangedListener;
 import com.cmput301.cs.project.models.ClaimUtils;
 import com.cmput301.cs.project.models.Tag;
-import com.cmput301.cs.project.serialization.LocalClaimSaver;
+import com.cmput301.cs.project.serialization.LocalSaver;
 
 import java.util.*;
 
 /**
  * Controls the tags that are shown in {@link com.cmput301.cs.project.activities.TagManagerActivity TagManagerActivity}. <p>
- * Loads any locally saved claims from the {@link com.cmput301.cs.project.serialization.LocalClaimSaver LocalClaimSaver} <p>
+ * Loads any locally saved claims from the {@link com.cmput301.cs.project.serialization.LocalSaver LocalClaimSaver} <p>
  * <p/>
  * Use {@link TagsManager#get(Context)} to obtain the singleton.
  * There are getter methods, as well as the search methods, for using either the {@link #findTagByName(String) name}
@@ -35,24 +35,24 @@ public class TagsManager {
     }
 
     /**
-     * TEST ONLY. Uses the supplied {@link LocalClaimSaver} for all operations.
+     * TEST ONLY. Uses the supplied {@link com.cmput301.cs.project.serialization.LocalSaver} for all operations.
      *
      * @param claimSaves non-null instance of {@code LocalClaimSaver}
      * @return a non-null instance of {@code TagsManager}
      */
-    public static TagsManager ofClaimSaves(LocalClaimSaver claimSaves) {
+    public static TagsManager ofClaimSaves(LocalSaver claimSaves) {
         return new TagsManager(claimSaves);
     }
 
-    private final LocalClaimSaver mClaimSaves;
+    private final LocalSaver mClaimSaves;
     private final SortedSet<Tag> mTags = new TreeSet<Tag>();
     private final List<TagsChangedListener> mListeners = new ArrayList<TagsChangedListener>();
 
     private TagsManager(Context context) {
-        this(LocalClaimSaver.ofAndroid(context));
+        this(LocalSaver.ofAndroid(context));
     }
 
-    private TagsManager(LocalClaimSaver claimSaves) {
+    private TagsManager(LocalSaver claimSaves) {
         mClaimSaves = claimSaves;
         mTags.addAll(claimSaves.readAllTags());
     }

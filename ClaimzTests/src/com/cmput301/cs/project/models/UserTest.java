@@ -49,7 +49,7 @@ public class UserTest extends TestCase {
         final String name = "name";
         final User user = new User(name, uuid.toString());
 
-        assertEquals(uuid, user.getId());
+        assertEquals(uuid.toString(), user.getId());
         assertEquals(name, user.getUserName());
 
     }

@@ -12,7 +12,7 @@ import android.util.Log;
  */
 
 public class Receipt {
-    public static final int MAX_FILE_SIZE = 65536;
+    public static final int MAX_FILE_SIZE = 65535;
 
     private final String mBase64String;
 

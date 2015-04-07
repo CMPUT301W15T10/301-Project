@@ -6,34 +6,26 @@ import junit.framework.TestCase;
 
 public class ReceiptTest extends TestCase {
 
-    public void fileSize() {
+    public void testFileSize() {
+        final String smallImage = generateSmallImage();
+        new Receipt(smallImage);
+        
         try {
-            final File bigFile = new MockFile("", Receipt.MAX_FILE_SIZE + 1);
-            new Receipt(bigFile);
-            fail();
-        } catch (UnsupportedOperationException e) {
+            final String bigImage = generateLargeImage();
+            new Receipt(bigImage);
+            fail("File was of size: " + bigImage.getBytes().length);
+        } catch (IllegalArgumentException e) {
             // Success
         }
     }
 
-    public void testGetImage() throws Exception {
-        String path = "path";
-        final Receipt receipt = new Receipt(path);
-        assertEquals(new File(path), receipt.getFile());
+    private String generateSmallImage() {
+        byte bytes[] = new byte[Receipt.MAX_FILE_SIZE];
+        return new String(bytes);
     }
 
-    private static class MockFile extends File {
-
-        private final int mLength;
-
-        public MockFile(String path, int length) {
-            super(path);
-            mLength = length;
-        }
-
-        @Override
-        public long length() {
-            return mLength;
-        }
+    private String generateLargeImage() {
+        byte bytes[] = new byte[Receipt.MAX_FILE_SIZE + 1];
+        return new String(bytes);
     }
 }

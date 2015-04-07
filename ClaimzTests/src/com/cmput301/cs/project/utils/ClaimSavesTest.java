@@ -84,11 +84,8 @@ public class ClaimSavesTest extends TestCase {
         } catch (IllegalArgumentException ignored) {  // success
         }
 
-        try {
-            builder.putDestination(new Destination.Builder(dest, " ").build());  // step 2.b
-            fail("expected IllegalArgumentException");
-        } catch (IllegalArgumentException ignored) {  // success
-        }
+        // Should not fail
+        builder.putDestination(new Destination.Builder(dest, " ").build());  // step 2.b
 
         try {
             builder.putDestination(new Destination.Builder(" ", reason).build());  // step 2.b

@@ -8,3 +8,4 @@ com.cmput301.cs.project.models
 com.cmput301.cs.project.serialization
 com.cmput301.cs.project.serialization.elasticsearch
 com.cmput301.cs.project.utils
+com.google.android.gms

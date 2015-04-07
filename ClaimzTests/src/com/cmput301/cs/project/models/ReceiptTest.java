@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 public class ReceiptTest extends TestCase {
 
-    public void testFileSize() {
+    public void testImageSize() {
         final String smallImage = generateSmallImage();
         new Receipt(smallImage);
         
@@ -16,6 +16,16 @@ public class ReceiptTest extends TestCase {
             // Success
         }
     }
+
+    public void testNullImage() {
+        try {
+            new Receipt(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // Success
+        }
+    }
+
 
     private String generateSmallImage() {
         byte bytes[] = new byte[Receipt.MAX_FILE_SIZE];

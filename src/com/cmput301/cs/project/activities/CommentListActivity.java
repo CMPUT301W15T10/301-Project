@@ -33,7 +33,7 @@ public class CommentListActivity extends Activity {
 
         mClaim = mClaimList.getClaimById(claimId);
 
-        CommentAdapter adapter = new CommentAdapter(this, R.layout.comment_list_item, mClaim.peekComments());
+        CommentAdapter adapter = new CommentAdapter(this, mClaim.peekComments());
 
         mComments.setAdapter(adapter);
     }

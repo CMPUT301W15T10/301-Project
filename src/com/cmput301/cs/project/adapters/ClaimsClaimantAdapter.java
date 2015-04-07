@@ -166,6 +166,7 @@ public final class ClaimsClaimantAdapter extends ArrayAdapter<Claim> implements 
             return results;
         }
 
+        @SuppressWarnings("unchecked") // Know the values will be a List<Claim>
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             mFilteredClaims = (List<Claim>) results.values;

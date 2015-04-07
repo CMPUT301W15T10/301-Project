@@ -3,13 +3,10 @@ package com.cmput301.cs.project.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.cmput301.cs.project.App;
@@ -192,10 +189,6 @@ public class EditExpenseActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-                final Uri receiptFileUri = getTempReceiptUri();
-
-                //intent.putExtra(MediaStore.EXTRA_OUTPUT, receiptFileUri);
                 startActivityForResult(intent, REQ_CODE_RECEIPT);
             }
         });
@@ -217,24 +210,6 @@ public class EditExpenseActivity extends Activity {
                                 mBuilder.getDestination()), REQ_CODE_LOCATION);
             }
         });
-    }
-
-    private Uri getTempReceiptUri() {
-        File file = new File(getStorageFolder(), mBuilder.getId() + ".jpg");
-        return Uri.fromFile(file);
-    }
-
-    // This is from http://developer.android.com/training/basics/data-storage/files.html
-    // March 15, 2015
-    private File getStorageFolder() {
-        File file = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
-
-        if (!file.mkdirs()) {
-            Log.e("EditExpenseActivity", "Was unable to make the directory " + file.toString());
-        }
-
-        return file;
     }
 
     private void deleteReceipt() {

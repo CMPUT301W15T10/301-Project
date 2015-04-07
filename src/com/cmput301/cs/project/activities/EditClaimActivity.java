@@ -54,7 +54,6 @@ public class EditClaimActivity extends Activity {
     private Claim.Builder mBuilder;
     private DateFormat mDateFormat;
 
-    private Expense mEdittingExpense;
     private Destination mEdittingDestination;
 
     @Override

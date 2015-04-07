@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.elasticsearch.SearchResponse;
-import com.cmput301.cs.project.models.Claim;
 import com.cmput301.cs.project.models.User;
 import com.cmput301.cs.project.utils.RemoteSaver;
 import com.google.gson.reflect.TypeToken;

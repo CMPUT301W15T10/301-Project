@@ -170,6 +170,7 @@ public class ClaimTest extends TestCase {
         final String reason = "the reason";
         final Expense expense = new Expense.Builder().build();
         final UUID id = UUID.randomUUID();
+        final UUID otherId = UUID.randomUUID();
 
         //Remember ids are important
         Claim.Builder builder = new Claim.Builder(user)
@@ -180,7 +181,10 @@ public class ClaimTest extends TestCase {
                 .id(id.toString());
         Claim claim = builder.build();
 
-        // TODO incomplete test
+        Claim otherClaim = builder.id(otherId.toString()).build();
+
+        assertTrue(!otherClaim.equals(claim));
+        assertTrue(otherClaim.hashCode() != claim.hashCode());
     }
 
 

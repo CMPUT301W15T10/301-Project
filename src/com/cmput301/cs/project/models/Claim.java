@@ -673,7 +673,6 @@ public final class Claim implements Comparable<Claim>, Saveable {
     }
 
     @Override
-    @SuppressWarnings("RedundantIfStatement")
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Claim)) return false;

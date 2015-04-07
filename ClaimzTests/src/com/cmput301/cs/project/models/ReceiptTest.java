@@ -1,7 +1,5 @@
 package com.cmput301.cs.project.models;
 
-import java.io.File;
-
 import junit.framework.TestCase;
 
 public class ReceiptTest extends TestCase {

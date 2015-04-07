@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.controllers.LoginController;
-import com.cmput301.cs.project.models.User;
 
 /**
  * An activity that is called when the app starts with no user currently 'logged in'. Allows the user to login using there name

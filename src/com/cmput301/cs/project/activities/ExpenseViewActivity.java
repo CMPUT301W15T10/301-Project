@@ -2,7 +2,6 @@ package com.cmput301.cs.project.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -38,8 +37,6 @@ import java.text.DateFormat;
  */
 
 public class ExpenseViewActivity extends Activity {
-    private static final int EDIT_EXPENSE = 0;
-
     private Claim mClaim;
     private Expense mExpense;
 

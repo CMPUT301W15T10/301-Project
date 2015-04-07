@@ -114,6 +114,7 @@ public class ClaimListActivity extends ListActivity implements TagsChangedListen
 
     @Override
     public void onListItemClick(ListView lv, View v, int position, long id) {
+        @SuppressWarnings("unchecked") // Both Adapters extend ArrayAdapter<Claim>
         ArrayAdapter<Claim> adapter = (ArrayAdapter<Claim>) getListAdapter();
         Intent i = new Intent(this, ClaimViewActivity.class);
 

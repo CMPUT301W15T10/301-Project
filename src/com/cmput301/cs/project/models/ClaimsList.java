@@ -40,8 +40,8 @@ public class ClaimsList {
     private List<Claim> mClaims = new ArrayList<Claim>();
 
     private static ClaimsList instance;
-    private final LocalSaver mClaimSaves;
-    private final RemoteSaver<Claim> mRemoteClaimSaves;
+    private final LocalSaver mClaimSaver;
+    private final RemoteSaver<Claim> mRemoteSaver;
     private final Context mContext;
 
     public static ClaimsList getInstance(Context context) {
@@ -55,11 +55,11 @@ public class ClaimsList {
     private ClaimsList(Context context) {
         mContext = context;
 
-        mClaimSaves = LocalSaver.ofAndroid(context);
+        mClaimSaver = LocalSaver.ofAndroid(context);
 
         Type type = new TypeToken<SearchResponse<Claim>>() {}.getType();
 
-        mRemoteClaimSaves = new RemoteSaver<Claim>(CLAIM_ELASTIC_SEARCH_INDEX, type);
+        mRemoteSaver = new RemoteSaver<Claim>(CLAIM_ELASTIC_SEARCH_INDEX, type);
 
         mergeAllClaims();
     }
@@ -79,12 +79,12 @@ public class ClaimsList {
         StrictMode.setThreadPolicy(policy);
 
         try {
-            remoteClaims = mRemoteClaimSaves.readAll();
+            remoteClaims = mRemoteSaver.readAll();
         } catch (IOException ex) {
             Toast.makeText(mContext, "Failed to connect to server. In Local mode.", Toast.LENGTH_LONG).show();
         }
 
-        for (Claim next : mClaimSaves.readAllClaims()) {
+        for (Claim next : mClaimSaver.readAllClaims()) {
             Claim rem = null;
             for (Claim remoteClaim : remoteClaims) {
                 if (remoteClaim.getId().equals(next.getId())) {
@@ -109,7 +109,7 @@ public class ClaimsList {
         claims.addAll(remoteClaims);
 
         try {
-            mRemoteClaimSaves.saveAll(claims);
+            mRemoteSaver.saveAll(claims);
         } catch (IOException e) {
             Log.d(LOG_TAG, "Failed to save claims remotely.");
         }
@@ -159,7 +159,7 @@ public class ClaimsList {
     }
 
     private void serialize() {
-        mClaimSaves.saveAllClaims(mClaims);
+        mClaimSaver.saveAllClaims(mClaims);
 
         mergeAllClaims();
     }

@@ -35,19 +35,29 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDs4GBWmkk3T59KB63TDM_F3DsWLqa74aY"/>
 
-        <activity android:name=".activities.ClaimListActivity">
+        <activity
+            android:name=".activities.ClaimListActivity"
+            android:label="@string/claims">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.LoginActivity"/>
-        <activity android:name=".activities.SettingsActivity"/>
-        <activity android:name=".activities.TagManagerActivity"/>
+        <activity
+            android:name=".activities.LoginActivity"
+            android:label="@string/login"/>
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/action_settings"/>
+        <activity
+            android:name=".activities.TagManagerActivity"
+            android:label="@string/manage_tags"/>
         <activity android:name=".activities.TagEditActivity"/>
         <activity android:name=".activities.CalendarActivity"/>
         <activity android:name=".activities.MapActivity"/>
+        <activity android:name=".activities.EditDestinationActivity"/>
+        <activity android:name=".activities.EditExpenseActivity"/>
         <activity
             android:name=".activities.EditClaimActivity"
             android:label="@string/title_activity_edit_claim"/>
@@ -61,13 +71,8 @@
             android:name=".activities.ClaimViewActivity"
             android:label="@string/title_activity_claim_view"/>
         <activity
-            android:name=".activities.EditDestinationActivity"
-            android:label="@string/title_activity_new_destination"/>
-        <activity
-            android:name=".activities.EditExpenseActivity"
-            android:label="@string/title_activity_new_destination"/>
+            android:name=".activities.CommentListActivity"
+            android:label="@string/comments"/>
         <activity android:name=".activities.CommentActivity"/>
-        <activity android:name=".activities.CommentActivity"/>
-        <activity android:name=".activities.CommentListActivity"/>
     </application>
 </manifest>

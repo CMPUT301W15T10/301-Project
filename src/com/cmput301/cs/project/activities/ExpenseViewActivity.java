@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.cmput301.cs.project.App;
+import com.cmput301.cs.project.controllers.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.controllers.SettingsController;
 import com.cmput301.cs.project.models.Claim;

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Toast;
-import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.serialization.elasticsearch.SearchResponse;
 import com.cmput301.cs.project.models.User;
 import com.cmput301.cs.project.serialization.RemoteSaver;

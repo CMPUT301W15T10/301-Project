@@ -7,7 +7,7 @@ import android.text.Editable;
 import android.view.View;
 import android.widget.TextView;
 import com.cmput301.cs.project.R;
-import com.cmput301.cs.project.TextWatcherAdapter;
+import com.cmput301.cs.project.adapters.TextWatcherAdapter;
 import com.cmput301.cs.project.models.Destination;
 import com.cmput301.cs.project.utils.Utils;
 

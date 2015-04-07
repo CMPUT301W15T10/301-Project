@@ -1,13 +1,13 @@
 package com.cmput301.cs.project.serialization.elasticsearch;
 
 //https://github.com/blainelewis1/AndroidElasticSearch/ [blaine1 april 05 2014]
+
+
 /**
  * This class acts as a wrapper from data obtained when using RemoteSaver to pull data from Elastic Search
  * It is unimportant and boilerplate
  *
  */
-
-
 public class SearchHit<T> {
 	private String _index;
 	private String _type;

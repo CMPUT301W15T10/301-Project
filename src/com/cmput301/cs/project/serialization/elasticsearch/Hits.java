@@ -2,15 +2,15 @@ package com.cmput301.cs.project.serialization.elasticsearch;
 
 //https://github.com/blainelewis1/AndroidElasticSearch/ [blaine1 april 05 2014]
 
+
+import java.util.List;
+
+
 /**
  * This class acts as a wrapper from data obtained when using RemoteSaver to pull data from Elastic Search
  * It is unimportant and boilerplate
  *
  */
-
-
-import java.util.List;
-
 
 public class Hits<T> {
 	private int total;

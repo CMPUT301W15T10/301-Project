@@ -3,7 +3,7 @@ package com.cmput301.cs.project.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
-import com.cmput301.cs.project.App;
+import com.cmput301.cs.project.controllers.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.CommentAdapter;
 import com.cmput301.cs.project.models.Claim;

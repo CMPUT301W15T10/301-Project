@@ -1,6 +1,7 @@
 package com.cmput301.cs.project.controllers;
 
 import android.content.Context;
+import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Toast;
 import com.cmput301.cs.project.App;
@@ -25,25 +26,31 @@ public class LoginController {
     }
 
     public void attemptLogin(String username) {
-        Type type = new TypeToken<SearchResponse<User>>() {}.getType();
+        Type type = new TypeToken<SearchResponse<User>>() {
+        }.getType();
 
         RemoteSaver<User> userLoader = new RemoteSaver<User>(USER_INDEX, type);
         List<User> users = null;
 
+        //http://stackoverflow.com/questions/12650921/quick-fix-for-networkonmainthreadexception [blaine1 april 05 2015]
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         try {
             users = userLoader.readAll();
         } catch (IOException e) {
-            User user = App.get(mContext).getStoredUser();
-
-            if(user == null) {
-                Toast.makeText(mContext, "You have no internet and haven't logged in,", Toast.LENGTH_LONG).show();
-            } else {
-                App.get(mContext).setUser(user);
-            }
+            useStoredUsers();
+            return;
         }
 
-        for(User user : users){
-            if(user.getUserName().equals(username)) {
+        if (users == null) {
+            useStoredUsers();
+            return;
+        }
+
+        for (User user : users) {
+            if (user.getUserName().equals(username)) {
                 App.get(mContext).setUser(user);
                 return;
             }
@@ -60,6 +67,15 @@ public class LoginController {
         } catch (IOException e) {
             Log.d(LOG_TAG, "uh ohhhh");
         }
+    }
 
+    private void useStoredUsers() {
+        User user = App.get(mContext).getStoredUser();
+
+        if (user == null) {
+            Toast.makeText(mContext, "You have no internet and haven't logged in,", Toast.LENGTH_LONG).show();
+        } else {
+            App.get(mContext).setUser(user);
+        }
     }
 }

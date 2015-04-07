@@ -4,6 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.maps.model.LatLng;
 
+/**
+ * Immutable class. Use {@link com.cmput301.cs.project.models.Destination.Builder Builder} to obtain an instance.
+ */
 public final class Destination implements Parcelable {
 
     /**
@@ -12,6 +15,15 @@ public final class Destination implements Parcelable {
      * Creating a Destination:
      * <pre>
      * final Destination des = new Destination.Builder()
+     *      .reason(canBeNull)
+     *      .name(nonNullString)
+     *      .location(nonNullLatLng)
+     *      .build();
+     * </pre>
+     * Editing a Destination:
+     * <pre>
+     * final Destination oldDes = …;
+     * final Destination des = oldDes.edit()
      *      .reason(canBeNull)
      *      .name(nonNullString)
      *      .location(nonNullLatLng)
@@ -103,18 +115,30 @@ public final class Destination implements Parcelable {
         mReason = in.readString();
     }
 
+    /**
+     * @return a {@link Builder} with the values of this {@code Destination}
+     */
     public Builder edit() {
         return new Builder(this);
     }
 
+    /**
+     * @return nullable {@code String} for name
+     */
     public String getName() {
         return mName;
     }
 
+    /**
+     * @return nullable {@link LatLng} for location
+     */
     public LatLng getLocation() {
         return mLocation;
     }
 
+    /**
+     * @return nullable {@code String} for reason
+     */
     public String getReason() {
         return mReason;
     }

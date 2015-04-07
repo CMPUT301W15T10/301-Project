@@ -18,11 +18,11 @@ import java.util.List;
 
 /**
  * Basic adapter that adapts a {@link com.cmput301.cs.project.models.Tag Tag} to be viewable in a ListView.
- * 
- * @author rozsa
- *
+ * <p/>
+ * This class implements all methods in {@link TagsChangedListener}.
+ * You may use {@link TagsManager#addTagChangedListener(TagsChangedListener)}
+ * for this class to update the tags.
  */
-
 public class TagsAdapter extends BaseAdapter implements TagsChangedListener {
 
     private static class ViewHolder {

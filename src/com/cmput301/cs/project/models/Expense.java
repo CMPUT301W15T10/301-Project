@@ -41,7 +41,7 @@ public final class Expense implements Comparable<Expense> {
     };
 
 
-    public static final Set<String> CATEGORIES = Collections.unmodifiableSet(new TreeSet<String>() {{
+    public static final Set<String> CATEGORIES = Collections.unmodifiableSet(new HashSet<String>() {{
         add("Accomodation");
         add("Air Fare");
         add("Ground Transport");
@@ -53,7 +53,7 @@ public final class Expense implements Comparable<Expense> {
         add("Others");
     }});
 
-    public static final Set<CurrencyUnit> CURRENCIES = Collections.unmodifiableSet(new TreeSet<CurrencyUnit>() {{
+    public static final Set<CurrencyUnit> CURRENCIES = Collections.unmodifiableSet(new HashSet<CurrencyUnit>() {{
         add(CurrencyUnit.GBP);
         add(CurrencyUnit.CAD);
         add(CurrencyUnit.EUR);

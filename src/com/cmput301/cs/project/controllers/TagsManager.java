@@ -1,6 +1,7 @@
 package com.cmput301.cs.project.controllers;
 
 import android.content.Context;
+import com.cmput301.cs.project.listeners.TagsChangedListener;
 import com.cmput301.cs.project.models.ClaimUtils;
 import com.cmput301.cs.project.models.Tag;
 import com.cmput301.cs.project.serialization.LocalClaimSaver;

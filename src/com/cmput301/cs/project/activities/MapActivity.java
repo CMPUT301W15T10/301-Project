@@ -1,11 +1,5 @@
 package com.cmput301.cs.project.activities;
 
-/**
- * Map activity returns a result with a destination packaged in the intent as KEY_DESTINATION
- *
- * It allows a user to select a place on the map or enter the place name in a text box
- */
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -40,6 +34,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+
+/**
+ * Map activity returns a result with a destination packaged in the intent as {@link #KEY_DESTINATION}
+ * <p/>
+ * It allows a user to select a place on the map or enter the place name in a text box
+ */
 // Apr 3, 2015 https://github.com/googlesamples/android-play-places/blob/master/PlaceComplete/Application/src/main/java/com/example/google/playservices/placecomplete/MainActivity.java
 // Mar 31, 2015 http://developer.android.com/google/auth/api-client.html#Starting
 public class MapActivity extends Activity

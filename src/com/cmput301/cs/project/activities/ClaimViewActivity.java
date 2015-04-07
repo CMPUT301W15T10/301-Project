@@ -15,8 +15,8 @@ import android.widget.Toast;
 import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.DestinationAdapter;
-import com.cmput301.cs.project.controllers.TagsChangedListener;
 import com.cmput301.cs.project.controllers.TagsManager;
+import com.cmput301.cs.project.listeners.TagsChangedListener;
 import com.cmput301.cs.project.models.*;
 import com.cmput301.cs.project.utils.Utils;
 

@@ -1,5 +1,6 @@
 package com.cmput301.cs.project.controllers;
 
+import com.cmput301.cs.project.listeners.TagsChangedListener;
 import com.cmput301.cs.project.models.Claim;
 import com.cmput301.cs.project.models.ClaimsList;
 import com.cmput301.cs.project.models.Tag;

@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import com.cmput301.cs.project.controllers.TagsChangedListener;
 import com.cmput301.cs.project.controllers.TagsManager;
+import com.cmput301.cs.project.listeners.TagsChangedListener;
 import com.cmput301.cs.project.models.Tag;
 
 import java.util.ArrayList;

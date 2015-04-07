@@ -1,7 +1,10 @@
-android
 com.cmput301.cs.project
 com.cmput301.cs.project.activities
 com.cmput301.cs.project.adapters
 com.cmput301.cs.project.controllers
+com.cmput301.cs.project.dialogs
+com.cmput301.cs.project.listeners
 com.cmput301.cs.project.models
+com.cmput301.cs.project.serialization
+com.cmput301.cs.project.serialization.elasticsearch
 com.cmput301.cs.project.utils

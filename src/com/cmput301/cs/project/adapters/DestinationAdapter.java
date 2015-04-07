@@ -14,6 +14,9 @@ import com.cmput301.cs.project.models.Destination;
 
 import java.util.Collection;
 
+/**
+ * Basic adapter for displaying {@link Destination Destinations}.
+ */
 public class DestinationAdapter extends ArrayAdapter<Destination> {
 
     private static final class ViewHolder {

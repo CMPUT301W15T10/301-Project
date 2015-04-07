@@ -30,7 +30,7 @@ import com.cmput301.cs.project.utils.Utils;
  * If an activity relies on both a start date and an end date the calendar will restrict choices to the user so
  * that an end date can't come before a start date and vice versa.
  * <p/>
- * Returns the date as a result in an intent as KEY_DATE <p>
+ * Returns the date as a result in an intent as {@link #KEY_DATE} (as {@code long})
  * <p/>
  * this activity is linked to in:
  * <ul>
@@ -80,18 +80,36 @@ public class CalendarActivity extends Activity {
             mIntent = new Intent(context, CalendarActivity.class);
         }
 
+        /**
+         * Sets the initial selected date on the calendar. Negative values are ignored (no-op).
+         *
+         * @param date positive date; negative values ignored
+         * @return this same {@code Builder}
+         */
         public Builder selectedDate(long date) {
             if (date < 0) return this;
             mIntent.putExtra(KEY_DATE, date);
             return this;
         }
 
+        /**
+         * Sets the min date limit on the calendar. Negative values are ignored (no-op).
+         *
+         * @param minDate positive date; negative values ignored
+         * @return this same {@code Builder}
+         */
         public Builder minDate(long minDate) {
             if (minDate < 0) return this;
             mIntent.putExtra(KEY_MIN_DATE, minDate);
             return this;
         }
 
+        /**
+         * Sets the max date limit on the calendar. Negative values are ignored (no-op).
+         *
+         * @param maxDate positive date; negative values ignored
+         * @return this same {@code Builder}
+         */
         public Builder maxDate(long maxDate) {
             if (maxDate < 0) return this;
             mIntent.putExtra(KEY_MAX_DATE, maxDate);
@@ -103,6 +121,7 @@ public class CalendarActivity extends Activity {
         }
     }
 
+    // five is an arbitrary number of days
     private static final long FIVE_DAYS = 432000000L;
 
     private CalendarView mCalendarView;

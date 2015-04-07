@@ -19,6 +19,42 @@ package com.cmput301.cs.project;
 import android.text.Editable;
 import android.text.TextWatcher;
 
+/**
+ * Stub class that contains empty implementations of {@link TextWatcher}.
+ * All methods are safe to override without calling super.
+ * <p/>
+ * <pre>
+ * final TextView textView = …;
+ * textView.addTextChangedListener(new TextWatcherAdapter() {
+ *    {@code @Override}
+ *     public void afterTextChanged(Editable s) {
+ *         final String string = s.toString();
+ *         …
+ *     }
+ * });
+ * </pre>
+ * instead of
+ * <pre>
+ * final TextView textView = …;
+ * textView.addTextChangedListener(new TextWatcher() {
+ *    {@code @Override}
+ *     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+ *         // do nothing
+ *     }
+ *
+ *    {@code @Override}
+ *     public void onTextChanged(CharSequence s, int start, int before, int count) {
+ *         // do nothing
+ *     }
+ *
+ *    {@code @Override}
+ *     public void afterTextChanged(Editable s) {
+ *         final String string = s.toString();
+ *         …
+ *     }
+ * });
+ * </pre>
+ */
 public abstract class TextWatcherAdapter implements TextWatcher {
 
     @Override

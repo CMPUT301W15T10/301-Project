@@ -405,6 +405,8 @@ public final class Claim implements Comparable<Claim>, Saveable {
                 throw new IllegalArgumentException("Approver cannot be claimaint");
             }
 
+            mComments.add(comment);
+
             changeStatus(status);
         }
 

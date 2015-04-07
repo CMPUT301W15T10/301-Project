@@ -82,7 +82,7 @@ public class RemoteSaver<T extends Saveable> {
 
         try {
             //http://developer.android.com/reference/java/net/HttpURLConnection.html [blaine1 april 5 2015]
-            URL url = new URL(ES_URL + mIndex + "/_search");
+            URL url = new URL(ES_URL + mIndex + "/_search?size=1000000");
 
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setDoInput(true);

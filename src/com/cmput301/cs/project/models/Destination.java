@@ -4,8 +4,20 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.maps.model.LatLng;
 
-public class Destination implements Parcelable {
+public final class Destination implements Parcelable {
 
+    /**
+     * Use this class to obtain instances of {@code Destination}.
+     * <p/>
+     * Creating a Destination:
+     * <pre>
+     * final Destination des = new Destination.Builder()
+     *      .reason(canBeNull)
+     *      .name(nonNullString)
+     *      .location(nonNullLatLng)
+     *      .build();
+     * </pre>
+     */
     public static final class Builder {
         private String mName;
         private LatLng mLocation;
@@ -14,6 +26,12 @@ public class Destination implements Parcelable {
         public Builder() {
         }
 
+        /**
+         * Creates a new {@code Builder} with the specified parameters.
+         *
+         * @param name   non-null {@code String}
+         * @param reason nullable {@code String}
+         */
         public Builder(String name, String reason) {
             mName = ClaimUtils.nonNullNonEmptyOrThrow(name, "name");
             mReason = reason;
@@ -25,16 +43,28 @@ public class Destination implements Parcelable {
             mReason = destination.getReason();
         }
 
+        /**
+         * @param name non-null {@code String}
+         * @return this instance of {@code Builder}
+         */
         public Builder name(String name) {
             mName = ClaimUtils.nonNullNonEmptyOrThrow(name, "name");
             return this;
         }
 
+        /**
+         * @param location non-null {@code LatLng}
+         * @return this instance of {@code Builder}
+         */
         public Builder location(LatLng location) {
             mLocation = ClaimUtils.nonNullOrThrow(location, "location");
             return this;
         }
 
+        /**
+         * @param reason nullable {@code String}
+         * @return this instance of {@code Builder}
+         */
         public Builder reason(String reason) {
             mReason = reason;
             return this;

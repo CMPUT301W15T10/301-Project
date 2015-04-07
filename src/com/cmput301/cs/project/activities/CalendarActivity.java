@@ -28,24 +28,51 @@ import com.cmput301.cs.project.utils.Utils;
 /**
  * Activity for picking a date. This activity is used whenever a date needs to be picked in the app.<p>
  * If an activity relies on both a start date and an end date the calendar will restrict choices to the user so
- *  that an end date can't come before a start date and vice versa.
+ * that an end date can't come before a start date and vice versa.
+ * <p/>
+ * Returns the date as a result in an intent as KEY_DATE <p>
+ * <p/>
+ * this activity is linked to in:
+ * <ul>
+ * <li>{@link com.cmput301.cs.project.activities.EditClaimActivity EditClaimActivity}
+ * <li>{@link com.cmput301.cs.project.activities.EditExpenseActivity EditExpenseActivity}
+ * </ul>
  *
- *  Returns the date as a result in an intent as KEY_DATE <p>
- *  
- *  this activity is linked to in:
- *  <ul>
- *  <li>{@link com.cmput301.cs.project.activities.EditClaimActivity EditClaimActivity}
- *  <li>{@link com.cmput301.cs.project.activities.EditExpenseActivity EditExpenseActivity}
- *  </ul>
- *
- *  @author rozsa
- *  @author jbenson
+ * @author rozsa
+ * @author jbenson
  */
 public class CalendarActivity extends Activity {
+    /**
+     * the initial selected date on the calendar; data type: {@code long}
+     */
     public static final String KEY_DATE = "date";
+    /**
+     * the minimum valid date to be returned; data type: {@code long}
+     */
     public static final String KEY_MIN_DATE = "min_date";
+    /**
+     * the maximum valid date to be returned; data type: {@code long}
+     */
     public static final String KEY_MAX_DATE = "max_date";
 
+    /**
+     * Helper class to assist passing in the keys to {@code CalendarActivity}. You may also pass in the parameters manually.
+     * <p/>
+     * Example:
+     * <pre>
+     * final Context context = …;
+     * final Intent intent = new CalendarActivity.Builder(context)
+     *      .selectedDate(…)
+     *      .minDate(…)
+     *      .maxDate(…)
+     *      .build());
+     * context.startActivityForResult(intent, REQ_CODE_PICK_DATE);
+     * </pre>
+     *
+     * @see #KEY_DATE
+     * @see #KEY_MIN_DATE
+     * @see #KEY_MAX_DATE
+     */
     public static final class Builder {
         private final Intent mIntent;
 
@@ -75,6 +102,7 @@ public class CalendarActivity extends Activity {
             return mIntent;
         }
     }
+
     private static final long FIVE_DAYS = 432000000L;
 
     private CalendarView mCalendarView;

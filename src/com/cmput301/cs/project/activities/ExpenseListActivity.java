@@ -33,6 +33,8 @@ public class ExpenseListActivity extends ListActivity {
 
     private ExpensesAdapter mAdapter;
 
+    private MenuItem mAddExpense;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,9 @@ public class ExpenseListActivity extends ListActivity {
         }
 
         mClaim = claimsList.getClaimById(claimId);
+
+        updateAddExpenseMenuItem();
+        invalidateOptionsMenu();
 
         updateList();
     }
@@ -108,6 +113,25 @@ public class ExpenseListActivity extends ListActivity {
         mClaim = newClaim;
 
         updateList();
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        mAddExpense = menu.findItem(R.id.add_expense);
+        updateAddExpenseMenuItem();
+        return true;
+    }
+
+    /*
+     * Must call invalidateOptionsMenu() outside of onPrepareOptionsMenu(Menu)
+     */
+    private void updateAddExpenseMenuItem() {
+        if (mAddExpense == null)
+            return;
+
+        final boolean editable = mClaim.isEditable();
+        mAddExpense.setEnabled(editable);
+        mAddExpense.getIcon().setAlpha(editable ? 255 : 255 / 2);
     }
 
     /*

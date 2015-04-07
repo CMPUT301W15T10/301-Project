@@ -52,6 +52,9 @@ public class ExpenseViewActivity extends Activity {
     private ImageView mReceipt;
 
 
+    private MenuItem mDeleteExpense;
+    private MenuItem mEditExpense;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,13 +163,40 @@ public class ExpenseViewActivity extends Activity {
                 mLocation.setText(destination.getName());
             }
         }
+
+        updateMenuItems();
+        invalidateOptionsMenu();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.expense_view, menu);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        mDeleteExpense = menu.findItem(R.id.delete);
+        mEditExpense = menu.findItem(R.id.edit);
+        updateMenuItems();
+        return true;
+    }
+
+    /*
+     * Must call invalidateOptionsMenu() outside of onPrepareOptionsMenu(Menu)
+     */
+    private void updateMenuItems() {
+        final boolean editable = mClaim.isEditable();
+
+        if (mDeleteExpense != null) {
+            mDeleteExpense.setEnabled(editable);
+            mDeleteExpense.getIcon().setAlpha(editable ? 255 : 255 / 2);
+        }
+
+        if (mEditExpense != null) {
+            mEditExpense.setEnabled(editable);
+            mEditExpense.getIcon().setAlpha(editable ? 255 : 255 / 2);
+        }
     }
 
     @Override

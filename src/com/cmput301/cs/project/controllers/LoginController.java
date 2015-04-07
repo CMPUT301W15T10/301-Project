@@ -26,16 +26,19 @@ public class LoginController {
     private static final String USER_INDEX = "users";
     private static final String LOG_TAG = "LoginController";
     private final Context mContext;
+    private RemoteSaver<User> mUserSaver;
 
     public LoginController(Context context) {
+
+        Type type = new TypeToken<SearchResponse<User>>() {
+        }.getType();
+        mUserSaver = new RemoteSaver<User>(USER_INDEX, type);
+
         mContext = context;
     }
 
     public void attemptLogin(String username) {
-        Type type = new TypeToken<SearchResponse<User>>() {
-        }.getType();
 
-        RemoteSaver<User> userLoader = new RemoteSaver<User>(USER_INDEX, type);
         List<User> users = null;
 
         //http://stackoverflow.com/questions/12650921/quick-fix-for-networkonmainthreadexception [blaine1 april 05 2015]
@@ -44,7 +47,7 @@ public class LoginController {
         StrictMode.setThreadPolicy(policy);
 
         try {
-            users = userLoader.readAll();
+            users = mUserSaver.readAll();
         } catch (IOException e) {
             useStoredUsers();
             return;
@@ -69,7 +72,7 @@ public class LoginController {
         App.get(mContext).setUser(newUser);
 
         try {
-            userLoader.saveAll(users);
+            mUserSaver.saveAll(users);
         } catch (IOException e) {
             Log.d(LOG_TAG, "uh ohhhh");
         }

@@ -2,12 +2,13 @@ package com.cmput301.cs.project.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -20,7 +21,7 @@ import com.cmput301.cs.project.utils.Utils;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
-import java.io.File;
+import java.io.*;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -192,9 +193,9 @@ public class EditExpenseActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                final Uri receiptFileUri = getReceiptUri();
+                final Uri receiptFileUri = getTempReceiptUri();
 
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, receiptFileUri);
+                //intent.putExtra(MediaStore.EXTRA_OUTPUT, receiptFileUri);
                 startActivityForResult(intent, REQ_CODE_RECEIPT);
             }
         });
@@ -218,7 +219,7 @@ public class EditExpenseActivity extends Activity {
         });
     }
 
-    private Uri getReceiptUri() {
+    private Uri getTempReceiptUri() {
         File file = new File(getStorageFolder(), mBuilder.getId() + ".jpg");
         return Uri.fromFile(file);
     }
@@ -237,11 +238,6 @@ public class EditExpenseActivity extends Activity {
     }
 
     private void deleteReceipt() {
-        File receiptFile = mBuilder.getReceipt().getFile();
-        if (!receiptFile.delete()) {
-            Log.w("EditExpenseActivity", "Unable to delete file " + receiptFile.toString());
-        }
-
         mBuilder.receipt(null);
 
         updateUI();
@@ -261,8 +257,7 @@ public class EditExpenseActivity extends Activity {
                 break;
 
             case REQ_CODE_RECEIPT:
-                final Uri receiptFileUri = getReceiptUri();
-                mBuilder.receipt(new Receipt(receiptFileUri.getPath()));
+                createReceipt(data);
                 updateUI();
                 break;
 
@@ -274,6 +269,28 @@ public class EditExpenseActivity extends Activity {
 
             default:
                 super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    // http://stackoverflow.com/questions/4830711/how-to-convert-a-image-into-base64-string
+    // April 6, 2015
+    private void createReceipt(Intent data) {
+        data.getData();
+        Bitmap bm = data.getParcelableExtra(MediaStore.EXTRA_OUTPUT);
+
+        // The default camera app is a piece of shit
+        if (bm == null) {
+            bm = data.getParcelableExtra("data");
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+        byte[] bytes = baos.toByteArray();
+
+        try {
+            mBuilder.receipt(new Receipt(Base64.encodeToString(bytes, Base64.DEFAULT)));
+        } catch (IllegalArgumentException e) {
+            Toast.makeText(this, "Image was too large", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -300,10 +317,7 @@ public class EditExpenseActivity extends Activity {
         mCompleted.setChecked(mBuilder.isCompleted());
 
         if (mBuilder.hasReceipt()) {
-            final Uri receiptFileUri = mBuilder.getReceipt().getUri();
-
-            final BitmapDrawable drawable = new BitmapDrawable(getResources(), receiptFileUri.getPath());
-            mReceipt.setImageDrawable(drawable);
+            mReceipt.setImageBitmap(mBuilder.getReceipt().getBitmap());
 
             mDeleteReceipt.setEnabled(true);
         } else {

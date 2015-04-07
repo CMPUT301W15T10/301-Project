@@ -150,9 +150,7 @@ public class ExpenseViewActivity extends Activity {
         mCompleted.setText(mExpense.isCompleted() ? "Completed" : "In Progress");
 
         if (mExpense.hasReceipt()) {
-            final Uri receiptFileUri = mExpense.getReceipt().getUri();
-            final BitmapDrawable drawable = new BitmapDrawable(getResources(), receiptFileUri.getPath());
-            mReceipt.setImageDrawable(drawable);
+            mReceipt.setImageBitmap(mExpense.getReceipt().getBitmap());
         } else {
             mReceipt.setImageDrawable(null);
         }

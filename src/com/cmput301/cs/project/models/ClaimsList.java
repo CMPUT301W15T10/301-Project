@@ -27,6 +27,7 @@ import java.util.List;
  * This model is used when populating the {@link com.cmput301.cs.project.activities.ClaimListActivity ClaimListActivity}, {@link com.cmput301.cs.project.activities.ClaimViewActivity ClaimViewActivity}, and {@link com.cmput301.cs.project.activities.ExpenseListActivity ExpenseListActivity}. <p>
  * It is used in the {@link com.cmput301.cs.project.controllers.ClaimListController ClaimListController} to control this activities as well.
  *
+ * mergeAllClaims() takes both local and remote claims and decides which claim is the most recent and keeps that one.
  * @author rozsa
  * @author jbenson
  */
@@ -64,7 +65,9 @@ public class ClaimsList {
     }
 
     /**
-     *
+     * Loads claims from elastic search and local and uses Claim.getModified() to determine the newest claim to keep
+     * It is fault tolerant in the sense that if the server is not available due to any reason, it will still save them
+     * once connectivity is back.
      */
     private void mergeAllClaims() {
         List<Claim> claims = new ArrayList<Claim>();

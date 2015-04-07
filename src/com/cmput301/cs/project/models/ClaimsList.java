@@ -132,13 +132,7 @@ public class ClaimsList {
     }
 
     public void deleteClaim(Claim claim) {
-        for (Iterator<Claim> iterator = mClaims.iterator(); iterator.hasNext(); ) {
-            Claim current = iterator.next();
-            if (current.getId().equals(claim.getId())) {
-                iterator.remove();
-                break;
-            }
-        }
+        editClaim(claim.edit().delete().build());
 
         serialize();
     }

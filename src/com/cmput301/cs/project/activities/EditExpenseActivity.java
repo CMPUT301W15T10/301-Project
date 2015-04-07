@@ -259,7 +259,7 @@ public class EditExpenseActivity extends Activity {
         }
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] bytes = baos.toByteArray();
 
         try {

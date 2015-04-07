@@ -62,6 +62,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
     private ListView mDestinations;
     private MenuItem mEditMenuItem;
     private User mUser;
+    private Button mCommentButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +109,7 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
         mSubmitButton = (Button) findViewById(R.id.submitButton);
         mApproveButton = (Button) findViewById(R.id.approveButton);
         mReturnButton = (Button) findViewById(R.id.returnButton);
+        mCommentButton = (Button) findViewById(R.id.commentsButton);
 
         mStartDate = (TextView) findViewById(R.id.startDate);
         mEndDate = (TextView) findViewById(R.id.endDate);
@@ -148,6 +150,12 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
             mSubmitButton.setVisibility(View.GONE);
             mReturnButton.setVisibility(View.GONE);
             mApproveButton.setVisibility(View.GONE);
+        }
+
+        if(mClaim.peekComments().size() == 0) {
+            mCommentButton.setVisibility(View.GONE);
+        } else {
+            mCommentButton.setVisibility(View.VISIBLE);
         }
     }
 

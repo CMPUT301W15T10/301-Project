@@ -80,10 +80,16 @@
     </ListView>
 
     <Button
-        android:id="@+id/expenseButton"
+            android:id="@+id/expenseButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/expenses_text"/>
+    <Button
+        android:id="@+id/commentsButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/expenses_text"/>
+        android:onClick="showComments"
+        android:text="Comments"/>
 
     <Button
             android:id="@+id/submitButton"

@@ -283,6 +283,12 @@ public class ClaimViewActivity extends Activity implements TagsChangedListener {
 
         startActivityForResult(intent, ADD_APPROVE_COMMENT);
     }
+
+    public void showComments(View view) {
+        Intent intent = new Intent(this, CommentListActivity.class);
+        intent.putExtra(App.KEY_CLAIM_ID, mClaim.getId());
+        startActivity(intent);
+    }
 }
 
 

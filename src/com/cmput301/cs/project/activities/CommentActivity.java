@@ -1,10 +1,6 @@
 package com.cmput301.cs.project.activities;
 
-/**
- * Comment activity returns a result with a comment in the intent as COMMENT_TEXT
- *
- * Used as an approver to add comments when returning and approving
- */
+
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +9,14 @@ import android.view.View;
 import android.widget.EditText;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.utils.Utils;
+
+/**
+ * Comment activity returns a result with a comment in the intent as {@literal CommentActivity.COMMENT_TEXT}
+ *
+ * Used as an approver to add comments when returning and approving
+ *
+ * @author Blaine
+ */
 
 public class CommentActivity extends Activity {
     public static final String COMMENT_TEXT = "COMMENT";

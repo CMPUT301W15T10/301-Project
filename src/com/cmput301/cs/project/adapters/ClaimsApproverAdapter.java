@@ -1,11 +1,6 @@
 package com.cmput301.cs.project.adapters;
 
-/**
- * Adapts a claim to be viewed by an approver with all special fields set.
- * Uses a custom layout.
- * Only valid constructor is ClaimsApproverAdapter(Context context, List<Claim> claims)
- * Displays the claimant name, claim startdate, status, total expense costs and previous approver names
- */
+
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -20,6 +15,13 @@ import com.cmput301.cs.project.utils.Utils;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
+
+/**
+ * Adapts a claim to be viewed by an approver with all special fields set.
+ * Uses a custom layout.
+ * Only valid constructor is ClaimsApproverAdapter(Context context, List<Claim> claims)
+ * Displays the claimant name, claim startdate, status, total expense costs and previous approver names
+ */
 
 public class ClaimsApproverAdapter extends ArrayAdapter<Claim> {
 

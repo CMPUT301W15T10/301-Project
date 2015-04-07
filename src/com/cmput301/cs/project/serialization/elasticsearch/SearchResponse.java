@@ -1,16 +1,16 @@
 package com.cmput301.cs.project.serialization.elasticsearch;
 
 //https://github.com/blainelewis1/AndroidElasticSearch/ [blaine1 april 05 2014]
+
+
+
+import java.util.ArrayList;
+import java.util.List;
 /**
  * This class acts as a wrapper from data obtained when using RemoteSaver to pull data from Elastic Search
  * getSources() is the only important method and returns all of the objects retrieved
  *
  */
-
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class SearchResponse<T> {
 
 	private int took;
@@ -63,8 +63,11 @@ public class SearchResponse<T> {
     }
 }
 
-	
 
+/**
+ * This class acts as a wrapper from data obtained when using RemoteSaver to pull data from Elastic Search
+ *
+ */
 class Shard {
 	private int total;
 	private int successful;

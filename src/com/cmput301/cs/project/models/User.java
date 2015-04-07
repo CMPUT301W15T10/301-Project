@@ -13,7 +13,7 @@ import java.util.UUID;
  *  
  *  This class is used throughout most of the app because alot of items are tagged to their user. References can be found in:
  *  <ul>
- *  <li> {@link com.cmput301.cs.project.App App}
+ *  <li> {@link com.cmput301.cs.project.controllers.App App}
  *  	<ul>
  *  	<li> createUser()
  *  	<li> getUser()

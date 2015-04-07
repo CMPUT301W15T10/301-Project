@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import com.cmput301.cs.project.App;
+import com.cmput301.cs.project.controllers.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.ClaimsApproverAdapter;
 import com.cmput301.cs.project.adapters.ClaimsClaimantAdapter;

@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import com.cmput301.cs.project.App;
+import com.cmput301.cs.project.controllers.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.controllers.LoginController;
 

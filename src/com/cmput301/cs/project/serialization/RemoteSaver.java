@@ -76,7 +76,6 @@ public class RemoteSaver<T extends Saveable> {
 
                         URL url = new URL(ES_URL + mIndex + "/" + item.getId());
 
-                        Log.d(LOG_TAG, url.toString());
 
                         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                         urlConnection.setDoOutput(true);
@@ -86,12 +85,7 @@ public class RemoteSaver<T extends Saveable> {
 
                         gson.toJson(item, writer);
 
-                        Log.d(LOG_TAG, gson.toJson(item));
-
                         writer.flush();
-
-                        Log.d(LOG_TAG, urlConnection.getResponseMessage());
-                        Log.d(LOG_TAG, urlConnection.getResponseCode() + "");
 
                         urlConnection.disconnect();
 

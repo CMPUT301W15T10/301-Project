@@ -16,6 +16,7 @@
 
 package com.cmput301.cs.project.models;
 
+import com.cmput301.cs.project.utils.Utils;
 import com.google.gson.InstanceCreator;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
@@ -236,7 +237,7 @@ public final class Claim implements Comparable<Claim>, Saveable {
          * Creates an instance of {@code Builder} with the default values.
          */
         public Builder(User claimaint) {
-            ClaimUtils.nonNullOrThrow(claimaint, "claimaint");
+            Utils.nonNullOrThrow(claimaint, "claimaint");
             mGsonToFill = false;
             mClaimant = claimaint;
         }
@@ -284,7 +285,7 @@ public final class Claim implements Comparable<Claim>, Saveable {
          * @see #addExpense(Expense)
          */
         public Builder putExpense(Expense expense) {
-            ClaimUtils.nonNullOrThrow(expense, "expense");
+            Utils.nonNullOrThrow(expense, "expense");
             for (Iterator<Expense> iterator = mExpenses.iterator(); iterator.hasNext(); ) {
                 final Expense e = iterator.next();
                 if (e.getId().equals(expense.getId())) {
@@ -306,7 +307,7 @@ public final class Claim implements Comparable<Claim>, Saveable {
          * @see #putExpense(Expense)
          */
         private Builder addExpense(Expense expense) {
-            ClaimUtils.nonNullOrThrow(expense, "expense");
+            Utils.nonNullOrThrow(expense, "expense");
             mExpenses.add(expense);
             return this;
         }
@@ -318,7 +319,7 @@ public final class Claim implements Comparable<Claim>, Saveable {
          * @return this instance of {@code Builder}
          */
         public Builder removeExpense(Expense expense) {
-            ClaimUtils.nonNullOrThrow(expense, "expense");
+            Utils.nonNullOrThrow(expense, "expense");
             final String id = expense.getId();
             for (Iterator<Expense> iterator = mExpenses.iterator(); iterator.hasNext(); ) {
                 final Expense e = iterator.next();
@@ -331,7 +332,7 @@ public final class Claim implements Comparable<Claim>, Saveable {
         }
 
         public Builder addTag(Tag tag) {
-            ClaimUtils.nonNullOrThrow(tag, "tag");
+            Utils.nonNullOrThrow(tag, "tag");
             mTags.add(tag);
             return this;
         }
@@ -343,7 +344,7 @@ public final class Claim implements Comparable<Claim>, Saveable {
          * @return this instance of {@code Builder}
          */
         public Builder putDestination(Destination destination) {
-            ClaimUtils.nonNullOrThrow(destination, "destination");
+            Utils.nonNullOrThrow(destination, "destination");
             mDestinations.add(destination);
             return this;
         }
@@ -387,7 +388,7 @@ public final class Claim implements Comparable<Claim>, Saveable {
          * @see #getId()
          */
         public Builder id(String id) {
-            ClaimUtils.nonNullNonEmptyOrThrow(id, "id");
+            Utils.nonNullNonEmptyOrThrow(id, "id");
             mId = id;
             return this;
         }

@@ -2,6 +2,7 @@ package com.cmput301.cs.project.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.cmput301.cs.project.utils.Utils;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -45,7 +46,7 @@ public final class Destination implements Parcelable {
          * @param reason nullable {@code String}
          */
         public Builder(String name, String reason) {
-            mName = ClaimUtils.nonNullNonEmptyOrThrow(name, "name");
+            mName = Utils.nonNullNonEmptyOrThrow(name, "name");
             mReason = reason;
         }
 
@@ -60,7 +61,7 @@ public final class Destination implements Parcelable {
          * @return this instance of {@code Builder}
          */
         public Builder name(String name) {
-            mName = ClaimUtils.nonNullNonEmptyOrThrow(name, "name");
+            mName = Utils.nonNullNonEmptyOrThrow(name, "name");
             return this;
         }
 
@@ -69,7 +70,7 @@ public final class Destination implements Parcelable {
          * @return this instance of {@code Builder}
          */
         public Builder location(LatLng location) {
-            mLocation = ClaimUtils.nonNullOrThrow(location, "location");
+            mLocation = Utils.nonNullOrThrow(location, "location");
             return this;
         }
 

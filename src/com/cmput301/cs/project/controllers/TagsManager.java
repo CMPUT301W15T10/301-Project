@@ -2,9 +2,9 @@ package com.cmput301.cs.project.controllers;
 
 import android.content.Context;
 import com.cmput301.cs.project.listeners.TagsChangedListener;
-import com.cmput301.cs.project.models.ClaimUtils;
 import com.cmput301.cs.project.models.Tag;
 import com.cmput301.cs.project.serialization.LocalSaver;
+import com.cmput301.cs.project.utils.Utils;
 
 import java.util.*;
 
@@ -69,7 +69,7 @@ public class TagsManager {
      * @see #deleteTagByName(String)
      */
     public void addTagChangedListener(TagsChangedListener listener) {
-        ClaimUtils.nonNullOrThrow(listener, "listener");
+        Utils.nonNullOrThrow(listener, "listener");
         mListeners.add(listener);
     }
 

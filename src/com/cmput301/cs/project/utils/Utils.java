@@ -81,4 +81,48 @@ public final class Utils {
                 throw new AssertionError("unexpected status: " + status);
         }
     }
+
+    /**
+     * Ensures the object is not null, then returns the same reference. Otherwise, an {@code IllegalArgumentException} is thrown with the name given.
+     * <p>
+     * Example:
+     * <pre>
+     * final String stringThatMaybeNull = …;
+     * final String stringThatCantBeNull = ClaimUtils.nonNullOrThrow(stringThatMaybeNull, "s");
+     * stringThatCantBeNull.trim();  // this line will never crash from NullPointerException
+     * </pre>
+     *
+     * @param object the object to check for nullity
+     * @param name   the name of the object (for Exception message)
+     * @param <T>    any object type, it will be the return type
+     * @return the original object, if not null
+     */
+    public static <T> T nonNullOrThrow(T object, String name) {
+        if (object == null) {
+            throw new IllegalArgumentException(name + " must not be null.");
+        }
+        return object;
+    }
+
+    /**
+     * Ensures the {@code String} is not null or empty, then returns the same {@code String}.
+     * Otherwise, an {@code IllegalArgumentException} is thrown with the name given.
+     * <p>
+     * Example:
+     * <pre>
+     * final String stringThatMaybeNullOrEmpty = …;
+     * final String stringThatCantBeNullOrEmpty = ClaimUtils.nonNullOrThrow(stringThatMaybeNullOrEmpty, "s");
+     * stringThatCantBeNull.isEmpty();  // always false (and won't crash)
+     * </pre>
+     *
+     * @param string the {@code String} to check for nullity
+     * @param name   the name of the object (for Exception message)
+     * @return the original {@code String}, if not null or empty
+     */
+    public static String nonNullNonEmptyOrThrow(String string, String name) {
+        if (string == null || string.trim().isEmpty()) {
+            throw new IllegalArgumentException(name + " must not be null or empty.");
+        }
+        return string;
+    }
 }

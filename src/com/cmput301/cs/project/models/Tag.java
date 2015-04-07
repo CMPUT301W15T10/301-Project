@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.cmput301.cs.project.controllers.TagsManager;
+import com.cmput301.cs.project.utils.Utils;
 
 import java.util.UUID;
 
@@ -51,9 +52,9 @@ public class Tag implements Comparable<Tag>, Parcelable {
     }
 
     public Tag(String name, TagsManager manager, String id) {
-        ClaimUtils.nonNullOrThrow(manager, "manager");
+        Utils.nonNullOrThrow(manager, "manager");
         mName = name.trim();
-        mId = ClaimUtils.nonNullOrThrow(id, "id");
+        mId = Utils.nonNullOrThrow(id, "id");
     }
 
     /**

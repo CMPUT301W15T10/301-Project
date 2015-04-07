@@ -16,6 +16,7 @@
 
 package com.cmput301.cs.project.models;
 
+import com.cmput301.cs.project.utils.Utils;
 import com.google.gson.InstanceCreator;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
@@ -146,7 +147,7 @@ public final class Expense implements Comparable<Expense> {
          * @see #getMoney()
          */
         public Builder money(Money money) {
-            ClaimUtils.nonNullOrThrow(money, "money");
+            Utils.nonNullOrThrow(money, "money");
             mMoney = money;
             return this;
         }
@@ -160,7 +161,7 @@ public final class Expense implements Comparable<Expense> {
          * @see #currencyUnit(org.joda.money.CurrencyUnit)
          */
         public Builder amount(BigDecimal amount) {
-            ClaimUtils.nonNullOrThrow(amount, "amount");
+            Utils.nonNullOrThrow(amount, "amount");
             mMoney = mMoney.withAmount(amount, RoundingMode.UP);
             return this;
         }
@@ -174,7 +175,7 @@ public final class Expense implements Comparable<Expense> {
          * @see #amount(java.math.BigDecimal)
          */
         public Builder currencyUnit(CurrencyUnit unit) {
-            ClaimUtils.nonNullOrThrow(unit, "unit");
+            Utils.nonNullOrThrow(unit, "unit");
 
             if (!CURRENCIES.contains(unit)) {
                 throw new IllegalArgumentException(unit + "is not a valid currency");
@@ -228,7 +229,7 @@ public final class Expense implements Comparable<Expense> {
          */
 
         public Builder category(String category) {
-            ClaimUtils.nonNullNonEmptyOrThrow(category, "category");
+            Utils.nonNullNonEmptyOrThrow(category, "category");
 
             if (!CATEGORIES.contains(category)) {
                 throw new IllegalArgumentException(category + "is not a valid category");
@@ -246,7 +247,7 @@ public final class Expense implements Comparable<Expense> {
          * @see #getId()
          */
         public Builder id(String id) {
-            ClaimUtils.nonNullNonEmptyOrThrow(id, "id");
+            Utils.nonNullNonEmptyOrThrow(id, "id");
             mId = id;
             return this;
         }

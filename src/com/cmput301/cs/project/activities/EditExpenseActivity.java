@@ -247,9 +247,15 @@ public class EditExpenseActivity extends Activity {
         }
     }
 
-    // http://stackoverflow.com/questions/4830711/how-to-convert-a-image-into-base64-string
-    // April 6, 2015
+
+    /*
+     *  Will take the image given by the data, convert it to a Base64 String, then create a receipt.
+     *  Is able to handle any possible exceptions that may occur
+     */
     private void createReceipt(Intent data) {
+        // http://stackoverflow.com/questions/4830711/how-to-convert-a-image-into-base64-string
+        // April 6, 2015
+
         data.getData();
         Bitmap bm = data.getParcelableExtra(MediaStore.EXTRA_OUTPUT);
 

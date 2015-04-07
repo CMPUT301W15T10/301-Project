@@ -7,10 +7,10 @@ import android.util.Base64;
 import android.util.Log;
 
 /**
- * This class creates an instance that will hold the receipt image file for a particular expense.
- * If the image file exceeds the size limit of 65536 bytes, an exception error occurs.
+ * This class creates an instance that will hold the receipt image for a particular expense.
+ * If the image exceeds the size limit of 65536 bytes, an exception error occurs.
+ * Stores the receipt in String {@code Base64} format compatible with ElasticSearch
  */
-
 public class Receipt {
     public static final int MAX_FILE_SIZE = 65535;
 
@@ -25,9 +25,12 @@ public class Receipt {
         mBase64String = base64String;
     }
 
-    // http://stackoverflow.com/questions/3801760/android-code-to-convert-base64-string-to-bitmap
-    // April 6, 2015
+    /*
+     * @return the receipt as a {@code Bitmap}
+     */
     public Bitmap getBitmap() {
+        // http://stackoverflow.com/questions/3801760/android-code-to-convert-base64-string-to-bitmap
+        // April 6, 2015
         byte[] imageAsBytes = Base64.decode(mBase64String.getBytes(), Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
     }

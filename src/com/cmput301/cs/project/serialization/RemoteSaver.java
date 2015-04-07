@@ -1,5 +1,23 @@
 package com.cmput301.cs.project.serialization;
 
+
+
+import android.util.Log;
+import com.cmput301.cs.project.serialization.elasticsearch.SearchResponse;
+import com.cmput301.cs.project.models.Saveable;
+import com.google.gson.Gson;
+
+import java.io.IOError;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class allows any class implementing Saveable to be saved and retrived from an elastic search server.
  *
@@ -20,22 +38,6 @@ package com.cmput301.cs.project.serialization;
  * loadAll() will block and wait until the action is complete.
  *
  */
-
-import android.util.Log;
-import com.cmput301.cs.project.serialization.elasticsearch.SearchResponse;
-import com.cmput301.cs.project.models.Saveable;
-import com.google.gson.Gson;
-
-import java.io.IOError;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.Type;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 public class RemoteSaver<T extends Saveable> {
     private static final String ES_URL = "http://cmput301.softwareprocess.es:8080/cmput301w15t10/";

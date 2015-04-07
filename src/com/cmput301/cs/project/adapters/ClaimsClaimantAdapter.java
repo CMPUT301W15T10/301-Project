@@ -25,9 +25,12 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 import com.cmput301.cs.project.R;
+import com.cmput301.cs.project.controllers.SettingsController;
 import com.cmput301.cs.project.models.Claim;
+import com.cmput301.cs.project.models.Destination;
 import com.cmput301.cs.project.models.Tag;
 import com.cmput301.cs.project.utils.Utils;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -51,6 +54,7 @@ public final class ClaimsClaimantAdapter extends ArrayAdapter<Claim> implements 
         private final TextView tags;
         private final TextView totals;
         private final TextView destinations;
+        private final View distanceColour;
 
         private ViewHolder(View parent) {
             startDate = (TextView) parent.findViewById(R.id.start_date);
@@ -58,6 +62,7 @@ public final class ClaimsClaimantAdapter extends ArrayAdapter<Claim> implements 
             totals = (TextView) parent.findViewById(R.id.totals);
             status = (TextView) parent.findViewById(R.id.status);
             destinations = (TextView) parent.findViewById(R.id.destinations);
+            distanceColour = parent.findViewById(R.id.distance_colour);
         }
     }
 
@@ -67,16 +72,21 @@ public final class ClaimsClaimantAdapter extends ArrayAdapter<Claim> implements 
 
     private final DateFormat mDateFormat;
 
+    private final SettingsController mSettingsController;
+
     private final List<Claim> mUnfilteredClaims;
+    private final LatLng mHome;
     private List<Claim> mFilteredClaims;
 
     public ClaimsClaimantAdapter(Context context, List<Claim> claims) {
         super(context, R.layout.claim_list_claimant_item, claims);
+        mHome = SettingsController.get(context).loadHomeAsDestination().getLocation();
 
         mInflater = LayoutInflater.from(context);
         mDateFormat = android.text.format.DateFormat.getMediumDateFormat(context);  // with respect to user settings
 
         mFilter = new ClaimsFilter();
+        mSettingsController = SettingsController.get(context);
 
         mUnfilteredClaims = claims;
         mFilteredClaims = claims;
@@ -100,6 +110,12 @@ public final class ClaimsClaimantAdapter extends ArrayAdapter<Claim> implements 
         holder.tags.setText(claim.getTagsAsString());
         holder.totals.setText(claim.getTotalsAsString());
         holder.destinations.setText(claim.getDestinationsAsString());
+
+        final List<Destination> destinations = claim.getDestinations();
+        if (!destinations.isEmpty()) {
+            final int colour = mSettingsController.colourForLatLng(destinations.get(0).getLocation());
+            holder.distanceColour.setBackgroundColor(colour);
+        }
 
         return convertView;
     }

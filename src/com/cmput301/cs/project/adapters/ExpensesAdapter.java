@@ -17,8 +17,6 @@
 package com.cmput301.cs.project.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +26,6 @@ import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.controllers.SettingsController;
 import com.cmput301.cs.project.models.Destination;
 import com.cmput301.cs.project.models.Expense;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -43,9 +40,6 @@ import java.util.List;
  */
 
 public final class ExpensesAdapter extends ArrayAdapter<Expense> {
-
-    private static final float DISTANCE_CITY = 200f * 1000;  // 200km: Edmonton <-> Calgary
-    private static final float DISTANCE_GLOBE = 800f * 1000;  // 800km: Edmonton <-> Vancouver
 
     private static final class ViewHolder {
         private final TextView date;
@@ -71,7 +65,7 @@ public final class ExpensesAdapter extends ArrayAdapter<Expense> {
 
     private final LayoutInflater mInflater;
     private final DateFormat mFormatter;
-    private LatLng mHome;
+    private final SettingsController mSettingsController;
 
     /**
      * WARNING: This creates a COPY of the list. This is because it will change the list when sorting, which doesn't work with unmodifiable lists
@@ -80,10 +74,7 @@ public final class ExpensesAdapter extends ArrayAdapter<Expense> {
         super(context, R.layout.expense_list_item, new ArrayList<Expense>(expenses));
         mInflater = LayoutInflater.from(context);
         mFormatter = android.text.format.DateFormat.getMediumDateFormat(context);  // with respect to user settings
-        final Destination destination = SettingsController.get(context).loadHomeAsDestination();
-        if (destination != null) {
-            mHome = destination.getLocation();
-        }
+        mSettingsController = SettingsController.get(context);
     }
 
     @Override
@@ -109,33 +100,10 @@ public final class ExpensesAdapter extends ArrayAdapter<Expense> {
 
         final Destination destination = expense.getDestination();
         if (destination != null) {
-            holder.colour.setBackgroundColor(colourForLatLng(destination.getLocation()));
+            holder.colour.setBackgroundColor(mSettingsController.colourForLatLng(destination.getLocation()));
             holder.geolocation.setText(destination.getName());
         }
 
         return convertView;
-    }
-
-    private int colourForLatLng(LatLng latLng) {
-        if (mHome == null || latLng == null) return Color.TRANSPARENT;
-
-        final float distance = distanceFromHome(latLng);
-        if (distance > DISTANCE_GLOBE) {
-            return Color.RED;
-        } else if (distance > DISTANCE_CITY) {
-            return Color.YELLOW;
-        } else {
-            return Color.GREEN;
-        }
-    }
-
-    private float distanceFromHome(LatLng latLng) {
-        final double homeLat = mHome.latitude;
-        final double homeLong = mHome.longitude;
-        final double targetLat = latLng.latitude;
-        final double targetLong = latLng.longitude;
-        final float[] result = new float[1];
-        Location.distanceBetween(homeLat, homeLong, targetLat, targetLong, result);
-        return result[0];
     }
 }

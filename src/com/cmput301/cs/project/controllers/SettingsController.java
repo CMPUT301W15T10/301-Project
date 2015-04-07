@@ -2,6 +2,8 @@ package com.cmput301.cs.project.controllers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.location.Location;
 import com.cmput301.cs.project.models.Destination;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -14,6 +16,9 @@ public class SettingsController {
     private static final String PREF_NAME = "HOME_LOCATION";
     private static final String KEY_NAME = "HOME_NAME";
     private static final String KEY_LATLONG = "HOME_LATLONG";
+
+    public static final float DISTANCE_CITY = 200f * 1000;  // 200km: Edmonton <-> Calgary
+    public static final float DISTANCE_GLOBE = 800f * 1000;  // 800km: Edmonton <-> Vancouver
 
     /**
      * Obtains the singleton for {@code SettingsController}.
@@ -84,6 +89,44 @@ public class SettingsController {
         final LatLng location = destination.getLocation();
         pref.putString(KEY_LATLONG, serializeLatLng(location));  // location is required
         pref.apply();
+    }
+
+    /**
+     * Obtains the {@link Color} code based on the {@link #distanceFromHome(LatLng) distance} from home.
+     *
+     * @param latLng the target {@code LatLng}; nullable
+     * @return the {@link Color} code
+     */
+    public int colourForLatLng(LatLng latLng) {
+        final LatLng home = loadHomeAsDestination().getLocation();
+        if (home == null || latLng == null) return Color.TRANSPARENT;
+
+        final float distance = distanceFromHome(latLng);
+        if (distance > DISTANCE_GLOBE) {
+            return Color.RED;
+        } else if (distance > DISTANCE_CITY) {
+            return Color.YELLOW;
+        } else {
+            return Color.GREEN;
+        }
+    }
+
+    /**
+     * Calculates distance from home in meters. Distance for home must be saved previously or this method will fail.
+     *
+     * @param latLng target {@link LatLng}
+     * @return distance from home in meters
+     * @see #saveHomeAsDestination(Destination)
+     */
+    public float distanceFromHome(LatLng latLng) {
+        final LatLng home = loadHomeAsDestination().getLocation();
+        final double homeLat = home.latitude;
+        final double homeLong = home.longitude;
+        final double targetLat = latLng.latitude;
+        final double targetLong = latLng.longitude;
+        final float[] result = new float[1];
+        Location.distanceBetween(homeLat, homeLong, targetLat, targetLong, result);
+        return result[0];
     }
 
     private static String serializeLatLng(LatLng latLng) {

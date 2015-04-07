@@ -153,5 +153,6 @@
     <string name="amount">Amount</string>
     <string name="comments">Comments</string>
     <string name="claims">Claims</string>
+    <string name="new_destination">New Destination…</string>
 
 </resources>

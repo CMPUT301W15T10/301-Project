@@ -17,9 +17,13 @@ public class Receipt {
     private final String mBase64String;
 
     public Receipt(String base64String) {
+        if (base64String == null) {
+            throw new IllegalArgumentException("Image cannot be null");
+        }
+
         Log.e("Receipt", "" + base64String.getBytes().length);
         if (base64String.getBytes().length > MAX_FILE_SIZE) {
-            throw new IllegalArgumentException("File is too large");
+            throw new IllegalArgumentException("Image is too large");
         }
 
         mBase64String = base64String;

@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import com.cmput301.cs.project.controllers.App;
+import android.widget.Toast;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.ExpensesAdapter;
 import com.cmput301.cs.project.models.Claim;
@@ -75,9 +76,13 @@ public class ExpenseListActivity extends ListActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.add_expense) {
-            Intent intent = new Intent(ExpenseListActivity.this, EditExpenseActivity.class);
-            intent.putExtra(App.KEY_CLAIM_ID, mClaim.getId());
-            startActivity(intent);
+            if (mClaim.isEditable()) {
+                Intent intent = new Intent(ExpenseListActivity.this, EditExpenseActivity.class);
+                intent.putExtra(App.KEY_CLAIM_ID, mClaim.getId());
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Claim cannot be edited", Toast.LENGTH_LONG).show();
+            }
 
             return true;
         }

@@ -1,12 +1,5 @@
 package com.cmput301.cs.project.controllers;
 
-/**
- * Logs a user in by checking Elastic search and stores their username in shared_preferences for offline logins.
- * If no internet is available it loads the most recent from shared_preferences.
- *
- * New ones are added automatically
- */
-
 import android.content.Context;
 import android.os.StrictMode;
 import android.util.Log;
@@ -20,6 +13,13 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
+
+/**
+ * Logs a user in by checking Elastic search and stores their username in shared_preferences for offline logins.
+ * If no internet is available it loads the most recent from shared_preferences.
+ *
+ * New ones are added automatically
+ */
 
 public class LoginController {
 

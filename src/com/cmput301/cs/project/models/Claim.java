@@ -57,7 +57,6 @@ public final class Claim implements Comparable<Claim>, Saveable {
     private final User mClaimant;
     private final long mModified;
     private boolean mDeleted;
-    private String allApprovers;
 
     public boolean isDeleted() {
         return mDeleted;
@@ -68,11 +67,8 @@ public final class Claim implements Comparable<Claim>, Saveable {
     }
 
     public boolean canApprove(User user) {
-        if (mClaimant.equals(user) || mStatus != Status.SUBMITTED) {
-            return false;
-        }
+        return !(mClaimant.equals(user) || mStatus != Status.SUBMITTED);
 
-        return true;
     }
 
     public boolean isEditable() {
@@ -725,8 +721,4 @@ public final class Claim implements Comparable<Claim>, Saveable {
         return result;
     }
 
-
-    private void addComment(Comment comment) {
-        this.mComments.add(comment);
-    }
 }

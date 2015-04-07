@@ -15,7 +15,10 @@ import com.cmput301.cs.project.App;
 import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.adapters.DestinationAdapter;
 import com.cmput301.cs.project.controllers.TagsManager;
-import com.cmput301.cs.project.models.*;
+import com.cmput301.cs.project.models.Claim;
+import com.cmput301.cs.project.models.ClaimsList;
+import com.cmput301.cs.project.models.Destination;
+import com.cmput301.cs.project.models.Tag;
 import com.cmput301.cs.project.utils.Utils;
 
 import java.text.DateFormat;

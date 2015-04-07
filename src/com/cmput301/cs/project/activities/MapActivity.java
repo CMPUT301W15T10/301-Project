@@ -1,5 +1,11 @@
 package com.cmput301.cs.project.activities;
 
+/**
+ * Map activity returns a result with a destination packaged in the intent as KEY_DESTINATION
+ *
+ * It allows a user to select a place on the map or enter the place name in a text box
+ */
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;

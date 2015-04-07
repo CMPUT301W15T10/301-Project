@@ -151,9 +151,16 @@ public final class Claim implements Comparable<Claim>, Saveable {
     public String getAllApprovers() {
         final StringBuilder sb = new StringBuilder();
 
+        Set<User> approvers = new HashSet<User>();
+
         String delimiter = "";
         for (Comment comment : peekComments()) {
-            sb.append(delimiter).append(comment.getApprover().getUserName());
+            approvers.add(comment.getApprover());
+
+        }
+
+        for(User approver : approvers) {
+            sb.append(delimiter).append(approver.getUserName());
             delimiter = ", ";
         }
 

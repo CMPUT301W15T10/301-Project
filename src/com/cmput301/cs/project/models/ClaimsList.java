@@ -4,9 +4,9 @@ import android.content.Context;
 import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Toast;
-import com.cmput301.cs.project.elasticsearch.SearchResponse;
-import com.cmput301.cs.project.utils.LocalClaimSaver;
-import com.cmput301.cs.project.utils.RemoteSaver;
+import com.cmput301.cs.project.serialization.elasticsearch.SearchResponse;
+import com.cmput301.cs.project.serialization.LocalClaimSaver;
+import com.cmput301.cs.project.serialization.RemoteSaver;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;

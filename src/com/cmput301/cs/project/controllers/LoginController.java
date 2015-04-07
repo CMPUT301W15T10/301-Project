@@ -1,14 +1,20 @@
 package com.cmput301.cs.project.controllers;
 
+/**
+ * Logs a user in by checking Elastic search and stores their username in shared_preferences for offline logins.
+ * If no internet is available it loads the most recent from shared_preferences.
+ *
+ * New ones are added automatically
+ */
+
 import android.content.Context;
 import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Toast;
 import com.cmput301.cs.project.App;
-import com.cmput301.cs.project.R;
-import com.cmput301.cs.project.elasticsearch.SearchResponse;
+import com.cmput301.cs.project.serialization.elasticsearch.SearchResponse;
 import com.cmput301.cs.project.models.User;
-import com.cmput301.cs.project.utils.RemoteSaver;
+import com.cmput301.cs.project.serialization.RemoteSaver;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;

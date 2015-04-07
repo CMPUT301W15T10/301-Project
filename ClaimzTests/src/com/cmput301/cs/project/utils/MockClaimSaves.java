@@ -1,5 +1,7 @@
 package com.cmput301.cs.project.utils;
 
+import com.cmput301.cs.project.serialization.LocalClaimSaver;
+
 import java.io.*;
 
 public final class MockClaimSaves extends LocalClaimSaver {

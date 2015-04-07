@@ -1,22 +1,21 @@
 package com.cmput301.cs.project.controllers;
 
 import android.content.Context;
-
 import com.cmput301.cs.project.models.ClaimUtils;
 import com.cmput301.cs.project.models.Tag;
-import com.cmput301.cs.project.utils.LocalClaimSaver;
+import com.cmput301.cs.project.serialization.LocalClaimSaver;
 
 import java.util.*;
 
 /**
  * Controls the tags that are shown in {@link com.cmput301.cs.project.activities.TagManagerActivity TagManagerActivity}. <p>
  * Implements {@link com.cmput301.cs.project.controllers.TagsChangedListener TagsChangedListener}. <p>
- * Loads any locally saved claims from the {@link com.cmput301.cs.project.utils.LocalClaimSaver LocalClaimSaver} <p>
+ * Loads any locally saved claims from the {@link com.cmput301.cs.project.serialization.LocalClaimSaver LocalClaimSaver} <p>
  * 
  * <b>example of common use:</b> TagsManager.get(this).addTagChangedListener(mTagsAdapter)
  * <pre> This example shows the tags manager adding a listener to this instance of itself. </pre>
  * 
- * Two constructors are provided. the default creates a new TagsManager if an instance does not already exist. The second uses the ofClaimSaves call loading in all the tags provided for that user inside of the {@link com.cmput301.cs.project.utils.LocalClaimSaver LocalClaimSaver} 
+ * Two constructors are provided. the default creates a new TagsManager if an instance does not already exist. The second uses the ofClaimSaves call loading in all the tags provided for that user inside of the {@link com.cmput301.cs.project.serialization.LocalClaimSaver LocalClaimSaver}
  * <p>
  * There are getter methods, as well as the search methods, for using either the name OR the tag id to find the tag. You can also delete the tag by either its' name or its id. 
  * @author rozsa

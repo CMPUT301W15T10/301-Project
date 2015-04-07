@@ -12,7 +12,9 @@ import com.cmput301.cs.project.controllers.LoginController;
 /**
  * An activity that is called when the app starts with no user currently 'logged in'. Allows the user to login using there name
  * and the app generates a {@link com.cmput301.cs.project.models.User User} for use in the app.
- * 
+ *
+ * Supports online and offline logins
+ *
  * @author rozsa
  *
  */

@@ -6,11 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import com.cmput301.cs.project.R;
 import com.cmput301.cs.project.models.Comment;
-import com.cmput301.cs.project.models.Destination;
 
 import java.util.List;
+
+/**
+ * Adapts a comment into a simple_list_item_activated_2.
+ */
 
 public class CommentAdapter extends ArrayAdapter<Comment> {
 

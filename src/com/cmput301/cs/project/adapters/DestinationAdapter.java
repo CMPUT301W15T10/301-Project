@@ -1,5 +1,9 @@
 package com.cmput301.cs.project.adapters;
 
+/**
+ * Simple adapter for displaying a destination in a simple_list_item_activated_2
+ */
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

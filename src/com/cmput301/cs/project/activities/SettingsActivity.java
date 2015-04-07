@@ -1,5 +1,9 @@
 package com.cmput301.cs.project.activities;
 
+/**
+ * SettingsActivity allows a user to choose a home location using a MapActivity
+ */
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

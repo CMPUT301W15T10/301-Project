@@ -3,6 +3,7 @@ package com.cmput301.cs.project.utils;
 import com.cmput301.cs.project.controllers.TagsManager;
 import com.cmput301.cs.project.models.*;
 
+import com.cmput301.cs.project.serialization.LocalClaimSaver;
 import junit.framework.TestCase;
 import org.joda.money.CurrencyUnit;
 

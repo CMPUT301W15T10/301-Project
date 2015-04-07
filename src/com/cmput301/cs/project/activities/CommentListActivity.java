@@ -9,6 +9,12 @@ import com.cmput301.cs.project.adapters.CommentAdapter;
 import com.cmput301.cs.project.models.Claim;
 import com.cmput301.cs.project.models.ClaimsList;
 
+/**
+ * Lists all comments and their authors. Takes a claim id via App.KEY_CLAIM_ID
+ *
+ * @author Blaine
+ */
+
 public class CommentListActivity extends Activity {
     ListView mComments;
     Claim mClaim;

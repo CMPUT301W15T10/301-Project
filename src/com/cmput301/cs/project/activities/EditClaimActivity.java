@@ -25,9 +25,9 @@ import java.util.SortedSet;
  * The activity that is called when a New Claim is created or when an existing claim is going to be edited. <p>
  * Able to add {@link com.cmput301.cs.project.models.Expense Expenses} and {@link com.cmput301.cs.project.models.Claim Destinations}
  * from this screen as well as {@literal StartDate} and {@literal EndDate}.
- * <p>
+ * <p/>
  * A claim must be passed via an intent as App.KEY_CLAIM_ID.
- * <p>
+ * <p/>
  * If there is no claim passed it is assumed that the activity is creating a new claim
  *
  * @author rozsa
@@ -112,7 +112,6 @@ public class EditClaimActivity extends Activity {
             }
         });
 
-        
 
         mTags.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,7 +189,7 @@ public class EditClaimActivity extends Activity {
             }
         });
 
-       
+
         Utils.setupDiscardDoneBar(this, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -200,7 +199,14 @@ public class EditClaimActivity extends Activity {
             @Override
             public void onClick(View v) {
                 ClaimsList claimList = ClaimsList.getInstance(EditClaimActivity.this);
-                claimList.editClaim(mBuilder.build());
+
+                // Checking if it was just created
+                if (getClaimId() == null) {
+                    claimList.addClaim(mBuilder.build());
+                } else {
+                    claimList.editClaim(mBuilder.build());
+                }
+
                 finish();
             }
         });
@@ -210,13 +216,17 @@ public class EditClaimActivity extends Activity {
     private void initBuilder() {
         ClaimsList claimList = ClaimsList.getInstance(this);
 
-        String claimId = getIntent().getStringExtra(App.KEY_CLAIM_ID);
+        String claimId = getClaimId();
 
         if (claimList.getClaimById(claimId) == null) {
             mBuilder = new Claim.Builder(App.get(this).getUser());
         } else {
             mBuilder = claimList.getClaimById(claimId).edit();
         }
+    }
+
+    private String getClaimId() {
+        return getIntent().getStringExtra(App.KEY_CLAIM_ID);
     }
 
     @Override

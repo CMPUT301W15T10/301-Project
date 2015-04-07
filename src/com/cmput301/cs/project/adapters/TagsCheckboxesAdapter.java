@@ -16,6 +16,14 @@ import com.cmput301.cs.project.models.Tag;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An adapter to create all tags with a checkbox
+ *
+ * Gives a listener for each on check
+ *
+ * @author Morgan
+ */
+
 public class TagsCheckboxesAdapter extends ArrayAdapter<Tag> {
 
     private static class ViewHolder {

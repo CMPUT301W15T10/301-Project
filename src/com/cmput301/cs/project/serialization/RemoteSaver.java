@@ -7,10 +7,7 @@ import com.cmput301.cs.project.serialization.elasticsearch.SearchResponse;
 import com.cmput301.cs.project.models.Saveable;
 import com.google.gson.Gson;
 
-import java.io.IOError;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -80,16 +77,19 @@ public class RemoteSaver<T extends Saveable> {
 
 
                         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                        urlConnection.setRequestMethod("POST");
                         urlConnection.setDoOutput(true);
 
                         Gson gson = new Gson();
                         OutputStreamWriter writer = new OutputStreamWriter(urlConnection.getOutputStream());
-
                         gson.toJson(item, writer);
+
+                        Log.d(LOG_TAG, gson.toJson(item));
 
                         writer.flush();
 
-                        urlConnection.disconnect();
+                        writer.close();
+                        //urlConnection.disconnect();
 
                     } catch (MalformedURLException e) {
                         Log.d(LOG_TAG, "MAL URL" + e.toString());
@@ -128,6 +128,13 @@ public class RemoteSaver<T extends Saveable> {
             SearchResponse<T> resp = gson.fromJson(in, mType);
 
             items = resp.getSources();
+
+            Log.d(LOG_TAG, items.size() + "");
+
+            Log.d(LOG_TAG, url.toString() + "");
+
+            Log.d(LOG_TAG, urlConnection.getResponseCode() + "");
+            Log.d(LOG_TAG, urlConnection.getResponseMessage());
 
 
             if (items == null) {
